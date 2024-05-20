@@ -1134,8 +1134,12 @@ static void CG_PlayerAnimation(centity_t* cent, int* legsOld, int* legs, float* 
 	*legs = cent->pe.legs.frame;
 	*legsBackLerp = cent->pe.legs.backlerp;
 
-	CG_RunLerpFrame(ci, &cent->pe.torso, cent->currentState.torsoAnim, speedScale);
+	if (cg_noTaunt.integer & ((cent->currentState.torsoAnim & ~ANIM_TOGGLEBIT) == TORSO_GESTURE))
+	{
+		cent->currentState.torsoAnim = (cent->currentState.torsoAnim & ANIM_TOGGLEBIT) | TORSO_STAND;
+	}
 
+	CG_RunLerpFrame(ci, &cent->pe.torso, cent->currentState.torsoAnim, speedScale);
 	*torsoOld = cent->pe.torso.oldFrame;
 	*torso = cent->pe.torso.frame;
 	*torsoBackLerp = cent->pe.torso.backlerp;
