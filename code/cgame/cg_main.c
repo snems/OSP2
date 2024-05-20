@@ -1484,8 +1484,8 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 
 	// get the rendering configuration from the client system
 	trap_GetGlconfig(&cgs.glconfig);
-	cgs.screenXScale = cgs.glconfig.vidWidth / 640.0;
-	cgs.screenYScale = cgs.glconfig.vidHeight / 480.0;
+	cgs.screenXScale_Old = cgs.glconfig.vidWidth / 640.0;
+	cgs.screenYScale_Old = cgs.glconfig.vidHeight / 480.0;
 
 	// get the gamestate from the client system
 	trap_GetGameState(&cgs.gameState);

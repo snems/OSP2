@@ -1068,9 +1068,9 @@ typedef struct
 {
 	gameState_t     gameState;          // gamestate from server
 	glconfig_t      glconfig;           // rendering configuration
-	float           screenXScale;       // derived from glconfig
-	float           screenYScale;
-	float           screenXBias;
+	float           screenXScale_Old;       // derived from glconfig
+	float           screenYScale_Old;
+	float           screenXBias_Old;
 
 	int             serverCommandSequence;  // reliable command stream counter
 	int             processedSnapshotNum;// the number of snapshots cgame has requested
@@ -1463,7 +1463,7 @@ typedef struct
 	qboolean some_flag;
 } OSP_PrintInfo_t;
 
-void CG_AdjustFrom640(float* x, float* y, float* w, float* h, qboolean correctWide);
+void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide);
 void CG_FillRect(float x, float y, float width, float height, const float* color);
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader);
 void CG_DrawString(float x, float y, const char* string,

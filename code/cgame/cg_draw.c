@@ -142,7 +142,7 @@ void CG_Draw3DModel(float x, float y, float w, float h, qhandle_t model, qhandle
 		return;
 	}
 
-	CG_AdjustFrom640(&x, &y, &w, &h, qfalse);
+	CG_AdjustFrom640_Old(&x, &y, &w, &h, qfalse);
 
 	memset(&refdef, 0, sizeof(refdef));
 
@@ -1650,7 +1650,7 @@ float CG_DrawLagometer(float pos)
 	ay = pos;
 	aw = 48;
 	ah = 48;
-	CG_AdjustFrom640(&ax, &ay, &aw, &ah, qfalse);
+	CG_AdjustFrom640_Old(&ax, &ay, &aw, &ah, qfalse);
 
 	color = -1;
 	range = ah / 3;
@@ -1852,7 +1852,7 @@ static void CG_DrawCrosshair(void)
 
 	x = cg_crosshairX.integer;
 	y = cg_crosshairY.integer;
-	CG_AdjustFrom640(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
+	CG_AdjustFrom640_Old(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
 
 	ca = cg_drawCrosshair.integer;
 	if (ca < 0)
@@ -2627,7 +2627,7 @@ void CG_OSPSetColor(vec4_t color)
 
 void CG_OSPDrawPic(float x, float y, float w, float h, qhandle_t hShader)
 {
-	CG_AdjustFrom640(&x, &y, &w, &h, qfalse);
+	CG_AdjustFrom640_Old(&x, &y, &w, &h, qfalse);
 	trap_R_DrawStretchPic(x, y, w, h, 0, 0, 1.0f, 1.0f, hShader);
 	return;
 }
@@ -2642,7 +2642,7 @@ void CG_OSPDraw3DModel(float x, float y, float w, float h, qhandle_t model, qhan
 		return;
 	}
 
-	CG_AdjustFrom640(&x, &y, &w, &h, qfalse);
+	CG_AdjustFrom640_Old(&x, &y, &w, &h, qfalse);
 	memset(&rd, 0, sizeof(rd));
 	memset(&re, 0, sizeof(re));
 	AnglesToAxis(angles, re.axis);

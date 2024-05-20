@@ -120,7 +120,7 @@ CG_AdjustFrom640
 Adjusted for resolution and screen aspect ratio
 ================
 */
-void CG_AdjustFrom640(float* x, float* y, float* w, float* h, qboolean correctWide)
+void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide)
 {
 #if 0
 	// adjust for wide screens
@@ -130,13 +130,13 @@ void CG_AdjustFrom640(float* x, float* y, float* w, float* h, qboolean correctWi
 	}
 #endif
 	// scale for screen sizes
-	*x *= cgs.screenXScale;
-	*y *= cgs.screenYScale;
-	*h *= cgs.screenYScale;
+	*x *= cgs.screenXScale_Old;
+	*y *= cgs.screenYScale_Old;
+	*h *= cgs.screenYScale_Old;
 
 	if (!correctWide)
 	{
-		*w *= cgs.screenXScale;
+		*w *= cgs.screenXScale_Old;
 	}
 	else
 	{
@@ -145,7 +145,7 @@ void CG_AdjustFrom640(float* x, float* y, float* w, float* h, qboolean correctWi
 		if (!koeffReady)
 		{
 			koeffReady = qtrue;
-			koeff = cgs.screenXScale * (cgs.glconfig.vidHeight * 640.0) / (cgs.glconfig.vidWidth * 480.0);
+			koeff = cgs.screenXScale_Old * (cgs.glconfig.vidHeight * 640.0) / (cgs.glconfig.vidWidth * 480.0);
 		}
 
 		*w *= koeff;
@@ -163,7 +163,7 @@ void CG_FillRect(float x, float y, float width, float height, const float* color
 {
 	trap_R_SetColor(color);
 
-	CG_AdjustFrom640(&x, &y, &width, &height, qfalse);
+	CG_AdjustFrom640_Old(&x, &y, &width, &height, qfalse);
 	trap_R_DrawStretchPic(x, y, width, height, 0, 0, 0, 0, cgs.media.whiteShader);
 
 	trap_R_SetColor(NULL);
@@ -178,16 +178,16 @@ Coords are virtual 640x480
 */
 void CG_DrawSides(float x, float y, float w, float h, float size)
 {
-	CG_AdjustFrom640(&x, &y, &w, &h, qfalse);
-	size *= cgs.screenXScale;
+	CG_AdjustFrom640_Old(&x, &y, &w, &h, qfalse);
+	size *= cgs.screenXScale_Old;
 	trap_R_DrawStretchPic(x, y, size, h, 0, 0, 0, 0, cgs.media.whiteShader);
 	trap_R_DrawStretchPic(x + w - size, y, size, h, 0, 0, 0, 0, cgs.media.whiteShader);
 }
 
 void CG_DrawTopBottom(float x, float y, float w, float h, float size)
 {
-	CG_AdjustFrom640(&x, &y, &w, &h, qfalse);
-	size *= cgs.screenYScale;
+	CG_AdjustFrom640_Old(&x, &y, &w, &h, qfalse);
+	size *= cgs.screenYScale_Old;
 	trap_R_DrawStretchPic(x, y, w, size, 0, 0, 0, 0, cgs.media.whiteShader);
 	trap_R_DrawStretchPic(x, y + h - size, w, size, 0, 0, 0, 0, cgs.media.whiteShader);
 }
@@ -219,7 +219,7 @@ Coordinates are 640*480 virtual values
 */
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader)
 {
-	CG_AdjustFrom640(&x, &y, &width, &height, qfalse);
+	CG_AdjustFrom640_Old(&x, &y, &width, &height, qfalse);
 	trap_R_DrawStretchPic(x, y, width, height, 0, 0, 1, 1, hShader);
 }
 
@@ -250,7 +250,7 @@ void CG_DrawChar(int x, int y, int width, int height, int ch)
 	ay = y;
 	aw = width;
 	ah = height;
-	CG_AdjustFrom640(&ax, &ay, &aw, &ah, qfalse);
+	CG_AdjustFrom640_Old(&ax, &ay, &aw, &ah, qfalse);
 
 	row = ch >> 4;
 	col = ch & 15;
@@ -617,7 +617,7 @@ void CG_ColorForHealth(vec4_t hcolor)
 void CG_OSPDrawPoly(float x, float y, float w, float h, vec4_t color)
 {
 	trap_R_SetColor(color);
-	CG_AdjustFrom640(&x, &y, &w, &h, qfalse);
+	CG_AdjustFrom640_Old(&x, &y, &w, &h, qfalse);
 	trap_R_DrawStretchPic(x, y, w, h, 0, 0, 0, 0, cgs.media.whiteShader);
 	trap_R_SetColor(colorWhite);
 }
@@ -801,8 +801,8 @@ static void UI_DrawBannerString2(int x, int y, const char* str, vec4_t color)
 	// draw the colored text
 	trap_R_SetColor(color);
 
-	ax = x * cgs.screenXScale + cgs.screenXBias;
-	ay = y * cgs.screenXScale;
+	ax = x * cgs.screenXScale_Old + cgs.screenXBias_Old;
+	ay = y * cgs.screenXScale_Old;
 
 	s = str;
 	while (*s)
@@ -810,7 +810,7 @@ static void UI_DrawBannerString2(int x, int y, const char* str, vec4_t color)
 		ch = *s & 127;
 		if (ch == ' ')
 		{
-			ax += ((float)PROPB_SPACE_WIDTH + (float)PROPB_GAP_WIDTH) * cgs.screenXScale;
+			ax += ((float)PROPB_SPACE_WIDTH + (float)PROPB_GAP_WIDTH) * cgs.screenXScale_Old;
 		}
 		else if (ch >= 'A' && ch <= 'Z')
 		{
@@ -819,10 +819,10 @@ static void UI_DrawBannerString2(int x, int y, const char* str, vec4_t color)
 			frow = (float)propMapB[ch][1] / 256.0f;
 			fwidth = (float)propMapB[ch][2] / 256.0f;
 			fheight = (float)PROPB_HEIGHT / 256.0f;
-			aw = (float)propMapB[ch][2] * cgs.screenXScale;
-			ah = (float)PROPB_HEIGHT * cgs.screenXScale;
+			aw = (float)propMapB[ch][2] * cgs.screenXScale_Old;
+			ah = (float)PROPB_HEIGHT * cgs.screenXScale_Old;
 			trap_R_DrawStretchPic(ax, ay, aw, ah, fcol, frow, fcol + fwidth, frow + fheight, cgs.media.charsetPropB);
-			ax += (aw + (float)PROPB_GAP_WIDTH * cgs.screenXScale);
+			ax += (aw + (float)PROPB_GAP_WIDTH * cgs.screenXScale_Old);
 		}
 		s++;
 	}
@@ -922,8 +922,8 @@ static void UI_DrawProportionalString2(int x, int y, const char* str, vec4_t col
 	// draw the colored text
 	trap_R_SetColor(color);
 
-	ax = x * cgs.screenXScale + cgs.screenXBias;
-	ay = y * cgs.screenXScale;
+	ax = x * cgs.screenXScale_Old + cgs.screenXBias_Old;
+	ay = y * cgs.screenXScale_Old;
 
 	s = str;
 	while (*s)
@@ -931,7 +931,7 @@ static void UI_DrawProportionalString2(int x, int y, const char* str, vec4_t col
 		ch = *s & 127;
 		if (ch == ' ')
 		{
-			aw = (float)PROP_SPACE_WIDTH * cgs.screenXScale * sizeScale;
+			aw = (float)PROP_SPACE_WIDTH * cgs.screenXScale_Old * sizeScale;
 		}
 		else if (propMap[ch][2] != -1)
 		{
@@ -939,8 +939,8 @@ static void UI_DrawProportionalString2(int x, int y, const char* str, vec4_t col
 			frow = (float)propMap[ch][1] / 256.0f;
 			fwidth = (float)propMap[ch][2] / 256.0f;
 			fheight = (float)PROP_HEIGHT / 256.0f;
-			aw = (float)propMap[ch][2] * cgs.screenXScale * sizeScale;
-			ah = (float)PROP_HEIGHT * cgs.screenXScale * sizeScale;
+			aw = (float)propMap[ch][2] * cgs.screenXScale_Old * sizeScale;
+			ah = (float)PROP_HEIGHT * cgs.screenXScale_Old * sizeScale;
 			trap_R_DrawStretchPic(ax, ay, aw, ah, fcol, frow, fcol + fwidth, frow + fheight, charset);
 		}
 		else
@@ -948,7 +948,7 @@ static void UI_DrawProportionalString2(int x, int y, const char* str, vec4_t col
 			aw = 0;
 		}
 
-		ax += (aw + (float)PROP_GAP_WIDTH * cgs.screenXScale * sizeScale);
+		ax += (aw + (float)PROP_GAP_WIDTH * cgs.screenXScale_Old * sizeScale);
 		s++;
 	}
 
@@ -1096,8 +1096,8 @@ int CG_OSPDrawString(int x, int y, const char* str, int charWidth, int charHeigh
 	const static vec4_t textColor = { 1.0, 1.0, 1.0, 1.0};
 
 	Vector4Copy(textColor, lTextColor);
-	char_w_f = (float)charWidth * cgs.screenXScale;
-	char_h_f = (float)charHeight * cgs.screenYScale;
+	char_w_f = (float)charWidth * cgs.screenXScale_Old;
+	char_h_f = (float)charHeight * cgs.screenYScale_Old;
 	str_ptr = str;
 	next_x = x;
 	printed = 0;
@@ -1243,8 +1243,8 @@ int CG_OSPDrawString(int x, int y, const char* str, int charWidth, int charHeigh
 
 				shader = ch_3waveFont.integer ? cgs.media.charsetShader1 : cgs.media.charsetShader;
 				trap_R_DrawStretchPic(
-				    (float)next_x * cgs.screenXScale,
-				    (float)y * cgs.screenYScale,
+				    (float)next_x * cgs.screenXScale_Old,
+				    (float)y * cgs.screenYScale_Old,
 				    char_w_f,
 				    char_h_f,
 				    s1,

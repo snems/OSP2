@@ -269,7 +269,7 @@ void CG_OSPDrawCrosshair(void)
 	}
 	x = (float)cg_crosshairX.integer;
 	y = (float)cg_crosshairY.integer;
-	CG_AdjustFrom640(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
+	CG_AdjustFrom640_Old(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
 
 	shader = isColorWasSet ? cgs.media.crosshairShader[crosshair % NUM_CROSSHAIRS] : cgs.media.crosshairShader2[crosshair % NUM_CROSSHAIRS];
 
