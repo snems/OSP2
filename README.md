@@ -16,6 +16,12 @@ Not working yet:
 
 Lot of other things.
 
+## Contacts
+
+Telegram [channel](https://t.me/q3osp2).
+
+Telegram [chat](https://t.me/q3_osp2).
+
 ## New commands
 
 See [docs/commands.md](docs/commands.md)
