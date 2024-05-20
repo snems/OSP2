@@ -120,6 +120,14 @@ CG_AdjustFrom640
 Adjusted for resolution and screen aspect ratio
 ================
 */
+void CG_AdjustFrom640( float *x, float *y, float *w, float *h ) 
+{
+	// scale for screen sizes
+	*x = *x * cgs.screenXScale + cgs.screenXBias;
+	*y = *y * cgs.screenYScale + cgs.screenYBias;
+	*w *= cgs.screenXScale;
+	*h *= cgs.screenYScale;
+}
 void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide)
 {
 #if 0
