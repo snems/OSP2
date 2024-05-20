@@ -1378,6 +1378,8 @@ extern vmCvar_t           cg_enemyModelColors;
 extern vmCvar_t           cg_enemyRailColors;
 extern vmCvar_t           cg_enemyFrozenColor;
 
+extern vmCvar_t           cg_spectGlow;
+
 //
 // cg_main.c
 //
@@ -1941,7 +1943,7 @@ int CG_NewParticleArea(int num);
 
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
-#define OSP_VERSION "0.01-test.001"
+#define OSP_VERSION "0.01-test.002"
 
 
 //

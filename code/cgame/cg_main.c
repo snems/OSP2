@@ -306,7 +306,7 @@ vmCvar_t           cg_enemyModelColors;
 vmCvar_t           cg_enemyRailColors;
 vmCvar_t           cg_enemyFrozenColor;
 
-
+vmCvar_t           cg_spectGlow;
 
 
 static cvarTable_t cvarTable[] =
@@ -522,6 +522,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_projectileNudge, "cg_projectileNudge", "0", CVAR_ARCHIVE },
 	{ &cg_hideScores, "cg_hideScores", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyBlack, "cg_deadBodyBlack", "1", CVAR_ARCHIVE },
+	{ &cg_spectGlow, "cg_spectGlow", "0", CVAR_ARCHIVE },
 
 	{ &cg_playerModelColors, "cg_playerModelColors", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_playerModelColors},
 	{ &cg_playerRailColors,  "cg_playerRailColors", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_playerRailColors},

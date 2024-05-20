@@ -1526,7 +1526,7 @@ static void CG_PlayerPowerups(centity_t* cent)
 	if (cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR)
 	{
 		int clientNum = cent->currentState.clientNum;
-		if (qtrue || clientNum == cg.snap->ps.generic1 - 32)
+		if (cg_spectGlow.integer || clientNum == cg.snap->ps.generic1 - 32)
 		{
 			if (cgs.clientinfo[clientNum].team == TEAM_BLUE)
 			{
