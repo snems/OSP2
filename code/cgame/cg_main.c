@@ -1517,10 +1517,30 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		int i;
 		char tmp_str[1024];
 		char* tmp_ptr;
+		const char* conf;
 
 		CG_OSPConfigModeSet(atoi(CG_ConfigString(CS_OSP_SERVER_MODE)));
-		CG_OSPConfigCustomClientSet(atoi(CG_ConfigString(CS_OSP_CUSTOM_CLIENT)));
-		CG_OSPConfigCustomClient2Set(atoi(CG_ConfigString(CS_OSP_CUSTOM_CLIENT2)));
+
+		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT); 
+		if (conf)
+		{
+			CG_OSPConfigCustomClientSet(atoi(conf));
+		}
+		else
+		{
+			CG_OSPConfigCustomClientSet(CS_OSP_CUSTOM_CLIENT_DEFAULT);
+		}
+
+		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT2); 
+		if (conf)
+		{
+			CG_OSPConfigCustomClient2Set(atoi(conf));
+		}
+		else
+		{
+			CG_OSPConfigCustomClient2Set(CS_OSP_CUSTOM_CLIENT2_DEFAULT);
+		}
+
 		CG_OSPConfig0x368Set(atoi(CG_ConfigString(CS_OSP_0x368)) & 1);
 		CG_OSPConfigPmoveSet(atoi(CG_ConfigString(CS_OSP_ALLOW_PMOVE)));
 

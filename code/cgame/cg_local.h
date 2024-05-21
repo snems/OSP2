@@ -999,6 +999,9 @@ typedef struct playerColorsOverride_s
 #define  OSP_SERVER_MODE_PROMODE_OPT1      0x11
 #define  OSP_SERVER_MODE_PROMODE_OPT2      0x21
 
+#define  CS_OSP_CUSTOM_CLIENT_DEFAULT 47
+#define  CS_OSP_CUSTOM_CLIENT2_DEFAULT 0
+
 typedef struct cgs_osp_s
 {
 	qhandle_t configString_0x368;
