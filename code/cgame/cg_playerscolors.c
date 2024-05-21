@@ -5,10 +5,14 @@ static void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t
 	int color1Len = color1 ? strlen(color1) : 0;
 	int color2Len = color2 ? strlen(color2) : 0;
 
-	if (color1Len > 0)
+	if (color1Len > 3)
 	{
-		if (override) override->isRailColorSet = qtrue;
-		CG_OSPColorFromChar(color1[0], colors->railCore);
+		if (color1[0] != '0')
+		{
+			if (override) override->isRailColorSet = qtrue;
+			CG_OSPColorFromChar(color1[0], colors->railCore);
+		}
+
 		if (color2Len > 0)
 		{
 			CG_OSPColorFromChar(color2[0], colors->railRings);
