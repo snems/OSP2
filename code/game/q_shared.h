@@ -403,6 +403,9 @@ typedef int     sfxHandle_t;
 typedef int     fileHandle_t;
 typedef int     clipHandle_t;
 
+#ifndef FS_INVALID_HANDLE
+#define FS_INVALID_HANDLE 0
+#endif
 
 #ifndef NULL
 #define NULL ((void *)0)
