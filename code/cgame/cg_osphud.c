@@ -3563,6 +3563,11 @@ static float CG_OSPDrawHealthArmor67(float x, float y)
 	int health;
 	int armor;
 
+	if (ch_statusbarStyle.integer != 4)
+	{
+		return y;
+	}
+
 	health = cg.snap->ps.stats[STAT_HEALTH];
 	if (cg_drawIcons.integer != 0)
 	{
