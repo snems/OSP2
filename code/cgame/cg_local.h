@@ -1584,6 +1584,7 @@ void CG_DrawStatusBar(void);
 float CG_DrawSnapshot(float y);
 float CG_DrawFPS(float y);
 float CG_DrawTimer(float y);
+void CG_DrawTimer2(void);
 float CG_DrawAttacker(float y);
 void CG_DrawAmmoWarning(void);
 void CG_DrawReward(void);

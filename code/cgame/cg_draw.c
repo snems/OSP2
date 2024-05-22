@@ -729,6 +729,25 @@ float CG_DrawTimer(float y)
 	return y + BIGCHAR_HEIGHT + 4;
 }
 
+void CG_DrawTimer2(void)
+{
+	char*        s;
+	int         mins, seconds, tens;
+	int         msec;
+
+	msec = cg.time - cgs.levelStartTime;
+
+	seconds = msec / 1000;
+	mins = seconds / 60;
+	seconds -= mins * 60;
+	tens = seconds / 10;
+	seconds -= tens * 10;
+
+	s = va("%i:%i%i", mins, tens, seconds);
+
+	CG_DrawString( 320, 2, s, colorWhite, BIGCHAR_WIDTH+3, BIGCHAR_HEIGHT+3, 16,  DS_SHADOW | DS_CENTER | DS_PROPORTIONAL);
+}
+
 
 /*
 =================

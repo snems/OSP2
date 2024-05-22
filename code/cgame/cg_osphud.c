@@ -4357,7 +4357,11 @@ void CG_OSPHUDRoutine(void)
 		{
 			pos = CG_DrawFPS(pos);
 		}
-		if (cg_drawTimer.integer != 0)
+		if (cg_drawTimer.integer == 2)
+		{
+			CG_DrawTimer2();
+		}
+		else if (cg_drawTimer.integer != 0)
 		{
 			pos = CG_DrawTimer(pos);
 		}
