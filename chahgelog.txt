@@ -1,2 +1,5 @@
 2024-05-15 v0.01 released.
 2024-05-20 Command cg_notaunt disables animation. 
+2024-05-23 cg_drawTimer2
+           minor bug fixes
+           display scaler and fonts renderer from baseq3/Cyrax
