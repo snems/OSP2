@@ -25,6 +25,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../game/bg_public.h"
 #include "cg_public.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define NYAN_POINT()      CG_Printf( "%s:%d: DEBUG point reached\n", __FILE__, __LINE__)
 #define NYAN_INT(VALUE)   CG_Printf( "%s:%d: %s = %i\n", __FILE__, __LINE__, #VALUE, (int)VALUE)
@@ -67,8 +70,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define STAT_MINUS          10  // num frame for '-' stats digit
 
 #define ICON_SIZE           48
-#define CHAR_WIDTH          32
-#define CHAR_HEIGHT         48
+#define Q3_CHAR_WIDTH       32
+#define Q3_CHAR_HEIGHT      48
 #define TEXT_ICON_SPACE     4
 
 #define TEAMCHAT_WIDTH      80
@@ -2066,6 +2069,7 @@ void CG_PredictWeaponEffects(centity_t* cent);
 void CG_RebuildPlayerColors(void);
 void CG_PlayerColorsLoadDefault(playerColors_t* colors);
 void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum);
+void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* override, const char* color1, const char* color2);
 
 //
 // cg_localevents.c
@@ -2118,3 +2122,6 @@ void CG_LocalEventCvarChanged_cg_enemyModelColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyRailColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyFrozenColor(cvarTable_t* cvart);
 
+#ifdef __cplusplus
+}
+#endif

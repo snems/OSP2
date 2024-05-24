@@ -21,6 +21,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 //
 // bg_local.h -- local definitions for the bg (both games) files
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define MIN_WALK_NORMAL 0.7f        // can't walk on very steep slopes
 
@@ -82,3 +85,6 @@ qboolean    PM_SlideMove(qboolean gravity);
 void        PM_StepSlideMove(qboolean gravity);
 
 
+#ifdef __cplusplus
+}
+#endif

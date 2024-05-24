@@ -1,11 +1,11 @@
 #include "cg_local.h"
 
-static void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* override, const char* color1, const char* color2)
+void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* override, const char* color1, const char* color2)
 {
 	int color1Len = color1 ? strlen(color1) : 0;
 	int color2Len = color2 ? strlen(color2) : 0;
 
-	if (color1Len > 3)
+	if (color1Len > 0)
 	{
 		if (color1[0] != '0')
 		{
@@ -39,8 +39,8 @@ void CG_PlayerColorsLoadDefault(playerColors_t* colors)
 	VectorCopy(colorGreen, colors->torso);
 	VectorCopy(colorGreen, colors->legs);
 
-	VectorCopy(colorYellow, colors->railCore);
-	VectorCopy(colorGreen, colors->railCore);
+	VectorCopy(colorWhite, colors->railCore);
+	VectorCopy(colorWhite, colors->railRings);
 	VectorCopy(colorWhite, colors->frozen);
 }
 
@@ -128,25 +128,28 @@ static void CG_PlayerColorsLoadOverrides(playerColors_t* colors,
 	}
 }
 
+static void CG_RebuildOurPlayerColors(void)
+{
+	char color1[8];
+	char color2[8];
+	/* our colors allways is set */
+	CG_PlayerColorsLoadDefault(&cgs.osp.myColors);
+
+	trap_Cvar_VariableStringBuffer("color1", color1, 8);
+	trap_Cvar_VariableStringBuffer("color2", color2, 8);
+	CG_PlayerColorsFromCS(&cgs.osp.myColors, NULL, color1, color2);
+
+	CG_PlayerColorsLoadOverrides(&cgs.osp.myColors,
+	                             NULL,
+	                             &cg_playerModelColors,
+	                             &cg_playerRailColors,
+	                             &cg_playerFrozenColor);
+}
+
 void CG_RebuildPlayerColors(void)
 {
 	/* Our colors */
-	{
-		char color1[8];
-		char color2[8];
-		/* our colors allways is set */
-		CG_PlayerColorsLoadDefault(&cgs.osp.myColors);
-
-		trap_Cvar_VariableStringBuffer("color1", color1, 8);
-		trap_Cvar_VariableStringBuffer("color2", color2, 8);
-		CG_PlayerColorsFromCS(&cgs.osp.myColors, NULL, color1, color2);
-
-		CG_PlayerColorsLoadOverrides(&cgs.osp.myColors,
-		                             NULL,
-		                             &cg_playerModelColors,
-		                             &cg_playerRailColors,
-		                             &cg_playerFrozenColor);
-	}
+	CG_RebuildOurPlayerColors();
 
 	/* Team colors */
 	/* Do not load default */
@@ -174,6 +177,7 @@ void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
 {
 	if (clientNum == cg.clientNum) /* our client */
 	{
+		CG_RebuildOurPlayerColors();
 		memcpy(&ci->colors, &cgs.osp.myColors, sizeof(ci->colors));
 	}
 	else if (cgs.gametype >= GT_TEAM) /* team game */
