@@ -24,6 +24,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 // This file is NOT included on native builds
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef int size_t;
 
 typedef char*   va_list;
@@ -89,3 +93,6 @@ int abs(int n);
 double fabs(double x);
 double acos(double x);
 
+#ifdef __cplusplus
+}
+#endif

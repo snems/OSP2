@@ -1479,7 +1479,7 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 
 	CG_PositionRotatedEntityOnTag(&flash, &gun, weapon->weaponModel, "tag_flash");
 
-	if (cg_muzzleFlash.integer && cent->currentState.clientNum != cg.clientNum)
+	if (cg_muzzleFlash.integer || cent->currentState.clientNum != cg.clientNum)
 	{
 		trap_R_AddRefEntityToScene(&flash);
 	}

@@ -3,3 +3,6 @@
 2024-05-23 cg_drawTimer2
            minor bug fixes
            display scaler and fonts renderer from baseq3/Cyrax
+2024-05-27 color1&color2 bug fixed
+           cg_muzzleFlash bug fixed
+           cg_oversampleMouse fixed according to OSP documentation

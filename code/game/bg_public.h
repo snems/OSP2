@@ -19,6 +19,9 @@ along with Foobar; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ===========================================================================
 */
+#ifdef __cplusplus
+extern "C" {
+#endif
 //
 // bg_public.h -- definitions shared by both the server game and client game modules
 
@@ -772,3 +775,6 @@ qboolean    BG_PlayerTouchesItem(playerState_t* ps, entityState_t* item, int atT
 #define KAMI_BOOMSPHERE_MAXRADIUS       720
 #define KAMI_SHOCKWAVE2_MAXRADIUS       704
 
+#ifdef __cplusplus
+}
+#endif

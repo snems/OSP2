@@ -806,7 +806,7 @@ void CG_PredictPlayerState(void)
 		// get the command
 		trap_GetUserCmd(cmdNum, &cg_pmove.cmd);
 
-		if (cg_pmove.pmove_fixed)
+		if (cg_pmove.pmove_fixed || cg_oversampleMouse.integer)
 		{
 			PM_UpdateViewAngles(cg_pmove.ps, &cg_pmove.cmd);
 		}
@@ -821,10 +821,6 @@ void CG_PredictPlayerState(void)
 		if (cg_pmove.cmd.serverTime > latestCmd.serverTime)
 		{
 			continue;
-		}
-		if (cg_pmove.pmove_fixed && cg_oversampleMouse.integer)
-		{
-			PM_UpdateViewAngles(cg_pmove.ps, &cg_pmove.cmd);
 		}
 
 		// check for a prediction error from last frame
