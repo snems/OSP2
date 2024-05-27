@@ -246,6 +246,7 @@ void CG_DrawChar(int x, int y, int width, int height, int ch)
 	float frow, fcol;
 	float size;
 	float   ax, ay, aw, ah;
+	qhandle_t shader;
 
 	ch &= 255;
 
@@ -267,10 +268,12 @@ void CG_DrawChar(int x, int y, int width, int height, int ch)
 	fcol = col * 0.0625;
 	size = 0.0625;
 
+	shader = ch_3waveFont.integer ? cgs.media.charsetShader1 : cgs.media.charsetShader;
+
 	trap_R_DrawStretchPic(ax, ay, aw, ah,
 	                      fcol, frow,
 	                      fcol + size, frow + size,
-	                      cgs.media.charsetShader);
+	                      shader);
 }
 
 
