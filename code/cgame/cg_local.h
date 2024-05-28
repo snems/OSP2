@@ -1287,16 +1287,13 @@ extern vmCvar_t           cg_drawDecals;
 extern vmCvar_t           cg_drawPing;
 extern vmCvar_t           cg_enableOSPHUD;
 extern vmCvar_t           cg_enableBreath;
-extern vmCvar_t           cg_enemyColors;
 extern vmCvar_t           cg_enemyModel;
-extern vmCvar_t           cg_teamColors;
 extern vmCvar_t           cg_teamModel;
 extern vmCvar_t           cg_execVstr;
 extern vmCvar_t           cg_fallKick;
 extern vmCvar_t           cg_followkiller;
 extern vmCvar_t           cg_followpowerup;
 extern vmCvar_t           cg_followviewcam;
-extern vmCvar_t           cg_forceColors;
 extern vmCvar_t           cg_lightningImpact;
 extern vmCvar_t           cg_MaxlocationWidth;
 extern vmCvar_t           cg_muzzleFlash;
@@ -2098,8 +2095,6 @@ void CG_LocalEventCvarChanged_cg_shadows(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_r_fullbright(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_swapSkins(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_enemyColors(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_teamColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyModel(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_teamModel(cvarTable_t* cvart);
 

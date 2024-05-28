@@ -164,20 +164,7 @@ void CG_LocalEventCvarChanged_r_fullbright(cvarTable_t* cvart)
 	CG_OSPCvarsRestrictValues();
 }
 
-
 void CG_LocalEventCvarChanged_cg_swapSkins(cvarTable_t* cvart)
-{
-	CG_RebuildPlayerColors();
-	CG_UpdateAllClientsInfo();
-}
-
-void CG_LocalEventCvarChanged_cg_enemyColors(cvarTable_t* cvart)
-{
-	CG_RebuildPlayerColors();
-	CG_UpdateAllClientsInfo();
-}
-
-void CG_LocalEventCvarChanged_cg_teamColors(cvarTable_t* cvart)
 {
 	CG_RebuildPlayerColors();
 	CG_UpdateAllClientsInfo();
