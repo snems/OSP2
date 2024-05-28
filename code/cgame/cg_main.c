@@ -81,7 +81,6 @@ itemInfo_t          cg_items[MAX_ITEMS];
 
 
 vmCvar_t           osp_client;
-vmCvar_t           osp2_client;
 vmCvar_t           osp_hidden;
 vmCvar_t           osp_debug;
 vmCvar_t           cg_autoswitch;
@@ -313,7 +312,6 @@ vmCvar_t           cg_spectGlow;
 static cvarTable_t cvarTable[] =
 {
 	{ &osp_client, "osp_client", "1008", CVAR_USERINFO },
-	{ &osp2_client, "osp2_client", OSP_VERSION, CVAR_USERINFO },
 	{ &osp_hidden, "osp_print_issues", "0", CVAR_ARCHIVE },
 	{ &osp_debug, "osp_debug", "0", CVAR_ARCHIVE },
 	{ &cg_autoswitch, "cg_autoswitch", "1", CVAR_ARCHIVE },

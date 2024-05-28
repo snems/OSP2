@@ -1173,7 +1173,6 @@ extern  itemInfo_t      cg_items[MAX_ITEMS];
 extern  markPoly_t      cg_markPolys[MAX_MARK_POLYS];
 
 extern vmCvar_t           osp_client;
-extern vmCvar_t           osp2_client;
 extern vmCvar_t           osp_hidden;
 extern vmCvar_t           osp_debug;
 extern vmCvar_t           cg_autoswitch;
