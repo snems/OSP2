@@ -506,7 +506,7 @@ static cvarTable_t cvarTable[] =
 	{ &com_maxfps, "com_maxfps", "125", CVAR_ARCHIVE, CG_LocalEventCvarChanged_com_maxfps},
 	{ &cg_gun_frame, "", "0", CVAR_ARCHIVE },
 	{ &cg_noLeadSounds, "cg_noLeadSounds", "0", CVAR_ARCHIVE },
-	{ &cg_fragSound, "cg_fragSound", "1", CVAR_ARCHIVE },
+	{ &cg_fragSound, "cg_fragSound", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_fragSound},
 	{ &cg_lightningHideCrosshair, "cg_lightningHideCrosshair", "0", CVAR_ARCHIVE },
 	{ &cg_lightningSilent, "cg_lightningSilent", "0", CVAR_ARCHIVE },
 	{ &cg_delag, "cg_delag", "1", CVAR_ARCHIVE },
@@ -898,7 +898,6 @@ static void CG_RegisterSounds(void)
 	cgs.media.hitSound = trap_S_RegisterSound("sound/feedback/hit.wav", qfalse);
 	cgs.media.hitHighSound = trap_S_RegisterSound("sound/feedback/hithigh.wav", qfalse);
 
-	cgs.media.fragSound = trap_S_RegisterSound("sound/feedback/fragSound.wav", qfalse);
 
 	cgs.media.impressiveSound = trap_S_RegisterSound("sound/feedback/impressive.wav", qtrue);
 	cgs.media.excellentSound = trap_S_RegisterSound("sound/feedback/excellent.wav", qtrue);
@@ -985,7 +984,25 @@ static void CG_RegisterSounds(void)
 
 }
 
+qhandle_t CG_GetFragSound(void)
+{
+	static int loadedIndex = 0;
+	int sound_index = cg_fragSound.integer;
+	if (sound_index <= 0) sound_index = 1;
 
+	if (loadedIndex != sound_index)
+	{
+		char path[MAX_QPATH];
+		Com_sprintf(path, MAX_QPATH, "sound/feedback/fragSound%i.wav", sound_index);
+		cgs.media.fragSound = trap_S_RegisterSound(path, qfalse);
+		if (!cgs.media.fragSound)
+		{
+			cgs.media.fragSound = trap_S_RegisterSound("sound/feedback/fragSound1.wav", qfalse);
+		}
+		loadedIndex = sound_index;
+	}
+	return cgs.media.fragSound;
+}
 
 //===================================================================================
 

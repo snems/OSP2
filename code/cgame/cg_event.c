@@ -186,7 +186,7 @@ static void CG_Obituary(entityState_t* ent)
 	        cg_fragSound.integer &&
 	        !isUnfreezeEvent)
 	{
-		trap_S_StartLocalSound(cgs.media.fragSound, CHAN_LOCAL_SOUND);
+		trap_S_StartLocalSound(CG_GetFragSound(), CHAN_LOCAL_SOUND);
 	}
 
 	if (ch_Obituaries.integer == 0) return;

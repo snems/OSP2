@@ -1438,6 +1438,7 @@ char* CG_OSPGetCvarName(vmCvar_t* cvar) ;
 cvarTable_t* CG_GetCgCvarByName(const char* name);
 void CG_CvarTouch(const char* name);
 
+qhandle_t CG_GetFragSound(void);
 
 //
 // cg_view.c
@@ -2116,6 +2117,8 @@ void CG_LocalEventCvarChanged_cg_teamFrozenColor(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyModelColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyRailColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyFrozenColor(cvarTable_t* cvart);
+
+void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart);
 
 #ifdef __cplusplus
 }

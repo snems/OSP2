@@ -11,9 +11,9 @@
 
 Аргумент: 
 
-`XXX` - голова/туловище/ноги, цвета как в команде color1 
+`XXX` - голова/туловище/ноги, цвета как в команде color1, например `cg_enemyModelColors 222`
 
-`RRGGBBRRGGBBRRGGBB` голова/туловище/ноги, rgb hex цвета 
+`RRGGBBRRGGBBRRGGBB` голова/туловище/ноги, rgb hex цвета, например `cg_enemyModelColors 00FF0000FF0000FF00`
 
 ---
 
@@ -27,9 +27,9 @@
 
 Аргумент: 
 
-`XX` - сердцевина/кольца, цвета как в команде color1 
+`XX` - сердцевина/кольца, цвета как в команде color1, например `cg_enemyRailColors 22`
 
-`RRGGBBRRGGBB` сердцевина/кольца, rgb hex цвета 
+`RRGGBBRRGGBB` сердцевина/кольца, rgb hex цвета, например `cg_enemyRailColors 00FF0000FF00`
 
 ---
 
@@ -41,9 +41,9 @@
 
 Аргумент: 
 
-`X` - цвет как в команде color1 
+`X` - цвет как в команде color1, например `cg_enemyFrozenColor 2`
 
-`RRGGBB` rgb hex цвет 
+`RRGGBB` rgb hex цвет, например `cg_enemyFrozenColor 00FF00`
 
 ---
 
@@ -123,13 +123,16 @@
 
 ---
 
-    cg_fragSound 0/1
+    cg_fragSound 0..N
 
 Звук когда получен фраг.
 
 `0` выключено
 
-`1` включено
+`1` встроенный звук
+
+`2` Звуки с номером 2 и выше отсутсвуют, доступны для кастомизации. Файл звука должен иметь путь `sound/feedback/fragSoundN.wav`
+где N - соответсвующий номер звука, например: `sound/feedback/fragSound2.wav`.
 
 ---
 
