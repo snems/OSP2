@@ -3840,8 +3840,8 @@ static void CG_OSPDrawWeaponBarCPM1(float y)
 			}
 			if (ammo >= 0)
 			{
-				char str[4];
-				Com_sprintf(str, 4, "%i", ammo);
+				char str[16];
+				Com_sprintf(str, 16, "%i", ammo);
 				CG_DrawStringExt(((x + 0x4) + size), (int)((float)y + ((float)(size / 2.0f) - (h / 2.0f))), str, color, 0, 1, w, h, 3);
 			}
 			x = (int)((float)x + (((float)size + (3.0f * w)) + 8.0f));
@@ -3863,7 +3863,7 @@ static void CG_OSPDrawWeaponBarCPM2(float x, float y)
 	int line = 0;
 	qhandle_t item;
 	int h;
-	char str[4];
+	char str[16];
 	int tmp_x = x;
 
 	for (weaponIndex = 1; weaponIndex < 16; ++weaponIndex)
@@ -3952,7 +3952,7 @@ static void CG_OSPDrawWeaponBarCPM2(float x, float y)
 			}
 			if (ammo >= 0)
 			{
-				Com_sprintf(str, 4, "%i", ammo);
+				Com_sprintf(str, 16, "%i", ammo);
 				CG_DrawStringExt(x + 4 + size, (int)((float)y + ((float)(size / 2.0f) - (h / 2.0f))), str, color, 0, 1, w, h, 3);
 			}
 			x += ((float)size + (3.0f * w)) + 8.0f;
