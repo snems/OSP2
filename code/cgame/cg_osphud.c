@@ -825,9 +825,6 @@ static void CG_OSPDrawCPMStatusbarsBar(int value, qhandle_t icon, int size, int 
 {
 	int x;
 	int tmp_x;
-	vec4_t color2; //24
-
-	VectorClear(color2);
 
 	trap_R_SetColor(color);
 
@@ -853,9 +850,9 @@ static void CG_OSPDrawCPMStatusbarsBar(int value, qhandle_t icon, int size, int 
 		}
 		else
 		{
-			tmp_x -= 2;
+			tmp_x += 2;
 		}
-		CG_FillRect(tmp_x, size + 16 + 2, 200.0f, 1.0f, color2);
+		CG_FillRect(tmp_x, size + 16 + 2, 200.0f, 1.0f, colorWhite);
 	}
 
 	color[3] = 0.5f;
@@ -893,7 +890,7 @@ static void CG_OSPDrawCPMStatusbarsBar(int value, qhandle_t icon, int size, int 
 			}
 			else
 			{
-				tmp_x -= 2;
+				tmp_x += 2;
 			}
 			size += 21;
 			CG_FillRect(tmp_x, size, w, 16.0f, color);
@@ -918,7 +915,7 @@ static void CG_OSPDrawCPMStatusbarsBar(int value, qhandle_t icon, int size, int 
 			tmp_x = x;
 			if (direction != 0)
 			{
-				tmp_x -= 24;
+				tmp_x -= 22;
 			}
 			else
 			{
@@ -973,7 +970,7 @@ static void CG_OSPDrawCPMStatusbarBars(void)
 
 
 	armor = cg.snap->ps.stats[STAT_ARMOR];
-	if (health > 100)
+	if (armor > 100)
 	{
 		colorIndex = 3;
 	}
