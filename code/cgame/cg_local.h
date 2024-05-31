@@ -1483,6 +1483,7 @@ typedef struct
 void CG_AdjustFrom640( float *x, float *y, float *w, float *h );
 void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide);
 void CG_FillRect(float x, float y, float width, float height, const float* color);
+void CG_DrawPicOld(float x, float y, float width, float height, qhandle_t hShader);
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader);
 
 // flags for CG_DrawString

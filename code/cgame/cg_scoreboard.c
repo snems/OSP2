@@ -143,11 +143,11 @@ static void CG_DrawClientScore(int y, score_t* score, float* color, float fade, 
 			{
 				if (largeFormat)
 				{
-					CG_DrawPic(iconx, y - (32 - BIGCHAR_HEIGHT) / 2, 32, 32, cgs.media.botSkillShaders[ ci->botSkill - 1 ]);
+					CG_DrawPicOld(iconx, y - (32 - BIGCHAR_HEIGHT) / 2, 32, 32, cgs.media.botSkillShaders[ ci->botSkill - 1 ]);
 				}
 				else
 				{
-					CG_DrawPic(iconx, y, 16, 16, cgs.media.botSkillShaders[ ci->botSkill - 1 ]);
+					CG_DrawPicOld(iconx, y, 16, 16, cgs.media.botSkillShaders[ ci->botSkill - 1 ]);
 				}
 			}
 		}
@@ -440,10 +440,10 @@ qboolean CG_DrawOldScoreboard(void)
 	// scoreboard
 	y = SB_HEADER;
 
-	CG_DrawPic(SB_SCORE_X + (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardScore);
-	CG_DrawPic(SB_PING_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardPing);
-	CG_DrawPic(SB_TIME_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardTime);
-	CG_DrawPic(SB_NAME_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardName);
+	CG_DrawPicOld(SB_SCORE_X + (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardScore);
+	CG_DrawPicOld(SB_PING_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardPing);
+	CG_DrawPicOld(SB_TIME_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardTime);
+	CG_DrawPicOld(SB_NAME_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardName);
 
 	y = SB_TOP;
 

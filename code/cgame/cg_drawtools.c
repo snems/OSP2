@@ -225,9 +225,15 @@ CG_DrawPic
 Coordinates are 640*480 virtual values
 =================
 */
-void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader)
+void CG_DrawPicOld(float x, float y, float width, float height, qhandle_t hShader)
 {
 	CG_AdjustFrom640_Old(&x, &y, &width, &height, qfalse);
+	trap_R_DrawStretchPic(x, y, width, height, 0, 0, 1, 1, hShader);
+}
+
+void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader)
+{
+	CG_AdjustFrom640(&x, &y, &width, &height);
 	trap_R_DrawStretchPic(x, y, width, height, 0, 0, 1, 1, hShader);
 }
 

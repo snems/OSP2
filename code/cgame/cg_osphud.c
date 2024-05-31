@@ -358,7 +358,7 @@ static void CG_OSPDrawStatusBarString(int x, int y, int len, int w, int h, int v
 		{
 			shaderIndex = *ptr - '0';
 		}
-		CG_DrawPic(x, y, w, h, cgs.media.numberShaders[shaderIndex]);
+		CG_DrawPicOld(x, y, w, h, cgs.media.numberShaders[shaderIndex]);
 		x += w;
 	}
 }
@@ -458,7 +458,7 @@ static float CG_OSPDrawStatusBar(float arg)
 			icon = cg_weapons[ cg.predictedPlayerState.weapon ].ammoIcon;
 			if (icon)
 			{
-				CG_DrawPic((float)(((320 - ((12 * fontW) / (float)2)) + offsetW) + (3 * fontW)), arg, fontW, fontH, icon);
+				CG_DrawPicOld((float)(((320 - ((12 * fontW) / (float)2)) + offsetW) + (3 * fontW)), arg, fontW, fontH, icon);
 			}
 		}
 	}
@@ -501,7 +501,7 @@ static float CG_OSPDrawStatusBar(float arg)
 
 		if (cgs.osp.server_mode & OSP_SERVER_MODE_PROMODE)
 		{
-			CG_DrawPic((float)((((320 - (12 * fontW / (float)2) + offsetW) + 9 * fontW) + 3 * fontW) + 3), 452, 24, 24, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
+			CG_DrawPicOld((float)((((320 - (12 * fontW / (float)2) + offsetW) + 9 * fontW) + 3 * fontW) + 3), 452, 24, 24, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
 		}
 	}
 
@@ -559,11 +559,11 @@ static void CG_OSPDrawStatusBarAmmo1(float y)
 		{
 			int ammo;
 			ammo = cg.snap->ps.ammo[weaponIndex];
-			CG_DrawPic(i * (ammoW + 2), y - (ammoH + 2), ammoW, ammoH, cg_weapons[weaponIndex].ammoIcon);
+			CG_DrawPicOld(i * (ammoW + 2), y - (ammoH + 2), ammoW, ammoH, cg_weapons[weaponIndex].ammoIcon);
 
 			if (weaponIndex == cg.weaponSelect)
 			{
-				CG_DrawPic((float)(i * (ammoW + 2)) - 2, y - (ammoH + 4), ammoW + 4, ammoH + 4, cgs.media.selectShader);
+				CG_DrawPicOld((float)(i * (ammoW + 2)) - 2, y - (ammoH + 4), ammoW + 4, ammoH + 4, cgs.media.selectShader);
 			}
 			wHi = ammo / (float)weaponRanges[weaponIndex].hi;
 
@@ -600,7 +600,7 @@ static void CG_OSPDrawStatusBarAmmo1(float y)
 				trap_R_SetColor(color[2]);
 			}
 			h = (float)(wHi * (float)(statusH - (ammoH + 0x4)));
-			CG_DrawPic((float)(i * (ammoW + 2)), ((y - (ammoH + 4)) - h), ammoW, h, cgs.media.teamStatusBar);
+			CG_DrawPicOld((float)(i * (ammoW + 2)), ((y - (ammoH + 4)) - h), ammoW, h, cgs.media.teamStatusBar);
 			trap_R_SetColor(NULL);
 			++i;
 		}
@@ -637,9 +637,9 @@ static void CG_OSPDrawStatusBarAmmo2(float y)
 			if (weaponIndex == cg.weaponSelect)
 			{
 				trap_R_SetColor(colorMdGrey);
-				CG_DrawPic(posX, posY, 5 * ammoW, ammoH, cgs.media.teamStatusBar);
+				CG_DrawPicOld(posX, posY, 5 * ammoW, ammoH, cgs.media.teamStatusBar);
 			}
-			CG_DrawPic(posX, posY, ammoW, ammoH, cg_weapons[weaponIndex].ammoIcon);
+			CG_DrawPicOld(posX, posY, ammoW, ammoH, cg_weapons[weaponIndex].ammoIcon);
 			str = va("%3i", cg.snap->ps.ammo[weaponIndex]);
 			CG_OSPDrawString(posX + ammoW * 2, posY, str, ammoW, ammoH, NULL, 0, 0);
 			++i;
@@ -779,7 +779,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 					icon = cg_weapons[cg.predictedPlayerState.weapon].weaponIcon;
 					if (icon)
 					{
-						CG_DrawPic(100.0f, 432.0f, 48.0f, 48.0f, icon);
+						CG_DrawPicOld(100.0f, 432.0f, 48.0f, 48.0f, icon);
 					}
 				}
 			}
@@ -816,7 +816,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 		trap_R_SetColor(NULL);
 		if (!cg_draw3dIcons.integer && cg_drawIcons.integer)
 		{
-			CG_DrawPic(470.0f, 432.0f, 48.0f, 48.0f, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
+			CG_DrawPicOld(470.0f, 432.0f, 48.0f, 48.0f, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
 		}
 	}
 }
@@ -905,7 +905,7 @@ static void CG_OSPDrawCPMStatusbarsBar(int value, qhandle_t icon, int size, int 
 		}
 		if ((icon > 0) && (cg_drawIcons.integer != 0))
 		{
-			CG_DrawPic(tmp_x, size, 16.0f, 16.0f, icon);
+			CG_DrawPicOld(tmp_x, size, 16.0f, 16.0f, icon);
 		}
 	}
 	else if (icon > 0)
@@ -921,7 +921,7 @@ static void CG_OSPDrawCPMStatusbarsBar(int value, qhandle_t icon, int size, int 
 			{
 				tmp_x += 6;
 			}
-			CG_DrawPic((float)tmp_x, (float)size, 16.0f, 16.0f, icon);
+			CG_DrawPicOld((float)tmp_x, (float)size, 16.0f, 16.0f, icon);
 		}
 	}
 	color[3] = 1.0f;
@@ -1011,7 +1011,7 @@ static void CG_OSPDrawCPMStatusbar3Bars(int health, int armor, qhandle_t iconMod
 			{
 				if (cg_drawIcons.integer != 0)
 				{
-					CG_DrawPic(tmpX, y, 16.0f, 16.0f, iconModel);
+					CG_DrawPicOld(tmpX, y, 16.0f, 16.0f, iconModel);
 				}
 			}
 		}
@@ -1023,7 +1023,7 @@ static void CG_OSPDrawCPMStatusbar3Bars(int health, int armor, qhandle_t iconMod
 			if (cg_drawIcons.integer != 0)
 			{
 				tmpX -= 11;
-				CG_DrawPic(tmpX, y, 16.0f, 16.0f, iconModel);
+				CG_DrawPicOld(tmpX, y, 16.0f, 16.0f, iconModel);
 			}
 		}
 	}
@@ -1046,14 +1046,14 @@ static void CG_OSPDrawCPMStatusbar3Bars(int health, int armor, qhandle_t iconMod
 			tmpX -= 20;
 			if ((iconModel > 0) && (cg_drawIcons.integer != 0))
 			{
-				CG_DrawPic((float)tmpX, (float)y, 16.0f, 16.0f, iconArmor);
+				CG_DrawPicOld((float)tmpX, (float)y, 16.0f, 16.0f, iconArmor);
 			}
 		}
 	}
 	else if ((iconArmor > 0) && cg_drawIcons.integer)
 	{
 		tmpX -= 11;
-		CG_DrawPic(tmpX, y, 16.0f, 16.0f, iconArmor);
+		CG_DrawPicOld(tmpX, y, 16.0f, 16.0f, iconArmor);
 	}
 
 	colorHealth[3] = 1.0f;
@@ -1163,7 +1163,7 @@ static void CG_OSPDrawCPMStatusbar3(void)
 					ammoIcon = cg_weapons[cg.predictedPlayerState.weapon].ammoIcon;
 					if (ammoIcon)
 					{
-						CG_DrawPic(380.0f, 427.0f, 48.0f, 48.0f, ammoIcon);
+						CG_DrawPicOld(380.0f, 427.0f, 48.0f, 48.0f, ammoIcon);
 					}
 				}
 			}
@@ -1181,7 +1181,7 @@ static void CG_OSPDrawCPMStatusbar4Bars(int x, int y, int value, qhandle_t icon,
 		y -= 32;
 		if (icon > 0)
 		{
-			CG_DrawPic(x, y, 32.0f, 32.0f, icon);
+			CG_DrawPicOld(x, y, 32.0f, 32.0f, icon);
 		}
 		y -= 5;
 	}
@@ -1349,7 +1349,7 @@ static void CG_OSPDrawCPMStatusbar5Bars(int value, qhandle_t icon, int y, int x,
 		if ((icon > 0) && cg_drawIcons.integer)
 		{
 			tmpX = offsetX - 16;
-			CG_DrawPic(tmpX, y + 8 + 3, 16.0f, 16.0f, icon);
+			CG_DrawPicOld(tmpX, y + 8 + 3, 16.0f, 16.0f, icon);
 		}
 		return;
 	}
@@ -1374,7 +1374,7 @@ static void CG_OSPDrawCPMStatusbar5Bars(int value, qhandle_t icon, int y, int x,
 			{
 				tmpX = offsetX - 100;
 			}
-			CG_DrawPic((float)tmpX, (float)(y + 16 + 4 + 1), 16.0f, 16.0f, icon);
+			CG_DrawPicOld((float)tmpX, (float)(y + 16 + 4 + 1), 16.0f, 16.0f, icon);
 			icon = 0;
 		}
 	}
@@ -1390,7 +1390,7 @@ static void CG_OSPDrawCPMStatusbar5Bars(int value, qhandle_t icon, int y, int x,
 			{
 				tmpX = offsetX - 100;
 			}
-			CG_DrawPic(tmpX, y, 16.0f, 16.0f, icon);
+			CG_DrawPicOld(tmpX, y, 16.0f, 16.0f, icon);
 		}
 	}
 	else
@@ -1398,7 +1398,7 @@ static void CG_OSPDrawCPMStatusbar5Bars(int value, qhandle_t icon, int y, int x,
 		if ((icon > 0) && cg_drawIcons.integer)
 		{
 			tmpX = offsetX - 20;
-			CG_DrawPic(tmpX, y, 16.0f, 16.0f, icon);
+			CG_DrawPicOld(tmpX, y, 16.0f, 16.0f, icon);
 		}
 	}
 
@@ -1598,7 +1598,7 @@ static void CG_OSPDrawQ3CompWeapon2(int x, int y, int weapon, int num, float* co
 		icon = cg_weapons[weapon].weaponIcon;
 		if (icon)
 		{
-			CG_DrawPic(x, y, 12.0f, 12.0f, icon);
+			CG_DrawPicOld(x, y, 12.0f, 12.0f, icon);
 		}
 	}
 
@@ -1736,7 +1736,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 						icon = cg_weapons[cg.predictedPlayerState.weapon].weaponIcon;
 						if (icon)
 						{
-							CG_DrawPic(w_tmp + 4, 476 - h, h, w, icon);
+							CG_DrawPicOld(w_tmp + 4, 476 - h, h, w, icon);
 						}
 					}
 				}
@@ -1749,7 +1749,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 							icon = cg_weapons[cg.predictedPlayerState.weapon].weaponIcon;
 							if (icon)
 							{
-								CG_DrawPic(111.0f, 438.0f, w, h, icon);
+								CG_DrawPicOld(111.0f, 438.0f, w, h, icon);
 							}
 						}
 					}
@@ -1946,7 +1946,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 			icon = cgs.media.armorIcon[ps->stats[STAT_OSP_9]];
 			if (icon)
 			{
-				CG_DrawPic((float)(((486 - w_tmp) + (3 * w)) + 3), 452.0f, 24.0f, 24.0f, icon);
+				CG_DrawPicOld((float)(((486 - w_tmp) + (3 * w)) + 3), 452.0f, 24.0f, 24.0f, icon);
 			}
 		}
 		trap_R_SetColor(NULL);
@@ -2014,7 +2014,7 @@ static float CG_OSPDrawTeamInfo(float y)
 			}
 
 			trap_R_SetColor(hcolor);
-			CG_DrawPic(0, y - chatYOffset, 0x44200000, chatYOffset, cgs.media.teamStatusBar);
+			CG_DrawPicOld(0, y - chatYOffset, 0x44200000, chatYOffset, cgs.media.teamStatusBar);
 			trap_R_SetColor(NULL);
 		}
 		hcolor[0] = hcolor[1] = hcolor[2] = 1.0f;
@@ -2476,14 +2476,14 @@ static float CG_OSPDrawWeaponBarOld(float pos_y)
 		if (weapons & (1 << weaponNum))
 		{
 			CG_RegisterWeapon(weaponNum);
-			CG_DrawPic(x, y, w, h, cg_weapons[weaponNum].weaponIcon);
+			CG_DrawPicOld(x, y, w, h, cg_weapons[weaponNum].weaponIcon);
 			if (weaponNum == cg.weaponSelect)
 			{
-				CG_DrawPic(x - 2, y - 2, w + 4, h + 4, cgs.media.selectShader);
+				CG_DrawPicOld(x - 2, y - 2, w + 4, h + 4, cgs.media.selectShader);
 			}
 			if (cg.snap->ps.ammo[weaponNum] == 0)
 			{
-				CG_DrawPic((float)x, (float)y, (float)w, (float)h, cgs.media.noammoShader);
+				CG_DrawPicOld((float)x, (float)y, (float)w, (float)h, cgs.media.noammoShader);
 			}
 			x += w + 4;
 		}
@@ -2558,14 +2558,14 @@ static void CG_OSPDrawWeaponBar_4_5(float pos_y)
 		if (statWeapons & (1 << weaponNum))
 		{
 			CG_RegisterWeapon(weaponNum);
-			CG_DrawPic(x, y, (float)w, (float)h, cg_weapons[weaponNum].weaponIcon);
+			CG_DrawPicOld(x, y, (float)w, (float)h, cg_weapons[weaponNum].weaponIcon);
 			if (weaponNum == cg.weaponSelect)
 			{
-				CG_DrawPic(x - 4.0f, y - 4.0f, w + 8, h + 8, cgs.media.selectShader);
+				CG_DrawPicOld(x - 4.0f, y - 4.0f, w + 8, h + 8, cgs.media.selectShader);
 			}
 			if (cg.snap->ps.ammo[weaponNum] == 0)
 			{
-				CG_DrawPic(x, y, (float)w, (float)h, cgs.media.noammoShader);
+				CG_DrawPicOld(x, y, (float)w, (float)h, cgs.media.noammoShader);
 			}
 			if (ch_Weaponswitch.integer == 5)
 			{
@@ -2601,7 +2601,7 @@ float CG_OSPDrawPickupItem(float y)
 		{
 			CG_RegisterItemVisuals(cg.itemPickup);
 			trap_R_SetColor(color);
-			CG_DrawPic(8.0f, y, w, (float)h, cg_items[cg.itemPickup].icon);
+			CG_DrawPicOld(8.0f, y, w, (float)h, cg_items[cg.itemPickup].icon);
 			CG_OSPDrawString(w + 8 + (w / 3), y, bg_itemlist[cg.itemPickup].pickup_name, w, h, color, 0, 0);
 			trap_R_SetColor(NULL);
 		}
@@ -2741,7 +2741,7 @@ static float CG_OSPHUDDrawScores(float y)
 				{
 					if (!ch_drawFlagNames.integer)
 					{
-						CG_DrawPic(x, y1 - 4.0f, w, fontScoresH + 8, cgs.media.blueFlagShader[cgs.blueflag]);
+						CG_DrawPicOld(x, y1 - 4.0f, w, fontScoresH + 8, cgs.media.blueFlagShader[cgs.blueflag]);
 					}
 					else
 					{
@@ -2749,7 +2749,7 @@ static float CG_OSPHUDDrawScores(float y)
 						if (ch_drawFlagNames.integer == 2 || ch_drawFlagNames.integer == 4)
 						{
 							x -= (fontScoresW << 1) + 8;
-							CG_DrawPic(x, y - 4.0f, w, fontScoresH + 8, cgs.media.blueFlagShader[cgs.blueflag]);
+							CG_DrawPicOld(x, y - 4.0f, w, fontScoresH + 8, cgs.media.blueFlagShader[cgs.blueflag]);
 						}
 
 						switch (cgs.blueflag)
@@ -2869,14 +2869,14 @@ static float CG_OSPHUDDrawScores(float y)
 				{
 					if (!ch_drawFlagNames.integer)
 					{
-						CG_DrawPic(x, y1 - 4.0f, w, fontScoresH + 8, cgs.media.redFlagShader[cgs.redflag]);
+						CG_DrawPicOld(x, y1 - 4.0f, w, fontScoresH + 8, cgs.media.redFlagShader[cgs.redflag]);
 					}
 					else
 					{
 						if (ch_drawFlagNames.integer == 2 || ch_drawFlagNames.integer == 4)
 						{
 							x -= (fontScoresW << 1) + 8;
-							CG_DrawPic(x, y - 4.0f, w, fontScoresH + 8, cgs.media.redFlagShader[cgs.redflag]);
+							CG_DrawPicOld(x, y - 4.0f, w, fontScoresH + 8, cgs.media.redFlagShader[cgs.redflag]);
 						}
 
 						switch (cgs.redflag)
@@ -3036,7 +3036,7 @@ static float CG_OSPDrawHoldableItem(float y)
 	{
 		CG_RegisterItemVisuals(hi);
 		y -= 48.0f;
-		CG_DrawPic(592.0f, y, 48.0f, 48.0f, cg_items[hi].icon);
+		CG_DrawPicOld(592.0f, y, 48.0f, 48.0f, cg_items[hi].icon);
 	}
 	return y;
 }
@@ -3140,7 +3140,7 @@ static float CG_OSPDrawPowerups(float x, float y)
 				size = ICON_SIZE;
 			}
 
-			CG_DrawPic(x + 64.0f, y + ICON_SIZE / 2.0f - size / 2.0f,
+			CG_DrawPicOld(x + 64.0f, y + ICON_SIZE / 2.0f - size / 2.0f,
 			           size, size, trap_R_RegisterShader(item->icon));
 		}
 	}
@@ -3171,14 +3171,14 @@ static float CG_OSPDrawWeaponSelect(float x, float y, const float* color)
 		if (statWeapons & (1 << weaponNum))
 		{
 			CG_RegisterWeapon(weaponNum);
-			CG_DrawPic(x, y, w, h, cg_weapons[weaponNum].weaponIcon);
+			CG_DrawPicOld(x, y, w, h, cg_weapons[weaponNum].weaponIcon);
 			if (weaponNum == cg.weaponSelect)
 			{
-				CG_DrawPic(x - 2, y - 2, w + 4, w + 4, cgs.media.selectShader);
+				CG_DrawPicOld(x - 2, y - 2, w + 4, w + 4, cgs.media.selectShader);
 			}
 			if (cg.snap->ps.ammo[weaponNum] == 0)
 			{
-				CG_DrawPic(x, y, (float)w, (float)h, cgs.media.noammoShader);
+				CG_DrawPicOld(x, y, (float)w, (float)h, cgs.media.noammoShader);
 			}
 			y += h + 2.0f;
 		}
@@ -3320,7 +3320,7 @@ float CG_OSPDrawPing(float y)
 
 static float CG_OSPDrawSplitter(float x, float y)
 {
-	CG_DrawPic(x, y, 76.0f, 1.0f, cgs.media.whiteShader);
+	CG_DrawPicOld(x, y, 76.0f, 1.0f, cgs.media.whiteShader);
 	return y + 4.0f;
 }
 
@@ -3330,12 +3330,12 @@ static float CG_OSPDrawCustomPowerup(float x, float y, int powerup, int blink, q
 	{
 		if (blink == 0 || (cg.time % 1000) < 500)
 		{
-			CG_DrawPic(x, y, 24.0f, 24.0f, shader);
+			CG_DrawPicOld(x, y, 24.0f, 24.0f, shader);
 		}
 
 		if (cg.predictedPlayerState.powerups[powerup])
 		{
-			CG_DrawPic(x, y, 24.0f, 24.0f, cgs.media.selectShader);
+			CG_DrawPicOld(x, y, 24.0f, 24.0f, cgs.media.selectShader);
 		}
 	}
 	return y;
@@ -3367,7 +3367,7 @@ static void CG_OSPDrawPlayerIcon(float x, float y, float w, float h, int attacke
 	}
 	else if (cg_drawIcons.integer)
 	{
-		CG_DrawPic(x, y, w, h, ci->modelIcon);
+		CG_DrawPicOld(x, y, w, h, ci->modelIcon);
 	}
 }
 
@@ -3512,11 +3512,11 @@ static float CG_OSPDrawWeapons67(float x, float y)
 						}
 					}
 				}
-				CG_DrawPic(x + 4, y, size, size, item);
+				CG_DrawPicOld(x + 4, y, size, size, item);
 
 				if ((ammo == 0) && ((ch_weaponListDrawAll.integer != 0) || ((cg.snap->ps.stats[STAT_WEAPONS] & (1 << weaponNum)) != 0)))
 				{
-					CG_DrawPic(x + 4.0f, y, size, size, cgs.media.noammoShader);
+					CG_DrawPicOld(x + 4.0f, y, size, size, cgs.media.noammoShader);
 				}
 
 				if (cg.weaponSelect == weaponNum)
@@ -3548,7 +3548,7 @@ static float CG_OSPDrawWeapons67(float x, float y)
 	if (holdableItem)
 	{
 		CG_RegisterItemVisuals(holdableItem);
-		CG_DrawPic(x + 4, y, 16.0f, 16.0f, cg_items[holdableItem].icon);
+		CG_DrawPicOld(x + 4, y, 16.0f, 16.0f, cg_items[holdableItem].icon);
 		y += 20;
 	}
 
@@ -3570,7 +3570,7 @@ static float CG_OSPDrawHealthArmor67(float x, float y)
 	{
 		if ((health > 30) || ((cg.time % 1000) < 500))
 		{
-			CG_DrawPic(x + 4.0f, y, 24.0f, 24.0f, cgs.clientinfo[cg.snap->ps.clientNum].modelIcon);
+			CG_DrawPicOld(x + 4.0f, y, 24.0f, 24.0f, cgs.clientinfo[cg.snap->ps.clientNum].modelIcon);
 		}
 	}
 	if (health > 100)
@@ -3590,7 +3590,7 @@ static float CG_OSPDrawHealthArmor67(float x, float y)
 	y += 28.0f;
 	if (cg_drawIcons.integer)
 	{
-		CG_DrawPic(x + 4.0f, y, 24.0f, 24.0f, cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]]);
+		CG_DrawPicOld(x + 4.0f, y, 24.0f, 24.0f, cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]]);
 	}
 
 	armor = cg.snap->ps.stats[STAT_ARMOR];
@@ -3684,7 +3684,7 @@ static float CG_OSPDrawPowerup67(float x, float y)
 			}
 		}
 
-		CG_DrawPic(x + 4.0f, y - ((beat - 24.0f) / 2.0f), beat, beat, trap_R_RegisterShader(item->icon));
+		CG_DrawPicOld(x + 4.0f, y - ((beat - 24.0f) / 2.0f), beat, beat, trap_R_RegisterShader(item->icon));
 		Com_sprintf(buf, 10, "%i", pinfo[i].time / 1000);
 
 		CG_DrawStringExt(x + 24.0f, y + 4.0f, buf, powerupColors67[1], 0, 1, 16, 16, 2);
@@ -3820,11 +3820,11 @@ static void CG_OSPDrawWeaponBarCPM1(float y)
 					}
 				}
 			}
-			CG_DrawPic(x, y, size, size, item);
+			CG_DrawPicOld(x, y, size, size, item);
 
 			if ((ammo == 0) && ((ch_weaponListDrawAll.integer != 0) || ((cg.predictedPlayerState.stats[STAT_WEAPONS] & (1 << weaponIndex)) != 0)))
 			{
-				CG_DrawPic(x, y, size, size, cgs.media.noammoShader);
+				CG_DrawPicOld(x, y, size, size, cgs.media.noammoShader);
 			}
 
 			if (cg.weaponSelect == weaponIndex)
@@ -3932,11 +3932,11 @@ static void CG_OSPDrawWeaponBarCPM2(float x, float y)
 					}
 				}
 			}
-			CG_DrawPic((float)x, (float)y, size, size, item);
+			CG_DrawPicOld((float)x, (float)y, size, size, item);
 
 			if ((ammo == 0) && ((ch_weaponListDrawAll.integer != 0) || ((cg.predictedPlayerState.stats[STAT_WEAPONS] & (1 << weaponIndex)) != 0)))
 			{
-				CG_DrawPic(x, y, size, size, cgs.media.noammoShader);
+				CG_DrawPicOld(x, y, size, size, cgs.media.noammoShader);
 			}
 
 			if (cg.weaponSelect == weaponIndex)
