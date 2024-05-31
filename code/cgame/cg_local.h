@@ -1252,6 +1252,8 @@ extern vmCvar_t           teamoverlay;
 extern vmCvar_t           cg_stats;
 extern vmCvar_t           cg_drawFriend;
 extern vmCvar_t           cg_teamChatsOnly;
+extern vmCvar_t           cg_teamChatDisable;
+extern vmCvar_t           cg_chatDisable;
 extern vmCvar_t           cg_buildScript;
 extern vmCvar_t           cg_paused;
 extern vmCvar_t           com_blood;

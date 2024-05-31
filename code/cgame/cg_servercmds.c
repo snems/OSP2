@@ -899,7 +899,7 @@ void CG_ServerCommand(void)
 //chat
 	if (strcmp(cmd, "chat") == 0)
 	{
-		if (!cg_teamChatsOnly.integer)
+		if (!cg_teamChatsOnly.integer && !cg_chatDisable.integer)
 		{
 			if (!cg_nochatbeep.integer)
 			{
@@ -913,17 +913,20 @@ void CG_ServerCommand(void)
 //tchat
 	if (strcmp(cmd, "tchat") == 0)
 	{
-		if (!cg_noTeamChatBeep.integer)
+		if (!cg_teamChatDisable.integer && !cg_chatDisable.integer)
 		{
-			trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
-		}
-		Q_strncpyz(text, CG_Argv(1), 1024);
-		CG_RemoveChatEscapeChar(text);
+			if (!cg_noTeamChatBeep.integer)
+			{
+				trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
+			}
+			Q_strncpyz(text, CG_Argv(1), 1024);
+			CG_RemoveChatEscapeChar(text);
 
-		CG_AddToTeamChat(text);
-		if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
-		{
-			CG_Printf("%s\n", text);
+			CG_AddToTeamChat(text);
+			if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
+			{
+				CG_Printf("%s\n", text);
+			}
 		}
 		return;
 	}

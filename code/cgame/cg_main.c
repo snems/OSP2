@@ -160,6 +160,8 @@ vmCvar_t           teamoverlay;
 vmCvar_t           cg_stats;
 vmCvar_t           cg_drawFriend;
 vmCvar_t           cg_teamChatsOnly;
+vmCvar_t           cg_teamChatDisable;
+vmCvar_t           cg_chatDisable;
 vmCvar_t           cg_buildScript;
 vmCvar_t           cg_paused;
 vmCvar_t           com_blood;
@@ -390,6 +392,9 @@ static cvarTable_t cvarTable[] =
 	{ &cg_stats, "cg_stats", "0",  },
 	{ &cg_drawFriend, "cg_drawFriend", "1", CVAR_ARCHIVE },
 	{ &cg_teamChatsOnly, "cg_teamChatsOnly", "0", CVAR_ARCHIVE },
+	{ &cg_teamChatsOnly, "cg_commonChatDisable", "0", CVAR_ARCHIVE }, //alias for cg_teamChatsOnly
+	{ &cg_teamChatDisable, "cg_teamChatDisable", "0", CVAR_ARCHIVE },
+	{ &cg_chatDisable, "cg_chatDisable", "0", CVAR_ARCHIVE },
 	{ &cg_buildScript, "com_buildScript", "0",  },
 	{ &cg_paused, "cl_paused", "0", CVAR_ROM },
 	{ &com_blood, "com_blood", "1", CVAR_ARCHIVE },

@@ -284,6 +284,24 @@
 
 ---
 
+    cg_commonChatDisable 0/1
+
+То же самое что cg_teamChatsOnly.
+
+---
+
+    cg_teamChatDisable 0/1
+
+Отключает прием сообщений от игроков команды.
+
+---
+
+    cg_chatDisable 0/1
+
+Отключает прием сообщений от игроков.
+
+---
+
     ch_fragMessage
     cg_fallKick
     cg_smokegrowth_gl
