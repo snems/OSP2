@@ -1477,7 +1477,7 @@ void CG_DrawReward(void)
 {
 	float*   color;
 	int     i, count;
-	float   x, y;
+	float   x, y, w, h;
 	char    buf[32];
 
 	if (!cg_drawRewards.integer)
@@ -1509,29 +1509,19 @@ void CG_DrawReward(void)
 
 	trap_R_SetColor(color);
 
-	if (cg.rewardCount[0] >= 10)
+	y = 46;
+	x = 320 - ICON_SIZE / 2.0;
+	w = ICON_SIZE - 4;
+	h = ICON_SIZE - 4;
+  CG_AdjustFrom640(&x, &y, &w, &h);
+	CG_DrawPic(x, y, ICON_SIZE - 4, ICON_SIZE - 4, cg.rewardShader[0]);
+
+	if (cg.rewardCount[0] > 1)
 	{
-		y = 46;
-		x = 320 - ICON_SIZE / 2.0;
-		CG_DrawPic(x, y, ICON_SIZE - 4, ICON_SIZE - 4, cg.rewardShader[0]);
 		Com_sprintf(buf, sizeof(buf), "%d", cg.rewardCount[0]);
-		x = (SCREEN_WIDTH - SMALLCHAR_WIDTH * CG_DrawStrlen(buf)) / 2.0;
-		CG_DrawStringExt(x, y + ICON_SIZE, buf, color, qfalse, qtrue,
-		                 SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 0);
+	  CG_DrawString( x + ICON_SIZE/2.0f, y + ICON_SIZE, buf, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 16,  DS_CENTER | DS_PROPORTIONAL);
 	}
-	else
-	{
 
-		count = cg.rewardCount[0];
-
-		y = 46;
-		x = 320 - count * ICON_SIZE / 2.0;
-		for (i = 0 ; i < count ; i++)
-		{
-			CG_DrawPic(x, y, ICON_SIZE - 4, ICON_SIZE - 4, cg.rewardShader[0]);
-			x += ICON_SIZE;
-		}
-	}
 	trap_R_SetColor(NULL);
 }
 
