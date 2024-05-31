@@ -154,6 +154,7 @@ void CG_RebuildPlayerColors(void)
 	/* Team colors */
 	/* Do not load default */
 	memset(&cgs.osp.teamColorsOverride, 0, sizeof(cgs.osp.teamColorsOverride));
+	CG_PlayerColorsFromCS(&cgs.osp.teamColors, &cgs.osp.teamColorsOverride, cg_teamColors.string, NULL);
 	CG_PlayerColorsLoadOverrides(&cgs.osp.teamColors,
 	                             &cgs.osp.teamColorsOverride,
 	                             &cg_teamModelColors,
@@ -163,6 +164,7 @@ void CG_RebuildPlayerColors(void)
 	/* Enemy colors */
 	/* Do not load default */
 	memset(&cgs.osp.enemyColorsOverride, 0, sizeof(cgs.osp.enemyColorsOverride));
+	CG_PlayerColorsFromCS(&cgs.osp.enemyColors, &cgs.osp.enemyColorsOverride, cg_enemyColors.string, NULL);
 	CG_PlayerColorsLoadOverrides(&cgs.osp.enemyColors,
 	                             &cgs.osp.enemyColorsOverride,
 	                             &cg_enemyModelColors,

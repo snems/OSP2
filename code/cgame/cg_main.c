@@ -195,13 +195,16 @@ vmCvar_t           cg_drawDecals;
 vmCvar_t           cg_drawPing;
 vmCvar_t           cg_enableOSPHUD;
 vmCvar_t           cg_enableBreath;
+vmCvar_t           cg_enemyColors;
 vmCvar_t           cg_enemyModel;
 vmCvar_t           cg_teamModel;
+vmCvar_t           cg_teamColors;
 vmCvar_t           cg_execVstr;
 vmCvar_t           cg_fallKick;
 vmCvar_t           cg_followkiller;
 vmCvar_t           cg_followpowerup;
 vmCvar_t           cg_followviewcam;
+vmCvar_t           cg_forceColors;
 vmCvar_t           cg_lightningImpact;
 vmCvar_t           cg_MaxlocationWidth;
 vmCvar_t           cg_muzzleFlash;
@@ -308,7 +311,7 @@ vmCvar_t           cg_spectGlow;
 
 static cvarTable_t cvarTable[] =
 {
-	{ &osp_client, "osp_client", "1008 OSP2: "OSP_VERSION, CVAR_USERINFO },
+	{ &osp_client, "osp_client", "1008", CVAR_USERINFO },
 	{ &osp_hidden, "osp_print_issues", "0", CVAR_ARCHIVE },
 	{ &osp_debug, "osp_debug", "0", CVAR_ARCHIVE },
 	{ &cg_autoswitch, "cg_autoswitch", "1", CVAR_ARCHIVE },
@@ -422,13 +425,16 @@ static cvarTable_t cvarTable[] =
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
 	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enableOSPHUD},
 	{ &cg_enableBreath, "cg_enableBreath", "1",  },
+	{ &cg_enemyColors, "cg_enemyColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyColors},
 	{ &cg_enemyModel, "cg_enemyModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModel},
+	{ &cg_teamColors, "cg_teamColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_teamColors},
 	{ &cg_teamModel, "cg_teamModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_teamModel},
 	{ &cg_execVstr, "cg_execVstr", "", CVAR_ARCHIVE },
 	{ &cg_fallKick, "cg_fallKick", "0", CVAR_ARCHIVE },
 	{ &cg_followkiller, "cg_followkiller", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followkiller},
 	{ &cg_followpowerup, "cg_followpowerup", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followpowerup},
 	{ &cg_followviewcam, "cg_followviewcam", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followviewcam},
+	{ &cg_forceColors, "cg_forceColors", "0", CVAR_ARCHIVE },
 	{ &cg_lightningImpact, "cg_lightningImpact", "1", CVAR_ARCHIVE },
 	{ &cg_MaxlocationWidth, "cg_MaxlocationWidth", "16", CVAR_ARCHIVE },
 	{ &cg_muzzleFlash, "cg_muzzleFlash", "1", CVAR_ARCHIVE },
