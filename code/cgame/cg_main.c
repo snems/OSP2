@@ -198,7 +198,6 @@ vmCvar_t           cg_enableBreath;
 vmCvar_t           cg_enemyColors;
 vmCvar_t           cg_enemyModel;
 vmCvar_t           cg_teamModel;
-vmCvar_t           cg_teamColors;
 vmCvar_t           cg_execVstr;
 vmCvar_t           cg_fallKick;
 vmCvar_t           cg_followkiller;
@@ -427,7 +426,6 @@ static cvarTable_t cvarTable[] =
 	{ &cg_enableBreath, "cg_enableBreath", "1",  },
 	{ &cg_enemyColors, "cg_enemyColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyColors},
 	{ &cg_enemyModel, "cg_enemyModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModel},
-	{ &cg_teamColors, "cg_teamColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_teamColors},
 	{ &cg_teamModel, "cg_teamModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_teamModel},
 	{ &cg_execVstr, "cg_execVstr", "", CVAR_ARCHIVE },
 	{ &cg_fallKick, "cg_fallKick", "0", CVAR_ARCHIVE },

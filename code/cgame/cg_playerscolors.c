@@ -33,6 +33,33 @@ void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* overr
 
 }
 
+static void CG_PlayerColorsFromEnemyColors(playerColors_t* colors, playerColorsOverride_t* override, const char* color1)
+{
+	int color1Len = color1 ? strlen(color1) : 0;
+
+	if (color1Len >= 4)
+	{
+		if (cg_teamRails.integer == 2 && color1[0] != '0')
+		{
+			if (override) override->isRailColorSet = qtrue;
+			CG_OSPColorFromChar(color1[0], colors->railCore);
+		}
+
+		if (override) override->isModelColorSet = qtrue;
+		CG_OSPColorFromChar(color1[1], colors->head);
+		CG_OSPColorFromChar(color1[2], colors->torso);
+		CG_OSPColorFromChar(color1[3], colors->legs);
+	}
+	else if (color1Len == 3)
+	{
+		if (override) override->isModelColorSet = qtrue;
+		CG_OSPColorFromChar(color1[0], colors->head);
+		CG_OSPColorFromChar(color1[1], colors->torso);
+		CG_OSPColorFromChar(color1[2], colors->legs);
+	}
+
+}
+
 void CG_PlayerColorsLoadDefault(playerColors_t* colors)
 {
 	VectorCopy(colorGreen, colors->head);
@@ -154,7 +181,6 @@ void CG_RebuildPlayerColors(void)
 	/* Team colors */
 	/* Do not load default */
 	memset(&cgs.osp.teamColorsOverride, 0, sizeof(cgs.osp.teamColorsOverride));
-	CG_PlayerColorsFromCS(&cgs.osp.teamColors, &cgs.osp.teamColorsOverride, cg_teamColors.string, NULL);
 	CG_PlayerColorsLoadOverrides(&cgs.osp.teamColors,
 	                             &cgs.osp.teamColorsOverride,
 	                             &cg_teamModelColors,
@@ -164,7 +190,7 @@ void CG_RebuildPlayerColors(void)
 	/* Enemy colors */
 	/* Do not load default */
 	memset(&cgs.osp.enemyColorsOverride, 0, sizeof(cgs.osp.enemyColorsOverride));
-	CG_PlayerColorsFromCS(&cgs.osp.enemyColors, &cgs.osp.enemyColorsOverride, cg_enemyColors.string, NULL);
+	CG_PlayerColorsFromEnemyColors(&cgs.osp.enemyColors, &cgs.osp.enemyColorsOverride, cg_enemyColors.string);
 	CG_PlayerColorsLoadOverrides(&cgs.osp.enemyColors,
 	                             &cgs.osp.enemyColorsOverride,
 	                             &cg_enemyModelColors,
