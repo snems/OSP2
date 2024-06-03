@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // executed by a key binding
 
 #include "cg_local.h"
+#include "../qcommon/qcommon.h"
 
 
 
@@ -485,6 +486,21 @@ void CG_OSPDecalRotCounter_f(void)
 {
 }
 
+void CG_OSPDynamicMem_f(void)
+{
+	zone_stats_t stats;
+	memset(&stats, 0, sizeof(stats));
+	Z_Stats(&stats);
+
+	Com_Printf("zoneSegments   = %d \n", stats.zoneSegments);
+	Com_Printf("zoneBlocks     = %d \n", stats.zoneBlocks);
+	Com_Printf("zoneBytes      = %d \n", stats.zoneBytes);
+	Com_Printf("freeBytes      = %d \n", stats.freeBytes);
+	Com_Printf("freeBlocks     = %d \n", stats.freeBlocks);
+	Com_Printf("freeSmallest   = %d \n", stats.freeSmallest);
+	Com_Printf("freeLargest    = %d \n", stats.freeLargest);
+}
+
 
 typedef struct
 {
@@ -543,6 +559,7 @@ static consoleCommand_t commands[] =
 	{ "-modif5", CG_OSPModif5Up_f },
 	{ "+action", CG_OSPActionDown_f },
 	{ "-action", CG_OSPActionUp_f },
+  { "cg_dynamicmem", CG_OSPDynamicMem_f },
 	{ "addpos", CG_OSPAddPos_f },
 	{ "decaladd", CG_OSPDecalAdd_f },
 	{ "decaldec", CG_OSPDecalDec_f },
