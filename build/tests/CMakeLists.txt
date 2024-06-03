@@ -19,6 +19,8 @@ file(GLOB SOURCES_COMMON
         ../../code/game/*.h
         ../../code/ui/*.c
         ../../code/ui/*.h
+        ../../code/qcommon/*.c
+        ../../code/qcommon/*.h
         )
 
 file(GLOB SOURCES_TESTS 

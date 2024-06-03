@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // cg_main.c -- initialization and primary entry point for cgame
 #include "cg_local.h"
+#include "../qcommon/qcommon.h"
 
 int forceModelModificationCount = -1;
 
@@ -1472,6 +1473,8 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	memset(cg_entities, 0, sizeof(cg_entities));
 	memset(cg_weapons, 0, sizeof(cg_weapons));
 	memset(cg_items, 0, sizeof(cg_items));
+
+	Com_InitZoneMemory();
 
 	cg.clientNum = clientNum;
 

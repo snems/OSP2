@@ -516,6 +516,15 @@ typedef enum
 #define HUNK_DEBUG
 #endif
 
+#ifdef Q3_VM
+typedef int intptr_t;
+#endif
+
+#define PAD(base, alignment)	(((base)+(alignment)-1) & ~((alignment)-1))
+#define PADLEN(base, alignment)	(PAD((base), (alignment)) - (base))
+
+#define PADP(base, alignment)	((void *) PAD((intptr_t) (base), (alignment)))
+
 typedef enum
 {
 	h_high,
@@ -538,13 +547,8 @@ void Snd_Memset(void* dest, const int val, const size_t count);
 #define Snd_Memset Com_Memset
 #endif
 
-#if !( defined __VECTORC )
-void Com_Memset(void* dest, const int val, const size_t count);
-void Com_Memcpy(void* dest, const void* src, const size_t count);
-#else
 #define Com_Memset memset
 #define Com_Memcpy memcpy
-#endif
 
 #define CIN_system  1
 #define CIN_loop    2
