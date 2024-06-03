@@ -102,7 +102,7 @@ void CG_DrawField(int x, int y, int width, int value, int w, int h)
 		else
 			frame = *ptr - '0';
 
-		CG_DrawPic(x, y, w, h, cgs.media.numberShaders[frame]);
+		CG_DrawPicOld(x, y, w, h, cgs.media.numberShaders[frame]);
 		x += w;
 		ptr++;
 		l--;
@@ -217,7 +217,7 @@ void CG_DrawHead(float x, float y, float w, float h, int clientNum, vec3_t headA
 	}
 	else if (cg_drawIcons.integer)
 	{
-		CG_DrawPic(x, y, w, h, ci->modelIcon);
+		CG_DrawPicOld(x, y, w, h, ci->modelIcon);
 	}
 
 }
@@ -297,7 +297,7 @@ void CG_DrawFlagModel(float x, float y, float w, float h, int team, qboolean for
 		}
 		if (item)
 		{
-			CG_DrawPic(x, y, w, h, cg_items[ ITEM_INDEX(item) ].icon);
+			CG_DrawPicOld(x, y, w, h, cg_items[ ITEM_INDEX(item) ].icon);
 		}
 	}
 }
@@ -405,7 +405,7 @@ void CG_DrawTeamBackground(int x, int y, int w, int h, float alpha, int team)
 		return;
 	}
 	trap_R_SetColor(hcolor);
-	CG_DrawPic(x, y, w, h, cgs.media.teamStatusBar);
+	CG_DrawPicOld(x, y, w, h, cgs.media.teamStatusBar);
 	trap_R_SetColor(NULL);
 }
 
@@ -521,7 +521,7 @@ void CG_DrawStatusBar(void)
 				icon = cg_weapons[ cg.predictedPlayerState.weapon ].ammoIcon;
 				if (icon)
 				{
-					CG_DrawPic(Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, icon);
+					CG_DrawPicOld(Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, icon);
 				}
 			}
 		}
@@ -567,7 +567,7 @@ void CG_DrawStatusBar(void)
 		// if we didn't draw a 3D icon, draw a 2D icon for armor
 		if (!cg_draw3dIcons.integer && cg_drawIcons.integer)
 		{
-			CG_DrawPic(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_OSP_9]]);
+			CG_DrawPicOld(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_OSP_9]]);
 		}
 
 	}
@@ -745,7 +745,7 @@ void CG_DrawTimer2(void)
 
 	s = va("%i:%i%i", mins, tens, seconds);
 
-	CG_DrawString( 320, 2, s, colorWhite, BIGCHAR_WIDTH+3, BIGCHAR_HEIGHT+3, 16,  DS_SHADOW | DS_CENTER | DS_PROPORTIONAL);
+	CG_DrawString(320, 2, s, colorWhite, BIGCHAR_WIDTH + 3, BIGCHAR_HEIGHT + 3, 16,  DS_SHADOW | DS_CENTER | DS_PROPORTIONAL);
 }
 
 
@@ -851,7 +851,7 @@ static float CG_DrawTeamOverlay(float y, qboolean right, qboolean upper)
 		hcolor[3] = 0.33f;
 	}
 	trap_R_SetColor(hcolor);
-	CG_DrawPic(x, y, w, h, cgs.media.teamStatusBar);
+	CG_DrawPicOld(x, y, w, h, cgs.media.teamStatusBar);
 	trap_R_SetColor(NULL);
 
 	for (i = 0; i < count; i++)
@@ -901,13 +901,13 @@ static float CG_DrawTeamOverlay(float y, qboolean right, qboolean upper)
 
 			if (cg_weapons[ci->curWeapon].weaponIcon)
 			{
-				CG_DrawPic(xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-				           cg_weapons[ci->curWeapon].weaponIcon);
+				CG_DrawPicOld(xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
+				              cg_weapons[ci->curWeapon].weaponIcon);
 			}
 			else
 			{
-				CG_DrawPic(xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-				           cgs.media.deferShader);
+				CG_DrawPicOld(xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
+				              cgs.media.deferShader);
 			}
 
 			// Draw powerup icons
@@ -928,8 +928,8 @@ static float CG_DrawTeamOverlay(float y, qboolean right, qboolean upper)
 
 					if (item)
 					{
-						CG_DrawPic(xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-						           trap_R_RegisterShader(item->icon));
+						CG_DrawPicOld(xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
+						              trap_R_RegisterShader(item->icon));
 						if (right)
 						{
 							xx -= TINYCHAR_WIDTH;
@@ -1032,7 +1032,7 @@ static float CG_DrawScores(float y)
 		CG_FillRect(x, y - 4,  w, BIGCHAR_HEIGHT + 8, color);
 		if (cg.snap->ps.persistant[PERS_TEAM] == TEAM_BLUE)
 		{
-			CG_DrawPic(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
+			CG_DrawPicOld(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
 		}
 		CG_DrawBigString(x + 4, y, s, 1.0F);
 
@@ -1046,7 +1046,7 @@ static float CG_DrawScores(float y)
 				y1 = y - BIGCHAR_HEIGHT - 8;
 				if (cgs.blueflag >= 0 && cgs.blueflag <= 2)
 				{
-					CG_DrawPic(x, y1 - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.blueFlagShader[cgs.blueflag]);
+					CG_DrawPicOld(x, y1 - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.blueFlagShader[cgs.blueflag]);
 				}
 			}
 		}
@@ -1060,7 +1060,7 @@ static float CG_DrawScores(float y)
 		CG_FillRect(x, y - 4,  w, BIGCHAR_HEIGHT + 8, color);
 		if (cg.snap->ps.persistant[PERS_TEAM] == TEAM_RED)
 		{
-			CG_DrawPic(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
+			CG_DrawPicOld(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
 		}
 		CG_DrawBigString(x + 4, y, s, 1.0F);
 
@@ -1074,7 +1074,7 @@ static float CG_DrawScores(float y)
 				y1 = y - BIGCHAR_HEIGHT - 8;
 				if (cgs.redflag >= 0 && cgs.redflag <= 2)
 				{
-					CG_DrawPic(x, y1 - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.redFlagShader[cgs.redflag]);
+					CG_DrawPicOld(x, y1 - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.redFlagShader[cgs.redflag]);
 				}
 			}
 		}
@@ -1121,7 +1121,7 @@ static float CG_DrawScores(float y)
 				color[2] = 0.0f;
 				color[3] = 0.33f;
 				CG_FillRect(x, y - 4,  w, BIGCHAR_HEIGHT + 8, color);
-				CG_DrawPic(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
+				CG_DrawPicOld(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
 			}
 			else
 			{
@@ -1147,7 +1147,7 @@ static float CG_DrawScores(float y)
 				color[2] = 1.0f;
 				color[3] = 0.33f;
 				CG_FillRect(x, y - 4,  w, BIGCHAR_HEIGHT + 8, color);
-				CG_DrawPic(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
+				CG_DrawPicOld(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
 			}
 			else
 			{
@@ -1280,8 +1280,8 @@ static float CG_DrawPowerups(float y)
 				size = ICON_SIZE;
 			}
 
-			CG_DrawPic(640 - size, y + ICON_SIZE / 2 - size / 2,
-			           size, size, trap_R_RegisterShader(item->icon));
+			CG_DrawPicOld(640 - size, y + ICON_SIZE / 2 - size / 2,
+			              size, size, trap_R_RegisterShader(item->icon));
 		}
 	}
 	trap_R_SetColor(NULL);
@@ -1335,7 +1335,7 @@ static int CG_DrawPickupItem(int y)
 		{
 			CG_RegisterItemVisuals(value);
 			trap_R_SetColor(fadeColor);
-			CG_DrawPic(8, y, ICON_SIZE, ICON_SIZE, cg_items[ value ].icon);
+			CG_DrawPicOld(8, y, ICON_SIZE, ICON_SIZE, cg_items[ value ].icon);
 			CG_DrawBigString(ICON_SIZE + 16, y + (ICON_SIZE / 2 - BIGCHAR_HEIGHT / 2), bg_itemlist[ value ].pickup_name, fadeColor[0]);
 			trap_R_SetColor(NULL);
 		}
@@ -1433,7 +1433,7 @@ static void CG_DrawTeamInfo(void)
 		}
 
 		trap_R_SetColor(hcolor);
-		CG_DrawPic(CHATLOC_X, CHATLOC_Y - h, 640, h, cgs.media.teamStatusBar);
+		CG_DrawPicOld(CHATLOC_X, CHATLOC_Y - h, 640, h, cgs.media.teamStatusBar);
 		trap_R_SetColor(NULL);
 
 		hcolor[0] = hcolor[1] = hcolor[2] = 1.0f;
@@ -1462,7 +1462,7 @@ static void CG_DrawHoldableItem(void)
 	if (value)
 	{
 		CG_RegisterItemVisuals(value);
-		CG_DrawPic(640 - ICON_SIZE, (SCREEN_HEIGHT - ICON_SIZE) / 2, ICON_SIZE, ICON_SIZE, cg_items[ value ].icon);
+		CG_DrawPicOld(640 - ICON_SIZE, (SCREEN_HEIGHT - ICON_SIZE) / 2, ICON_SIZE, ICON_SIZE, cg_items[ value ].icon);
 	}
 
 }
@@ -1477,7 +1477,7 @@ void CG_DrawReward(void)
 {
 	float*   color;
 	int     i, count;
-	float   x, y;
+	float   x, y, w, h;
 	char    buf[32];
 
 	if (!cg_drawRewards.integer)
@@ -1509,29 +1509,18 @@ void CG_DrawReward(void)
 
 	trap_R_SetColor(color);
 
-	if (cg.rewardCount[0] >= 10)
+	w = ICON_SIZE - 4;
+	h = ICON_SIZE - 4;
+	y = 46;
+	x = 320 - w / 2.0;
+	CG_DrawPic(x, y, w, h, cg.rewardShader[0]);
+
+	if (cg.rewardCount[0] > 1)
 	{
-		y = 46;
-		x = 320 - ICON_SIZE / 2.0;
-		CG_DrawPic(x, y, ICON_SIZE - 4, ICON_SIZE - 4, cg.rewardShader[0]);
 		Com_sprintf(buf, sizeof(buf), "%d", cg.rewardCount[0]);
-		x = (SCREEN_WIDTH - SMALLCHAR_WIDTH * CG_DrawStrlen(buf)) / 2.0;
-		CG_DrawStringExt(x, y + ICON_SIZE, buf, color, qfalse, qtrue,
-		                 SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 0);
+		CG_DrawString(x + w / 2.0f, y + h, buf, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 16,  DS_CENTER | DS_PROPORTIONAL);
 	}
-	else
-	{
 
-		count = cg.rewardCount[0];
-
-		y = 46;
-		x = 320 - count * ICON_SIZE / 2.0;
-		for (i = 0 ; i < count ; i++)
-		{
-			CG_DrawPic(x, y, ICON_SIZE - 4, ICON_SIZE - 4, cg.rewardShader[0]);
-			x += ICON_SIZE;
-		}
-	}
 	trap_R_SetColor(NULL);
 }
 
@@ -1633,7 +1622,7 @@ static float CG_DrawDisconnect(float pos)
 		return pos;
 	}
 
-	CG_DrawPic(640 - 48, pos, 48, 48, trap_R_RegisterShader("gfx/2d/net.tga"));
+	CG_DrawPicOld(640 - 48, pos, 48, 48, trap_R_RegisterShader("gfx/2d/net.tga"));
 	return pos;
 }
 
@@ -1663,7 +1652,7 @@ float CG_DrawLagometer(float pos)
 	pos += 4.0f;
 
 	trap_R_SetColor(NULL);
-	CG_DrawPic(x, pos, 48, 48, cgs.media.lagometerShader);
+	CG_DrawPicOld(x, pos, 48, 48, cgs.media.lagometerShader);
 
 	ax = x;
 	ay = pos;
@@ -2034,7 +2023,7 @@ void CG_OSPDrawIntermission()
 		        cgs.osp.custom_gfx[i][7] > 0 &&
 		        cgs.media.customShader[i])
 		{
-			CG_DrawPic(
+			CG_DrawPicOld(
 			    (float)cgs.osp.custom_gfx[i][4],
 			    (float)cgs.osp.custom_gfx[i][5],
 			    (float)cgs.osp.custom_gfx[i][6],
@@ -2066,7 +2055,7 @@ void CG_OSPDrawIntermission()
 		CG_OSPDrawStringWithShadow(8, 450, str, 10, 10, colorYellow, 0);
 	}
 	CG_OSPSetColor(NULL);
-	CG_DrawPic(590.0f, 430.f, 50.0f, 50.0f, cgs.media.blender180Shader);
+	CG_DrawPicOld(590.0f, 430.f, 50.0f, 50.0f, cgs.media.blender180Shader);
 }
 
 /*
@@ -2584,7 +2573,7 @@ void CG_OSPDrawLeftSlidingWindowsRoutine(OSP_SlidingPrintContext_t* context)
 	CG_OSPSetColor(context->borderColor);
 
 //void CG_DrawPic( float x, float y, float width, float height, qhandle_t hShader );
-	CG_DrawPic(
+	CG_DrawPicOld(
 	    calc_pos_x,
 	    calc_pos_y - 2.0f,
 	    (float)(context->charWidth * context->maxStringLen + 3),
@@ -2592,7 +2581,7 @@ void CG_OSPDrawLeftSlidingWindowsRoutine(OSP_SlidingPrintContext_t* context)
 	    cgs.media.teamStatusBar);
 
 	/* bottom */
-	CG_DrawPic(
+	CG_DrawPicOld(
 	    calc_pos_x,
 	    calc_pos_y + ((float)context->charHeight + 1.0f) * (float)context->numberOfStrings + 1.0f,
 	    (float)(context->charWidth * context->maxStringLen + 3),
@@ -2600,14 +2589,14 @@ void CG_OSPDrawLeftSlidingWindowsRoutine(OSP_SlidingPrintContext_t* context)
 	    cgs.media.teamStatusBar);
 
 	/* left */
-	CG_DrawPic(
+	CG_DrawPicOld(
 	    calc_pos_x,
 	    calc_pos_y - 1.0f,
 	    1.0f,
 	    (float)((context->charHeight + 1) * context->numberOfStrings + 2),
 	    cgs.media.teamStatusBar);
 
-	CG_DrawPic(
+	CG_DrawPicOld(
 	    context->charWidth * context->maxStringLen + calc_pos_x + 2,
 	    calc_pos_y - 1,
 	    1.0f,

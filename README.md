@@ -26,6 +26,8 @@ Telegram [chat](https://t.me/q3_osp2).
 
 See [docs/commands.md](docs/commands.md)
 
+Example config: OSP2.cfg inside mod.
+
 ## How to install
 
 - Install Quake3 and OSP mod v1.03

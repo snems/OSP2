@@ -6,3 +6,13 @@
 2024-05-27 color1&color2 bug fixed
            cg_muzzleFlash bug fixed
            cg_oversampleMouse fixed according to OSP documentation
+2024-06-03 cg_thridPerson fixed
+           Stacked rewards
+           CA scoreboard fixed
+           New commands cg_teamChatDisable, cg_commonChatDisable, cg_chatDisable
+           cg_teamColors removed
+           ch_statusBarFormat 5 fixed
+           Example config
+           More cg_fragsound values
+           Fixed 3wave font for some cases
+           defaults changed

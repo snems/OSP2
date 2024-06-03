@@ -177,12 +177,6 @@ void CG_LocalEventCvarChanged_cg_enemyColors(cvarTable_t* cvart)
 	CG_UpdateAllClientsInfo();
 }
 
-void CG_LocalEventCvarChanged_cg_teamColors(cvarTable_t* cvart)
-{
-	CG_RebuildPlayerColors();
-	CG_UpdateAllClientsInfo();
-}
-
 void CG_LocalEventCvarChanged_cg_enemyModel(cvarTable_t* cvart)
 {
 	CG_RebuildPlayerColors();
@@ -323,6 +317,12 @@ void CG_LocalEventCvarChanged_cg_enemyFrozenColor(cvarTable_t* cvart)
 {
 	CG_RebuildPlayerColors();
 	CG_UpdateAllClientsInfo();
+}
+
+void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart)
+{
+	/* touch fragsound to reload it */
+	(void)CG_GetFragSound();
 }
 
 

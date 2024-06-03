@@ -160,6 +160,8 @@ vmCvar_t           teamoverlay;
 vmCvar_t           cg_stats;
 vmCvar_t           cg_drawFriend;
 vmCvar_t           cg_teamChatsOnly;
+vmCvar_t           cg_teamChatDisable;
+vmCvar_t           cg_chatDisable;
 vmCvar_t           cg_buildScript;
 vmCvar_t           cg_paused;
 vmCvar_t           com_blood;
@@ -198,7 +200,6 @@ vmCvar_t           cg_enableBreath;
 vmCvar_t           cg_enemyColors;
 vmCvar_t           cg_enemyModel;
 vmCvar_t           cg_teamModel;
-vmCvar_t           cg_teamColors;
 vmCvar_t           cg_execVstr;
 vmCvar_t           cg_fallKick;
 vmCvar_t           cg_followkiller;
@@ -360,11 +361,11 @@ static cvarTable_t cvarTable[] =
 	{ &cg_gun_y, "cg_gunY", "0", CVAR_CHEAT },
 	{ &cg_gun_z, "cg_gunZ", "0", CVAR_CHEAT },
 	{ &cg_centertime, "cg_centertime", "3", CVAR_CHEAT },
-	{ &cg_runpitch, "cg_runpitch", "0.002", CVAR_ARCHIVE },
-	{ &cg_runroll, "cg_runroll", "0.005", CVAR_ARCHIVE },
-	{ &cg_bobup, "cg_bobup", "0.005", CVAR_ARCHIVE },
-	{ &cg_bobpitch, "cg_bobpitch", "0.002", CVAR_ARCHIVE },
-	{ &cg_bobroll, "cg_bobroll", "0.002", CVAR_ARCHIVE },
+	{ &cg_runpitch, "cg_runpitch", "0.000", CVAR_ARCHIVE },
+	{ &cg_runroll, "cg_runroll", "0.000", CVAR_ARCHIVE },
+	{ &cg_bobup, "cg_bobup", "0.000", CVAR_ARCHIVE },
+	{ &cg_bobpitch, "cg_bobpitch", "0.000", CVAR_ARCHIVE },
+	{ &cg_bobroll, "cg_bobroll", "0.000", CVAR_ARCHIVE },
 	{ &cg_swingSpeed, "cg_swingSpeed", "0.3", CVAR_CHEAT },
 	{ &cg_animSpeed, "cg_animspeed", "1", CVAR_CHEAT },
 	{ &cg_debugAnim, "cg_debuganim", "0", CVAR_CHEAT },
@@ -391,6 +392,9 @@ static cvarTable_t cvarTable[] =
 	{ &cg_stats, "cg_stats", "0",  },
 	{ &cg_drawFriend, "cg_drawFriend", "1", CVAR_ARCHIVE },
 	{ &cg_teamChatsOnly, "cg_teamChatsOnly", "0", CVAR_ARCHIVE },
+	{ &cg_teamChatsOnly, "cg_commonChatDisable", "0", CVAR_ARCHIVE }, //alias for cg_teamChatsOnly
+	{ &cg_teamChatDisable, "cg_teamChatDisable", "0", CVAR_ARCHIVE },
+	{ &cg_chatDisable, "cg_chatDisable", "0", CVAR_ARCHIVE },
 	{ &cg_buildScript, "com_buildScript", "0",  },
 	{ &cg_paused, "cl_paused", "0", CVAR_ROM },
 	{ &com_blood, "com_blood", "1", CVAR_ARCHIVE },
@@ -419,7 +423,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_crosshairPulse, "cg_crosshairPulse", "1", CVAR_ARCHIVE },
 	{ &cg_Customloc, "cg_Customloc", "0", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_damageDraw, "cg_damageDraw", "1", CVAR_ARCHIVE },
-	{ &cg_damageKick, "cg_damageKick", "1", CVAR_ARCHIVE },
+	{ &cg_damageKick, "cg_damageKick", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyFilter, "cg_deadBodyFilter", "0", CVAR_ARCHIVE },
 	{ &cg_drawDecals, "cg_drawDecals", "1", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
@@ -427,10 +431,9 @@ static cvarTable_t cvarTable[] =
 	{ &cg_enableBreath, "cg_enableBreath", "1",  },
 	{ &cg_enemyColors, "cg_enemyColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyColors},
 	{ &cg_enemyModel, "cg_enemyModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModel},
-	{ &cg_teamColors, "cg_teamColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_teamColors},
 	{ &cg_teamModel, "cg_teamModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_teamModel},
 	{ &cg_execVstr, "cg_execVstr", "", CVAR_ARCHIVE },
-	{ &cg_fallKick, "cg_fallKick", "1", CVAR_ARCHIVE },
+	{ &cg_fallKick, "cg_fallKick", "0", CVAR_ARCHIVE },
 	{ &cg_followkiller, "cg_followkiller", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followkiller},
 	{ &cg_followpowerup, "cg_followpowerup", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followpowerup},
 	{ &cg_followviewcam, "cg_followviewcam", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followviewcam},
@@ -454,7 +457,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_smokeradius_rl, "cg_smokeradius_rl", "64", CVAR_ARCHIVE },
 	{ &cg_swapSkins, "cg_swapSkins", "0", 0, CG_LocalEventCvarChanged_cg_swapSkins},
 	{ &cg_teamRails, "cg_teamRails", "0", CVAR_ARCHIVE },
-	{ &cg_trueLightning, "cg_trueLightning", "0.0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_trueLightning},
+	{ &cg_trueLightning, "cg_trueLightning", "1.0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_trueLightning},
 	{ &cg_useScreenShotJPEG, "cg_useScreenShotJPEG", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_useScreenShotJPEG},
 	{ &ch_3waveFont, "ch_3waveFont", "0", CVAR_ARCHIVE },
 	{ &ch_ColorLocations, "ch_ColorLocations", "1", CVAR_ARCHIVE },
@@ -512,7 +515,7 @@ static cvarTable_t cvarTable[] =
 	{ &com_maxfps, "com_maxfps", "125", CVAR_ARCHIVE, CG_LocalEventCvarChanged_com_maxfps},
 	{ &cg_gun_frame, "", "0", CVAR_ARCHIVE },
 	{ &cg_noLeadSounds, "cg_noLeadSounds", "0", CVAR_ARCHIVE },
-	{ &cg_fragSound, "cg_fragSound", "1", CVAR_ARCHIVE },
+	{ &cg_fragSound, "cg_fragSound", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_fragSound},
 	{ &cg_lightningHideCrosshair, "cg_lightningHideCrosshair", "0", CVAR_ARCHIVE },
 	{ &cg_lightningSilent, "cg_lightningSilent", "0", CVAR_ARCHIVE },
 	{ &cg_delag, "cg_delag", "1", CVAR_ARCHIVE },
@@ -904,7 +907,6 @@ static void CG_RegisterSounds(void)
 	cgs.media.hitSound = trap_S_RegisterSound("sound/feedback/hit.wav", qfalse);
 	cgs.media.hitHighSound = trap_S_RegisterSound("sound/feedback/hithigh.wav", qfalse);
 
-	cgs.media.fragSound = trap_S_RegisterSound("sound/feedback/fragSound.wav", qfalse);
 
 	cgs.media.impressiveSound = trap_S_RegisterSound("sound/feedback/impressive.wav", qtrue);
 	cgs.media.excellentSound = trap_S_RegisterSound("sound/feedback/excellent.wav", qtrue);
@@ -991,7 +993,25 @@ static void CG_RegisterSounds(void)
 
 }
 
+qhandle_t CG_GetFragSound(void)
+{
+	static int loadedIndex = 0;
+	int sound_index = cg_fragSound.integer;
+	if (sound_index <= 0) sound_index = 1;
 
+	if (loadedIndex != sound_index)
+	{
+		char path[MAX_QPATH];
+		Com_sprintf(path, MAX_QPATH, "sound/feedback/fragSound%i.wav", sound_index);
+		cgs.media.fragSound = trap_S_RegisterSound(path, qfalse);
+		if (!cgs.media.fragSound)
+		{
+			cgs.media.fragSound = trap_S_RegisterSound("sound/feedback/fragSound1.wav", qfalse);
+		}
+		loadedIndex = sound_index;
+	}
+	return cgs.media.fragSound;
+}
 
 //===================================================================================
 
@@ -1486,19 +1506,21 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	trap_GetGlconfig(&cgs.glconfig);
 	cgs.screenXScale_Old = cgs.glconfig.vidWidth / 640.0;
 	cgs.screenYScale_Old = cgs.glconfig.vidHeight / 480.0;
-	
+
 	cgs.screenXBias = 0.0;
 	cgs.screenYBias = 0.0;
-	
-	if ( cgs.glconfig.vidWidth * 480 > cgs.glconfig.vidHeight * 640 ) {
+
+	if (cgs.glconfig.vidWidth * 480 > cgs.glconfig.vidHeight * 640)
+	{
 		// wide screen, scale by height
-		cgs.screenXScale = cgs.screenYScale = cgs.glconfig.vidHeight * (1.0/480.0);
-		cgs.screenXBias = 0.5 * ( cgs.glconfig.vidWidth - ( cgs.glconfig.vidHeight * (640.0/480.0) ) );
+		cgs.screenXScale = cgs.screenYScale = cgs.glconfig.vidHeight * (1.0 / 480.0);
+		cgs.screenXBias = 0.5 * (cgs.glconfig.vidWidth - (cgs.glconfig.vidHeight * (640.0 / 480.0)));
 	}
-	else {
+	else
+	{
 		// no wide screen, scale by width
-		cgs.screenXScale = cgs.screenYScale = cgs.glconfig.vidWidth * (1.0/640.0);
-		cgs.screenYBias = 0.5 * ( cgs.glconfig.vidHeight - ( cgs.glconfig.vidWidth * (480.0/640.0) ) );
+		cgs.screenXScale = cgs.screenYScale = cgs.glconfig.vidWidth * (1.0 / 640.0);
+		cgs.screenYBias = 0.5 * (cgs.glconfig.vidHeight - (cgs.glconfig.vidWidth * (480.0 / 640.0)));
 	}
 
 	cgs.screenXmin = 0.0 - (cgs.screenXBias / cgs.screenXScale);
@@ -1544,7 +1566,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 
 		CG_OSPConfigModeSet(atoi(CG_ConfigString(CS_OSP_SERVER_MODE)));
 
-		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT); 
+		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT);
 		if (conf)
 		{
 			CG_OSPConfigCustomClientSet(atoi(conf));
@@ -1554,7 +1576,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			CG_OSPConfigCustomClientSet(CS_OSP_CUSTOM_CLIENT_DEFAULT);
 		}
 
-		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT2); 
+		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT2);
 		if (conf)
 		{
 			CG_OSPConfigCustomClient2Set(atoi(conf));

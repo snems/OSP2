@@ -143,11 +143,11 @@ static void CG_DrawClientScore(int y, score_t* score, float* color, float fade, 
 			{
 				if (largeFormat)
 				{
-					CG_DrawPic(iconx, y - (32 - BIGCHAR_HEIGHT) / 2, 32, 32, cgs.media.botSkillShaders[ ci->botSkill - 1 ]);
+					CG_DrawPicOld(iconx, y - (32 - BIGCHAR_HEIGHT) / 2, 32, 32, cgs.media.botSkillShaders[ ci->botSkill - 1 ]);
 				}
 				else
 				{
-					CG_DrawPic(iconx, y, 16, 16, cgs.media.botSkillShaders[ ci->botSkill - 1 ]);
+					CG_DrawPicOld(iconx, y, 16, 16, cgs.media.botSkillShaders[ ci->botSkill - 1 ]);
 				}
 			}
 		}
@@ -440,10 +440,10 @@ qboolean CG_DrawOldScoreboard(void)
 	// scoreboard
 	y = SB_HEADER;
 
-	CG_DrawPic(SB_SCORE_X + (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardScore);
-	CG_DrawPic(SB_PING_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardPing);
-	CG_DrawPic(SB_TIME_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardTime);
-	CG_DrawPic(SB_NAME_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardName);
+	CG_DrawPicOld(SB_SCORE_X + (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardScore);
+	CG_DrawPicOld(SB_PING_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardPing);
+	CG_DrawPicOld(SB_TIME_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardTime);
+	CG_DrawPicOld(SB_NAME_X - (SB_RATING_WIDTH / 2.0), y, 64, 32, cgs.media.scoreboardName);
 
 	y = SB_TOP;
 
@@ -1035,6 +1035,7 @@ static int CG_OSPDrawTeamScores(int x, int y, int team, float fade, int maxScore
 	clientInfo_t* ci;
 	score_t* score;
 	vec4_t color = { 1.0f, 1.0f, 1.0f, 1.0f };
+	static const vec4_t readyColor = { 0.5f, 0.5f, 0.5f, 0.5f };
 	color[3] = fade;
 
 	isCAGame = CG_OSPIsGameTypeCA(cgs.gametype);
@@ -1079,34 +1080,45 @@ static int CG_OSPDrawTeamScores(int x, int y, int team, float fade, int maxScore
 		}
 		else
 		{
+			qboolean isReady;
+			isReady = cg.snap->ps.stats[ STAT_CLIENTS_READY ] & (1 << score->client);
+
 			if (!isCAGame)
 			{
-				qboolean isRady;
-				isRady = cg.snap->ps.stats[ STAT_CLIENTS_READY ] & (1 << score->client);
-
 				if (ci->team == team)
 				{
-					if (!isRady)
+					if (!isReady)
 					{
 						CG_OSPDrawClientScore(x, y + 18 * scoresPrinted++, score, color, fade);
 					}
 					else
 					{
-						static const vec4_t readyColor = { 0.5f, 0.5f, 0.5f, 0.5f };
 						CG_OSPDrawClientScore(x, y + 18 * scoresPrinted++, score, readyColor, fade);
 					}
 				}
 			}
-			else
+			else if (team != TEAM_SPECTATOR)
 			{
-				if (cgs.gametype == GT_CA && team != TEAM_SPECTATOR && ci->team == team)
+				// draw red/blue teams
+				if (ci->team != TEAM_SPECTATOR)
 				{
-					CG_OSPDrawClientScore(x, y + 0x12 * scoresPrinted++, score, color, fade);
+					CG_OSPDrawClientScore(x, y + 18 * scoresPrinted++, score, color, fade);
 				}
-				else if (cgs.gametype == GT_CA && team == TEAM_SPECTATOR && ci->rt == team)
+				else
 				{
-					vec4_t readyColor = { 0.5f, 0.5f, 0.5f, 0.5f };
-					CG_OSPDrawClientScore(x, y + 0x12 * scoresPrinted++, score, readyColor, fade);
+					CG_OSPDrawClientScore(x, y + 18 * scoresPrinted++, score, readyColor, fade);
+				}
+			}
+			else if (ci->rt == TEAM_SPECTATOR) //if team == spec and rt == spec
+			{
+				// draw spectators
+				if (isReady)
+				{
+					CG_OSPDrawClientScore(x, y + 18 * scoresPrinted++, score, readyColor, fade);
+				}
+				else
+				{
+					CG_OSPDrawClientScore(x, y + 18 * scoresPrinted++, score, color, fade);
 				}
 			}
 

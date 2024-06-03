@@ -1075,17 +1075,17 @@ typedef struct
 	float           screenYScale_Old;
 	float           screenXBias_Old;
 
-	float			      screenXScale;
-	float			      screenYScale;
+	float                 screenXScale;
+	float                 screenYScale;
 
-	float			      screenXBias;
-	float			      screenYBias;
+	float                 screenXBias;
+	float                 screenYBias;
 
-	float			      screenXmin;
-	float			      screenXmax;
+	float                 screenXmin;
+	float                 screenXmax;
 
-	float			      screenYmin;
-	float			      screenYmax;
+	float                 screenYmin;
+	float                 screenYmax;
 
 	int             serverCommandSequence;  // reliable command stream counter
 	int             processedSnapshotNum;// the number of snapshots cgame has requested
@@ -1252,6 +1252,8 @@ extern vmCvar_t           teamoverlay;
 extern vmCvar_t           cg_stats;
 extern vmCvar_t           cg_drawFriend;
 extern vmCvar_t           cg_teamChatsOnly;
+extern vmCvar_t           cg_teamChatDisable;
+extern vmCvar_t           cg_chatDisable;
 extern vmCvar_t           cg_buildScript;
 extern vmCvar_t           cg_paused;
 extern vmCvar_t           com_blood;
@@ -1289,7 +1291,6 @@ extern vmCvar_t           cg_enableOSPHUD;
 extern vmCvar_t           cg_enableBreath;
 extern vmCvar_t           cg_enemyColors;
 extern vmCvar_t           cg_enemyModel;
-extern vmCvar_t           cg_teamColors;
 extern vmCvar_t           cg_teamModel;
 extern vmCvar_t           cg_execVstr;
 extern vmCvar_t           cg_fallKick;
@@ -1441,6 +1442,7 @@ char* CG_OSPGetCvarName(vmCvar_t* cvar) ;
 cvarTable_t* CG_GetCgCvarByName(const char* name);
 void CG_CvarTouch(const char* name);
 
+qhandle_t CG_GetFragSound(void);
 
 //
 // cg_view.c
@@ -1478,22 +1480,24 @@ typedef struct
 	qboolean some_flag;
 } OSP_PrintInfo_t;
 
-void CG_AdjustFrom640( float *x, float *y, float *w, float *h );
+void CG_AdjustFrom640(float* x, float* y, float* w, float* h);
 void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide);
 void CG_FillRect(float x, float y, float width, float height, const float* color);
+void CG_DrawPicOld(float x, float y, float width, float height, qhandle_t hShader);
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader);
 
 // flags for CG_DrawString
-enum {
+enum
+{
 	DS_SHADOW      = 0x1,
 	DS_FORCE_COLOR = 0x2,
 	DS_PROPORTIONAL = 0x4,
-	DS_CENTER = 0x8,	// alignment
-	DS_RIGHT  = 0x10	// alignment
+	DS_CENTER = 0x8,    // alignment
+	DS_RIGHT  = 0x10    // alignment
 };
-void CG_DrawString( float x, float y, const char *string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags );
+void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
 
-void CG_LoadFonts( void );
+void CG_LoadFonts(void);
 
 void CG_DrawStringExt(int x, int y, const char* string, const float* setColor,
                       qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars);
@@ -1972,7 +1976,7 @@ int CG_NewParticleArea(int num);
 
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
-#define OSP_VERSION "0.01-test.005"
+#define OSP_VERSION "0.01-test.007"
 
 
 //
@@ -2099,7 +2103,6 @@ void CG_LocalEventCvarChanged_r_fullbright(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_swapSkins(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyColors(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_teamColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyModel(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_teamModel(cvarTable_t* cvart);
 
@@ -2121,6 +2124,8 @@ void CG_LocalEventCvarChanged_cg_teamFrozenColor(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyModelColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyRailColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyFrozenColor(cvarTable_t* cvart);
+
+void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart);
 
 #ifdef __cplusplus
 }
