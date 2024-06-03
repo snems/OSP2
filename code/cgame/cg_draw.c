@@ -745,7 +745,7 @@ void CG_DrawTimer2(void)
 
 	s = va("%i:%i%i", mins, tens, seconds);
 
-	CG_DrawString( 320, 2, s, colorWhite, BIGCHAR_WIDTH+3, BIGCHAR_HEIGHT+3, 16,  DS_SHADOW | DS_CENTER | DS_PROPORTIONAL);
+	CG_DrawString(320, 2, s, colorWhite, BIGCHAR_WIDTH + 3, BIGCHAR_HEIGHT + 3, 16,  DS_SHADOW | DS_CENTER | DS_PROPORTIONAL);
 }
 
 
@@ -902,12 +902,12 @@ static float CG_DrawTeamOverlay(float y, qboolean right, qboolean upper)
 			if (cg_weapons[ci->curWeapon].weaponIcon)
 			{
 				CG_DrawPicOld(xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-				           cg_weapons[ci->curWeapon].weaponIcon);
+				              cg_weapons[ci->curWeapon].weaponIcon);
 			}
 			else
 			{
 				CG_DrawPicOld(xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-				           cgs.media.deferShader);
+				              cgs.media.deferShader);
 			}
 
 			// Draw powerup icons
@@ -929,7 +929,7 @@ static float CG_DrawTeamOverlay(float y, qboolean right, qboolean upper)
 					if (item)
 					{
 						CG_DrawPicOld(xx, y, TINYCHAR_WIDTH, TINYCHAR_HEIGHT,
-						           trap_R_RegisterShader(item->icon));
+						              trap_R_RegisterShader(item->icon));
 						if (right)
 						{
 							xx -= TINYCHAR_WIDTH;
@@ -1281,7 +1281,7 @@ static float CG_DrawPowerups(float y)
 			}
 
 			CG_DrawPicOld(640 - size, y + ICON_SIZE / 2 - size / 2,
-			           size, size, trap_R_RegisterShader(item->icon));
+			              size, size, trap_R_RegisterShader(item->icon));
 		}
 	}
 	trap_R_SetColor(NULL);
@@ -1518,7 +1518,7 @@ void CG_DrawReward(void)
 	if (cg.rewardCount[0] > 1)
 	{
 		Com_sprintf(buf, sizeof(buf), "%d", cg.rewardCount[0]);
-	  CG_DrawString( x + w/2.0f, y + h, buf, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 16,  DS_CENTER | DS_PROPORTIONAL);
+		CG_DrawString(x + w / 2.0f, y + h, buf, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 16,  DS_CENTER | DS_PROPORTIONAL);
 	}
 
 	trap_R_SetColor(NULL);

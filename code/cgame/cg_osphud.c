@@ -3141,7 +3141,7 @@ static float CG_OSPDrawPowerups(float x, float y)
 			}
 
 			CG_DrawPicOld(x + 64.0f, y + ICON_SIZE / 2.0f - size / 2.0f,
-			           size, size, trap_R_RegisterShader(item->icon));
+			              size, size, trap_R_RegisterShader(item->icon));
 		}
 	}
 	trap_R_SetColor(NULL);

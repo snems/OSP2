@@ -1075,17 +1075,17 @@ typedef struct
 	float           screenYScale_Old;
 	float           screenXBias_Old;
 
-	float			      screenXScale;
-	float			      screenYScale;
+	float                 screenXScale;
+	float                 screenYScale;
 
-	float			      screenXBias;
-	float			      screenYBias;
+	float                 screenXBias;
+	float                 screenYBias;
 
-	float			      screenXmin;
-	float			      screenXmax;
+	float                 screenXmin;
+	float                 screenXmax;
 
-	float			      screenYmin;
-	float			      screenYmax;
+	float                 screenYmin;
+	float                 screenYmax;
 
 	int             serverCommandSequence;  // reliable command stream counter
 	int             processedSnapshotNum;// the number of snapshots cgame has requested
@@ -1480,23 +1480,24 @@ typedef struct
 	qboolean some_flag;
 } OSP_PrintInfo_t;
 
-void CG_AdjustFrom640( float *x, float *y, float *w, float *h );
+void CG_AdjustFrom640(float* x, float* y, float* w, float* h);
 void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide);
 void CG_FillRect(float x, float y, float width, float height, const float* color);
 void CG_DrawPicOld(float x, float y, float width, float height, qhandle_t hShader);
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader);
 
 // flags for CG_DrawString
-enum {
+enum
+{
 	DS_SHADOW      = 0x1,
 	DS_FORCE_COLOR = 0x2,
 	DS_PROPORTIONAL = 0x4,
-	DS_CENTER = 0x8,	// alignment
-	DS_RIGHT  = 0x10	// alignment
+	DS_CENTER = 0x8,    // alignment
+	DS_RIGHT  = 0x10    // alignment
 };
-void CG_DrawString( float x, float y, const char *string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags );
+void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
 
-void CG_LoadFonts( void );
+void CG_LoadFonts(void);
 
 void CG_DrawStringExt(int x, int y, const char* string, const float* setColor,
                       qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars);
@@ -1975,7 +1976,7 @@ int CG_NewParticleArea(int num);
 
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
-#define OSP_VERSION "0.01-test.006"
+#define OSP_VERSION "0.01-test.007"
 
 
 //

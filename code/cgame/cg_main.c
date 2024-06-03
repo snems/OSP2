@@ -1506,19 +1506,21 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	trap_GetGlconfig(&cgs.glconfig);
 	cgs.screenXScale_Old = cgs.glconfig.vidWidth / 640.0;
 	cgs.screenYScale_Old = cgs.glconfig.vidHeight / 480.0;
-	
+
 	cgs.screenXBias = 0.0;
 	cgs.screenYBias = 0.0;
-	
-	if ( cgs.glconfig.vidWidth * 480 > cgs.glconfig.vidHeight * 640 ) {
+
+	if (cgs.glconfig.vidWidth * 480 > cgs.glconfig.vidHeight * 640)
+	{
 		// wide screen, scale by height
-		cgs.screenXScale = cgs.screenYScale = cgs.glconfig.vidHeight * (1.0/480.0);
-		cgs.screenXBias = 0.5 * ( cgs.glconfig.vidWidth - ( cgs.glconfig.vidHeight * (640.0/480.0) ) );
+		cgs.screenXScale = cgs.screenYScale = cgs.glconfig.vidHeight * (1.0 / 480.0);
+		cgs.screenXBias = 0.5 * (cgs.glconfig.vidWidth - (cgs.glconfig.vidHeight * (640.0 / 480.0)));
 	}
-	else {
+	else
+	{
 		// no wide screen, scale by width
-		cgs.screenXScale = cgs.screenYScale = cgs.glconfig.vidWidth * (1.0/640.0);
-		cgs.screenYBias = 0.5 * ( cgs.glconfig.vidHeight - ( cgs.glconfig.vidWidth * (480.0/640.0) ) );
+		cgs.screenXScale = cgs.screenYScale = cgs.glconfig.vidWidth * (1.0 / 640.0);
+		cgs.screenYBias = 0.5 * (cgs.glconfig.vidHeight - (cgs.glconfig.vidWidth * (480.0 / 640.0)));
 	}
 
 	cgs.screenXmin = 0.0 - (cgs.screenXBias / cgs.screenXScale);
@@ -1564,7 +1566,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 
 		CG_OSPConfigModeSet(atoi(CG_ConfigString(CS_OSP_SERVER_MODE)));
 
-		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT); 
+		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT);
 		if (conf)
 		{
 			CG_OSPConfigCustomClientSet(atoi(conf));
@@ -1574,7 +1576,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			CG_OSPConfigCustomClientSet(CS_OSP_CUSTOM_CLIENT_DEFAULT);
 		}
 
-		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT2); 
+		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT2);
 		if (conf)
 		{
 			CG_OSPConfigCustomClient2Set(atoi(conf));
