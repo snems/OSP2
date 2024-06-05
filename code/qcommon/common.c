@@ -71,7 +71,7 @@ static int minfragment = MINFRAGMENT; // may be adjusted at runtime
 static memzone_t *mainzone;
 static memzone_t *smallzone;
 
-static int mainzone_static[MAINZONE_STATIC_SIZE]; //static mainzone memory
+static int mainzone_static[MAINZONE_STATIC_SIZE/sizeof(int)]; //static mainzone memory
 //
 static const char *tagName[ TAG_COUNT ] = {
 	"FREE",
@@ -168,7 +168,7 @@ Z_Stats
 */
 void Z_Stats(zone_stats_t *stats )
 {
-  Zone_Stats("Mainzone", (void*)mainzone_static, qtrue, stats );
+  Zone_Stats("Mainzone", (memzone_t*)mainzone_static, qtrue, stats );
 }
 
 /*
@@ -563,10 +563,245 @@ Com_InitZoneMemory
 */
 void Com_InitZoneMemory( void ) {
 
-	mainzone = (void*)&mainzone_static[0];
+	mainzone = (memzone_t*)&mainzone_static[0];
 
 	Z_ClearZone( mainzone, mainzone, MAINZONE_STATIC_SIZE, 1 );
 }
 
 
+static int _atoi( const char **stringPtr ) 
+{
+	int		sign;
+	int		value;
+	int		c;
+	const char	*string;
+
+	string = *stringPtr;
+
+	if ( !*string )
+		return 0;
+
+	// check sign
+	switch ( *string ) 
+	{
+	case '+':
+		string++;
+		sign = 1;
+		break;
+	case '-':
+		string++;
+		sign = -1;
+		break;
+	default:
+		sign = 1;
+		break;
+	}
+
+	// read digits
+	value = 0;
+	do 
+	{
+		c = *string;
+		if ( c < '0' || c > '9' ) 
+		{
+			break;
+		}
+		c -= '0';
+		value = value * 10 + c;
+		string++;
+	} 
+	while ( 1 );
+
+	// not handling 10e10 notation...
+
+	*stringPtr = string;
+
+	return value * sign;
+}
+
+
+static float _atof( const char **stringPtr ) 
+{
+	const char	*string;
+	float sign;
+	float value;
+	float fraction;
+	int	  c = '0'; // uninitialized use possible
+
+	string = *stringPtr;
+
+	if ( !*string )
+		return 0;
+
+	// check sign
+	switch ( *string ) 
+	{
+	case '+':
+		string++;
+		sign = 1;
+		break;
+	case '-':
+		string++;
+		sign = -1;
+		break;
+	default:
+		sign = 1;
+		break;
+	}
+
+	// read digits
+	value = 0;
+	if ( *string != '.' ) 
+	{
+		do 
+		{
+			c = *string;
+			if ( c < '0' || c > '9' ) 
+			{
+				break;
+			}
+			c -= '0';
+			value = value * 10 + c;
+			string++;
+		} 
+		while ( 1 );
+	}
+
+	// check for decimal point
+	if ( *string == '.' ) 
+	{
+		fraction = 0.1f;
+		string++;
+		do 
+		{
+			c = *string;
+			if ( c < '0' || c > '9' ) 
+			{
+				break;
+			}
+			c -= '0';
+			value += c * fraction;
+			fraction *= 0.1f;
+			string++;
+		}
+		while ( 1 );
+	}
+
+	// not handling 10e10 notation...
+	*stringPtr = string;
+
+	return value * sign;
+}
+
+
+static void _atos( const char **stringPtr, char *buffer, int delimiter, int width ) 
+{
+	const char	*string;
+
+	string = *stringPtr;
+
+	if ( !delimiter ) 
+	{
+		// skip whitespace
+		while ( *string && *string != ' ' && *string != '\t' && width-- > 0 ) 
+		{
+			*buffer = *string;
+			buffer++;
+			string++;
+		}
+	} 
+	else while ( *string && *string != delimiter && width-- > 0 ) 
+	{
+		*buffer = *string;
+		buffer++;
+		string++;
+	}
+
+	*stringPtr = string;
+
+	*buffer = '\0';
+}
+
+
+int Q_sscanf( const char *buffer, const char *fmt, ... ) 
+{
+	va_list ap;
+	int count;
+	int width;
+	int cmd;
+	const char *p;
+
+	va_start( ap, fmt );
+	count = 0;
+
+	while ( *fmt ) 
+	{
+		// single whitespace char validates any quantity of whitespace characters 
+		// extracted from the stream (including none)
+		if ( *fmt == ' ' || *fmt == '\t' || *fmt == '\n' ) 
+		{
+			while ( *buffer == ' ' || *buffer == '\t' || *buffer == '\n' )
+				buffer++;
+			fmt++;
+		}
+
+		if ( *fmt != '%' ) 
+		{
+			if ( *fmt != *buffer ) 
+				break;
+
+			buffer++;
+			fmt++;
+			continue;
+		}
+
+		width = fmt[1];
+		fmt++; // %
+		if ( width >= '0' && width <= '9' ) 
+		{
+			width -= '0'; // valid width;
+			fmt++;	// ['0'..'9']
+			cmd = *fmt;
+		}
+		else 
+		{
+			cmd = width;
+			width = 1024; // some assumption
+		}
+
+		p = buffer;
+
+		fmt++; // switch to delimiter?
+
+		//printf( "cmd=%c buffer=%s width=%i delim='%c'\n", cmd, buffer, width, *fmt );
+
+		switch ( cmd ) 
+		{
+		case 'i':
+		case 'd':
+		case 'u':
+			*(va_arg(ap, int *)) = _atoi( &buffer );
+			break;
+		case 'f':
+			*(va_arg(ap, float *)) = _atof( &buffer );
+			break;
+		case 'c':
+			*(va_arg(ap, char *)) = *buffer; buffer++;
+			break;
+		case 's':
+			_atos( &buffer, va_arg(ap, char *), *fmt, width );
+			break;
+		default:
+			return count;
+		}
+
+		if ( p != buffer )
+			count++;
+		else
+			break;
+	}
+	va_end( ap );
+
+	return count;
+}
 

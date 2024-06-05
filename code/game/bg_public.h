@@ -110,8 +110,8 @@ extern "C" {
 #define CS_OSP_MOTD5                              821
 #define CS_OSP_MOTD6                              822
 #define CS_OSP_MOTD7                              823
-#define CS_OSP_0x338                              824
-#define CS_OSP_0x348                              840
+#define CS_OSP_CUSTOM_GFX                         824
+#define CS_OSP_DECALS                             840
 #define CS_OSP_0x368                              872
 #define CS_OSP_FREEZE_GAME_TYPE                   873
 #define CS_OSP_CUSTOM_CLIENT2                     874

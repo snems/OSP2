@@ -69,12 +69,9 @@ int tolower(int c);
 int toupper(int c);
 
 double atof(const char* string);
-double _atof(const char** stringPtr);
 int atoi(const char* string);
-int _atoi(const char** stringPtr);
 
 int vsprintf(char* buffer, const char* fmt, va_list argptr);
-int sscanf(const char* buffer, const char* fmt, ...);
 
 // Memory functions
 void* memmove(void* dest, const void* src, size_t count);

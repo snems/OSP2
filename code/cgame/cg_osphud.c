@@ -9,6 +9,7 @@ struct crosshairColors_s
 	float* color;
 };
 
+#define OSPHUD_TEAMOVERLAY_STR_SIZE 128
 typedef struct
 {
 	int powerupX;
@@ -20,7 +21,7 @@ typedef struct
 	int overlayWidth;
 	int strX;
 	int maxChars;
-	char str[64];
+	char str[OSPHUD_TEAMOVERLAY_STR_SIZE];
 } teamOverlay_t;
 
 struct crosshairColors_s crosshairColors[11] =
@@ -48,7 +49,6 @@ int modCgDrawTeamOverlay;
 
 qboolean teamOverlayUnkFlag;
 int teamOverlayPosY;
-qboolean customLocationsEnabled;
 
 static vec4_t colorTeamOverlay = { 0, 0, 0, 0.33f };
 
@@ -2062,7 +2062,7 @@ static void CG_OSPPrepareTeamOverlay(int w, qboolean right)
 	int i;
 	char teamOverlayChar;
 	qboolean isNamePresent = qfalse;
-	char string[128];
+	char string[OSPHUD_TEAMOVERLAY_STR_SIZE];
 	int nameLen = 0;
 	int numberOfNames = 0;
 	int numberOfPowerups = 0;
@@ -2174,13 +2174,12 @@ static void CG_OSPPrepareTeamOverlay(int w, qboolean right)
 		start = ptr;
 
 		ptr += strlen(ptr) - 1;
-
 		while (ptr != start && *ptr == ' ')
 		{
 			*ptr = 0;
 			--ptr;
 		}
-		Q_strncpyz(teamOverlay.str, start, 80);
+		Q_strncpyz(teamOverlay.str, start, OSPHUD_TEAMOVERLAY_STR_SIZE);
 	}
 	teamOverlay.overlayWidth = i;
 	teamOverlayWidth = i;
@@ -2374,11 +2373,11 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 				{
 					if (customLocationsEnabled != 0)
 					{
-						//location = OSP_CustomLocations_237c7(&ci->unknown3));
+						location = CG_CustomLocationsGetName(ci->customLocation);
 					}
 					else
 					{
-						if (ch_ColorLocations.integer != 0 && cgs.gametype == GT_CTF)
+						if (qfalse && ch_ColorLocations.integer != 0 && cgs.gametype == GT_CTF)
 						{
 							//location = osp_get_something(ci->location);
 						}

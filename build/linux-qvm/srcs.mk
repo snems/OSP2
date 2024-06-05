@@ -14,7 +14,7 @@ CG_SRC = \
  cg_servercmds cg_snapshot cg_view cg_weapons \
  bg_slidemove bg_pmove bg_lib bg_misc \
  q_math q_shared cg_ospconfig cg_osputil cg_osphud cg_unlagged cg_playerscolors\
- cg_localevents common\
+ cg_localevents cg_customloc common\
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

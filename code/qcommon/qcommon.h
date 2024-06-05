@@ -33,13 +33,15 @@ typedef enum {
 	TAG_COUNT
 } memtag_t;
 
-#define MAINZONE_STATIC_SIZE ((4 *1024 * 1024) / sizeof(int))
+#define MAINZONE_STATIC_SIZE (4 *1024 * 1024)
 
 void Com_InitZoneMemory( void );
 void *Z_Malloc( int size );
 void Z_Free( void *ptr );
 int Z_AvailableMemory( void );
 void Z_Stats(zone_stats_t *stats);
+
+int Q_sscanf( const char *buffer, const char *fmt, ... );
 
 #ifdef __cplusplus
 }

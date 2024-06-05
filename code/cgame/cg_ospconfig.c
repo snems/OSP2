@@ -2,8 +2,6 @@
 #include "../game/bg_local.h"
 
 
-static qboolean customLocationsEnabled;
-
 int modePromodePhysKoeff; //1870ec
 float modePromode_pm_airaccelerate_1; //3450
 int modePredictionKoeff2;   //3454

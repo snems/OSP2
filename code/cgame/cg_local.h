@@ -389,6 +389,7 @@ typedef struct
 	animation_t     animations[MAX_TOTALANIMATIONS];
 
 	sfxHandle_t     sounds[MAX_CUSTOM_SOUNDS];
+	vec3_t          customLocation;
 	team_t          rt;
 	team_t          st;
 } clientInfo_t;
@@ -1280,7 +1281,7 @@ extern vmCvar_t           cg_ammoCheck;
 extern vmCvar_t           cg_autoAction;
 extern vmCvar_t           cg_clientLog;
 extern vmCvar_t           cg_crosshairPulse;
-extern vmCvar_t           cg_Customloc;
+extern vmCvar_t           cg_customLoc;
 extern vmCvar_t           cg_damageDraw;
 extern vmCvar_t           cg_damageKick;
 extern vmCvar_t           cg_deadBodyFilter;
@@ -1767,7 +1768,15 @@ void CG_Respawn(void);
 void CG_TransitionPlayerState(playerState_t* ps, playerState_t* ops);
 void CG_CheckChangedPredictableEvents(playerState_t* ps);
 
-
+//
+// cg_customloc.c
+//
+extern qboolean customLocationsEnabled;
+void CG_CustomLocationsLoad(void);
+const char* CG_CustomLocationsGetName(const float* pos);
+void CG_CustomLocationsSetLocation(const char* info, vec3_t loc);
+qboolean CG_CustomLocationsTeamChatCode(const char* str, vec3_t cloc, char** cloc_begin, char** cloc_end);
+void CG_CustomLocationsAddEntry(vec3_t pos, const char* str);
 //===============================================
 
 //
@@ -2061,6 +2070,12 @@ void CG_OSPColorsFromString(const char* s, float* a, float* b, float* c, float* 
 void CG_OSPColorFromChar(char c, float* vector);
 void CG_OSPColorFromNumber(int number, float* vector);
 void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size);
+void CG_DynamicMemReport(void);
+#define OSP_MEMORY_EXCEPTION() \
+{\
+    CG_DynamicMemReport();\
+    CG_Error( "%s:%d: Couldn't allocate memory\n", __FILE__, __LINE__);\
+}
 
 //
 // cg_unlagged.c

@@ -1,4 +1,5 @@
 #include "cg_local.h"
+#include "../qcommon/qcommon.h"
 
 const char* weaponNames[10] = { "None", "Gauntlet", "MachineGun", "Shotgun", "G.Launcher", "R.Launcher", "LightningGun", "Railgun", "Plasmagun", "BFG" };
 
@@ -199,5 +200,20 @@ void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size)
 		}
 	}
 	*to = 0;
+}
+
+void CG_DynamicMemReport(void)
+{
+	zone_stats_t stats;
+	memset(&stats, 0, sizeof(stats));
+	Z_Stats(&stats);
+
+	Com_Printf("zoneSegments   = %d \n", stats.zoneSegments);
+	Com_Printf("zoneBlocks     = %d \n", stats.zoneBlocks);
+	Com_Printf("zoneBytes      = %d \n", stats.zoneBytes);
+	Com_Printf("freeBytes      = %d \n", stats.freeBytes);
+	Com_Printf("freeBlocks     = %d \n", stats.freeBlocks);
+	Com_Printf("freeSmallest   = %d \n", stats.freeSmallest);
+	Com_Printf("freeLargest    = %d \n", stats.freeLargest);
 }
 
