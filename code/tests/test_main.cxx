@@ -4,5 +4,4 @@
 
 TEST_CASE("test stub", "[test stub]")
 {
-
 }

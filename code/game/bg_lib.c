@@ -933,86 +933,6 @@ double atof(const char* string)
 	return value * sign;
 }
 
-double _atof(const char** stringPtr)
-{
-	const char*  string;
-	float sign;
-	float value;
-	int     c = '0'; // bk001211 - uninitialized use possible
-
-	string = *stringPtr;
-
-	// skip whitespace
-	while (*string <= ' ')
-	{
-		if (!*string)
-		{
-			*stringPtr = string;
-			return 0;
-		}
-		string++;
-	}
-
-	// check sign
-	switch (*string)
-	{
-		case '+':
-			string++;
-			sign = 1;
-			break;
-		case '-':
-			string++;
-			sign = -1;
-			break;
-		default:
-			sign = 1;
-			break;
-	}
-
-	// read digits
-	value = 0;
-	if (string[0] != '.')
-	{
-		do
-		{
-			c = *string++;
-			if (c < '0' || c > '9')
-			{
-				break;
-			}
-			c -= '0';
-			value = value * 10 + c;
-		}
-		while (1);
-	}
-
-	// check for decimal point
-	if (c == '.')
-	{
-		double fraction;
-
-		fraction = 0.1;
-		do
-		{
-			c = *string++;
-			if (c < '0' || c > '9')
-			{
-				break;
-			}
-			c -= '0';
-			value += c * fraction;
-			fraction *= 0.1;
-		}
-		while (1);
-
-	}
-
-	// not handling 10e10 notation...
-	*stringPtr = string;
-
-	return value * sign;
-}
-
 
 // bk001120 - presumably needed for Mac
 //#if !defined ( _MSC_VER ) && ! defined ( __linux__ )
@@ -1071,62 +991,6 @@ int atoi(const char* string)
 	return value * sign;
 }
 
-
-int _atoi(const char** stringPtr)
-{
-	int     sign;
-	int     value;
-	int     c;
-	const char*  string;
-
-	string = *stringPtr;
-
-	// skip whitespace
-	while (*string <= ' ')
-	{
-		if (!*string)
-		{
-			return 0;
-		}
-		string++;
-	}
-
-	// check sign
-	switch (*string)
-	{
-		case '+':
-			string++;
-			sign = 1;
-			break;
-		case '-':
-			string++;
-			sign = -1;
-			break;
-		default:
-			sign = 1;
-			break;
-	}
-
-	// read digits
-	value = 0;
-	do
-	{
-		c = *string++;
-		if (c < '0' || c > '9')
-		{
-			break;
-		}
-		c -= '0';
-		value = value * 10 + c;
-	}
-	while (1);
-
-	// not handling 10e10 notation...
-
-	*stringPtr = string;
-
-	return value * sign;
-}
 
 int abs(int n)
 {
@@ -1439,42 +1303,5 @@ done:
 	return buf_p - buffer;
 }
 
-/* this is really crappy */
-int sscanf(const char* buffer, const char* fmt, ...)
-{
-	int     cmd;
-	int**     arg;
-	int     count;
-
-	arg = (int**)&fmt + 1;
-	count = 0;
-
-	while (*fmt)
-	{
-		if (fmt[0] != '%')
-		{
-			fmt++;
-			continue;
-		}
-
-		cmd = fmt[1];
-		fmt += 2;
-
-		switch (cmd)
-		{
-			case 'i':
-			case 'd':
-			case 'u':
-				** arg = _atoi(&buffer);
-				break;
-			case 'f':
-				*(float*)*arg = _atof(&buffer);
-				break;
-		}
-		arg++;
-	}
-
-	return count;
-}
 
 #endif
