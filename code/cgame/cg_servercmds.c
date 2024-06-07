@@ -885,6 +885,61 @@ static void CG_OSPPrintSSet(void)
 	}
 }
 
+static void CG_ServerCommandStuff(void)
+{
+	char command[1024];
+	char command2[1024];
+	int len;
+
+	if (cg.demoPlayback)
+	{
+		return;
+	}
+
+	trap_Args(&command[0], 0x400);
+	command[1023] = 0;
+
+	len = strlen(&command[0]);
+
+	{
+		char* ptr = &command[0];
+		char* out = &command2[0];
+		int i;
+		for (i = 0; *ptr && i < len;)
+		{
+			if (*ptr == '\'')
+			{
+				++ptr;
+				if (*ptr == '\'')
+				{
+					*out++ = '\'';
+				}
+				else
+				{
+					*out++ = '"';
+				}
+				++ptr;
+				++i;
+			}
+			else
+			{
+				*out++ = *ptr++;
+				++i;
+			}
+		}
+		*out = 0;
+	}
+
+	if (strstr(command2, "screenshot") ||
+	        strstr(command2, "set g_synchronous") ||
+	        strstr(command2, "clear") ||
+	        strstr(command2, "currenttime") ||
+	        strstr(command2, "stoprecord"))
+	{
+		trap_SendConsoleCommand(command2);
+	}
+}
+
 /*
 =================
 CG_ServerCommand
@@ -947,6 +1002,7 @@ void CG_ServerCommand(void)
 			CG_RemoveChatEscapeChar(text);
 			CG_Printf("%s\n", text);
 		}
+		return;
 	}
 //tchat
 	if (strcmp(cmd, "tchat") == 0)
@@ -1025,6 +1081,7 @@ void CG_ServerCommand(void)
 //stuff
 	if (Q_stricmp(cmd, "stuff") == 0)
 	{
+		CG_ServerCommandStuff();
 		return;
 	}
 //crecord
@@ -1070,7 +1127,7 @@ void CG_ServerCommand(void)
 		return;
 	}
 //UKNOWN COMMAND
-	//CG_Printf("Unknown client game command: %s\n", cmd);
+//	CG_Printf("Unknown client game command: %s\n", cmd);
 }
 
 
