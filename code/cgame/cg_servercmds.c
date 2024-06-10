@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // be a valid snapshot this frame
 
 #include "cg_local.h"
+#include "../qcommon/qcommon.h"
 
 
 /*
@@ -86,6 +87,7 @@ static void CG_ParseTeamInfo(void)
 {
 	int     i;
 	int     client;
+	clientInfo_t* ci;
 
 	numSortedTeamPlayers = atoi(CG_Argv(1));
 	if (numSortedTeamPlayers > TEAM_MAXOVERLAY)
@@ -97,13 +99,19 @@ static void CG_ParseTeamInfo(void)
 	{
 		client = atoi(CG_Argv(i * 6 + 2));
 
+		ci = &cgs.clientinfo[ client ];
+
 		sortedTeamPlayers[i] = client;
 
-		cgs.clientinfo[ client ].location = atoi(CG_Argv(i * 6 + 3));
-		cgs.clientinfo[ client ].health = atoi(CG_Argv(i * 6 + 4));
-		cgs.clientinfo[ client ].armor = atoi(CG_Argv(i * 6 + 5));
-		cgs.clientinfo[ client ].curWeapon = atoi(CG_Argv(i * 6 + 6));
-		cgs.clientinfo[ client ].powerups = atoi(CG_Argv(i * 6 + 7));
+		if (customLocationsEnabled)
+		{
+			CG_CustomLocationsSetLocation(CG_Argv(i * 6 + 3), ci->customLocation);
+		}
+		ci->location = atoi(CG_Argv(i * 6 + 3));
+		ci->health = atoi(CG_Argv(i * 6 + 4));
+		ci->armor = atoi(CG_Argv(i * 6 + 5));
+		ci->curWeapon = atoi(CG_Argv(i * 6 + 6));
+		ci->powerups = atoi(CG_Argv(i * 6 + 7));
 	}
 }
 
@@ -274,11 +282,11 @@ static void CG_ConfigStringModified(void)
 	}
 	else if (num == CS_SCORES1)
 	{
-		sscanf(str, "%i %i", &cgs.scores1, &cgs.osp.osp_scores1);
+		Q_sscanf(str, "%i %i", &cgs.scores1, &cgs.osp.osp_scores1);
 	}
 	else if (num == CS_SCORES2)
 	{
-		sscanf(str, "%i %i", &cgs.scores2, &cgs.osp.osp_scores2);
+		Q_sscanf(str, "%i %i", &cgs.scores2, &cgs.osp.osp_scores2);
 	}
 	else if (num == CS_LEVEL_START_TIME)
 	{
@@ -404,7 +412,7 @@ CG_AddToTeamChat
 
 =======================
 */
-void CG_AddToTeamChat(char* str)
+void CG_AddToTeamChat(char* str, int size)
 {
 	int len;
 	int w;
@@ -431,6 +439,36 @@ void CG_AddToTeamChat(char* str)
 		// team chat disabled, dump into normal chat
 		cgs.teamChatPos = cgs.teamLastChatPos = 0;
 		return;
+	}
+
+	if (customLocationsEnabled != 0)
+	{
+		char* cloc_begin, *cloc_end;
+		int free_left;
+		vec3_t cloc;
+		if (CG_CustomLocationsTeamChatCode(str, cloc, &cloc_begin, &cloc_end))
+		{
+			int location_len;
+			const char* location_name;
+			char* tmp;
+
+			location_name = CG_CustomLocationsGetName(cloc);
+			location_len = strlen(location_name); //size of message without location
+
+			tmp = Z_Malloc(size);
+			if (!tmp)
+			{
+				OSP_MEMORY_EXCEPTION();
+			}
+
+			Q_strncpyz(tmp, cloc_end, size);
+			free_left = size - (cloc_begin - str);
+			Q_strncpyz(cloc_begin, location_name, free_left);
+			free_left -= location_len;
+			Q_strncpyz(cloc_begin + location_len, tmp, free_left);
+
+			Z_Free(tmp);
+		}
 	}
 
 	if (ch_FilterLocationsTeamchat.integer)
@@ -847,6 +885,61 @@ static void CG_OSPPrintSSet(void)
 	}
 }
 
+static void CG_ServerCommandStuff(void)
+{
+	char command[1024];
+	char command2[1024];
+	int len;
+
+	if (cg.demoPlayback)
+	{
+		return;
+	}
+
+	trap_Args(&command[0], 0x400);
+	command[1023] = 0;
+
+	len = strlen(&command[0]);
+
+	{
+		char* ptr = &command[0];
+		char* out = &command2[0];
+		int i;
+		for (i = 0; *ptr && i < len;)
+		{
+			if (*ptr == '\'')
+			{
+				++ptr;
+				if (*ptr == '\'')
+				{
+					*out++ = '\'';
+				}
+				else
+				{
+					*out++ = '"';
+				}
+				++ptr;
+				++i;
+			}
+			else
+			{
+				*out++ = *ptr++;
+				++i;
+			}
+		}
+		*out = 0;
+	}
+
+	if (strstr(command2, "screenshot") ||
+	        strstr(command2, "set g_synchronous") ||
+	        strstr(command2, "clear") ||
+	        strstr(command2, "currenttime") ||
+	        strstr(command2, "stoprecord"))
+	{
+		trap_SendConsoleCommand(command2);
+	}
+}
+
 /*
 =================
 CG_ServerCommand
@@ -909,6 +1002,7 @@ void CG_ServerCommand(void)
 			CG_RemoveChatEscapeChar(text);
 			CG_Printf("%s\n", text);
 		}
+		return;
 	}
 //tchat
 	if (strcmp(cmd, "tchat") == 0)
@@ -922,7 +1016,7 @@ void CG_ServerCommand(void)
 			Q_strncpyz(text, CG_Argv(1), 1024);
 			CG_RemoveChatEscapeChar(text);
 
-			CG_AddToTeamChat(text);
+			CG_AddToTeamChat(text, 1024);
 			if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
 			{
 				CG_Printf("%s\n", text);
@@ -987,6 +1081,7 @@ void CG_ServerCommand(void)
 //stuff
 	if (Q_stricmp(cmd, "stuff") == 0)
 	{
+		CG_ServerCommandStuff();
 		return;
 	}
 //crecord
@@ -1032,7 +1127,7 @@ void CG_ServerCommand(void)
 		return;
 	}
 //UKNOWN COMMAND
-	//CG_Printf("Unknown client game command: %s\n", cmd);
+//	CG_Printf("Unknown client game command: %s\n", cmd);
 }
 
 

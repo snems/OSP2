@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // cg_main.c -- initialization and primary entry point for cgame
 #include "cg_local.h"
+#include "../qcommon/qcommon.h"
 
 int forceModelModificationCount = -1;
 
@@ -188,7 +189,7 @@ vmCvar_t           cg_ammoCheck;
 vmCvar_t           cg_autoAction;
 vmCvar_t           cg_clientLog;
 vmCvar_t           cg_crosshairPulse;
-vmCvar_t           cg_Customloc;
+vmCvar_t           cg_customLoc;
 vmCvar_t           cg_damageDraw;
 vmCvar_t           cg_damageKick;
 vmCvar_t           cg_deadBodyFilter;
@@ -421,7 +422,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_autoAction, "cg_autoAction", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_autoAction},
 	{ &cg_clientLog, "cg_clientLog", "0", CVAR_ARCHIVE },
 	{ &cg_crosshairPulse, "cg_crosshairPulse", "1", CVAR_ARCHIVE },
-	{ &cg_Customloc, "cg_Customloc", "0", CVAR_ARCHIVE | CVAR_LATCH },
+	{ &cg_customLoc, "cg_customLoc", "0", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_damageDraw, "cg_damageDraw", "1", CVAR_ARCHIVE },
 	{ &cg_damageKick, "cg_damageKick", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyFilter, "cg_deadBodyFilter", "0", CVAR_ARCHIVE },
@@ -1473,6 +1474,8 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	memset(cg_weapons, 0, sizeof(cg_weapons));
 	memset(cg_items, 0, sizeof(cg_items));
 
+	Com_InitZoneMemory();
+
 	cg.clientNum = clientNum;
 
 	cgs.processedSnapshotNum = serverMessageNum;
@@ -1614,7 +1617,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		cgs.osp.custom_gfx_number = 0;
 		for (i = 0; i < 16; ++i)
 		{
-			s = CG_ConfigString(CS_OSP_0x338 + i);
+			s = CG_ConfigString(CS_OSP_CUSTOM_GFX + i);
 			if (s[0] == 0) break;
 			Q_strncpyz(tmp_str, s, 1024);
 
@@ -1626,19 +1629,19 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			}
 			*tmp_ptr = 0;
 			++tmp_ptr;
-			sscanf(tmp_str, "%i %i %i %i",
-			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][0],
-			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][1],
-			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][2],
-			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][3]
-			      );
+			Q_sscanf(tmp_str, "%i %i %i %i",
+			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][0],
+			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][1],
+			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][2],
+			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][3]
+			        );
 
-			sscanf(tmp_ptr, "%i %i %i %i",
-			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][4],
-			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][5],
-			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][6],
-			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][7]
-			      );
+			Q_sscanf(tmp_ptr, "%i %i %i %i",
+			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][4],
+			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][5],
+			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][6],
+			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][7]
+			        );
 
 			if ((cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][0] == -1) ||
 			        (cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][1] == -1))
@@ -1691,6 +1694,8 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 
 	trap_S_ClearLoopingSounds(qtrue);
 
+	CG_CustomLocationsLoad();
+
 	cgs.osp.decals_number = 0;
 	if (cg_drawDecals.integer)
 	{
@@ -1713,19 +1718,19 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			cgs.osp.decals[i].v7 = 0;
 			cgs.osp.decals[i].v6 = 0;
 
-			s = CG_ConfigString(CS_OSP_0x348 + i);
+			s = CG_ConfigString(CS_OSP_DECALS + i);
 			if (s[0] == 0) break;
 
-			sscanf(s, "%i %i %f %f %f %f %f %f %f",
-			       &cgs.osp.decals[cgs.osp.decals_number].v3,
-			       &cgs.osp.decals[cgs.osp.decals_number].v2,
-			       &cgs.osp.decals[cgs.osp.decals_number].v5,
-			       &cgs.osp.decals[cgs.osp.decals_number].v9,
-			       &cgs.osp.decals[cgs.osp.decals_number].v10,
-			       &cgs.osp.decals[cgs.osp.decals_number].v11,
-			       &cgs.osp.decals[cgs.osp.decals_number].v6,
-			       &cgs.osp.decals[cgs.osp.decals_number].v7,
-			       &cgs.osp.decals[cgs.osp.decals_number].v8);
+			Q_sscanf(s, "%i %i %f %f %f %f %f %f %f",
+			         &cgs.osp.decals[cgs.osp.decals_number].v3,
+			         &cgs.osp.decals[cgs.osp.decals_number].v2,
+			         &cgs.osp.decals[cgs.osp.decals_number].v5,
+			         &cgs.osp.decals[cgs.osp.decals_number].v9,
+			         &cgs.osp.decals[cgs.osp.decals_number].v10,
+			         &cgs.osp.decals[cgs.osp.decals_number].v11,
+			         &cgs.osp.decals[cgs.osp.decals_number].v6,
+			         &cgs.osp.decals[cgs.osp.decals_number].v7,
+			         &cgs.osp.decals[cgs.osp.decals_number].v8);
 
 			if (i && cgs.osp.decals[0].v3 == -1)
 			{

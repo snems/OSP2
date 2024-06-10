@@ -1,1 +1,7 @@
 !build
+build/linux-qvm/vm/
+build/linux-qvm/zz-osp-pak8.pk3
+build/linux/build/
+build/linux/project.tasks
+build/linux/strace_out
+build/tests/build/

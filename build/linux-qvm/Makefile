@@ -33,6 +33,7 @@ vm/cgame.qvm: $(cg_asm)
 vm/game/%.asm: $(QADIR)/%.c; $(qa_cc)
 vm/cgame/%.asm: $(QADIR)/%.c; $(cg_cc)
 vm/cgame/%.asm: $(CGDIR)/%.c; $(cg_cc)
+vm/cgame/%.asm: $(COMDIR)/%.c; $(cg_cc)
 #vm/ui/%.asm: $(QADIR)/%.c; $(ui_cc)
 #vm/ui/%.asm: $(UIDIR)/%.c; $(ui_cc)
 
