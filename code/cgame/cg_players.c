@@ -2009,9 +2009,16 @@ void CG_AddHitBox(centity_t* cent, team_t team)
 	vec3_t maxs = {15, 15, 32};
 	float extx, exty, extz;
 	vec3_t corners[8];
+	int         content;
 
-	/* Todo: check config */
 	if (!cg_drawHitBox.integer)
+	{
+		return;
+	}
+
+	// if the player is in fog, don't show it
+	content = trap_CM_PointContents(cent->lerpOrigin, 0);
+	if (content & CONTENTS_FOG)
 	{
 		return;
 	}
