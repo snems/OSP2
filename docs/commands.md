@@ -314,21 +314,6 @@
 
 ---
 
-    cg_Customloc
-    addpos
-
-Временно не работает, как и вся система custom locations.
-
-    
----
-
-    cg_autoactions
-
-Временно не работает
-
-
----
-
     menu*
     cg_float
     cg_drawDecals

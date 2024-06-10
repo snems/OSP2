@@ -16,3 +16,7 @@
            More cg_fragsound values
            Fixed 3wave font for some cases
            defaults changed
+2024-06-10 cg_customLoc
+           cg_autoAction
+2024-06-10 v0.02
+

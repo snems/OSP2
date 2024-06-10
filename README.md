@@ -12,7 +12,6 @@ Only cgame now.
 Not working yet:
 
 - CQ3/PROMODE
-- Custom locations
 
 Lot of other things.
 
@@ -35,10 +34,11 @@ Example config: OSP2.cfg inside mod.
 
 ## How to build
 
+Only linux qvm, other builds are not supported yet.
+
 ### Linux qvm
 
-### Linux library
+   `cd build/linux-qvm`
 
-### Windows qvm
+   `make` 
 
-### Windows library
