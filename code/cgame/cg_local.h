@@ -2127,6 +2127,130 @@ void CG_LocalEventCvarChanged_cg_enemyFrozenColor(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart);
 
+//
+// cg_shudmain.c
+//
+
+typedef enum 
+{
+	SUPERHUD_ALIGNH_LEFT,
+	SUPERHUD_ALIGNH_CENTER,
+	SUPERHUD_ALIGNH_RIGHT,
+} superhudAlignH_t;
+
+typedef enum 
+{
+	SUPERHUD_ALIGNV_TOP,
+	SUPERHUD_ALIGNV_CENTER,
+	SUPERHUD_ALIGNV_BOTTOM,
+} superhudAlignV_t;
+
+typedef struct 
+{
+	float p;
+	float y;
+	float r;
+	float e;
+}
+superhudAngles_t;
+
+typedef enum 
+{
+	SUPERHUD_COLOR_RGBA,
+	SUPERHUD_COLOR_T,
+	SUPERHUD_COLOR_E,
+	SUPERHUD_COLOR_I,
+} superhudColorType_t;
+
+typedef struct 
+{
+	superhudColorType_t type;
+	vec4_t color;
+} superhudColor_t;
+
+typedef enum 
+{
+	SUPERHUD_DIR_L_TO_R,
+	SUPERHUD_DIR_R_TO_L,
+	SUPERHUD_DIR_T_TO_B,
+	SUPERHUD_DIR_B_TO_T,
+} superhudDirection_t;
+
+typedef enum 
+{
+	SUPERHUD_ITTEAM_BLUE,
+	SUPERHUD_ITTEAM_RED,
+	SUPERHUD_ITTEAM_NEUTRAL,
+	SUPERHUD_ITTEAM_OWN,
+	SUPERHUD_ITTEAM_ENEMY,
+} superhudItTeam_t;
+
+typedef struct 
+{
+	superhudAlignH_t alignH;
+	superhudAlignV_t alignV;
+	superhudAngles_t angles;
+	vec4_t bgcolor;
+	superhudColor_t color;
+	superhudDirection_t direction;
+	qboolean doublebar;
+	vec4_t fade;
+	int fadedelay;
+	qboolean fill;
+	char font[MAX_QPATH];
+	vec2_t fontsize;
+	char image[MAX_QPATH];
+	vec4_t imagetc;
+	superhudItTeam_t itTeam;
+	vec4_t margins;
+	char model[MAX_QPATH];
+	qboolean monospace;
+	vec3_t offset;
+	vec4_t rect;
+	char text[MAX_QPATH];
+	superhudAlignH_t textAlign;
+	vec2_t textOffset;
+	int textStyle;
+	int time;
+	int flags;
+}superhudConfig_t;
+
+typedef struct 
+{
+	qboolean alignH;
+	qboolean alignV;
+	qboolean angles;
+	qboolean bgcolor;
+	qboolean color;
+	qboolean direction;
+	qboolean doublebar;
+	qboolean fade;
+	qboolean fadedelay;
+	qboolean fill;
+	qboolean font;
+	qboolean fontsize;
+	qboolean image;
+	qboolean imagetc;
+	qboolean itTeam;
+	qboolean margins;
+	qboolean model;
+	qboolean monospace;
+	qboolean offset;
+	qboolean rect;
+	qboolean text;
+	qboolean textAlign;
+	qboolean textOffset;
+	qboolean textStyle;
+	qboolean time;
+	qboolean flags;
+}superhudConfigLoadResult_t;
+
+typedef struct superhudElementDefault_s
+{
+	superhudConfig_t config;
+	superhudConfigLoadResult_t configState;
+}superhudElementDefault_t;
+
 #ifdef __cplusplus
 }
 #endif
