@@ -2262,9 +2262,32 @@ typedef struct
 
 typedef struct superhudElementDefault_s
 {
-	superhudConfig_t config;
 	superhudConfigLoadResult_t configState;
 }superhudElementDefault_t;
+
+typedef enum 
+{
+	SUPERHUD_ELEMENT_TYPE_DEFAULTS,
+}
+superhudElementType_t;
+
+typedef struct 
+{
+	union
+	{
+		superhudElementDefault_t def;
+	};
+	superhudElementType_t type;
+} superhudElementContent_t;
+
+typedef struct superhudElement_s 
+{
+  char name[MAX_QPATH];
+	superhudConfig_t config;
+	superhudElementContent_t content;
+	superhudElement_s *next;
+}
+superhudElement_t;
 
 #ifdef __cplusplus
 }
