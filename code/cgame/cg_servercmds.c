@@ -608,7 +608,7 @@ static void CG_MapRestart(void)
 	if (cg.warmup == 0 /* && cgs.gametype == GT_TOURNAMENT */)
 	{
 		trap_S_StartLocalSound(cgs.media.countFightSound, CHAN_ANNOUNCER);
-		CG_CenterPrint("FIGHT!", 120, GIANTCHAR_WIDTH * 2);
+		CG_CenterPrint("^1FIGHT!", 20, GIANTCHAR_WIDTH * 2);
 	}
 	trap_Cvar_Set("cg_thirdPerson", "0");
 }
@@ -971,7 +971,7 @@ void CG_ServerCommand(void)
 		arg = CG_Argv(1);
 		if (!strstr(arg, "Multi-view demo created with"))
 		{
-			CG_CenterPrint(arg, 120, 16);
+			CG_CenterPrint(arg, 120, SMALLCHAR_WIDTH);
 		}
 		return;
 	}

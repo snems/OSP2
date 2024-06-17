@@ -335,7 +335,7 @@ static void CG_Obituary(entityState_t* ent)
 			}
 			if (cgs.osp.server_mode & OSP_SERVER_MODE_PROMODE && ch_fragMessage.integer != 1)
 			{
-				CG_CenterPrint(fragmsg, 120, 8);
+				CG_CenterPrint(fragmsg, 120, SMALLCHAR_WIDTH);
 			}
 			else
 			{
@@ -348,7 +348,7 @@ static void CG_Obituary(entityState_t* ent)
 				}
 				else
 				{
-					CG_CenterPrint(fragmsg, 120, 16);
+					CG_CenterPrint(fragmsg, 120, BIGCHAR_WIDTH);
 				}
 			}
 		}
