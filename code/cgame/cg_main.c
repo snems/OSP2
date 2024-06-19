@@ -439,7 +439,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_followpowerup, "cg_followpowerup", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followpowerup},
 	{ &cg_followviewcam, "cg_followviewcam", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followviewcam},
 	{ &cg_forceColors, "cg_forceColors", "0", CVAR_ARCHIVE },
-	{ &cg_lightningImpact, "cg_lightningImpact", "1", CVAR_ARCHIVE },
+	{ &cg_lightningImpact, "cg_lightningImpact", "0", CVAR_ARCHIVE },
 	{ &cg_MaxlocationWidth, "cg_MaxlocationWidth", "16", CVAR_ARCHIVE },
 	{ &cg_muzzleFlash, "cg_muzzleFlash", "1", CVAR_ARCHIVE },
 	{ &cg_nochatbeep, "cg_noChatBeep", "0", CVAR_ARCHIVE },

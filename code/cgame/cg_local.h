@@ -1487,6 +1487,36 @@ void CG_FillRect(float x, float y, float width, float height, const float* color
 void CG_DrawPicOld(float x, float y, float width, float height, qhandle_t hShader);
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader);
 
+float CG_OSPDrawStringLength(const char* string, float ax, float aw, float max_ax, int proportional);
+
+void CG_OSPDrawStringPrepare(const char* from, char* to, int size);
+void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
+
+#define OSP_TEXT_CMD_MAX 2048
+
+typedef enum 
+{
+  OSP_TEXT_CMD_CHAR=0, 
+  OSP_TEXT_CMD_STOP, 
+  OSP_TEXT_CMD_FADE, 
+  OSP_TEXT_CMD_TEXT_COLOR, 
+  OSP_TEXT_CMD_SHADOW_COLOR, 
+}text_command_type_t;
+
+typedef struct 
+{
+	text_command_type_t type;
+	union
+	{
+		char character;
+		float fade;
+		vec4_t color;
+	}value;
+}text_command_t;
+
+text_command_t *CG_CompiledTextCreate(const char *text);
+void CG_CompiledTextDestroy(text_command_t *root);
+
 // flags for CG_DrawString
 enum
 {
@@ -1523,11 +1553,11 @@ void CG_DrawTopBottom(float x, float y, float w, float h, float size);
 void CG_OSPDrawPoly(float x, float y, float w, float h, vec4_t color);
 qboolean CG_OSPGetClientFontSize(const vmCvar_t* cvar, int* w, int* h);
 int CG_OSPDrawStringWithShadow(int x, int y, const char* str, int charWidth, int charHeight, const vec4_t color, int maxChars);
-int CG_OSPDrawString(int x, int y, const char* str, int charWidth, int charHeight, vec4_t const colors, int maxChars, qboolean disableColorChange);
+int CG_OSPDrawStringOld(int x, int y, const char* str, int charWidth, int charHeight, vec4_t const colors, int maxChars, qboolean disableColorChange);
 qboolean CG_Hex16GetColor(const char* str, float* color);
 
 //
-// cg_draw.c, cg_newDraw.c
+// cg_draw.c
 //
 typedef struct
 {
@@ -1985,7 +2015,7 @@ int CG_NewParticleArea(int num);
 
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
-#define OSP_VERSION "0.02"
+#define OSP_VERSION "0.02-test.superhud"
 
 
 //
@@ -2071,8 +2101,8 @@ void CG_OSPColorFromChar(char c, float* vector);
 void CG_OSPColorFromNumber(int number, float* vector);
 void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size);
 void CG_DynamicMemReport(void);
-#define OSP_MEMORY_EXCEPTION() \
-{\
+#define OSP_MEMORY_CHECK(TESTPTR) \
+if(!TESTPTR){\
     CG_DynamicMemReport();\
     CG_Error( "%s:%d: Couldn't allocate memory\n", __FILE__, __LINE__);\
 }
@@ -2276,7 +2306,7 @@ typedef struct
 	union
 	{
 		superhudElementDefault_t def;
-	};
+	}value;
 	superhudElementType_t type;
 } superhudElementContent_t;
 
@@ -2285,7 +2315,7 @@ typedef struct superhudElement_s
   char name[MAX_QPATH];
 	superhudConfig_t config;
 	superhudElementContent_t content;
-	superhudElement_s *next;
+	struct superhudElement_s *next;
 }
 superhudElement_t;
 

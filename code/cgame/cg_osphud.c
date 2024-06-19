@@ -162,7 +162,7 @@ void CG_OSPDrawCrosshair(void)
 		char* speed_str;
 		speed_str =
 		    va("<%fups>", cg.xyspeed);
-		CG_OSPDrawString((320 - 5 * strlen(speed_str)),
+		CG_OSPDrawStringOld((320 - 5 * strlen(speed_str)),
 		                 225.0f - 0.5f * cg_crosshairSize.value,
 		                 speed_str,
 		                 10,
@@ -641,7 +641,7 @@ static void CG_OSPDrawStatusBarAmmo2(float y)
 			}
 			CG_DrawPicOld(posX, posY, ammoW, ammoH, cg_weapons[weaponIndex].ammoIcon);
 			str = va("%3i", cg.snap->ps.ammo[weaponIndex]);
-			CG_OSPDrawString(posX + ammoW * 2, posY, str, ammoW, ammoH, NULL, 0, 0);
+			CG_OSPDrawStringOld(posX + ammoW * 2, posY, str, ammoW, ammoH, NULL, 0, 0);
 			++i;
 		}
 		++weaponIndex;
@@ -2032,7 +2032,7 @@ static float CG_OSPDrawTeamInfo(float y)
 			{
 				chatY = y - (float)((cgs.teamChatPos - i) * h);
 			}
-			CG_OSPDrawString(w, chatY, cgs.teamChatMsgs[i % chatHeight], w, h, NULL, maxChars, 0);
+			CG_OSPDrawStringOld(w, chatY, cgs.teamChatMsgs[i % chatHeight], w, h, NULL, maxChars, 0);
 		}
 
 	}
@@ -2332,7 +2332,7 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 
 			if (teamOverlay.nameX)
 			{
-				CG_OSPDrawString(teamOverlay.nameX, (int)y, ci->name, w, h, NULL, teamOverlay.maxChars, 0);
+				CG_OSPDrawStringOld(teamOverlay.nameX, (int)y, ci->name, w, h, NULL, teamOverlay.maxChars, 0);
 			}
 
 			if (teamOverlay.healthX || teamOverlay.armorX)
@@ -2343,17 +2343,17 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 			if (teamOverlay.healthX)
 			{
 				Com_sprintf(buf, 16, "%3i", ci->health);
-				CG_OSPDrawString(teamOverlay.healthX, (int)y, buf, w, h, healthColor, 0, 0);
+				CG_OSPDrawStringOld(teamOverlay.healthX, (int)y, buf, w, h, healthColor, 0, 0);
 			}
 
 			if (teamOverlay.armorX)
 			{
 				Com_sprintf(buf, 16, "%3i", ci->armor);
-				CG_OSPDrawString(teamOverlay.armorX, (int)y, buf, w, h, healthColor, 0, 0);
+				CG_OSPDrawStringOld(teamOverlay.armorX, (int)y, buf, w, h, healthColor, 0, 0);
 			}
 			if (teamOverlay.strX)
 			{
-				CG_OSPDrawString(teamOverlay.strX, (int)y, teamOverlay.str, w, h, NULL, 0, 0);
+				CG_OSPDrawStringOld(teamOverlay.strX, (int)y, teamOverlay.str, w, h, NULL, 0, 0);
 			}
 			if (teamOverlay.ammoX)
 			{
@@ -2390,7 +2390,7 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 					{
 						location = "unknown";
 					}
-					CG_OSPDrawString(teamOverlay.locationX, (int)y, location, w, h, NULL, cg_MaxlocationWidth.integer, 0);
+					CG_OSPDrawStringOld(teamOverlay.locationX, (int)y, location, w, h, NULL, cg_MaxlocationWidth.integer, 0);
 				}
 			}
 			if (teamOverlay.powerupX)
@@ -2495,7 +2495,7 @@ static float CG_OSPDrawWeaponBarOld(float pos_y)
 		if (name)
 		{
 			x = (640 - (CG_DrawStrlen(name) * w)) / 2;
-			CG_OSPDrawString(x, y - h - 0x2, name, w, h, color, 0, 0);
+			CG_OSPDrawStringOld(x, y - h - 0x2, name, w, h, color, 0, 0);
 			pos_y -= h;
 		}
 	}
@@ -2571,7 +2571,7 @@ static void CG_OSPDrawWeaponBar_4_5(float pos_y)
 				if (cg.snap->ps.ammo[weaponNum] != -1)
 				{
 					str = va("%3i", cg.snap->ps.ammo[weaponNum]);
-					CG_OSPDrawString(x + w + 8, y + ((h + 8) / 2 - 8), str, 8, 8, NULL, 0, 0);
+					CG_OSPDrawStringOld(x + w + 8, y + ((h + 8) / 2 - 8), str, 8, 8, NULL, 0, 0);
 				}
 			}
 			y += h + 8;
@@ -2601,7 +2601,7 @@ float CG_OSPDrawPickupItem(float y)
 			CG_RegisterItemVisuals(cg.itemPickup);
 			trap_R_SetColor(color);
 			CG_DrawPicOld(8.0f, y, w, (float)h, cg_items[cg.itemPickup].icon);
-			CG_OSPDrawString(w + 8 + (w / 3), y, bg_itemlist[cg.itemPickup].pickup_name, w, h, color, 0, 0);
+			CG_OSPDrawStringOld(w + 8 + (w / 3), y, bg_itemlist[cg.itemPickup].pickup_name, w, h, color, 0, 0);
 			trap_R_SetColor(NULL);
 		}
 	}
@@ -4010,7 +4010,7 @@ static void CG_OSPDrawCrosshairNames(void)
 			float len;
 			len = (float)(CG_DrawStrlen(ci->name) * w);
 
-			CG_OSPDrawString((int)(320.0f - (len / 2.0f)), 170, ci->name, w, h, NULL, 0, 0);
+			CG_OSPDrawStringOld((int)(320.0f - (len / 2.0f)), 170, ci->name, w, h, NULL, 0, 0);
 
 			if (ci->team != TEAM_FREE && ci->team == cg.snap->ps.persistant[PERS_TEAM] && ch_TeamCrosshairHealth.integer != 0 && !(cg.snap->ps.pm_flags & PMF_FOLLOW))
 			{
@@ -4025,7 +4025,7 @@ static void CG_OSPDrawCrosshairNames(void)
 				Com_sprintf(str2, 64, "%i/%i", ci->health, ci->armor);
 				len2 = CG_DrawStrlen(str2);
 				color2[3] = color[3];
-				CG_OSPDrawString((int)(320.0f - ((float)(len2 * w2) / 2.0f)), h + 170, str2, w2, h2, color2, 0, 0);
+				CG_OSPDrawStringOld((int)(320.0f - ((float)(len2 * w2) / 2.0f)), h + 170, str2, w2, h2, color2, 0, 0);
 			}
 		}
 		else
@@ -4070,14 +4070,14 @@ static void CG_OSPDrawCrosshairNames(void)
 					x_name = healthW / 2.0f - nameW / 2.0f;
 					x_health = 0;
 				}
-				CG_OSPDrawString(x_name, y, ci->name, w, h, color, 0, 0);
+				CG_OSPDrawStringOld(x_name, y, ci->name, w, h, color, 0, 0);
 				CG_GetColorForHealth(ci->health, ci->armor, color2);
 				color2[3] = 0.5f * color[3];
-				CG_OSPDrawString(x_health, y + h, str2, w2, h2, color2, 0, 0);
+				CG_OSPDrawStringOld(x_health, y + h, str2, w2, h2, color2, 0, 0);
 			}
 			else
 			{
-				CG_OSPDrawString(0, y, ci->name, w, h, color, 0, 0);
+				CG_OSPDrawStringOld(0, y, ci->name, w, h, color, 0, 0);
 			}
 		}
 		trap_R_SetColor(NULL);
@@ -4110,11 +4110,11 @@ static void CG_OSPDrawSpectatorInfo(void)
 
 	str = "Following";
 	len = CG_OSPGetNormalizedStringSize(str);
-	CG_OSPDrawString(320 - (len * w / 2), 24, str, w, h, NULL, 0, 0);
+	CG_OSPDrawStringOld(320 - (len * w / 2), 24, str, w, h, NULL, 0, 0);
 
 	str = cgs.clientinfo[cg.snap->ps.clientNum].name;
 	len = CG_OSPGetNormalizedStringSize(str);
-	CG_OSPDrawString(320 - (len * w / 2), h + 24, str, w, h, NULL, 0, 0);
+	CG_OSPDrawStringOld(320 - (len * w / 2), h + 24, str, w, h, NULL, 0, 0);
 }
 
 static void CG_OSPDrawVote(void)
@@ -4150,7 +4150,7 @@ static void CG_OSPDrawVote(void)
 		posx = 0;
 	}
 
-	CG_OSPDrawString(posx, 58, votestr, w, h, NULL, 0, qfalse);
+	CG_OSPDrawStringOld(posx, 58, votestr, w, h, NULL, 0, qfalse);
 }
 
 

@@ -734,6 +734,7 @@ void CG_DrawTimer2(void)
 	char*        s;
 	int         mins, seconds, tens;
 	int         msec;
+	int         w;
 
 	msec = cg.time - cgs.levelStartTime;
 
@@ -743,9 +744,11 @@ void CG_DrawTimer2(void)
 	tens = seconds / 10;
 	seconds -= tens * 10;
 
-	s = va("%i:%i%i", mins, tens, seconds);
 
-	CG_DrawString(320, 2, s, colorWhite, BIGCHAR_WIDTH + 3, BIGCHAR_HEIGHT + 3, 16,  DS_SHADOW | DS_CENTER | DS_PROPORTIONAL);
+	s = va("%i:%i%i", mins, tens, seconds);
+	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
+
+	CG_DrawBigString(320 - w/2, 2, s, 1.0F);
 }
 
 

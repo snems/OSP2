@@ -89,10 +89,7 @@ void CG_CustomLocationsLoad(void)
 	}
 
 	fileContent = Z_Malloc(rc + 1);
-	if (!fileContent)
-	{
-		OSP_MEMORY_EXCEPTION();
-	}
+	OSP_MEMORY_CHECK(fileContent);
 
 	trap_FS_Read(fileContent, rc, locFileHandle);
 	trap_FS_FCloseFile(locFileHandle);
