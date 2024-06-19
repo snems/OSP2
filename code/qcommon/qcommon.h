@@ -1,6 +1,7 @@
 #ifndef QCOMMON_H
 #define QCOMMON_H
 
+#include "q_shared.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -37,11 +38,12 @@ typedef enum {
 
 void Com_InitZoneMemory( void );
 void *Z_Malloc( int size );
-void Z_Free( void *ptr );
+void Z_Free(const void *ptr );
 int Z_AvailableMemory( void );
 void Z_Stats(zone_stats_t *stats);
 
 int Q_sscanf( const char *buffer, const char *fmt, ... );
+
 
 #ifdef __cplusplus
 }

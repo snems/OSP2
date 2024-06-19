@@ -263,7 +263,7 @@ static void MergeBlock( memblock_t *curr_free, const memblock_t *next )
 Z_Free
 ========================
 */
-void Z_Free( void *ptr ) {
+void Z_Free(const void *ptr ) {
 	memblock_t	*block, *other;
 	memzone_t *zone;
 
@@ -304,7 +304,7 @@ void Z_Free( void *ptr ) {
 
 	// set the block to something that should cause problems
 	// if it is referenced...
-	Com_Memset( ptr, 0xaa, block->size - sizeof( *block ) );
+	Com_Memset( (char*)ptr, 0xaa, block->size - sizeof( *block ) );
 
 	block->tag = TAG_FREE; // mark as free
 	block->id = ZONEID;
@@ -455,7 +455,7 @@ void *Z_TagMalloc( int size, memtag_t tag ) {
 			Com_Error( ERR_FATAL, "Z_Malloc: failed on allocation of %i bytes from the %s zone: %s, line: %d (%s)",
 								size, zone == smallzone ? "small" : "main", file, line, label );
 #else
-			Com_Error( ERR_FATAL, "Z_Malloc: failed on allocation of %i bytes from the %s zone",
+			Com_Printf( "Z_Malloc: failed on allocation of %i bytes from the %s zone",
 								size, zone == smallzone ? "small" : "main" );
 #endif
 			return NULL;

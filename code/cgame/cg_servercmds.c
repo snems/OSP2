@@ -456,10 +456,7 @@ void CG_AddToTeamChat(char* str, int size)
 			location_len = strlen(location_name); //size of message without location
 
 			tmp = Z_Malloc(size);
-			if (!tmp)
-			{
-				OSP_MEMORY_EXCEPTION();
-			}
+			OSP_MEMORY_CHECK(tmp);
 
 			Q_strncpyz(tmp, cloc_end, size);
 			free_left = size - (cloc_begin - str);
