@@ -556,6 +556,18 @@ void *S_Malloc( int size ) {
 }
 #endif
 
+char* Z_StrDup(const char *str)
+{
+	char *new_str;
+	new_str = Z_Malloc(strlen(str) + 1);
+	if (new_str)
+	{
+		strcpy(new_str, str);
+	}
+
+	return new_str;
+}
+
 /*
 =================
 Com_InitZoneMemory

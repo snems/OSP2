@@ -5,7 +5,7 @@
 #include "../qcommon/qcommon.h"
 
 
-TEST_CASE("Prepare string", "[API][cg_drawtools.c]")
+TEST_CASE("Prepare string", "[cgame][cg_drawtools.c]")
 {
   char out[1024];
   Com_InitZoneMemory();

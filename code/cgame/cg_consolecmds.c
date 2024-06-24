@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // executed by a key binding
 
 #include "cg_local.h"
+#include "cg_superhud.h"
 
 
 
@@ -500,6 +501,11 @@ void CG_OSPDynamicMem_f(void)
 	CG_DynamicMemReport();
 }
 
+void CG_ReloadHud_f(void)
+{
+	CG_SHUDLoadConfig();
+}
+
 
 typedef struct
 {
@@ -573,6 +579,7 @@ static consoleCommand_t commands[] =
 	{ "decalprev", CG_OSPDcalPrev_f },
 	{ "decalrotclock", CG_OSPDecalRotClock_f },
 	{ "decalrotcounter", CG_OSPDecalRotCounter_f },
+	{ "reloadHUD", CG_ReloadHud_f },
 };
 
 

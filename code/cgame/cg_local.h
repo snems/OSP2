@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ===========================================================================
 */
 //
+#ifndef CG_LOCAL_H
+#define CG_LOCAL_H
 #include "../qcommon/q_shared.h"
 #include "tr_types.h"
 #include "../game/bg_public.h"
@@ -764,16 +766,16 @@ typedef struct
 	qhandle_t   noammoShader;
 
 	qhandle_t   smokePuffShader;
-	qhandle_t smokePuffNoPicMipShader;
+	qhandle_t   smokePuffNoPicMipShader;
 	qhandle_t   smokePuffRageProShader;
 	qhandle_t   shotgunSmokePuffShader;
-	qhandle_t shotgunSmokePuffNoPicMipShader;
+	qhandle_t   shotgunSmokePuffNoPicMipShader;
 	qhandle_t   plasmaBallShader;
-	qhandle_t plasmaBallNoPicMipShader;
+	qhandle_t   plasmaBallNoPicMipShader;
 	qhandle_t   plasmaNewBallShader;
-	qhandle_t plasmaNewBallNoPicMipShader;
-	qhandle_t grenadeCPMANoPicMipShader;
-	qhandle_t grenadeCPMAModel;
+	qhandle_t   plasmaNewBallNoPicMipShader;
+	qhandle_t   grenadeCPMANoPicMipShader;
+	qhandle_t   grenadeCPMAModel;
 	qhandle_t   waterBubbleShader;
 	qhandle_t   bloodTrailShader;
 
@@ -1334,6 +1336,7 @@ extern vmCvar_t           ch_TeamBackground;
 extern vmCvar_t           cf_Following;
 extern vmCvar_t           ch_FilterLocationsTeamchat;
 extern vmCvar_t           ch_fragMessage;
+extern vmCvar_t           ch_file;
 extern vmCvar_t           cf_Fragmsg;
 extern vmCvar_t           ch_graphs;
 extern vmCvar_t           ch_InverseTeamChat;
@@ -1494,16 +1497,16 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 
 #define OSP_TEXT_CMD_MAX 2048
 
-typedef enum 
+typedef enum
 {
-  OSP_TEXT_CMD_CHAR=0, 
-  OSP_TEXT_CMD_STOP, 
-  OSP_TEXT_CMD_FADE, 
-  OSP_TEXT_CMD_TEXT_COLOR, 
-  OSP_TEXT_CMD_SHADOW_COLOR, 
-}text_command_type_t;
+	OSP_TEXT_CMD_CHAR = 0,
+	OSP_TEXT_CMD_STOP,
+	OSP_TEXT_CMD_FADE,
+	OSP_TEXT_CMD_TEXT_COLOR,
+	OSP_TEXT_CMD_SHADOW_COLOR,
+} text_command_type_t;
 
-typedef struct 
+typedef struct
 {
 	text_command_type_t type;
 	union
@@ -1511,11 +1514,11 @@ typedef struct
 		char character;
 		float fade;
 		vec4_t color;
-	}value;
-}text_command_t;
+	} value;
+} text_command_t;
 
-text_command_t *CG_CompiledTextCreate(const char *text);
-void CG_CompiledTextDestroy(text_command_t *root);
+text_command_t* CG_CompiledTextCreate(const char* text);
+void CG_CompiledTextDestroy(text_command_t* root);
 
 // flags for CG_DrawString
 enum
@@ -2172,153 +2175,8 @@ void CG_LocalEventCvarChanged_cg_enemyFrozenColor(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart);
 
-//
-// cg_shudmain.c
-//
-
-typedef enum 
-{
-	SUPERHUD_ALIGNH_LEFT,
-	SUPERHUD_ALIGNH_CENTER,
-	SUPERHUD_ALIGNH_RIGHT,
-} superhudAlignH_t;
-
-typedef enum 
-{
-	SUPERHUD_ALIGNV_TOP,
-	SUPERHUD_ALIGNV_CENTER,
-	SUPERHUD_ALIGNV_BOTTOM,
-} superhudAlignV_t;
-
-typedef struct 
-{
-	float p;
-	float y;
-	float r;
-	float e;
-}
-superhudAngles_t;
-
-typedef enum 
-{
-	SUPERHUD_COLOR_RGBA,
-	SUPERHUD_COLOR_T,
-	SUPERHUD_COLOR_E,
-	SUPERHUD_COLOR_I,
-} superhudColorType_t;
-
-typedef struct 
-{
-	superhudColorType_t type;
-	vec4_t color;
-} superhudColor_t;
-
-typedef enum 
-{
-	SUPERHUD_DIR_L_TO_R,
-	SUPERHUD_DIR_R_TO_L,
-	SUPERHUD_DIR_T_TO_B,
-	SUPERHUD_DIR_B_TO_T,
-} superhudDirection_t;
-
-typedef enum 
-{
-	SUPERHUD_ITTEAM_BLUE,
-	SUPERHUD_ITTEAM_RED,
-	SUPERHUD_ITTEAM_NEUTRAL,
-	SUPERHUD_ITTEAM_OWN,
-	SUPERHUD_ITTEAM_ENEMY,
-} superhudItTeam_t;
-
-typedef struct 
-{
-	superhudAlignH_t alignH;
-	superhudAlignV_t alignV;
-	superhudAngles_t angles;
-	vec4_t bgcolor;
-	superhudColor_t color;
-	superhudDirection_t direction;
-	qboolean doublebar;
-	vec4_t fade;
-	int fadedelay;
-	qboolean fill;
-	char font[MAX_QPATH];
-	vec2_t fontsize;
-	char image[MAX_QPATH];
-	vec4_t imagetc;
-	superhudItTeam_t itTeam;
-	vec4_t margins;
-	char model[MAX_QPATH];
-	qboolean monospace;
-	vec3_t offset;
-	vec4_t rect;
-	char text[MAX_QPATH];
-	superhudAlignH_t textAlign;
-	vec2_t textOffset;
-	int textStyle;
-	int time;
-	int flags;
-}superhudConfig_t;
-
-typedef struct 
-{
-	qboolean alignH;
-	qboolean alignV;
-	qboolean angles;
-	qboolean bgcolor;
-	qboolean color;
-	qboolean direction;
-	qboolean doublebar;
-	qboolean fade;
-	qboolean fadedelay;
-	qboolean fill;
-	qboolean font;
-	qboolean fontsize;
-	qboolean image;
-	qboolean imagetc;
-	qboolean itTeam;
-	qboolean margins;
-	qboolean model;
-	qboolean monospace;
-	qboolean offset;
-	qboolean rect;
-	qboolean text;
-	qboolean textAlign;
-	qboolean textOffset;
-	qboolean textStyle;
-	qboolean time;
-	qboolean flags;
-}superhudConfigLoadResult_t;
-
-typedef struct superhudElementDefault_s
-{
-	superhudConfigLoadResult_t configState;
-}superhudElementDefault_t;
-
-typedef enum 
-{
-	SUPERHUD_ELEMENT_TYPE_DEFAULTS,
-}
-superhudElementType_t;
-
-typedef struct 
-{
-	union
-	{
-		superhudElementDefault_t def;
-	}value;
-	superhudElementType_t type;
-} superhudElementContent_t;
-
-typedef struct superhudElement_s 
-{
-  char name[MAX_QPATH];
-	superhudConfig_t config;
-	superhudElementContent_t content;
-	struct superhudElement_s *next;
-}
-superhudElement_t;
 
 #ifdef __cplusplus
 }
 #endif
+#endif //ifndef CG_LOCAL_H

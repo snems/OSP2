@@ -382,10 +382,10 @@ void CG_DrawSmallStringColor(int x, int y, const char* s, vec4_t color)
 	CG_DrawStringExt(x, y, s, color, qtrue, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 0);
 }
 
-/* 
- * Text compiler 
- */ 
- 	//Cut time related symbols like ^f ^F
+/*
+ * Text compiler
+ */
+//Cut time related symbols like ^f ^F
 void CG_OSPDrawStringPrepare(const char* from, char* to, int size)
 {
 	int printed = 0;
@@ -400,30 +400,30 @@ void CG_OSPDrawStringPrepare(const char* from, char* to, int size)
 	{
 		if (from[0] == '^' && from[1] != '^')
 		{
-			switch(from[1])
+			switch (from[1])
 			{
-	 			case 'f':
-					from+=2; //skip ^f
-	 				if ((cg.time & 0x3ff) >= 512)
-	 				{
-	 					while (*from && !(from[0] == '^' && (from[1] == 'N' || from[1] == 'F')))
-	 					{
-	 						++from;
-	 					}
-	 				}
-	 				break;
-	 			case 'F':
-					from+=2; //skip ^F
-	 				if ((cg.time & 0x3ff) < 512)
-	 				{
-	 					while (*from && !(from[0] == '^' && (from[1] == 'N' || from[1] == 'f')))
-	 					{
-	 						++from;
-	 					}
-	 				}
-	 				break;
-	 			default:
-	 				break;
+				case 'f':
+					from += 2; //skip ^f
+					if ((cg.time & 0x3ff) >= 512)
+					{
+						while (*from && !(from[0] == '^' && (from[1] == 'N' || from[1] == 'F')))
+						{
+							++from;
+						}
+					}
+					break;
+				case 'F':
+					from += 2; //skip ^F
+					if ((cg.time & 0x3ff) < 512)
+					{
+						while (*from && !(from[0] == '^' && (from[1] == 'N' || from[1] == 'f')))
+						{
+							++from;
+						}
+					}
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -436,19 +436,19 @@ void CG_OSPDrawStringPrepare(const char* from, char* to, int size)
 }
 
 
-text_command_t *CG_CompiledTextCreate(const char *in)
+text_command_t* CG_CompiledTextCreate(const char* in)
 {
 	int b;
-	text_command_t *commands;
-	text_command_t *result = NULL;
-	char *text;
-	char *dmem;
+	text_command_t* commands;
+	text_command_t* result = NULL;
+	char* text;
+	char* dmem;
 	int i = 0;
 	int len;
 	vec4_t text_color;
 	vec4_t back_color;
 	qboolean back_color_was_set = qfalse;
-	float rc,gc,bc;
+	float rc, gc, bc;
 
 	if (!in || *in == 0)
 	{
@@ -459,23 +459,23 @@ text_command_t *CG_CompiledTextCreate(const char *in)
 	OSP_MEMORY_CHECK(commands);
 
 	len = strlen(in) + 1;
-	dmem = Z_Malloc(len); 
+	dmem = Z_Malloc(len);
 	OSP_MEMORY_CHECK(dmem);
 	text = dmem;
 
 	CG_OSPDrawStringPrepare(in, text, len);
 
-	while(*text)
+	while (*text)
 	{
 		if (text[0] == '^' && text[1])
 		{
-			switch (text[1]) 
+			switch (text[1])
 			{
 				case 'F':
 				case 'f':
 					//skip ^F and ^f
 					text += 2;
-				  break;
+					break;
 				case 'B':
 					b = cg.time & 0x7ff;
 					if (b > 1024)
@@ -539,7 +539,7 @@ text_command_t *CG_CompiledTextCreate(const char *in)
 					commands[i].type = OSP_TEXT_CMD_SHADOW_COLOR;
 					VectorCopy(back_color, commands[i].value.color);
 					back_color_was_set = qtrue;
-					
+
 					++i;
 					text += 8;
 					break;
@@ -552,7 +552,8 @@ text_command_t *CG_CompiledTextCreate(const char *in)
 					break;
 			}
 		}
-		else {
+		else
+		{
 			commands[i].type = OSP_TEXT_CMD_CHAR;
 			commands[i].value.character = text[0];
 			++i;
@@ -571,9 +572,9 @@ text_command_t *CG_CompiledTextCreate(const char *in)
 	return result;
 }
 
-void CG_CompiledTextDestroy(text_command_t *root)
+void CG_CompiledTextDestroy(text_command_t* root)
 {
-	if(root)
+	if (root)
 	{
 		Z_Free(root);
 	}
@@ -947,13 +948,13 @@ static float DrawStringLength(const char* string, float ax, float aw, float max_
 	return (ax - xx);
 }
 
-static float DrawCompiledStringLength(const text_command_t *cmd, float ax, float aw, float max_ax, int proportional)
+static float DrawCompiledStringLength(const text_command_t* cmd, float ax, float aw, float max_ax, int proportional)
 {
 	const font_metric_t* fm;
 	float           x_end;
 	float           xx;
 	int i;
-	const text_command_t *curr;
+	const text_command_t* curr;
 
 	if (!cmd)
 		return 0.0f;
@@ -2067,27 +2068,27 @@ float CG_OSPDrawStringLengthNew(const char* string, float ax, float aw, float ma
 
 		if (*s == Q_COLOR_ESCAPE && s[1] != '\0' && s[1] != '^')
 		{
-			switch(s[1])
+			switch (s[1])
 			{
 				case 'X':
 				case 'x':
+				{
+					float r, g, b;
+					if (!CG_Hex16GetColor((const char*)&s[2], &r))
 					{
-						float r, g, b;
-						if (!CG_Hex16GetColor((const char*)&s[2], &r))
-						{
-							break;
-						}
-						if (!CG_Hex16GetColor((const char*)&s[4], &g))
-						{
-							break;
-						}
-						if (!CG_Hex16GetColor((const char*)&s[6], &b))
-						{
-							break;
-						}
+						break;
 					}
-					s += 8;
-					break;
+					if (!CG_Hex16GetColor((const char*)&s[4], &g))
+					{
+						break;
+					}
+					if (!CG_Hex16GetColor((const char*)&s[6], &b))
+					{
+						break;
+					}
+				}
+				s += 8;
+				break;
 				default:
 					s += 2;
 					break;
@@ -2130,8 +2131,8 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	int             i;
 	qhandle_t       sh;
 	int             proportional;
-	text_command_t *text_commands;
-	text_command_t *curr;
+	text_command_t* text_commands;
+	text_command_t* curr;
 
 	if (!string)
 		return;
@@ -2190,7 +2191,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		for (i = 0; i < OSP_TEXT_CMD_MAX && text_commands[i].type != OSP_TEXT_CMD_STOP; ++i)
 		{
 			curr = &text_commands[i];
-			switch (curr->type )
+			switch (curr->type)
 			{
 				case OSP_TEXT_CMD_CHAR:
 					fm = &metrics[ curr->value.character ];
@@ -2249,7 +2250,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	for (i = 0; i < OSP_TEXT_CMD_MAX && text_commands[i].type != OSP_TEXT_CMD_STOP; ++i)
 	{
 		curr = &text_commands[i];
-		switch (curr->type )
+		switch (curr->type)
 		{
 			case OSP_TEXT_CMD_CHAR:
 				fm = &metrics[ curr->value.character ];
@@ -2291,7 +2292,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 
 	CG_CompiledTextDestroy(text_commands);
 
-	trap_R_SetColor( NULL );
+	trap_R_SetColor(NULL);
 }
 
 int CG_OSPDrawStringWithShadow(int x, int y, const char* str, int charWidth, int charHeight, const vec4_t color, int maxChars)

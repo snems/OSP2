@@ -748,7 +748,7 @@ void CG_DrawTimer2(void)
 	s = va("%i:%i%i", mins, tens, seconds);
 	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
 
-	CG_DrawBigString(320 - w/2, 2, s, 1.0F);
+	CG_DrawBigString(320 - w / 2, 2, s, 1.0F);
 }
 
 

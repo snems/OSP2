@@ -163,13 +163,13 @@ void CG_OSPDrawCrosshair(void)
 		speed_str =
 		    va("<%fups>", cg.xyspeed);
 		CG_OSPDrawStringOld((320 - 5 * strlen(speed_str)),
-		                 225.0f - 0.5f * cg_crosshairSize.value,
-		                 speed_str,
-		                 10,
-		                 10,
-		                 crosshairSpeedColor,
-		                 0,
-		                 0);
+		                    225.0f - 0.5f * cg_crosshairSize.value,
+		                    speed_str,
+		                    10,
+		                    10,
+		                    crosshairSpeedColor,
+		                    0,
+		                    0);
 	}
 
 	switch (weapon)

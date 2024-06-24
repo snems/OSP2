@@ -41,6 +41,7 @@ void *Z_Malloc( int size );
 void Z_Free(const void *ptr );
 int Z_AvailableMemory( void );
 void Z_Stats(zone_stats_t *stats);
+char* Z_StrDup(const char *str);
 
 int Q_sscanf( const char *buffer, const char *fmt, ... );
 

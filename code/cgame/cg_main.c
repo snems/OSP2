@@ -310,6 +310,8 @@ vmCvar_t           cg_enemyFrozenColor;
 
 vmCvar_t           cg_spectGlow;
 
+vmCvar_t           ch_file;
+
 
 static cvarTable_t cvarTable[] =
 {
@@ -474,6 +476,7 @@ static cvarTable_t cvarTable[] =
 	{ &cf_Following, "cf_Following", "24x24", CVAR_ARCHIVE },
 	{ &ch_FilterLocationsTeamchat, "ch_FilterLocationsTeamchat", "0", CVAR_ARCHIVE },
 	{ &ch_fragMessage, "ch_fragMessage", "1", CVAR_ARCHIVE },
+	{ &ch_file, "ch_file", "hud1", CVAR_ARCHIVE },
 	{ &cf_Fragmsg, "cf_Fragmsg", "16x16", CVAR_ARCHIVE },
 	{ &ch_graphs, "ch_graphs", "1", CVAR_ARCHIVE },
 	{ &ch_InverseTeamChat, "ch_InverseTeamChat", "1", CVAR_ARCHIVE },
@@ -606,7 +609,7 @@ void CG_RegisterCvars(void)
 			//collision
 			while ((*target)->next)
 			{
-				*target = (*target)->next;
+				target = &(*target)->next;
 			}
 			cv->prev = *target;
 			(*target)->next = cv;
