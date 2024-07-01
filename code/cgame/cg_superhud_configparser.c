@@ -23,7 +23,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "flagstatus_nme" },
 	{ "flagstatus_own" },
 	{ "followmessage" },
-	{ "fps" },
+	{ "fps", CG_SHUDElementFPSCreate, CG_SHUDElementFPSRoutine, CG_SHUDElementFPSDestroy, NULL, NULL},
 	{ "fragmessage" },
 	{ "gametime" },
 	{ "gametype" },
@@ -1243,7 +1243,7 @@ const superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_
 	return result;
 }
 
-/* Поиск элемента
+/* Поиск команды
  *
  * пропускаем пробелы
  * пропускаем комментарии

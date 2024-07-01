@@ -210,15 +210,6 @@ typedef struct
 	superhudElementType_t type;
 } superhudElementContent_t;
 
-typedef struct superhudElement_s
-{
-	char name[MAX_QPATH];
-	superhudConfig_t config;
-	superhudElementContent_t content;
-	struct superhudElement_s* next;
-}
-superhudElement_t;
-
 typedef struct configFileLine_s
 {
 	char* line;
@@ -249,11 +240,20 @@ typedef struct superHUDConfigElement_s
 {
 	const char* name;
 	void* (*create)(superhudConfig_t* config);
-	qboolean (*routine)(void *context);
+	void (*routine)(void *context);
 	void (*destroy)(void *context);
 	void *context;
 	struct superHUDConfigElement_s* next;
 } superHUDConfigElement_t;
+
+typedef struct superhudElement_s
+{
+	superHUDConfigElement_t element;
+	superhudConfig_t config;
+	superhudElementContent_t content;
+	struct superhudElement_s* next;
+}
+superhudElement_t;
 
 typedef struct superHUDConfigCommand_s
 {
@@ -286,6 +286,29 @@ void CG_SHUDFileInfoSkipSpaces(configFileInfo_t* cfi);
 qboolean CG_SHUDFileInfoSkipCommandEnd(configFileInfo_t* cfi);
 const superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_t* cfi);
 const superhudConfigParseCommand_t CG_SHUDFileInfoGetCommandItem(configFileInfo_t* cfi);
+
+void* CG_SHUDElementFPSCreate(superhudConfig_t* config);
+void CG_SHUDElementFPSRoutine(void *context);
+void CG_SHUDElementFPSDestroy(void *context);
+
+
+/*
+ * cg_superhud_util.c
+ */
+
+typedef struct
+{
+	float textX;
+	float textY;
+	float fontW;
+	float fontH;
+	int flags;
+	vec4_t color;
+	int maxchars;
+} superhudTextPosition;
+
+void CG_SHUDTextCalcPosition(const superhudConfig_t *in, superhudTextPosition *out);
+void CG_SHUDTextPrint(const char *text, const superhudTextPosition *pos);
 
 #ifdef __cplusplus
 }

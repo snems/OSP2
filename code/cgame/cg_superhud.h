@@ -9,6 +9,7 @@ extern "C" {
 
 void CG_SHUDSetConfig(const char* filename);
 void CG_SHUDLoadConfig(void);
+void CG_SHUDRoutine(void);
 
 #ifdef __cplusplus
 }

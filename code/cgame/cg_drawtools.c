@@ -2137,17 +2137,22 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	if (!string)
 		return;
 
+
 	text_commands = CG_CompiledTextCreate(string);
 	if (!text_commands)
 	{
 		return;
 	}
 
-	ax = x * cgs.screenXScale + cgs.screenXBias;
-	ay = y * cgs.screenYScale + cgs.screenYBias;
+	ax = x;
+	ay = y;
+	//ax = x * cgs.screenXScale + cgs.screenXBias;
+	//ay = y * cgs.screenYScale + cgs.screenYBias;
 
 	aw = charWidth * cgs.screenXScale;
 	ah = charHeight * cgs.screenYScale;
+
+	CG_AdjustFrom640(&x, &y, &charWidth, &charHeight);
 
 	if (maxChars <= 0)
 	{

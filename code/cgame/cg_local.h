@@ -1523,8 +1523,9 @@ void CG_CompiledTextDestroy(text_command_t* root);
 // flags for CG_DrawString
 enum
 {
-	DS_SHADOW      = 0x1,
-	DS_FORCE_COLOR = 0x2,
+	DS_LEFT         = 0,   // alignment
+	DS_SHADOW       = 0x1,
+	DS_FORCE_COLOR  = 0x2,
 	DS_PROPORTIONAL = 0x4,
 	DS_CENTER = 0x8,    // alignment
 	DS_RIGHT  = 0x10    // alignment

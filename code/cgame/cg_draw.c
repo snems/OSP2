@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // active (after loading) gameplay
 
 #include "cg_local.h"
+#include "cg_superhud.h"
 
 int drawTeamOverlayModificationCount = -1;
 
@@ -2324,10 +2325,15 @@ static void CG_Draw2D(void)
 		return;
 	}
 
-	if (cg_enableOSPHUD.integer)
+	if (cg_enableOSPHUD.integer == 1)
 	{
 		CG_OSPHUDRoutine();
-		return;
+    return;
+	}
+	else if (cg_enableOSPHUD.integer)
+	{
+		CG_SHUDRoutine();
+    return;
 	}
 
 	if (cg.snap->ps.pm_type == PM_INTERMISSION)

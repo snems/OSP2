@@ -15,7 +15,8 @@ CG_SRC = \
  bg_slidemove bg_pmove bg_lib bg_misc \
  q_math q_shared cg_ospconfig cg_osputil cg_osphud cg_unlagged cg_playerscolors\
  cg_localevents cg_customloc common\
- cg_superhud cg_superhud_configparser \
+ cg_superhud cg_superhud_configparser cg_superhud_util \
+ cg_superhud_element_fps \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \
