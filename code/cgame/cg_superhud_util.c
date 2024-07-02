@@ -75,7 +75,7 @@ static void CG_SHUDConfigDefaultsCheck(superhudConfig_t* config)
   }
 }
 
-void CG_SHUDTextCalcPosition(const superhudConfig_t *in, superhudTextPosition *out)
+void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext *out)
 {
   superhudConfig_t config;
   memset(out, 0, sizeof(*out));
@@ -97,7 +97,7 @@ void CG_SHUDTextCalcPosition(const superhudConfig_t *in, superhudTextPosition *o
       out->flags |= DS_CENTER;
       break;
     case SUPERHUD_ALIGNH_RIGHT:
-      out->textX = config.rect.value[2];
+      out->textX = config.rect.value[0] + config.rect.value[2];
       out->textY = config.rect.value[1];
       out->flags |= DS_RIGHT;
       break;
@@ -115,18 +115,21 @@ void CG_SHUDTextCalcPosition(const superhudConfig_t *in, superhudTextPosition *o
     out->flags |= DS_SHADOW;
   }
 
+  out->fontIndex = 0;
+
   Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color);
 }
 
-void CG_SHUDTextPrint(const char *text, const superhudTextPosition *pos)
+void CG_SHUDTextPrint(const char *text, const superhudTextContext *ctx)
 {
-  CG_OSPDrawString(pos->textX, 
-                   pos->textY, 
+  CG_SelectFont(ctx->fontIndex);
+  CG_OSPDrawString(ctx->textX, 
+                   ctx->textY, 
                    text, 
-                   pos->color, 
-                   pos->fontW, 
-                   pos->fontH, 
-                   pos->maxchars,
-                   pos->flags);
+                   ctx->color, 
+                   ctx->fontW, 
+                   ctx->fontH, 
+                   ctx->maxchars,
+                   ctx->flags);
 }
 

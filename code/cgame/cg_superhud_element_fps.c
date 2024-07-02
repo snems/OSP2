@@ -9,7 +9,7 @@ typedef struct
   float timeAverage;
   int framesNum;
 	int timePrev;
-  superhudTextPosition position;
+  superhudTextContext ctx;
 } shudElementFPS_t;
 
 void* CG_SHUDElementFPSCreate(superhudConfig_t* config)
@@ -23,8 +23,8 @@ void* CG_SHUDElementFPSCreate(superhudConfig_t* config)
 
   memcpy(&fps->config, config, sizeof(fps->config));
 
-  CG_SHUDTextCalcPosition(&fps->config, &fps->position);
-  fps->position.maxchars = 6;
+  CG_SHUDTextMakeContext(&fps->config, &fps->ctx);
+  fps->ctx.maxchars = 6;
 
   return fps;
 }
@@ -64,7 +64,7 @@ void CG_SHUDElementFPSRoutine(void *context)
 
 	s = va("%ifps", fps_val);
 
-  CG_SHUDTextPrint(s, &fps->position);
+  CG_SHUDTextPrint(s, &fps->ctx);
 }
 
 void CG_SHUDElementFPSDestroy(void *context)

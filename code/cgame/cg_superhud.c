@@ -246,5 +246,6 @@ void CG_SHUDRoutine(void)
 		}
 		last = last->next;
 	}
+  CG_OSPDrawCrosshair();
 }
 

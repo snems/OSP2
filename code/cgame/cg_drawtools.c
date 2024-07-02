@@ -103,16 +103,6 @@ qboolean CG_OSPGetClientFontSize(const vmCvar_t* cvar, int* w, int* h)
 	return qfalse;
 }
 
-/*
-================
-CG_CorrectWide
-
-Adjust wide for wide screens
-================
-*/
-void CG_CorrectWide(float* w)
-{
-}
 
 /*
 ================
@@ -124,8 +114,8 @@ Adjusted for resolution and screen aspect ratio
 void CG_AdjustFrom640(float* x, float* y, float* w, float* h)
 {
 	// scale for screen sizes
-	*x = *x * cgs.screenXScale + cgs.screenXBias;
-	*y = *y * cgs.screenYScale + cgs.screenYBias;
+	*x *= cgs.screenXScale_Old;
+	*y *= cgs.screenYScale_Old;
 	*w *= cgs.screenXScale;
 	*h *= cgs.screenYScale;
 }
@@ -2144,15 +2134,14 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		return;
 	}
 
+	CG_AdjustFrom640(&x, &y, &charWidth, &charHeight);
+
 	ax = x;
 	ay = y;
-	//ax = x * cgs.screenXScale + cgs.screenXBias;
-	//ay = y * cgs.screenYScale + cgs.screenYBias;
 
-	aw = charWidth * cgs.screenXScale;
-	ah = charHeight * cgs.screenYScale;
+	aw = charWidth;
+	ah = charHeight;
 
-	CG_AdjustFrom640(&x, &y, &charWidth, &charHeight);
 
 	if (maxChars <= 0)
 	{

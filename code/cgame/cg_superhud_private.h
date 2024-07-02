@@ -291,6 +291,14 @@ void* CG_SHUDElementFPSCreate(superhudConfig_t* config);
 void CG_SHUDElementFPSRoutine(void *context);
 void CG_SHUDElementFPSDestroy(void *context);
 
+void* CG_SHUDElementSBHCCreate(superhudConfig_t* config);
+void CG_SHUDElementSBHCRoutine(void *context);
+void CG_SHUDElementSBHCDestroy(void *context);
+
+void* CG_SHUDElementSBACCreate(superhudConfig_t* config);
+void CG_SHUDElementSBACRoutine(void *context);
+void CG_SHUDElementSBACDestroy(void *context);
+
 
 /*
  * cg_superhud_util.c
@@ -305,10 +313,11 @@ typedef struct
 	int flags;
 	vec4_t color;
 	int maxchars;
-} superhudTextPosition;
+	int fontIndex;
+} superhudTextContext;
 
-void CG_SHUDTextCalcPosition(const superhudConfig_t *in, superhudTextPosition *out);
-void CG_SHUDTextPrint(const char *text, const superhudTextPosition *pos);
+void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext *out);
+void CG_SHUDTextPrint(const char *text, const superhudTextContext *pos);
 
 #ifdef __cplusplus
 }
