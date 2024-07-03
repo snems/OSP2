@@ -295,6 +295,10 @@ void* CG_SHUDElementSBHCCreate(superhudConfig_t* config);
 void CG_SHUDElementSBHCRoutine(void *context);
 void CG_SHUDElementSBHCDestroy(void *context);
 
+void* CG_SHUDElementSBHICreate(superhudConfig_t* config);
+void CG_SHUDElementSBHIRoutine(void *context);
+void CG_SHUDElementSBHIDestroy(void *context);
+
 void* CG_SHUDElementSBACCreate(superhudConfig_t* config);
 void CG_SHUDElementSBACRoutine(void *context);
 void CG_SHUDElementSBACDestroy(void *context);
@@ -316,6 +320,17 @@ typedef struct
 	int fontIndex;
 } superhudTextContext;
 
+typedef struct
+{
+	float x;
+	float y;
+	float w;
+	float h;
+	qhandle_t image;
+	vec4_t color;
+} superhudDrawContext;
+
+void CG_SHUDDrawMakeContext(const superhudConfig_t *in, superhudDrawContext *out);
 void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext *out);
 void CG_SHUDTextPrint(const char *text, const superhudTextContext *pos);
 

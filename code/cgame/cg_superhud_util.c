@@ -34,6 +34,7 @@ static const float *CG_SHUDConfigPickColor(const superhudColor_t *in)
     case SUPERHUD_COLOR_I:
       return colorWhite;
   }
+	return colorWhite;
 }
 
 static void CG_SHUDConfigDefaultsCheck(superhudConfig_t* config)
@@ -116,6 +117,24 @@ void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext *out
   }
 
   out->fontIndex = 0;
+
+  Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color);
+}
+
+void CG_SHUDDrawMakeContext(const superhudConfig_t *in, superhudDrawContext *out)
+{
+  superhudConfig_t config;
+  memset(out, 0, sizeof(*out));
+  memcpy(&config, in, sizeof(config));
+
+  CG_SHUDConfigDefaultsCheck(&config);
+
+  out->x = config.rect.value[0];
+  out->y = config.rect.value[1];
+  out->w = config.rect.value[2];
+  out->h = config.rect.value[3];
+
+  CG_AdjustFrom640(&out->x, &out->y, &out->w, &out->h);
 
   Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color);
 }
