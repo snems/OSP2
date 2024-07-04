@@ -17,8 +17,8 @@ CG_SRC = \
  cg_localevents cg_customloc common\
  cg_superhud cg_superhud_configparser cg_superhud_util \
  cg_superhud_element_fps \
- cg_superhud_element_statusbar_healthcount cg_superhud_element_statusbar_armorcount \
- cg_superhud_element_statusbar_healthicon \
+ cg_superhud_element_sbhc cg_superhud_element_sbac \
+ cg_superhud_element_sbhi \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \
