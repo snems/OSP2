@@ -586,27 +586,42 @@ typedef struct
 
 typedef struct
 {
+	const char* name;
 	font_metric_t   metrics[256];
 	qhandle_t       shader[ MAX_FONT_SHADERS ];
 	int             shaderThreshold[ MAX_FONT_SHADERS ];
 	int             shaderCount;
 } font_t;
 
+static font_t fonts[] = {{"id"}, {"idblock"}, {"sansman"}};
+static int fonts_num = sizeof(fonts)/sizeof(fonts[0]);
+static const font_t* font = &fonts[0];
+static const font_metric_t* metrics = &fonts[0].metrics[0];
 
-static font_t bigchars;
-static font_t numbers;
-static const font_t* font = &bigchars;
-static const font_metric_t* metrics = &bigchars.metrics[0];
 
-
-void CG_SelectFont(int index)
+void CG_FontSelect(int index)
 {
-	if (index == 0)
-		font = &bigchars;
-	else
-		font = &numbers;
+	if (index < 0 || index >= fonts_num)
+	{
+		CG_Error("Requested nonexistent font number: %d\n", index);
+	}
 
+	font = &fonts[index];	
 	metrics = &font->metrics[0];
+}
+
+int CG_FontIndexFromName(const char *name)
+{
+	int index;
+	for (index = 0; index < fonts_num; ++index)
+	{
+		if (Q_stricmp(name, fonts[index].name) == 0)
+		{
+			return index;
+		}
+	}
+	CG_Printf("^1Unknown font %s, using default\n", name);
+	return 0;
 }
 
 
@@ -645,8 +660,6 @@ static void CG_LoadFont(font_t* fnt, const char* fontName)
 	float s1, s2;
 	float x0, y0;
 	qboolean swapped;
-
-	memset(fnt, 0, sizeof(*fnt));
 
 	len = trap_FS_FOpenFile(fontName, &f, FS_READ);
 	if (f == FS_INVALID_HANDLE)
@@ -883,8 +896,9 @@ static void CG_LoadFont(font_t* fnt, const char* fontName)
 
 void CG_LoadFonts(void)
 {
-	CG_LoadFont(&bigchars, "gfx/2d/bigchars.cfg");
-	CG_LoadFont(&numbers, "gfx/2d/numbers.cfg");
+	CG_LoadFont(&fonts[0], "gfx/2d/bigchars.cfg");
+	CG_LoadFont(&fonts[1], "gfx/2d/numbers.cfg");
+	CG_LoadFont(&fonts[2], "gfx/2d/sansman.cfg");
 }
 
 
@@ -2168,13 +2182,22 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	}
 
 	sh = font->shader[0]; // low-res shader by default
+	
+	// select hi-res shader if accepted
+	for (i = 1; i < font->shaderCount; i++)
+	{
+		if (ah >= font->shaderThreshold[i])
+		{
+			sh = font->shader[i];
+		}
+	}
 
 	if (flags & DS_SHADOW)
 	{
 		xx = ax;
 
 		// calculate shadow offsets
-		scale = charWidth * 0.075f; // charWidth/15
+		scale = charWidth * 0.020f; // charWidth/15
 		xx_add = scale * cgs.screenXScale;
 		yy_add = scale * cgs.screenYScale;
 
@@ -2229,14 +2252,6 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		ax = xx;
 	}
 
-	// select hi-res shader if accepted
-	for (i = 1; i < font->shaderCount; i++)
-	{
-		if (ah >= font->shaderThreshold[i])
-		{
-			sh = font->shader[i];
-		}
-	}
 
 	Vector4Copy(setColor, color);
 	trap_R_SetColor(color);

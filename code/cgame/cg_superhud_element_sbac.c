@@ -20,6 +20,14 @@ void* CG_SHUDElementSBACCreate(superhudConfig_t* config)
 
   memcpy(&sbac->config, config, sizeof(sbac->config));
 
+  //load defaults
+  if (!sbac->config.color.isSet)
+  {
+    sbac->config.color.isSet = qtrue;
+    sbac->config.color.value.type = SUPERHUD_COLOR_RGBA;
+    Vector4Set(sbac->config.color.value.rgba, 1, 0.7, 0, 1);
+  }
+
   CG_SHUDTextMakeContext(&sbac->config, &sbac->position);
   sbac->position.maxchars = 6;
 
@@ -33,7 +41,7 @@ void CG_SHUDElementSBACRoutine(void *context)
 
 	playerState_t* ps = &cg.snap->ps;
 
-	s = va("%i", ps->stats[STAT_ARMOR]);
+	s = va("^X000000%i", ps->stats[STAT_ARMOR]);
 
   CG_SHUDTextPrint(s, &sbac->position);
 }

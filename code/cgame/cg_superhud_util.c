@@ -116,7 +116,10 @@ void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext *out
     out->flags |= DS_SHADOW;
   }
 
-  out->fontIndex = 0;
+  if (config.font.isSet)
+  {
+    out->fontIndex = CG_FontIndexFromName(config.font.value);
+  }
 
   Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color);
 }
@@ -141,7 +144,7 @@ void CG_SHUDDrawMakeContext(const superhudConfig_t *in, superhudDrawContext *out
 
 void CG_SHUDTextPrint(const char *text, const superhudTextContext *ctx)
 {
-  CG_SelectFont(ctx->fontIndex);
+  CG_FontSelect(ctx->fontIndex);
   CG_OSPDrawString(ctx->textX, 
                    ctx->textY, 
                    text, 

@@ -1494,7 +1494,8 @@ float CG_OSPDrawStringLength(const char* string, float ax, float aw, float max_a
 
 void CG_OSPDrawStringPrepare(const char* from, char* to, int size);
 void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
-void CG_SelectFont(int index);
+void CG_FontSelect(int index);
+int CG_FontIndexFromName(const char *name);
 
 #define OSP_TEXT_CMD_MAX 2048
 
