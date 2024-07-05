@@ -20,6 +20,8 @@ CG_SRC = \
  cg_superhud_element_sbhc cg_superhud_element_sbac \
  cg_superhud_element_sbhi cg_superhud_element_sbai \
  cg_superhud_element_target_name \
+ cg_superhud_element_vmw \
+ cg_superhud_element_attacker_name \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

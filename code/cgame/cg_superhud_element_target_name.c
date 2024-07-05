@@ -2,7 +2,6 @@
 #include "cg_superhud_private.h"
 #include "../qcommon/qcommon.h"
 
-#define FPS_MAX_FRAMES  32
 typedef struct
 {
   superhudConfig_t config;
@@ -20,12 +19,8 @@ void* CG_SHUDElementTargetNameCreate(superhudConfig_t* config)
 
   memcpy(&tn->config, config, sizeof(tn->config));
 
-  NYAN_FLOAT(tn->config.rect.value[0]);
-
   CG_SHUDTextMakeContext(&tn->config, &tn->ctx);
-  NYAN_FLOAT(tn->config.rect.value[0]);
-  NYAN_FLOAT(tn->ctx.textX);
-  tn->ctx.maxchars = 6;
+  tn->ctx.maxchars = MAX_QPATH;
 
   return tn;
 }
@@ -34,14 +29,8 @@ void CG_SHUDElementTargetNameRoutine(void *context)
 {
   shudElementTargetName_t *tn = (shudElementTargetName_t *)context;
 	char    s[1024];
-	int     fps_val;
-	int     t;
-
 	float* fade;
-	float delta_time;
 	clientInfo_t* ci;
-	int w;
-	int h;
 
 	if (cg_drawCrosshair.integer == 0) return;
 	if (cg_drawCrosshairNames.integer == 0) return;
@@ -56,7 +45,6 @@ void CG_SHUDElementTargetNameRoutine(void *context)
 		trap_R_SetColor(NULL);
 		return;
 	}
-  //NYAN_POINT();
 
 	ci = &cgs.clientinfo[cg.crosshairClientNum];
 
@@ -72,13 +60,7 @@ void CG_SHUDElementTargetNameRoutine(void *context)
 			Com_sprintf(s, 1024, "%s", ci->name);
 		}
 	}
-	//tn->ctx.color[3] = fade[3];
-  NYAN_MSG(s);
-  NYAN_FLOAT(tn->ctx.textX);
-  NYAN_FLOAT(tn->ctx.textY);
-  NYAN_FLOAT(tn->ctx.fontW);
-  NYAN_FLOAT(tn->ctx.fontH);
-  NYAN_FLOAT(tn->ctx.fontIndex);
+	tn->ctx.color[3] = fade[3];
 
   CG_SHUDTextPrint(s, &tn->ctx);
 }
