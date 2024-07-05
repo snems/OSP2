@@ -18,7 +18,7 @@ CG_SRC = \
  cg_superhud cg_superhud_configparser cg_superhud_util \
  cg_superhud_element_fps \
  cg_superhud_element_sbhc cg_superhud_element_sbac \
- cg_superhud_element_sbhi \
+ cg_superhud_element_sbhi cg_superhud_element_sbai \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

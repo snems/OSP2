@@ -303,6 +303,10 @@ void* CG_SHUDElementSBACCreate(superhudConfig_t* config);
 void CG_SHUDElementSBACRoutine(void *context);
 void CG_SHUDElementSBACDestroy(void *context);
 
+void* CG_SHUDElementSBAICreate(superhudConfig_t* config);
+void CG_SHUDElementSBAIRoutine(void *context);
+void CG_SHUDElementSBAIDestroy(void *context);
+
 
 /*
  * cg_superhud_util.c

@@ -80,7 +80,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "specmessage" },
 	{ "statusbar_armorbar" },
 	{ "statusbar_armorcount" , CG_SHUDElementSBACCreate, CG_SHUDElementSBACRoutine, CG_SHUDElementSBACDestroy},
-	{ "statusbar_armoricon" },
+	{ "statusbar_armoricon" , CG_SHUDElementSBAICreate, CG_SHUDElementSBAIRoutine, CG_SHUDElementSBAIDestroy },
 	{ "statusbar_ammobar" },
 	{ "since" },
 	{ "statusbar_ammocount" },
