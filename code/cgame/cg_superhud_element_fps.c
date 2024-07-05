@@ -36,11 +36,6 @@ void CG_SHUDElementFPSRoutine(void *context)
 	int     fps_val;
 	int     t;
 
-  if (!fps)
-  {
-    CG_Error("SuperHUD error: attempt to draw empty FPS element");
-  }
-
 	// don't use serverTime, because that will be drifting to
 	// correct for internet lag changes, timescales, timedemos, etc
 	t = trap_Milliseconds();

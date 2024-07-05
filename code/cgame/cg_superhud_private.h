@@ -307,6 +307,9 @@ void* CG_SHUDElementSBAICreate(superhudConfig_t* config);
 void CG_SHUDElementSBAIRoutine(void *context);
 void CG_SHUDElementSBAIDestroy(void *context);
 
+void* CG_SHUDElementTargetNameCreate(superhudConfig_t* config);
+void CG_SHUDElementTargetNameRoutine(void *context);
+void CG_SHUDElementTargetNameDestroy(void *context);
 
 /*
  * cg_superhud_util.c

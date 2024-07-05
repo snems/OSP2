@@ -93,7 +93,7 @@ void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext *out
       out->flags |= DS_LEFT;
       break;
     case SUPERHUD_ALIGNH_CENTER:
-      out->textX = (config.rect.value[2] - config.rect.value[0]) / 2.0f;
+      out->textX = config.rect.value[0] + config.rect.value[2] / 2.0f;
       out->textY = config.rect.value[1];
       out->flags |= DS_CENTER;
       break;

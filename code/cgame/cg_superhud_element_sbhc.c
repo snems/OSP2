@@ -43,9 +43,9 @@ void CG_SHUDElementSBHCRoutine(void *context)
 {
   shudElementStatusbarHealthCount *sbhc = (shudElementStatusbarHealthCount *)context;
   const char *s;
-	playerState_t* ps = &cg.snap->ps;
+  int hp = cg.snap->ps.stats[STAT_HEALTH];
 
-	s = va(sbhc->config.text.value, ps->stats[STAT_HEALTH]);
+	s = va(sbhc->config.text.value, hp > 0 ? hp : 0);
 
   CG_SHUDTextPrint(s, &sbhc->position);
 }

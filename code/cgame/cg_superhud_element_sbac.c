@@ -38,10 +38,9 @@ void CG_SHUDElementSBACRoutine(void *context)
 {
   shudElementStatusbarHealthCount *sbac = (shudElementStatusbarHealthCount *)context;
   const char *s;
+  int ap = cg.snap->ps.stats[STAT_ARMOR];
 
-	playerState_t* ps = &cg.snap->ps;
-
-	s = va("^X000000%i", ps->stats[STAT_ARMOR]);
+	s = va("^X000000%i", ap > 0 ? ap : 0);
 
   CG_SHUDTextPrint(s, &sbac->position);
 }
