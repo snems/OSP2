@@ -1,3 +1,4 @@
+#include "cg_superhud.h"
 #include "cg_local.h"
 
 int global_handicap; // unused?
@@ -323,6 +324,27 @@ void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart)
 {
 	/* touch fragsound to reload it */
 	(void)CG_GetFragSound();
+}
+
+void CG_LocalEventCvarChanged_ch_file(cvarTable_t* cvart)
+{
+	if (cvart->vmCvar->string[0])
+	{
+		CG_SHUDLoadConfig();
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart)
+{
+	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_OSP_HUD_FLAG) && cg_shud.integer)
+	{
+		CG_Printf("^3The SuperHUD has been disabled on this server.\n");
+		trap_Cvar_Set("cg_shud", "0");
+	}
+	if (cvart->vmCvar->integer && ch_file.string[0])
+	{
+		CG_SHUDLoadConfig();
+	}
 }
 
 

@@ -197,6 +197,7 @@ vmCvar_t           cg_deadBodyBlack;
 vmCvar_t           cg_drawDecals;
 vmCvar_t           cg_drawPing;
 vmCvar_t           cg_enableOSPHUD;
+vmCvar_t           cg_shud;
 vmCvar_t           cg_enableBreath;
 vmCvar_t           cg_enemyColors;
 vmCvar_t           cg_enemyModel;
@@ -431,6 +432,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_drawDecals, "cg_drawDecals", "1", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
 	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "2", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enableOSPHUD},
+	{ &cg_shud, "cg_shud", "1", CVAR_ARCHIVE , CG_LocalEventCvarChanged_cg_shud},
 	{ &cg_enableBreath, "cg_enableBreath", "1",  CVAR_ARCHIVE},
 	{ &cg_enemyColors, "cg_enemyColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyColors},
 	{ &cg_enemyModel, "cg_enemyModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModel},
@@ -476,7 +478,7 @@ static cvarTable_t cvarTable[] =
 	{ &cf_Following, "cf_Following", "24x24", CVAR_ARCHIVE },
 	{ &ch_FilterLocationsTeamchat, "ch_FilterLocationsTeamchat", "0", CVAR_ARCHIVE },
 	{ &ch_fragMessage, "ch_fragMessage", "1", CVAR_ARCHIVE },
-	{ &ch_file, "ch_file", "hud1", CVAR_ARCHIVE },
+	{ &ch_file, "ch_file", "hud1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_file},
 	{ &cf_Fragmsg, "cf_Fragmsg", "16x16", CVAR_ARCHIVE },
 	{ &ch_graphs, "ch_graphs", "1", CVAR_ARCHIVE },
 	{ &ch_InverseTeamChat, "ch_InverseTeamChat", "1", CVAR_ARCHIVE },

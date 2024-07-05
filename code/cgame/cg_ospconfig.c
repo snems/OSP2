@@ -287,6 +287,7 @@ void CG_OSPConfigCustomClientSet(int value)
 	CG_CvarTouch("cg_altGrenades");
 	CG_CvarTouch("cg_altLightning");
 	CG_CvarTouch("cg_enableOSPHUD");
+	CG_CvarTouch("cg_shud");
 }
 
 /*

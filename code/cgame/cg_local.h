@@ -1291,6 +1291,7 @@ extern vmCvar_t           cg_deadBodyBlack;
 extern vmCvar_t           cg_drawDecals;
 extern vmCvar_t           cg_drawPing;
 extern vmCvar_t           cg_enableOSPHUD;
+extern vmCvar_t           cg_shud;
 extern vmCvar_t           cg_enableBreath;
 extern vmCvar_t           cg_enemyColors;
 extern vmCvar_t           cg_enemyModel;
@@ -2177,6 +2178,9 @@ void CG_LocalEventCvarChanged_cg_enemyRailColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyFrozenColor(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart);
+
+void CG_LocalEventCvarChanged_ch_file(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart);
 
 
 #ifdef __cplusplus

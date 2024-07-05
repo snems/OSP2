@@ -2325,14 +2325,15 @@ static void CG_Draw2D(void)
 		return;
 	}
 
-	if (cg_enableOSPHUD.integer == 1)
-	{
-		CG_OSPHUDRoutine();
-    return;
-	}
-	else if (cg_enableOSPHUD.integer)
+	if (cg_shud.integer)
 	{
 		CG_SHUDRoutine();
+    return;
+	}
+
+	if (cg_enableOSPHUD.integer)
+	{
+		CG_OSPHUDRoutine();
     return;
 	}
 
