@@ -26,11 +26,6 @@ void* CG_SHUDElementSBAICreate(superhudConfig_t* config)
     sbai->ctx.image = trap_R_RegisterShader(sbai->config.image.value);
   }
 
-  if (!sbai->ctx.image)
-  {
-    sbai->ctx.image = cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_9]];
-  }
-
   return sbai;
 }
 
@@ -39,7 +34,8 @@ void CG_SHUDElementSBAIRoutine(void *context)
   shudElementStatusbarArmorIcon *sbai = (shudElementStatusbarArmorIcon *)context;
 
 	trap_R_SetColor(sbai->ctx.color);
-	trap_R_DrawStretchPic(sbai->ctx.x, sbai->ctx.y, sbai->ctx.w+1, sbai->ctx.h, 0, 0, 1, 1, sbai->ctx.image);
+	trap_R_DrawStretchPic(sbai->ctx.x, sbai->ctx.y, sbai->ctx.w+1, sbai->ctx.h, 0, 0, 1, 1, 
+	     sbai->ctx.image ? sbai->ctx.image: cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]] );
 	trap_R_SetColor(NULL);
 
 }

@@ -568,7 +568,7 @@ void CG_DrawStatusBar(void)
 		// if we didn't draw a 3D icon, draw a 2D icon for armor
 		if (!cg_draw3dIcons.integer && cg_drawIcons.integer)
 		{
-			CG_DrawPicOld(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_OSP_9]]);
+			CG_DrawPicOld(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
 		}
 
 	}

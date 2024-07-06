@@ -2202,7 +2202,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		xx_add = scale * cgs.screenXScale;
 		yy_add = scale * cgs.screenYScale;
 
-		VectorCopy(colorWhite, color);
+		VectorCopy(colorBlack, color);
 		color[3] = fade;
 		trap_R_SetColor(color);
 

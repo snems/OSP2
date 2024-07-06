@@ -1943,7 +1943,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 		if ((cgs.osp.server_mode & 0x2) != 0)
 		{
 			qhandle_t icon;
-			icon = cgs.media.armorIcon[ps->stats[STAT_OSP_9]];
+			icon = cgs.media.armorIcon[ps->stats[STAT_OSP_8]];
 			if (icon)
 			{
 				CG_DrawPicOld((float)(((486 - w_tmp) + (3 * w)) + 3), 452.0f, 24.0f, 24.0f, icon);

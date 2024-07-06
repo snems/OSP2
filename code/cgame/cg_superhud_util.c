@@ -116,10 +116,7 @@ void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext *out
     out->flags |= DS_SHADOW;
   }
 
-  if (config.font.isSet)
-  {
-    out->fontIndex = CG_FontIndexFromName(config.font.value);
-  }
+  out->fontIndex = CG_FontIndexFromName(config.font.isSet ? config.font.value : "sansman");
 
   Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color);
 }

@@ -106,6 +106,7 @@ void CG_SHUDLoadConfig(void)
 		if (statusElement.status == SUPERHUD_CONFIG_OK)
 		{
 			qboolean eoe = qfalse; //end of element
+			qboolean is_default = qfalse;
 			// parse element body
 			if (!newElementsHead)
 			{
@@ -123,9 +124,12 @@ void CG_SHUDLoadConfig(void)
 				newElementLast = newElementLast->next;
 			}
 
-			if (strcmp(newElementLast->element.name, "!default") && defaultElement)
+			is_default = strcmp(statusElement.item->name, "!default") == 0;
+
+			// if this element is not default and we already got default, set it
+			if (!is_default && defaultElement)
 			{
-				memcpy(&newElementLast->config, defaultElement, sizeof(newElementLast->config));
+				//memcpy(&newElementLast->config, defaultElement, sizeof(newElementLast->config));
 			}
 
 			do
@@ -183,7 +187,7 @@ void CG_SHUDLoadConfig(void)
 			memcpy(&newElementLast->element, statusElement.item, sizeof(newElementLast->element));
 
 			//set default
-			if (strcmp(newElementLast->element.name, "!default") == 0)
+			if (is_default)
 			{
 				defaultElement = &newElementLast->config;
 			}
