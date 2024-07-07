@@ -432,6 +432,7 @@ static void CG_Obituary(entityState_t* ent)
 				break;
 		}
 
+		CG_RemoveChatEscapeChar(targetName);
 		CG_Printf("%s %s %s%s\n", targetName, message, attackerName, message2);
 
 		if (cg.demoPlayback)

@@ -231,6 +231,64 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
 
     CG_CompiledTextDestroy(commands);
   }
+
+  {
+    text_command_t *commands = CG_CompiledTextCreate("^xfebd36^n^x800000Kerrazzy");
+    REQUIRE(commands);
+    
+    CHECK(commands[0].type == OSP_TEXT_CMD_SHADOW_COLOR);
+    CHECK(commands[1].type == OSP_TEXT_CMD_FADE);
+    CHECK(commands[2].type == OSP_TEXT_CMD_TEXT_COLOR);
+    CHECK(commands[3].type == OSP_TEXT_CMD_SHADOW_COLOR);
+
+    CHECK(commands[4].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[4].value.character == 'K');
+
+    CHECK(commands[5].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[5].value.character == 'e');
+
+    CG_CompiledTextDestroy(commands);
+  }
+  {
+    text_command_t *commands = CG_CompiledTextCreate("^0test^7");
+    REQUIRE(commands);
+    
+    CHECK(commands[0].type == OSP_TEXT_CMD_TEXT_COLOR);
+    CHECK(commands[1].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[1].value.character == 't');
+    CHECK(commands[2].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[2].value.character == 'e');
+    CHECK(commands[3].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[3].value.character == 's');
+    CHECK(commands[4].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[4].value.character == 't');
+    CHECK(commands[5].type == OSP_TEXT_CMD_TEXT_COLOR);
+
+    CG_CompiledTextDestroy(commands);
+  }
   
+  {
+    text_command_t *commands = CG_CompiledTextCreate("^b ^1x^2A^1");
+    REQUIRE(commands);
+    
+    CHECK(commands[0].type == OSP_TEXT_CMD_FADE);
+    
+    CHECK(commands[1].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[1].value.character == ' ');
+
+    CHECK(commands[2].type == OSP_TEXT_CMD_TEXT_COLOR);
+
+    CHECK(commands[3].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[3].value.character == 'x');
+
+    CHECK(commands[4].type == OSP_TEXT_CMD_TEXT_COLOR);
+
+    CHECK(commands[5].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[5].value.character == 'A');
+
+    CHECK(commands[6].type == OSP_TEXT_CMD_TEXT_COLOR);
+
+    CG_CompiledTextDestroy(commands);
+  }
 }
 

@@ -34,7 +34,6 @@ void CG_SHUDElementAttackerNameRoutine(void *context)
 	const char*  name;
 	int         clientNum;
 
-
 	if (cg.predictedPlayerState.stats[STAT_HEALTH] <= 0)
 	{
 		return;

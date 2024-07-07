@@ -439,6 +439,7 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 	vec4_t back_color;
 	qboolean back_color_was_set = qfalse;
 	float rc, gc, bc;
+	unsigned int color_index;
 
 	if (!in || *in == 0)
 	{
@@ -489,10 +490,13 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					text += 2;
 					break;
 				case 'N':
+				case 'n':
+					//reset fade
 					commands[i].type = OSP_TEXT_CMD_FADE;
 					commands[i].value.fade = 1.0f;
 					++i;
 
+					//reset color
 					commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
 					if (back_color_was_set)
 					{
@@ -507,6 +511,7 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					text += 2;
 					break;
 				case 'X':
+				case 'x':
 					if (!CG_Hex16GetColor(&text[2], &rc))
 					{
 						text += 2;
@@ -534,9 +539,9 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					text += 8;
 					break;
 				default:
-					CG_OSPColorFromChar(text[1], text_color);
+					color_index = (text[1] - 0x30) % 10;
+					VectorCopy(g_color_table[color_index], commands[i].value.color);
 					commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
-					VectorCopy(text_color, commands[i].value.color);
 					++i;
 					text += 2;
 					break;
@@ -1940,7 +1945,7 @@ int CG_OSPDrawStringOld(int x, int y, const char* str, int charWidth, int charHe
 					{
 						unsigned int color_index;
 						color_index = (control_char - 0x30) % 10;
-						Vector3Copy(g_color_table[color_index], lTextColor);
+						VectorCopy(g_color_table[color_index], lTextColor);
 						trap_R_SetColor(lTextColor);
 					}
 					break;
@@ -2240,8 +2245,9 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 					trap_R_SetColor(color);
 					break;
 				case OSP_TEXT_CMD_FADE:
-					color[3] = curr->value.fade;
-					trap_R_SetColor(color);
+					fade = curr->value.fade;
+					color[3] = fade;
+				trap_R_SetColor(color);
 					break;
 				case OSP_TEXT_CMD_STOP:
 				case OSP_TEXT_CMD_TEXT_COLOR:
@@ -2291,7 +2297,8 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 				trap_R_SetColor(color);
 				break;
 			case OSP_TEXT_CMD_FADE:
-				color[3] = curr->value.fade;
+				fade = curr->value.fade;
+				color[3] = fade;
 				trap_R_SetColor(color);
 				break;
 			case OSP_TEXT_CMD_SHADOW_COLOR:
