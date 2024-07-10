@@ -24,6 +24,7 @@ CG_SRC = \
  cg_superhud_element_attacker_name \
  cg_superhud_element_fragmessage \
  cg_superhud_element_rankmessage \
+ cg_superhud_element_ngp \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

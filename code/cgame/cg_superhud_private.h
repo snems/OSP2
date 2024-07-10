@@ -327,6 +327,10 @@ void* CG_SHUDElementRankMessageCreate(superhudConfig_t* config);
 void CG_SHUDElementRankMessageRoutine(void *context);
 void CG_SHUDElementRankMessageDestroy(void *context);
 
+void* CG_SHUDElementNGPCreate(superhudConfig_t* config);
+void CG_SHUDElementNGPRoutine(void *context);
+void CG_SHUDElementNGPDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */

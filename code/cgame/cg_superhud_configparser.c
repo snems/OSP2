@@ -54,7 +54,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "name_nme" },
 	{ "name_own" },
 	{ "netgraph" },
-	{ "netgraphping" },
+	{ "netgraphping", CG_SHUDElementNGPCreate, CG_SHUDElementNGPRoutine, CG_SHUDElementNGPDestroy},
 	{ "playerspeed" },
 	{ "powerup1_icon" },
 	{ "powerup2_icon" },
