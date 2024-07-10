@@ -1,4 +1,3 @@
-
 #include "cg_local.h"
 #include "cg_superhud_private.h"
 #include "../qcommon/qcommon.h"

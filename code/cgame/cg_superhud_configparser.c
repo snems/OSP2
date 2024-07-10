@@ -6,8 +6,8 @@
 static superHUDConfigElement_t superHUDConfigItemElements[] =
 {
 	{ "!default" },
-	{ "predecorate" },
-	{ "postdecorate" },
+	{ "predecorate", CG_SHUDElementPreDCreate, CG_SHUDElementPreDRoutine, CG_SHUDElementPreDDestroy },
+	{ "postdecorate", CG_SHUDElementPreDCreate, CG_SHUDElementPreDRoutine, CG_SHUDElementPreDDestroy },
 	{ "ammomessage" },
 	{ "attackericon" },
 	{ "attackername", CG_SHUDElementAttackerNameCreate, CG_SHUDElementAttackerNameRoutine, CG_SHUDElementAttackerNameDestroy },
@@ -55,7 +55,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "name_own" },
 	{ "netgraph", CG_SHUDElementNGCreate, CG_SHUDElementNGRoutine, CG_SHUDElementNGDestroy },
 	{ "netgraphping", CG_SHUDElementNGPCreate, CG_SHUDElementNGPRoutine, CG_SHUDElementNGPDestroy },
-	{ "playerspeed" },
+	{ "playerspeed", CG_SHUDElementPlayerSpeedCreate, CG_SHUDElementPlayerSpeedRoutine, CG_SHUDElementPlayerSpeedDestroy },
 	{ "powerup1_icon" },
 	{ "powerup2_icon" },
 	{ "powerup3_icon" },

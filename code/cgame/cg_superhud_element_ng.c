@@ -185,7 +185,6 @@ void CG_SHUDElementNGRoutine(void *context)
 
     trap_R_DrawStretchPic(ax + aw - a, ay + ah - range, 1, range, 0, 0, 1, 1, trap_R_RegisterShader("gfx/2d/net.tga"));
 	}
-
 }
 
 void CG_SHUDElementNGDestroy(void *context)
