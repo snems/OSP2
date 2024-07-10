@@ -11,6 +11,8 @@ void CG_SHUDSetConfig(const char* filename);
 void CG_SHUDLoadConfig(void);
 void CG_SHUDRoutine(void);
 
+void CG_SHUDFragEvent(const char *message);
+
 #ifdef __cplusplus
 }
 #endif

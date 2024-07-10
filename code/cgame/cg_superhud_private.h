@@ -319,6 +319,10 @@ void* CG_SHUDElementAttackerNameCreate(superhudConfig_t* config);
 void CG_SHUDElementAttackerNameRoutine(void *context);
 void CG_SHUDElementAttackerNameDestroy(void *context);
 
+void* CG_SHUDElementFragMessageCreate(superhudConfig_t* config);
+void CG_SHUDElementFragMessageRoutine(void *context);
+void CG_SHUDElementFragMessageDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */
@@ -348,6 +352,22 @@ typedef struct
 void CG_SHUDDrawMakeContext(const superhudConfig_t *in, superhudDrawContext *out);
 void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext *out);
 void CG_SHUDTextPrint(const char *text, const superhudTextContext *pos);
+
+typedef struct
+{
+	struct 
+	{
+		int time;
+		char message[256];
+	}fragmessage;
+	struct
+	{
+		int time;
+		char message[256];
+	}rankmessage;
+}superhudGlobalContext_t;
+
+superhudGlobalContext_t* CG_SHUDGetContext(void);
 
 #ifdef __cplusplus
 }

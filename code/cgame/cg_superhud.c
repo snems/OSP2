@@ -258,3 +258,20 @@ void CG_SHUDRoutine(void)
 	}
 }
 
+void CG_SHUDFragEvent(const char *message)
+{
+	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
+	Q_strncpyz(ctx->fragmessage.message, message, sizeof(ctx->fragmessage.message));
+	ctx->fragmessage.time = cg.time;
+
+	if (cgs.gametype < GT_TEAM)
+	{
+		ctx->rankmessage.time = cg.time;
+		Com_sprintf(ctx->rankmessage.message, sizeof(ctx->rankmessage.message), "%s place with %i", CG_PlaceString(cg.snap->ps.persistant[PERS_RANK] + 1), cg.snap->ps.persistant[PERS_SCORE]);
+	}
+	else
+	{
+		ctx->rankmessage.message[0] = 0;
+	}
+}
+

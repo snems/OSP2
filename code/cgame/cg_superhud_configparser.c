@@ -24,7 +24,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "flagstatus_own" },
 	{ "followmessage" },
 	{ "fps", CG_SHUDElementFPSCreate, CG_SHUDElementFPSRoutine, CG_SHUDElementFPSDestroy, NULL, NULL},
-	{ "fragmessage" },
+	{ "fragmessage", CG_SHUDElementFragMessageCreate, CG_SHUDElementFragMessageRoutine, CG_SHUDElementFragMessageDestroy, NULL, NULL},
 	{ "gametime" },
 	{ "gametype" },
 	{ "itempickup" },
