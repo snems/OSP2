@@ -72,7 +72,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "powerup6_time" },
 	{ "powerup7_time" },
 	{ "powerup8_time" },
-	{ "rankmessage" },
+	{ "rankmessage", CG_SHUDElementRankMessageCreate, CG_SHUDElementRankMessageRoutine, CG_SHUDElementRankMessageDestroy},
 	{ "recordingdemo" },
 	{ "score_limit" },
 	{ "score_nme" },

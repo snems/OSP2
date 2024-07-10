@@ -271,6 +271,7 @@ void CG_SHUDFragEvent(const char *message)
 	}
 	else
 	{
+		ctx->rankmessage.time = 0;
 		ctx->rankmessage.message[0] = 0;
 	}
 }

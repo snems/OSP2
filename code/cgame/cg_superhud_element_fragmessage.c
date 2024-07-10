@@ -25,7 +25,7 @@ void* CG_SHUDElementFragMessageCreate(superhudConfig_t* config)
   if (!config->time.isSet)
   {
   	config->time.isSet = qtrue;
-  	config->time.value = 200;
+  	config->time.value = 2000;
   }
 
  	gctx = CG_SHUDGetContext();
