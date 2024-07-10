@@ -1537,18 +1537,6 @@ LAGOMETER
 ===============================================================================
 */
 
-#define LAG_SAMPLES     128
-
-
-typedef struct
-{
-	int     frameSamples[LAG_SAMPLES];
-	int     frameCount;
-	int     snapshotFlags[LAG_SAMPLES];
-	int     snapshotSamples[LAG_SAMPLES];
-	int     snapshotCount;
-} lagometer_t;
-
 lagometer_t     lagometer;
 
 /*
@@ -1629,10 +1617,6 @@ static float CG_DrawDisconnect(float pos)
 	CG_DrawPicOld(640 - 48, pos, 48, 48, trap_R_RegisterShader("gfx/2d/net.tga"));
 	return pos;
 }
-
-
-#define MAX_LAGOMETER_PING  900
-#define MAX_LAGOMETER_RANGE 300
 
 /*
 ==============

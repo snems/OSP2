@@ -331,6 +331,10 @@ void* CG_SHUDElementNGPCreate(superhudConfig_t* config);
 void CG_SHUDElementNGPRoutine(void *context);
 void CG_SHUDElementNGPDestroy(void *context);
 
+void* CG_SHUDElementNGCreate(superhudConfig_t* config);
+void CG_SHUDElementNGRoutine(void *context);
+void CG_SHUDElementNGDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */

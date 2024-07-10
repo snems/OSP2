@@ -1643,6 +1643,21 @@ void CG_OSPSetColor(vec4_t color);
 void CG_OSPDrawPic(float x, float y, float w, float h, qhandle_t hShader);
 void CG_OSPDraw3DModel(float x, float y, float w, float h, qhandle_t model, qhandle_t skin, vec3_t pos, vec3_t angles, vec3_t angles2);
 
+#define LAG_SAMPLES     1024
+#define MAX_LAGOMETER_PING  900
+#define MAX_LAGOMETER_RANGE 300
+
+typedef struct
+{
+	int     frameSamples[LAG_SAMPLES];
+	int     frameCount;
+	int     snapshotFlags[LAG_SAMPLES];
+	int     snapshotSamples[LAG_SAMPLES];
+	int     snapshotCount;
+} lagometer_t;
+
+extern lagometer_t     lagometer;
+
 
 //
 // cg_player.c
