@@ -343,6 +343,10 @@ void* CG_SHUDElementPlayerSpeedCreate(superhudConfig_t* config);
 void CG_SHUDElementPlayerSpeedRoutine(void *context);
 void CG_SHUDElementPlayerSpeedDestroy(void *context);
 
+void* CG_SHUDElementLocalTimeCreate(superhudConfig_t* config);
+void CG_SHUDElementLocalTimeRoutine(void *context);
+void CG_SHUDElementLocalTimeDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */

@@ -49,7 +49,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "keyup_jump" },
 	{ "keyup_left" },
 	{ "keyup_right" },
-	{ "localtime" },
+	{ "localtime", CG_SHUDElementLocalTimeCreate, CG_SHUDElementLocalTimeRoutine, CG_SHUDElementLocalTimeDestroy },
 	{ "multiview" },
 	{ "name_nme" },
 	{ "name_own" },

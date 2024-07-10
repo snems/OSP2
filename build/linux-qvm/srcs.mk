@@ -27,6 +27,7 @@ CG_SRC = \
  cg_superhud_element_ng cg_superhud_element_ngp \
  cg_superhud_element_pred \
  cg_superhud_element_speed \
+ cg_superhud_element_localtime \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

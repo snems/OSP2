@@ -5,9 +5,6 @@
 typedef struct
 {
   superhudConfig_t config;
-  float timeAverage;
-  int framesNum;
-	int timePrev;
   superhudTextContext ctx;
 } shudElementPlayerSpeed_t;
 
