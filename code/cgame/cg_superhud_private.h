@@ -355,6 +355,17 @@ void* CG_SHUDElementAmmoMessageCreate(superhudConfig_t* config);
 void CG_SHUDElementAmmoMessageRoutine(void *context);
 void CG_SHUDElementAmmoMessageDestroy(void *context);
 
+void* CG_SHUDElementChat1Create(superhudConfig_t* config);
+void* CG_SHUDElementChat2Create(superhudConfig_t* config);
+void* CG_SHUDElementChat3Create(superhudConfig_t* config);
+void* CG_SHUDElementChat4Create(superhudConfig_t* config);
+void* CG_SHUDElementChat5Create(superhudConfig_t* config);
+void* CG_SHUDElementChat6Create(superhudConfig_t* config);
+void* CG_SHUDElementChat7Create(superhudConfig_t* config);
+void* CG_SHUDElementChat8Create(superhudConfig_t* config);
+void CG_SHUDElementChatRoutine(void *context);
+void CG_SHUDElementChatDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */
@@ -387,6 +398,14 @@ void CG_SHUDTextPrint(const char *text, const superhudTextContext *pos);
 
 typedef struct
 {
+	char message[MAX_SAY_TEXT];
+	int time;
+}superhudChatEntry_t;
+
+#define SHUD_MAX_CHAT_LINES 8
+
+typedef struct
+{
 	struct 
 	{
 		int time;
@@ -397,6 +416,11 @@ typedef struct
 		int time;
 		char message[256];
 	}rankmessage;
+	struct
+	{
+		superhudChatEntry_t line[SHUD_MAX_CHAT_LINES];
+		unsigned int index;
+	}chat;
 }superhudGlobalContext_t;
 
 superhudGlobalContext_t* CG_SHUDGetContext(void);

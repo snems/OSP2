@@ -1292,6 +1292,8 @@ extern vmCvar_t           cg_drawDecals;
 extern vmCvar_t           cg_drawPing;
 extern vmCvar_t           cg_enableOSPHUD;
 extern vmCvar_t           cg_shud;
+extern vmCvar_t           cg_shudChatOnly;
+extern vmCvar_t           cg_shudTeamChatOnly;
 extern vmCvar_t           cg_enableBreath;
 extern vmCvar_t           cg_enemyColors;
 extern vmCvar_t           cg_enemyModel;
@@ -1427,6 +1429,7 @@ const char* CG_Argv(int arg);
 
 void QDECL CG_Printf(const char* msg, ...);
 void QDECL CG_Error(const char* msg, ...);
+void CG_PrintLog(char* msg);
 
 void CG_StartMusic(void);
 

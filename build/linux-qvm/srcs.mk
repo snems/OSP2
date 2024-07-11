@@ -29,6 +29,7 @@ CG_SRC = \
  cg_superhud_element_speed \
  cg_superhud_element_localtime \
  cg_superhud_element_ammomessage \
+ cg_superhud_element_chat \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

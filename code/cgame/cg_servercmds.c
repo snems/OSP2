@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "cg_local.h"
 #include "../qcommon/qcommon.h"
+#include "cg_superhud.h"
 
 
 /*
@@ -997,7 +998,24 @@ void CG_ServerCommand(void)
 			}
 			Q_strncpyz(text, CG_Argv(1), 1024);
 			CG_RemoveChatEscapeChar(text);
-			CG_Printf("%s\n", text);
+			if (!cg_shud.integer )
+			{
+				CG_Printf("%s\n", text);
+			}
+			else
+			{
+				CG_SHUDEventChat(text);
+				if (!cg_shudChatOnly.integer)
+				{
+					CG_Printf("%s\n", text);
+				}
+				else
+				{
+					//write log anyway
+					CG_PrintLog(text);
+					CG_PrintLog("\n");
+				}
+			}
 		}
 		return;
 	}

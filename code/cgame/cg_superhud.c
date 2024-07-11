@@ -257,7 +257,7 @@ void CG_SHUDRoutine(void)
 	}
 }
 
-void CG_SHUDFragEvent(const char *message)
+void CG_SHUDEventFrag(const char *message)
 {
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
 	Q_strncpyz(ctx->fragmessage.message, message, sizeof(ctx->fragmessage.message));
@@ -273,5 +273,17 @@ void CG_SHUDFragEvent(const char *message)
 		ctx->rankmessage.time = 0;
 		ctx->rankmessage.message[0] = 0;
 	}
+}
+
+void CG_SHUDEventChat(const char *message)
+{
+	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
+	int index, k, l;
+	char *ptr;
+
+	index = ctx->chat.index % SHUD_MAX_CHAT_LINES;
+	Q_strncpyz(ctx->chat.line[index].message, message, MAX_SAY_TEXT);
+	ctx->chat.line[index].time = cg.time;
+	++ctx->chat.index;
 }
 

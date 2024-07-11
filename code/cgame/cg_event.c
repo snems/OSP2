@@ -101,10 +101,9 @@ CG_OSPObituaryFragmessage
 */
 static void CG_ObituaryFragmessage(const char *msg)
 {
-
 	if (cg_shud.integer)
 	{
-		CG_SHUDFragEvent(msg);
+		CG_SHUDEventFrag(msg);
 	}
 	else
 	{
