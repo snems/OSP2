@@ -366,10 +366,17 @@ void* CG_SHUDElementChat8Create(superhudConfig_t* config);
 void CG_SHUDElementChatRoutine(void *context);
 void CG_SHUDElementChatDestroy(void *context);
 
+void* CG_SHUDElementSpecMessageCreate(superhudConfig_t* config);
+void CG_SHUDElementSpecMessageRoutine(void *context);
+void CG_SHUDElementSpecMessageDestroy(void *context);
+
+void* CG_SHUDElementFollowMessageCreate(superhudConfig_t* config);
+void CG_SHUDElementFollowMessageRoutine(void *context);
+void CG_SHUDElementFollowMessageDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */
-
 typedef struct
 {
 	float textX;

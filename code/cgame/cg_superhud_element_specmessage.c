@@ -6,11 +6,11 @@ typedef struct
 {
   superhudConfig_t config;
   superhudTextContext ctx;
-} shudElementPlayerSpeed_t;
+} shudElementSpecMessage_t;
 
-void* CG_SHUDElementPlayerSpeedCreate(superhudConfig_t* config)
+void* CG_SHUDElementSpecMessageCreate(superhudConfig_t* config)
 {
-  shudElementPlayerSpeed_t *element;
+  shudElementSpecMessage_t *element;
 
   element = Z_Malloc(sizeof(*element));
   OSP_MEMORY_CHECK(element);
@@ -20,19 +20,21 @@ void* CG_SHUDElementPlayerSpeedCreate(superhudConfig_t* config)
   memcpy(&element->config, config, sizeof(element->config));
 
   CG_SHUDTextMakeContext(&element->config, &element->ctx);
-  element->ctx.maxchars = 9;
 
   return element;
 }
 
-void CG_SHUDElementPlayerSpeedRoutine(void *context)
+void CG_SHUDElementSpecMessageRoutine(void *context)
 {
-  shudElementPlayerSpeed_t *element = (shudElementPlayerSpeed_t *)context;
+  shudElementSpecMessage_t *element = (shudElementSpecMessage_t *)context;
 
-  CG_SHUDTextPrint(va("%dups", (int)cg.xyspeed), &element->ctx);
+  if (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR)
+  {
+    CG_SHUDTextPrint("SPECTATOR", &element->ctx);
+  }
 }
 
-void CG_SHUDElementPlayerSpeedDestroy(void *context)
+void CG_SHUDElementSpecMessageDestroy(void *context)
 {
   if (context)
   {
