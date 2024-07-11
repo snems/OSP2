@@ -34,7 +34,7 @@ void CG_SHUDElementPreDRoutine(void *context)
   shudElementStatusbarPreDecorate *sbai = (shudElementStatusbarPreDecorate *)context;
 
 	trap_R_SetColor(sbai->ctx.color);
-	trap_R_DrawStretchPic(sbai->ctx.x, sbai->ctx.y, sbai->ctx.w+1, sbai->ctx.h, 0, 0, 1, 1, 
+	trap_R_DrawStretchPic(sbai->ctx.x, sbai->ctx.y, sbai->ctx.w, sbai->ctx.h, 0, 0, 1, 1, 
 	     sbai->ctx.image ? sbai->ctx.image: cgs.media.whiteShader );
 	trap_R_SetColor(NULL);
 

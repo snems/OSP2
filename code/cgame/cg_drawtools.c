@@ -116,8 +116,8 @@ void CG_AdjustFrom640(float* x, float* y, float* w, float* h)
 	// scale for screen sizes
 	*x *= cgs.screenXScale_Old;
 	*y *= cgs.screenYScale_Old;
-	*w *= cgs.screenXScale;
-	*h *= cgs.screenYScale;
+	*w *= cgs.screenXScale_Old;
+	*h *= cgs.screenYScale_Old;
 }
 void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide)
 {

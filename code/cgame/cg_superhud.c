@@ -89,8 +89,7 @@ void CG_SHUDLoadConfig(void)
 				CG_Printf("^1SuperHUD: found unexpected character: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
 				goto error_exit;
 			case SUPERHUD_CONFIG_WRONG_ELEMENT_NAME:
-				CG_Printf("^1SuperHUD: found wrong element name1: %s\n", finfo.last_line->line);
-				CG_Printf("^1SuperHUD: found wrong element name1: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
+				CG_Printf("^1SuperHUD: found unknown element name: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
 				goto error_exit;
 			case SUPERHUD_CONFIG_LOST_ELEMENT_BODY:
 				CG_Printf("^1SuperHUD: found wrong wrong element body: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
@@ -153,8 +152,8 @@ void CG_SHUDLoadConfig(void)
 						CG_Printf("^1SuperHUD: found unexpected result: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
 						goto error_exit;
 					case SUPERHUD_CONFIG_WRONG_COMMAND_NAME:
-						CG_Printf("^1SuperHUD: found wrong command name: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
-						goto error_exit;
+						CG_Printf("^3SuperHUD: found unknown command name: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
+						continue;
 				}
 				if (statusCommand.status == SUPERHUD_CONFIG_OK)
 				{

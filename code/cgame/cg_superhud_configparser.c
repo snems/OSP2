@@ -238,7 +238,7 @@ const superHUDConfigCommand_t* CG_SHUDFindConfigCommandItem(const char* name)
 }
 
 /*
- * Skip spaces, comments, new lines
+ * Skip spaces, comments, new lines, comma
  */
 static superhudConfigParseStatus_t CG_SHUDConfigSkipSCN(configFileInfo_t* finfo)
 {
@@ -250,7 +250,7 @@ static superhudConfigParseStatus_t CG_SHUDConfigSkipSCN(configFileInfo_t* finfo)
 	{
 		c = CG_SHUD_CONFIG_INFO_GET_CHAR(finfo);
 
-		skip = c == ' ' || c == '\n' || c == '\r' || c == '\t';
+		skip = c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == ',';
 		skip_line = c == '#' || c == 0;
 
 		if (skip_line)
@@ -945,6 +945,7 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAlighH(configFileInf
 }
 
 /*
+2024-07-11T04:46:02Z MORION_SWITCH daemon.warn phyd[895]: Port 8: Media changed to 10/100/1000BASE-T
  * parse vertical align command: T/C/B
  */
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAlighV(configFileInfo_t* finfo, superhudConfig_t* config)
@@ -1174,7 +1175,7 @@ const superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_
 	{
 		c = CG_SHUD_CONFIG_INFO_GET_CHAR(cfi);
 
-		skip = c == ' ' || c == '\n';
+		skip = c == ' ' || c < 32;
 		skip_line = c == '#' || c == 0;
 
 		if (skip_line)
