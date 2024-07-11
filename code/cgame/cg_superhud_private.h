@@ -347,6 +347,10 @@ void* CG_SHUDElementLocalTimeCreate(superhudConfig_t* config);
 void CG_SHUDElementLocalTimeRoutine(void *context);
 void CG_SHUDElementLocalTimeDestroy(void *context);
 
+void* CG_SHUDElementAmmoMessageCreate(superhudConfig_t* config);
+void CG_SHUDElementAmmoMessageRoutine(void *context);
+void CG_SHUDElementAmmoMessageDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */

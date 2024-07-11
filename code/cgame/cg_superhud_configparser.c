@@ -8,7 +8,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "!default" },
 	{ "predecorate", CG_SHUDElementPreDCreate, CG_SHUDElementPreDRoutine, CG_SHUDElementPreDDestroy },
 	{ "postdecorate", CG_SHUDElementPreDCreate, CG_SHUDElementPreDRoutine, CG_SHUDElementPreDDestroy },
-	{ "ammomessage" },
+	{ "ammomessage", CG_SHUDElementAmmoMessageCreate, CG_SHUDElementAmmoMessageRoutine, CG_SHUDElementAmmoMessageDestroy },
 	{ "attackericon" },
 	{ "attackername", CG_SHUDElementAttackerNameCreate, CG_SHUDElementAttackerNameRoutine, CG_SHUDElementAttackerNameDestroy },
 	{ "chat1" },
