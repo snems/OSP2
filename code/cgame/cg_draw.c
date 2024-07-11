@@ -194,7 +194,6 @@ void CG_DrawHead(float x, float y, float w, float h, int clientNum, vec3_t headA
 	{
 		cm = ci->headModel;
 
-
 		if (cm)
 		{
 			// offset the origin y and z to center the head
@@ -213,8 +212,6 @@ void CG_DrawHead(float x, float y, float w, float h, int clientNum, vec3_t headA
 			CG_Draw3DModel(x, y, w, h, ci->headModel, ci->headSkin, origin, headAngles);
 
 		}
-
-
 	}
 	else if (cg_drawIcons.integer)
 	{

@@ -21,7 +21,7 @@ CG_SRC = \
  cg_superhud_element_sbhi cg_superhud_element_sbai \
  cg_superhud_element_target_name \
  cg_superhud_element_vmw \
- cg_superhud_element_attacker_name \
+ cg_superhud_element_attacker_name cg_superhud_element_attacker_icon \
  cg_superhud_element_fragmessage \
  cg_superhud_element_rankmessage \
  cg_superhud_element_ng cg_superhud_element_ngp \

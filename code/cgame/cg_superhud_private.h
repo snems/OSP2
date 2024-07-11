@@ -319,6 +319,10 @@ void* CG_SHUDElementAttackerNameCreate(superhudConfig_t* config);
 void CG_SHUDElementAttackerNameRoutine(void *context);
 void CG_SHUDElementAttackerNameDestroy(void *context);
 
+void* CG_SHUDElementAttackerIconCreate(superhudConfig_t* config);
+void CG_SHUDElementAttackerIconRoutine(void *context);
+void CG_SHUDElementAttackerIconDestroy(void *context);
+
 void* CG_SHUDElementFragMessageCreate(superhudConfig_t* config);
 void CG_SHUDElementFragMessageRoutine(void *context);
 void CG_SHUDElementFragMessageDestroy(void *context);
