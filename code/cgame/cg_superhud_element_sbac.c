@@ -27,6 +27,12 @@ void* CG_SHUDElementSBACCreate(superhudConfig_t* config)
     Vector4Set(sbac->config.color.value.rgba, 1, 0.7, 0, 1);
   }
 
+  if (!sbac->config.text.isSet)
+  {
+    sbac->config.text.isSet = qtrue;
+    Q_strncpyz(sbac->config.text.value, "%i", sizeof(sbac->config.text.value));
+  }
+
   CG_SHUDTextMakeContext(&sbac->config, &sbac->position);
   sbac->position.maxchars = 6;
 
@@ -39,7 +45,7 @@ void CG_SHUDElementSBACRoutine(void *context)
   const char *s;
   int ap = cg.snap->ps.stats[STAT_ARMOR];
 
-	s = va("^X000000%i", ap > 0 ? ap : 0);
+	s = va(sbac->config.text.value, ap > 0 ? ap : 0);
 
   CG_SHUDTextPrint(s, &sbac->position);
 }

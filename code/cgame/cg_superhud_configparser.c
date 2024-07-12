@@ -25,7 +25,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "followmessage" , CG_SHUDElementFollowMessageCreate, CG_SHUDElementFollowMessageRoutine, CG_SHUDElementFollowMessageDestroy },
 	{ "fps", CG_SHUDElementFPSCreate, CG_SHUDElementFPSRoutine, CG_SHUDElementFPSDestroy, NULL, NULL},
 	{ "fragmessage", CG_SHUDElementFragMessageCreate, CG_SHUDElementFragMessageRoutine, CG_SHUDElementFragMessageDestroy, NULL, NULL},
-	{ "gametime", CG_SHUDElementLocalTimeCreate, CG_SHUDElementLocalTimeRoutine, CG_SHUDElementLocalTimeDestroy },
+	{ "gametime", CG_SHUDElementGameTimeCreate, CG_SHUDElementGameTimeRoutine, CG_SHUDElementGameTimeDestroy },
 	{ "gametype" },
 	{ "itempickup" },
 	{ "itempickupicon" },
@@ -771,7 +771,7 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseFontSize(configFileI
 	status = CG_SHUDParseFloat(finfo, &config->fontsize.value[1]);
 	if (status != SUPERHUD_CONFIG_OK)
 	{
-		config->fontsize.value[1] = 0.0f;
+		config->fontsize.value[1] = config->fontsize.value[0];
 	}
 
 	config->fontsize.isSet = qtrue;

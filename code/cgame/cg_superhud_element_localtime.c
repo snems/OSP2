@@ -36,7 +36,7 @@ void CG_SHUDElementLocalTimeRoutine(void *context)
   {
     element->timePrev = cg.time;
 	  trap_RealTime(&qtime);
-	  Com_sprintf(element->s, MAX_QPATH, "%02d%s%02d", qtime.tm_hour, (cg.time & 512) ? ":" : " ", qtime.tm_min);
+	  Com_sprintf(element->s, MAX_QPATH, "%02d:%02d", qtime.tm_hour, qtime.tm_min);
   }
 
   CG_SHUDTextPrint(element->s, &element->ctx);

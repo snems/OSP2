@@ -30,7 +30,7 @@ void* CG_SHUDElementSBHCCreate(superhudConfig_t* config)
   if (!sbhc->config.text.isSet)
   {
     sbhc->config.text.isSet = qtrue;
-    Q_strncpyz(sbhc->config.text.value, "^X000000%i", sizeof(sbhc->config.text.value));
+    Q_strncpyz(sbhc->config.text.value, "%i", sizeof(sbhc->config.text.value));
   }
 
   CG_SHUDTextMakeContext(&sbhc->config, &sbhc->position);
