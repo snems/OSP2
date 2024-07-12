@@ -378,6 +378,14 @@ void* CG_SHUDElementGameTimeCreate(superhudConfig_t* config);
 void CG_SHUDElementGameTimeRoutine(void *context);
 void CG_SHUDElementGameTimeDestroy(void *context);
 
+void* CG_SHUDElementItemPickupCreate(superhudConfig_t* config);
+void CG_SHUDElementItemPickupRoutine(void *context);
+void CG_SHUDElementItemPickupDestroy(void *context);
+
+void* CG_SHUDElementItemPickupIconCreate(superhudConfig_t* config);
+void CG_SHUDElementItemPickupIconRoutine(void *context);
+void CG_SHUDElementItemPickupIconDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */

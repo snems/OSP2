@@ -5,13 +5,12 @@
 typedef struct
 {
   superhudConfig_t config;
-	int timePrev;
   superhudTextContext ctx;
-} shudElementGameTime_t;
+} shudElementItemPickup_t;
 
-void* CG_SHUDElementGameTimeCreate(superhudConfig_t* config)
+void* CG_SHUDElementItemPickupCreate(superhudConfig_t* config)
 {
-  shudElementGameTime_t *element;
+  shudElementItemPickup_t *element;
 
   element = Z_Malloc(sizeof(*element));
   OSP_MEMORY_CHECK(element);
@@ -21,21 +20,27 @@ void* CG_SHUDElementGameTimeCreate(superhudConfig_t* config)
   memcpy(&element->config, config, sizeof(element->config));
 
   CG_SHUDTextMakeContext(&element->config, &element->ctx);
-  element->ctx.maxchars = 9;
+
+  if (!element->config.time.isSet)
+  {
+    element->config.time.isSet = qtrue;
+    element->config.time.value = 1000;
+  }
 
   return element;
 }
 
-void CG_SHUDElementGameTimeRoutine(void *context)
+void CG_SHUDElementItemPickupRoutine(void *context)
 {
-  shudElementGameTime_t *element = (shudElementGameTime_t *)context;
+  shudElementItemPickup_t *element = (shudElementItemPickup_t *)context;
 
-
-	if (cg_drawTimer.integer)
+	float* fade;
+	fade = CG_FadeColor(cg.itemPickupTime, element->config.time.value);
+	if (fade)
 	{
 	  int         mins, seconds, tens;
 	  int         msec;
-	  msec = cg.time - cgs.levelStartTime;
+	  msec = cg.itemPickupTime - cgs.levelStartTime;
 
 	  seconds = msec / 1000;
 	  mins = seconds / 60;
@@ -44,15 +49,15 @@ void CG_SHUDElementGameTimeRoutine(void *context)
 	  seconds -= tens * 10;
 
     CG_SHUDTextPrint(va("%i:%i%i", mins, tens, seconds), &element->ctx);
+	  element->ctx.color[3] = fade[3];
+    CG_SHUDTextPrint(va("%i:%i%i %s", mins, tens, seconds, bg_itemlist[cg.itemPickup].pickup_name), &element->ctx);
 	}
-
 }
 
-void CG_SHUDElementGameTimeDestroy(void *context)
+void CG_SHUDElementItemPickupDestroy(void *context)
 {
   if (context)
   {
     Z_Free(context);
   }
 }
-

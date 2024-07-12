@@ -50,7 +50,7 @@ static void CG_SHUDConfigDefaultsCheck(superhudConfig_t* config)
 
   if (!config->textAlign.isSet)
   {
-    config->textAlign.value = SUPERHUD_ALIGNH_RIGHT;
+    config->textAlign.value = SUPERHUD_ALIGNH_LEFT;
     config->textAlign.isSet = qtrue;
   }
 

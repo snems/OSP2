@@ -31,6 +31,7 @@ CG_SRC = \
  cg_superhud_element_ammomessage \
  cg_superhud_element_chat \
  cg_superhud_element_specmessage cg_superhud_element_followmessage \
+ cg_superhud_element_itempickup cg_superhud_element_itempickupicon \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \
