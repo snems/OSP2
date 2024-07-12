@@ -25,7 +25,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "followmessage" , CG_SHUDElementFollowMessageCreate, CG_SHUDElementFollowMessageRoutine, CG_SHUDElementFollowMessageDestroy },
 	{ "fps", CG_SHUDElementFPSCreate, CG_SHUDElementFPSRoutine, CG_SHUDElementFPSDestroy, NULL, NULL},
 	{ "fragmessage", CG_SHUDElementFragMessageCreate, CG_SHUDElementFragMessageRoutine, CG_SHUDElementFragMessageDestroy, NULL, NULL},
-	{ "gametime" },
+	{ "gametime", CG_SHUDElementLocalTimeCreate, CG_SHUDElementLocalTimeRoutine, CG_SHUDElementLocalTimeDestroy },
 	{ "gametype" },
 	{ "itempickup" },
 	{ "itempickupicon" },

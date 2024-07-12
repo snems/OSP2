@@ -374,6 +374,10 @@ void* CG_SHUDElementFollowMessageCreate(superhudConfig_t* config);
 void CG_SHUDElementFollowMessageRoutine(void *context);
 void CG_SHUDElementFollowMessageDestroy(void *context);
 
+void* CG_SHUDElementGameTimeCreate(superhudConfig_t* config);
+void CG_SHUDElementGameTimeRoutine(void *context);
+void CG_SHUDElementGameTimeDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */

@@ -27,7 +27,7 @@ CG_SRC = \
  cg_superhud_element_ng cg_superhud_element_ngp \
  cg_superhud_element_pred \
  cg_superhud_element_speed \
- cg_superhud_element_localtime \
+ cg_superhud_element_localtime cg_superhud_element_gametime \
  cg_superhud_element_ammomessage \
  cg_superhud_element_chat \
  cg_superhud_element_specmessage cg_superhud_element_followmessage \
