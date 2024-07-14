@@ -183,7 +183,7 @@ typedef struct
 	} time;
 	struct
 	{
-		int value;
+		char value[MAX_QPATH];
 		qboolean isSet;
 	} visflags;
 	struct

@@ -29,8 +29,13 @@ void* CG_SHUDElementNGCreate(superhudConfig_t* config)
 
   CG_SHUDTextMakeContext(&ng->config, &ng->tctx);
 
-  ng->ctx.x = 320;
-  ng->ctx.y = 240;
+  ng->tctx.textX = 320;
+  ng->tctx.textY = 232;
+
+  ng->tctx.fontH = 16;
+  ng->tctx.fontW = 12;
+  
+  ng->tctx.flags |= DS_CENTER;
 
   return ng;
 }

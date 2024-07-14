@@ -475,12 +475,6 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseVisFlags(configFileI
 {
 	superhudConfigParseStatus_t status;
 	config->visflags.isSet = qfalse;
-	status = CG_SHUDParseInt(finfo, &config->visflags.value);
-	if (status != SUPERHUD_CONFIG_OK)
-	{
-		return status;
-	}
-	config->visflags.isSet = qtrue;
 
 	return SUPERHUD_CONFIG_OK;
 }
@@ -1223,7 +1217,7 @@ const superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_
 		c = CG_SHUD_CONFIG_INFO_GET_CHAR(cfi);
 
 		start_of_body = c == '{';
-		skip = c == ' ' || c == '\n';
+		skip = c == ' ' || c < 32;
 		skip_line = c == '#' || c == 0;
 
 		if (skip_line)
@@ -1284,7 +1278,7 @@ const superhudConfigParseCommand_t CG_SHUDFileInfoGetCommandItem(configFileInfo_
 	{
 		c = CG_SHUD_CONFIG_INFO_GET_CHAR(cfi);
 
-		skip = c == ' ' || c == '\n' || c == ';' || c == '\t' || c == '\r';
+		skip = c == ' ' || c < 32 || c == ';';
 		skip_line = c == '#' || c == 0;
 		end_of_element = c == '}';
 
