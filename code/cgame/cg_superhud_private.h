@@ -412,6 +412,11 @@ void* CG_SHUDElementPwIcon8Create(superhudConfig_t* config);
 void CG_SHUDElementPwRoutine(void *context);
 void CG_SHUDElementPwDestroy(void *context);
 
+void* CG_SHUDElementNameNMECreate(superhudConfig_t* config);
+void* CG_SHUDElementNameOWNCreate(superhudConfig_t* config);
+void CG_SHUDElementNameRoutine(void *context);
+void CG_SHUDElementNameDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */

@@ -34,6 +34,7 @@ CG_SRC = \
  cg_superhud_element_itempickup cg_superhud_element_itempickupicon \
  cg_superhud_element_flagstatus \
  cg_superhud_element_powerup \
+ cg_superhud_element_name \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \
