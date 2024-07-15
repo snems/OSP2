@@ -386,6 +386,11 @@ void* CG_SHUDElementItemPickupIconCreate(superhudConfig_t* config);
 void CG_SHUDElementItemPickupIconRoutine(void *context);
 void CG_SHUDElementItemPickupIconDestroy(void *context);
 
+void* CG_SHUDElementFlagStatusNMECreate(superhudConfig_t* config);
+void* CG_SHUDElementFlagStatusOWNCreate(superhudConfig_t* config);
+void CG_SHUDElementFlagStatusRoutine(void *context);
+void CG_SHUDElementFlagStatusDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */
