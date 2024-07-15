@@ -391,6 +391,27 @@ void* CG_SHUDElementFlagStatusOWNCreate(superhudConfig_t* config);
 void CG_SHUDElementFlagStatusRoutine(void *context);
 void CG_SHUDElementFlagStatusDestroy(void *context);
 
+#define SUPERHUD_UPDATE_TIME 50
+
+void* CG_SHUDElementPwTime1Create(superhudConfig_t* config);
+void* CG_SHUDElementPwTime2Create(superhudConfig_t* config);
+void* CG_SHUDElementPwTime3Create(superhudConfig_t* config);
+void* CG_SHUDElementPwTime4Create(superhudConfig_t* config);
+void* CG_SHUDElementPwTime5Create(superhudConfig_t* config);
+void* CG_SHUDElementPwTime6Create(superhudConfig_t* config);
+void* CG_SHUDElementPwTime7Create(superhudConfig_t* config);
+void* CG_SHUDElementPwTime8Create(superhudConfig_t* config);
+void* CG_SHUDElementPwIcon1Create(superhudConfig_t* config);
+void* CG_SHUDElementPwIcon2Create(superhudConfig_t* config);
+void* CG_SHUDElementPwIcon3Create(superhudConfig_t* config);
+void* CG_SHUDElementPwIcon4Create(superhudConfig_t* config);
+void* CG_SHUDElementPwIcon5Create(superhudConfig_t* config);
+void* CG_SHUDElementPwIcon6Create(superhudConfig_t* config);
+void* CG_SHUDElementPwIcon7Create(superhudConfig_t* config);
+void* CG_SHUDElementPwIcon8Create(superhudConfig_t* config);
+void CG_SHUDElementPwRoutine(void *context);
+void CG_SHUDElementPwDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */
@@ -427,6 +448,7 @@ typedef struct
 }superhudChatEntry_t;
 
 #define SHUD_MAX_CHAT_LINES 8
+#define SHUD_MAX_POWERUPS 8
 
 typedef struct
 {
@@ -445,6 +467,16 @@ typedef struct
 		superhudChatEntry_t line[SHUD_MAX_CHAT_LINES];
 		unsigned int index;
 	}chat;
+	struct superhudPowerupsCache_t
+	{
+		struct superhudPowerupElement_t
+		{
+			int time;
+			int powerup;
+		}element[SHUD_MAX_POWERUPS];
+		int numberOfActive;
+		int lastUpdateTime;
+	}powerupsCache;
 }superhudGlobalContext_t;
 
 superhudGlobalContext_t* CG_SHUDGetContext(void);
