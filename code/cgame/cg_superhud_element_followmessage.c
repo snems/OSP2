@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementFollowMessage_t;
 
 void* CG_SHUDElementFollowMessageCreate(superhudConfig_t* config)

@@ -11,7 +11,7 @@ enum shudElementNameType_t
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
   enum shudElementNameType_t type;
 } shudElementName_t;
 

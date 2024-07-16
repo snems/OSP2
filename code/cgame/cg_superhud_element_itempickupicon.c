@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudDrawContext ctx;
+  superhudDrawContext_t ctx;
 } shudElementStatusbarItemPickupIcon;
 
 void* CG_SHUDElementItemPickupIconCreate(superhudConfig_t* config)

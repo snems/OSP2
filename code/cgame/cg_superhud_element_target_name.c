@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementTargetName_t;
 
 void* CG_SHUDElementTargetNameCreate(superhudConfig_t* config)

@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementPlayerSpeed_t;
 
 void* CG_SHUDElementPlayerSpeedCreate(superhudConfig_t* config)

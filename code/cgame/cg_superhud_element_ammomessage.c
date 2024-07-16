@@ -7,7 +7,7 @@ typedef struct
   superhudConfig_t config;
 	int timePrev;
 	char s[MAX_QPATH];
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementAmmoMessage_t;
 
 void* CG_SHUDElementAmmoMessageCreate(superhudConfig_t* config)

@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
   int *time;
   const char *msg;
 } shudElementFragMessage_t;

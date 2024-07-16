@@ -5,49 +5,49 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext position;
+  superhudTextContext_t position;
 } shudElementStatusbarHealthCount;
 
 void* CG_SHUDElementSBACCreate(superhudConfig_t* config)
 {
-  shudElementStatusbarHealthCount *sbac;
+  shudElementStatusbarHealthCount *element;
 
-  sbac = Z_Malloc(sizeof(*sbac));
-  OSP_MEMORY_CHECK(sbac);
+  element = Z_Malloc(sizeof(*element));
+  OSP_MEMORY_CHECK(element);
 
-  memset(sbac,0,sizeof(*sbac));
+  memset(element,0,sizeof(*element));
 
-  memcpy(&sbac->config, config, sizeof(sbac->config));
+  memcpy(&element->config, config, sizeof(element->config));
 
   //load defaults
-  if (!sbac->config.color.isSet)
+  if (!element->config.color.isSet)
   {
-    sbac->config.color.isSet = qtrue;
-    sbac->config.color.value.type = SUPERHUD_COLOR_RGBA;
-    Vector4Set(sbac->config.color.value.rgba, 1, 0.7, 0, 1);
+    element->config.color.isSet = qtrue;
+    element->config.color.value.type = SUPERHUD_COLOR_RGBA;
+    Vector4Set(element->config.color.value.rgba, 1, 0.7, 0, 1);
   }
 
-  if (!sbac->config.text.isSet)
+  if (!element->config.text.isSet)
   {
-    sbac->config.text.isSet = qtrue;
-    Q_strncpyz(sbac->config.text.value, "%i", sizeof(sbac->config.text.value));
+    element->config.text.isSet = qtrue;
+    Q_strncpyz(element->config.text.value, "%i", sizeof(element->config.text.value));
   }
 
-  CG_SHUDTextMakeContext(&sbac->config, &sbac->position);
-  sbac->position.maxchars = 6;
+  CG_SHUDTextMakeContext(&element->config, &element->position);
+  element->position.maxchars = 6;
 
-  return sbac;
+  return element;
 }
 
 void CG_SHUDElementSBACRoutine(void *context)
 {
-  shudElementStatusbarHealthCount *sbac = (shudElementStatusbarHealthCount *)context;
+  shudElementStatusbarHealthCount *element = (shudElementStatusbarHealthCount *)context;
   const char *s;
   int ap = cg.snap->ps.stats[STAT_ARMOR];
 
-	s = va(sbac->config.text.value, ap > 0 ? ap : 0);
+	s = va(element->config.text.value, ap > 0 ? ap : 0);
 
-  CG_SHUDTextPrint(s, &sbac->position);
+  CG_SHUDTextPrint(s, &element->position);
 }
 
 void CG_SHUDElementSBACDestroy(void *context)

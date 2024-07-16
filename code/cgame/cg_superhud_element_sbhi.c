@@ -5,41 +5,41 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudDrawContext ctx;
+  superhudDrawContext_t ctx;
 } shudElementStatusbarHealthIcon;
 
 void* CG_SHUDElementSBHICreate(superhudConfig_t* config)
 {
-  shudElementStatusbarHealthIcon *sbhi;
+  shudElementStatusbarHealthIcon *element;
 
-  sbhi = Z_Malloc(sizeof(*sbhi));
-  OSP_MEMORY_CHECK(sbhi);
+  element = Z_Malloc(sizeof(*element));
+  OSP_MEMORY_CHECK(element);
 
-  memset(sbhi,0,sizeof(*sbhi));
+  memset(element,0,sizeof(*element));
 
-  memcpy(&sbhi->config, config, sizeof(sbhi->config));
+  memcpy(&element->config, config, sizeof(element->config));
 
-  CG_SHUDDrawMakeContext(&sbhi->config, &sbhi->ctx);
+  CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 
   if (config->image.isSet)
   {
-    sbhi->ctx.image = trap_R_RegisterShader(sbhi->config.image.value);
+    element->ctx.image = trap_R_RegisterShader(element->config.image.value);
   }
 
-  if (!sbhi->ctx.image)
+  if (!element->ctx.image)
   {
-    sbhi->ctx.image = trap_R_RegisterShader("icons/iconh_yellow.tga");
+    element->ctx.image = trap_R_RegisterShader("icons/iconh_yellow.tga");
   }
 
-  return sbhi;
+  return element;
 }
 
 void CG_SHUDElementSBHIRoutine(void *context)
 {
-  shudElementStatusbarHealthIcon *sbhi = (shudElementStatusbarHealthIcon *)context;
+  shudElementStatusbarHealthIcon *element = (shudElementStatusbarHealthIcon *)context;
 
-	trap_R_SetColor(sbhi->ctx.color);
-	trap_R_DrawStretchPic(sbhi->ctx.x, sbhi->ctx.y, sbhi->ctx.w+1, sbhi->ctx.h, 0, 0, 1, 1, sbhi->ctx.image);
+	trap_R_SetColor(element->ctx.color);
+	trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w+1, element->ctx.h, 0, 0, 1, 1, element->ctx.image);
 	trap_R_SetColor(NULL);
 
 }

@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementItemPickup_t;
 
 void* CG_SHUDElementItemPickupCreate(superhudConfig_t* config)

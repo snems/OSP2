@@ -6,7 +6,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 	superhudGlobalContext_t *gctx;
 	int index;
 } shudElementChat_t;

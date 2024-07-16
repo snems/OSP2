@@ -34,6 +34,7 @@ extern "C" {
 #define NYAN_POINT()      CG_Printf( "%s:%d: DEBUG point reached\n", __FILE__, __LINE__)
 #define NYAN_INT(VALUE)   CG_Printf( "%s:%d: %s = %i\n", __FILE__, __LINE__, #VALUE, (int)VALUE)
 #define NYAN_FLOAT(VALUE) CG_Printf( "%s:%d: %s = %f\n", __FILE__, __LINE__, #VALUE, (float)VALUE)
+#define NYAN_VEC4(VALUE) CG_Printf( "%s:%d: %s = %f,%f,%f,%f\n", __FILE__, __LINE__, #VALUE, VALUE[0], VALUE[1], VALUE[2], VALUE[3])
 #define NYAN_MSG(VALUE)   CG_Printf( "%s:%d: %s\n", __FILE__, __LINE__, VALUE)
 
 // The entire cgame module is unloaded and reloaded on each level change,

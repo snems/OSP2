@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementVMW_t;
 
 void* CG_SHUDElementVMWCreate(superhudConfig_t* config)

@@ -9,7 +9,7 @@ typedef struct
   float timeAverage;
   int framesNum;
 	int timePrev;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementFPS_t;
 
 void* CG_SHUDElementFPSCreate(superhudConfig_t* config)

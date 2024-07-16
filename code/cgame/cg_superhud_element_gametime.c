@@ -6,7 +6,7 @@ typedef struct
 {
   superhudConfig_t config;
 	int timePrev;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementGameTime_t;
 
 void* CG_SHUDElementGameTimeCreate(superhudConfig_t* config)

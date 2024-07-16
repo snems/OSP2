@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudDrawContext ctx;
+  superhudDrawContext_t ctx;
 } shudElementStatusbarAttackerIcon;
 
 void* CG_SHUDElementAttackerIconCreate(superhudConfig_t* config)

@@ -295,6 +295,10 @@ void* CG_SHUDElementSBHCCreate(superhudConfig_t* config);
 void CG_SHUDElementSBHCRoutine(void *context);
 void CG_SHUDElementSBHCDestroy(void *context);
 
+void* CG_SHUDElementSBHBCreate(superhudConfig_t* config);
+void CG_SHUDElementSBHBRoutine(void *context);
+void CG_SHUDElementSBHBDestroy(void *context);
+
 void* CG_SHUDElementSBHICreate(superhudConfig_t* config);
 void CG_SHUDElementSBHIRoutine(void *context);
 void CG_SHUDElementSBHIDestroy(void *context);
@@ -303,9 +307,17 @@ void* CG_SHUDElementSBACCreate(superhudConfig_t* config);
 void CG_SHUDElementSBACRoutine(void *context);
 void CG_SHUDElementSBACDestroy(void *context);
 
+void* CG_SHUDElementSBABCreate(superhudConfig_t* config);
+void CG_SHUDElementSBABRoutine(void *context);
+void CG_SHUDElementSBABDestroy(void *context);
+
 void* CG_SHUDElementSBAICreate(superhudConfig_t* config);
 void CG_SHUDElementSBAIRoutine(void *context);
 void CG_SHUDElementSBAIDestroy(void *context);
+
+void* CG_SHUDElementSBWBCreate(superhudConfig_t* config);
+void CG_SHUDElementSBWBRoutine(void *context);
+void CG_SHUDElementSBWBDestroy(void *context);
 
 void* CG_SHUDElementTargetNameCreate(superhudConfig_t* config);
 void CG_SHUDElementTargetNameRoutine(void *context);
@@ -430,7 +442,7 @@ typedef struct
 	vec4_t color;
 	int maxchars;
 	int fontIndex;
-} superhudTextContext;
+} superhudTextContext_t;
 
 typedef struct
 {
@@ -440,11 +452,25 @@ typedef struct
 	float h;
 	qhandle_t image;
 	vec4_t color;
-} superhudDrawContext;
+} superhudDrawContext_t;
 
-void CG_SHUDDrawMakeContext(const superhudConfig_t *in, superhudDrawContext *out);
-void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext *out);
-void CG_SHUDTextPrint(const char *text, const superhudTextContext *pos);
+typedef struct
+{
+	superhudDirection_t direction;
+	float max; // maximum coord for bar
+	float koeff; //multiplier
+	vec4_t bar[2]; // coord of two bars
+	vec4_t color_top_origin; // color of bar
+	vec4_t color_top; // color of bar
+	vec4_t color_back; // color of background
+	qboolean two_bars; // one or two bars
+} superhudBarContext_t;
+
+void CG_SHUDBarMakeContext(const superhudConfig_t *in, superhudBarContext_t *out, float max);
+void CG_SHUDDrawMakeContext(const superhudConfig_t *in, superhudDrawContext_t *out);
+void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext_t *out);
+void CG_SHUDTextPrint(const char *text, const superhudTextContext_t *pos);
+void CG_SHUDBarPrint(const superhudBarContext_t *ctx, float value);
 
 typedef struct
 {

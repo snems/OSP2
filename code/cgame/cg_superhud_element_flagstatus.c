@@ -11,7 +11,7 @@ enum flagType_t
 typedef struct
 {
   superhudConfig_t config;
-  superhudDrawContext ctx;
+  superhudDrawContext_t ctx;
   enum flagType_t flagType;
 } shudElementFlagStatus_t;
 

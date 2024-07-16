@@ -7,7 +7,7 @@ typedef struct
   superhudConfig_t config;
 	int timePrev;
 	char s[MAX_QPATH];
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementLocalTime_t;
 
 void* CG_SHUDElementLocalTimeCreate(superhudConfig_t* config)

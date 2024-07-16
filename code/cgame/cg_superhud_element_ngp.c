@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext ctx;
+  superhudTextContext_t ctx;
 } shudElementNGP_t;
 
 void* CG_SHUDElementNGPCreate(superhudConfig_t* config)

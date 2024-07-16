@@ -5,37 +5,37 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudDrawContext ctx;
+  superhudDrawContext_t ctx;
 } shudElementStatusbarArmorIcon;
 
 void* CG_SHUDElementSBAICreate(superhudConfig_t* config)
 {
-  shudElementStatusbarArmorIcon *sbai;
+  shudElementStatusbarArmorIcon *element;
 
-  sbai = Z_Malloc(sizeof(*sbai));
-  OSP_MEMORY_CHECK(sbai);
+  element = Z_Malloc(sizeof(*element));
+  OSP_MEMORY_CHECK(element);
 
-  memset(sbai,0,sizeof(*sbai));
+  memset(element,0,sizeof(*element));
 
-  memcpy(&sbai->config, config, sizeof(sbai->config));
+  memcpy(&element->config, config, sizeof(element->config));
 
-  CG_SHUDDrawMakeContext(&sbai->config, &sbai->ctx);
+  CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 
   if (config->image.isSet)
   {
-    sbai->ctx.image = trap_R_RegisterShader(sbai->config.image.value);
+    element->ctx.image = trap_R_RegisterShader(element->config.image.value);
   }
 
-  return sbai;
+  return element;
 }
 
 void CG_SHUDElementSBAIRoutine(void *context)
 {
-  shudElementStatusbarArmorIcon *sbai = (shudElementStatusbarArmorIcon *)context;
+  shudElementStatusbarArmorIcon *element = (shudElementStatusbarArmorIcon *)context;
 
-	trap_R_SetColor(sbai->ctx.color);
-	trap_R_DrawStretchPic(sbai->ctx.x, sbai->ctx.y, sbai->ctx.w+1, sbai->ctx.h, 0, 0, 1, 1, 
-	     sbai->ctx.image ? sbai->ctx.image: cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]] );
+	trap_R_SetColor(element->ctx.color);
+	trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w+1, element->ctx.h, 0, 0, 1, 1, 
+	     element->ctx.image ? element->ctx.image: cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]] );
 	trap_R_SetColor(NULL);
 
 }

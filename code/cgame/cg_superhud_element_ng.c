@@ -5,8 +5,8 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudDrawContext ctx;
-  superhudTextContext tctx;
+  superhudDrawContext_t ctx;
+  superhudTextContext_t tctx;
 } shudElementNG_t;
 
 void* CG_SHUDElementNGCreate(superhudConfig_t* config)

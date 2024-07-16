@@ -11,8 +11,8 @@ enum shudPWType
 typedef struct
 {
   superhudConfig_t config;
-  superhudTextContext textCtx;
-  superhudDrawContext drawCtx;
+  superhudTextContext_t textCtx;
+  superhudDrawContext_t drawCtx;
   enum shudPWType pwType;
   int pwIndex;
 } shudElementPowerupContext;

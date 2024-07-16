@@ -5,7 +5,7 @@
 typedef struct
 {
   superhudConfig_t config;
-  superhudDrawContext ctx;
+  superhudDrawContext_t ctx;
 } shudElementStatusbarPreDecorate;
 
 void* CG_SHUDElementPreDCreate(superhudConfig_t* config)
