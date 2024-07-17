@@ -36,6 +36,7 @@ CG_SRC = \
  cg_superhud_element_flagstatus \
  cg_superhud_element_powerup \
  cg_superhud_element_name \
+ cg_superhud_element_score \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

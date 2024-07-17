@@ -429,6 +429,12 @@ void* CG_SHUDElementNameOWNCreate(superhudConfig_t* config);
 void CG_SHUDElementNameRoutine(void *context);
 void CG_SHUDElementNameDestroy(void *context);
 
+void* CG_SHUDElementScoreNMECreate(superhudConfig_t* config);
+void* CG_SHUDElementScoreOWNCreate(superhudConfig_t* config);
+void* CG_SHUDElementScoreMAXCreate(superhudConfig_t* config);
+void CG_SHUDElementScoreRoutine(void *context);
+void CG_SHUDElementScoreDestroy(void *context);
+
 /*
  * cg_superhud_util.c
  */
@@ -471,6 +477,7 @@ void CG_SHUDDrawMakeContext(const superhudConfig_t *in, superhudDrawContext_t *o
 void CG_SHUDTextMakeContext(const superhudConfig_t *in, superhudTextContext_t *out);
 void CG_SHUDTextPrint(const char *text, const superhudTextContext_t *pos);
 void CG_SHUDBarPrint(const superhudBarContext_t *ctx, float value);
+team_t CG_SHUDGetOurActiveTeam(void);
 
 typedef struct
 {

@@ -434,3 +434,31 @@ void CG_SHUDBarPrint(const superhudBarContext_t *ctx, float value)
 	trap_R_SetColor(NULL);
 }
 
+team_t CG_SHUDGetOurActiveTeam(void)
+{
+  team_t our_team = TEAM_FREE;
+  if (cgs.osp.gameTypeFreeze)
+  {
+    our_team = cgs.clientinfo[cg.clientNum].rt;
+  }
+  else
+  {
+    our_team = cgs.clientinfo[cg.clientNum].team;
+  }
+
+  if (our_team == TEAM_SPECTATOR)
+  {
+    if (cgs.osp.gameTypeFreeze)
+    {
+      our_team = cgs.clientinfo[cg.snap->ps.clientNum].rt;
+    }
+    else
+    {
+      our_team = cgs.clientinfo[cg.snap->ps.clientNum].team;
+    }
+  }
+  return our_team;
+}
+
+
+
