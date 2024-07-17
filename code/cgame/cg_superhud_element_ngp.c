@@ -30,6 +30,8 @@ void CG_SHUDElementNGPRoutine(void *context)
   shudElementNGP_t *ngp = (shudElementNGP_t *)context;
   int ping;
 
+	if (cg.demoPlayback) return;
+
 	if (cgs.osp.pingCount == 0)
 	{
 		ping = 0;
