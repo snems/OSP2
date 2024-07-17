@@ -315,9 +315,17 @@ void* CG_SHUDElementSBAICreate(superhudConfig_t* config);
 void CG_SHUDElementSBAIRoutine(void *context);
 void CG_SHUDElementSBAIDestroy(void *context);
 
-void* CG_SHUDElementSBWBCreate(superhudConfig_t* config);
-void CG_SHUDElementSBWBRoutine(void *context);
-void CG_SHUDElementSBWBDestroy(void *context);
+void* CG_SHUDElementSBAmBCreate(superhudConfig_t* config);
+void CG_SHUDElementSBAmBRoutine(void *context);
+void CG_SHUDElementSBAmBDestroy(void *context);
+
+void* CG_SHUDElementSBAmCCreate(superhudConfig_t* config);
+void CG_SHUDElementSBAmCRoutine(void *context);
+void CG_SHUDElementSBAmCDestroy(void *context);
+
+void* CG_SHUDElementSBAmICreate(superhudConfig_t* config);
+void CG_SHUDElementSBAmIRoutine(void *context);
+void CG_SHUDElementSBAmIDestroy(void *context);
 
 void* CG_SHUDElementTargetNameCreate(superhudConfig_t* config);
 void CG_SHUDElementTargetNameRoutine(void *context);

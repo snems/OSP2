@@ -11,12 +11,12 @@ typedef struct
   int last_weapon;
   int red;
   int white;
-} shudElementStatusbarWeaponBar;
+} shudElementStatusbarAmmoBar;
 
-void* CG_SHUDElementSBWBCreate(superhudConfig_t* config)
+void* CG_SHUDElementSBAmBCreate(superhudConfig_t* config)
 {
   int i;
-  shudElementStatusbarWeaponBar *element;
+  shudElementStatusbarAmmoBar *element;
 
   element = Z_Malloc(sizeof(*element));
   OSP_MEMORY_CHECK(element);
@@ -35,12 +35,14 @@ void* CG_SHUDElementSBWBCreate(superhudConfig_t* config)
   return element;
 }
 
-void CG_SHUDElementSBWBRoutine(void *context)
+void CG_SHUDElementSBAmBRoutine(void *context)
 {
-  shudElementStatusbarWeaponBar *element = (shudElementStatusbarWeaponBar *)context;
+  shudElementStatusbarAmmoBar *element = (shudElementStatusbarAmmoBar *)context;
   int wp = cg.weaponSelect;
   int ammo = cg.predictedPlayerState.ammo[wp];
   qboolean ammoOverflow = ammo > element->maxammo[wp];
+
+  if (wp == WP_NONE || wp == WP_GAUNTLET) return;
 
   if (wp != element->last_weapon || ammoOverflow)
   {
@@ -77,7 +79,7 @@ void CG_SHUDElementSBWBRoutine(void *context)
   CG_SHUDBarPrint(&element->ctx, ammo);
 }
 
-void CG_SHUDElementSBWBDestroy(void *context)
+void CG_SHUDElementSBAmBDestroy(void *context)
 {
   if (context)
   {
