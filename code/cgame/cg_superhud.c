@@ -278,11 +278,92 @@ void CG_SHUDEventFrag(const char *message)
 void CG_SHUDEventChat(const char *message)
 {
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
-	int index, k, l;
-	char *ptr;
+	int index;
 
 	index = ctx->chat.index % SHUD_MAX_CHAT_LINES;
 	Q_strncpyz(ctx->chat.line[index].message, message, MAX_SAY_TEXT);
+	ctx->chat.line[index].time = cg.time;
+	++ctx->chat.index;
+}
+
+void CG_SHUDEventTeamChat(const char *message)
+{
+	int len;
+	char* loc_start;
+	char* loc_end;
+	char* p, *ls;
+	int lastcolor;
+	int size = 1024;
+	int index;
+	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
+
+	if (customLocationsEnabled != 0)
+	{
+		char* cloc_begin, *cloc_end;
+		int free_left;
+		vec3_t cloc;
+		if (CG_CustomLocationsTeamChatCode(message, cloc, &cloc_begin, &cloc_end))
+		{
+			int location_len;
+			const char* location_name;
+			char* tmp;
+
+			location_name = CG_CustomLocationsGetName(cloc);
+			location_len = strlen(location_name); //size of message without location
+
+			tmp = Z_Malloc(size);
+			OSP_MEMORY_CHECK(tmp);
+
+			Q_strncpyz(tmp, cloc_end, size);
+			free_left = size - (cloc_begin - message);
+			Q_strncpyz(cloc_begin, location_name, free_left);
+			free_left -= location_len;
+			Q_strncpyz(cloc_begin + location_len, tmp, free_left);
+
+			Z_Free(tmp);
+		}
+	}
+
+	if (ch_FilterLocationsTeamchat.integer)
+	{
+		loc_start = strchr(message, '(');
+		if (loc_start)
+		{
+			loc_start = strchr(loc_start + 1, '(');
+			if (loc_start)
+			{
+				loc_end = strchr(loc_start, ')');
+				if (loc_end)
+				{
+					strcpy(loc_start - 1, loc_end + 1);
+				}
+			}
+		}
+	}
+
+	index = ctx->chat.index % SHUD_MAX_CHAT_LINES;
+
+	p = ctx->chat.line[index].message;
+	(*(p) = 0);
+	while (*message)
+	{
+		if (Q_IsColorString(message))
+		{
+			*p++ = *message++;
+			lastcolor = *message;
+			*p++ = *message++;
+			continue;
+		}
+		if (*message == ' ')
+		{
+			ls = p;
+		}
+		*p++ = *message++;
+		len++;
+	}
+
+	*p = 0;
+
 	ctx->chat.line[index].time = cg.time;
 	++ctx->chat.index;
 }

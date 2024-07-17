@@ -1031,10 +1031,21 @@ void CG_ServerCommand(void)
 			Q_strncpyz(text, CG_Argv(1), 1024);
 			CG_RemoveChatEscapeChar(text);
 
-			CG_AddToTeamChat(text, 1024);
-			if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
+			if (!cg_shud.integer)
 			{
-				CG_Printf("%s\n", text);
+				CG_AddToTeamChat(text, 1024);
+				if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
+				{
+					CG_Printf("%s\n", text);
+				}
+			}
+			else
+			{
+				CG_SHUDEventTeamChat(text);
+				if (!cg_shudChatOnly.integer && (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT))
+				{
+					CG_Printf("%s\n", text);
+				}
 			}
 		}
 		return;
