@@ -87,7 +87,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "statusbar_healthcount", 79, CG_SHUDElementSBHCCreate, CG_SHUDElementSBHCRoutine, CG_SHUDElementSBHCDestroy },
 	{ "statusbar_healthicon", 80, CG_SHUDElementSBHICreate, CG_SHUDElementSBHIRoutine, CG_SHUDElementSBHIDestroy },
 	{ "targetname", 81, CG_SHUDElementTargetNameCreate, CG_SHUDElementTargetNameRoutine, CG_SHUDElementTargetNameDestroy },
-	{ "targetstatus", 82, },
+	{ "targetstatus", 82, CG_SHUDElementTargetStatusCreate, CG_SHUDElementTargetStatusRoutine, CG_SHUDElementTargetStatusDestroy },
 	{ "teamcount_nme", 83, },
 	{ "teamcount_own", 84, },
 	{ "teamicon_nme", 85, },

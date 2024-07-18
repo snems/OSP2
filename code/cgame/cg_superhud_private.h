@@ -332,6 +332,10 @@ void* CG_SHUDElementTargetNameCreate(superhudConfig_t* config);
 void CG_SHUDElementTargetNameRoutine(void* context);
 void CG_SHUDElementTargetNameDestroy(void* context);
 
+void* CG_SHUDElementTargetStatusCreate(superhudConfig_t* config);
+void CG_SHUDElementTargetStatusRoutine(void* context);
+void CG_SHUDElementTargetStatusDestroy(void* context);
+
 void* CG_SHUDElementVMWCreate(superhudConfig_t* config);
 void CG_SHUDElementVMWRoutine(void* context);
 void CG_SHUDElementVMWDestroy(void* context);

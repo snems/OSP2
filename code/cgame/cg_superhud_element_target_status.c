@@ -6,11 +6,11 @@ typedef struct
 {
 	superhudConfig_t config;
 	superhudTextContext_t ctx;
-} shudElementTargetName_t;
+} shudElementTargetStatus_t;
 
-void* CG_SHUDElementTargetNameCreate(superhudConfig_t* config)
+void* CG_SHUDElementTargetStatusCreate(superhudConfig_t* config)
 {
-	shudElementTargetName_t* element;
+	shudElementTargetStatus_t* element;
 
 	element = Z_Malloc(sizeof(*element));
 	OSP_MEMORY_CHECK(element);
@@ -25,9 +25,9 @@ void* CG_SHUDElementTargetNameCreate(superhudConfig_t* config)
 	return element;
 }
 
-void CG_SHUDElementTargetNameRoutine(void* context)
+void CG_SHUDElementTargetStatusRoutine(void* context)
 {
-	shudElementTargetName_t* element = (shudElementTargetName_t*)context;
+	shudElementTargetStatus_t* element = (shudElementTargetStatus_t*)context;
 	char    s[1024];
 	float* fade;
 	clientInfo_t* ci;
@@ -48,16 +48,18 @@ void CG_SHUDElementTargetNameRoutine(void* context)
 
 	ci = &cgs.clientinfo[cg.crosshairClientNum];
 
-	// our team OR not team only OR not our freeze team
-	if ((ci->team == cg.snap->ps.persistant[PERS_TEAM]) || cg_drawCrosshairNames.integer != 2 || (cgs.osp.gameTypeFreeze && ci->team == cgs.clientinfo[cg.snap->ps.clientNum].team))
+	if ((ci->team == cg.snap->ps.persistant[PERS_TEAM]) || (cgs.osp.gameTypeFreeze && ci->team == cgs.clientinfo[cg.snap->ps.clientNum].team))
 	{
-		Com_sprintf(s, 1024, "%s", ci->name);
-		element->ctx.color[3] = fade[3];
-		CG_SHUDTextPrint(s, &element->ctx);
+		if (ci->team != TEAM_FREE && ci->team == cg.snap->ps.persistant[PERS_TEAM] && ch_TeamCrosshairHealth.integer != 0 && !(cg.snap->ps.pm_flags & PMF_FOLLOW))
+		{
+			Com_sprintf(s, 1024, "^5[^7%i/%i^5]", ci->health, ci->armor);
+			element->ctx.color[3] = fade[3];
+			CG_SHUDTextPrint(s, &element->ctx);
+		}
 	}
 }
 
-void CG_SHUDElementTargetNameDestroy(void* context)
+void CG_SHUDElementTargetStatusDestroy(void* context)
 {
 	if (context)
 	{
