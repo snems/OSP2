@@ -206,8 +206,8 @@ void CG_SHUDLoadConfig(void)
 
 		CG_Printf("^3SuperHUD: creating HUD routines... ");
 		newElementLast = newElementsHead;
-		
-		while(newElementLast)
+
+		while (newElementLast)
 		{
 			if (newElementLast->element.create)
 			{
@@ -222,8 +222,8 @@ void CG_SHUDLoadConfig(void)
 		CG_Printf("^3%d drawable element%s\n", numberOfElementsCreated, numberOfElementsCreated > 1 ? "s" : "");
 	}
 
-  CG_Printf("^3SuperHUD: sorting HUD routines... ");
-  {
+	CG_Printf("^3SuperHUD: sorting HUD routines... ");
+	{
 		superhudElement_t* prev;
 		superhudElement_t* current;
 		superhudElement_t* next;
@@ -237,7 +237,7 @@ void CG_SHUDLoadConfig(void)
 			current = newElementsHead;
 			next = newElementsHead->next;
 
-			while(current && next)
+			while (current && next)
 			{
 				if (next->element.order < current->element.order)
 				{
@@ -256,15 +256,16 @@ void CG_SHUDLoadConfig(void)
 					next->next = current;
 					++swapped;
 				}
-					
+
 				prev = current;
 				current = next;
 				next = current->next;
 			}
-		}while(swapped);
+		}
+		while (swapped);
 
 
-  }
+	}
 
 	CG_Printf("^3SuperHUD: installing new routines... ");
 
@@ -286,7 +287,7 @@ void CG_SHUDRoutine(void)
 {
 	superhudElement_t* last = elementsHead;
 
-	while(last)
+	while (last)
 	{
 		if (last->element.routine)
 		{
@@ -294,7 +295,7 @@ void CG_SHUDRoutine(void)
 		}
 		last = last->next;
 	}
-  CG_OSPDrawCrosshair();
+	CG_OSPDrawCrosshair();
 
 	if (CG_DrawIntermission() == 0)
 	{
@@ -302,7 +303,7 @@ void CG_SHUDRoutine(void)
 	}
 }
 
-void CG_SHUDEventFrag(const char *message)
+void CG_SHUDEventFrag(const char* message)
 {
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
 	Q_strncpyz(ctx->fragmessage.message, message, sizeof(ctx->fragmessage.message));
@@ -320,7 +321,7 @@ void CG_SHUDEventFrag(const char *message)
 	}
 }
 
-void CG_SHUDEventChat(const char *message)
+void CG_SHUDEventChat(const char* message)
 {
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
 	int index;
@@ -331,7 +332,7 @@ void CG_SHUDEventChat(const char *message)
 	++ctx->chat.index;
 }
 
-void CG_SHUDEventTeamChat(const char *message)
+void CG_SHUDEventTeamChat(const char* message)
 {
 	int len;
 	char* loc_start;

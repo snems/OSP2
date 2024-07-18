@@ -4,31 +4,31 @@
 
 typedef struct
 {
-  superhudConfig_t config;
-  superhudTextContext_t ctx;
+	superhudConfig_t config;
+	superhudTextContext_t ctx;
 } shudElementAttackerName_t;
 
 void* CG_SHUDElementAttackerNameCreate(superhudConfig_t* config)
 {
-  shudElementAttackerName_t *an;
+	shudElementAttackerName_t* an;
 
-  an = Z_Malloc(sizeof(*an));
-  OSP_MEMORY_CHECK(an);
+	an = Z_Malloc(sizeof(*an));
+	OSP_MEMORY_CHECK(an);
 
-  memset(an,0,sizeof(*an));
+	memset(an, 0, sizeof(*an));
 
-  memcpy(&an->config, config, sizeof(an->config));
+	memcpy(&an->config, config, sizeof(an->config));
 
-  CG_SHUDTextMakeContext(&an->config, &an->ctx);
-  an->ctx.maxchars = MAX_QPATH;
+	CG_SHUDTextMakeContext(&an->config, &an->ctx);
+	an->ctx.maxchars = MAX_QPATH;
 
-  return an;
+	return an;
 }
 
-void CG_SHUDElementAttackerNameRoutine(void *context)
+void CG_SHUDElementAttackerNameRoutine(void* context)
 {
-  shudElementAttackerName_t *an = (shudElementAttackerName_t *)context;
-  const float *fade;
+	shudElementAttackerName_t* an = (shudElementAttackerName_t*)context;
+	const float* fade;
 	int         t;
 	const char*  info;
 	const char*  name;
@@ -63,19 +63,19 @@ void CG_SHUDElementAttackerNameRoutine(void *context)
 		trap_R_SetColor(NULL);
 		return;
 	}
-  an->ctx.color[3] = fade[3];
+	an->ctx.color[3] = fade[3];
 
 	info = CG_ConfigString(CS_PLAYERS + clientNum);
 	name = Info_ValueForKey(info, "n");
 
-  CG_SHUDTextPrint(name, &an->ctx);
+	CG_SHUDTextPrint(name, &an->ctx);
 }
 
-void CG_SHUDElementAttackerNameDestroy(void *context)
+void CG_SHUDElementAttackerNameDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }
 

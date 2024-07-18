@@ -434,7 +434,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_drawDecals, "cg_drawDecals", "1", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
 	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "2", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enableOSPHUD},
-	{ &cg_shud, "cg_shud", "1", CVAR_ARCHIVE , CG_LocalEventCvarChanged_cg_shud},
+	{ &cg_shud, "cg_shud", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_shud},
 	{ &cg_shudChatOnly, "cg_shudChatOnly", "1", CVAR_ARCHIVE },
 	{ &cg_shudTeamChatOnly, "cg_shudTeamChatOnly", "1", CVAR_ARCHIVE },
 	{ &cg_enableBreath, "cg_enableBreath", "1",  CVAR_ARCHIVE},

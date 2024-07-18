@@ -2309,13 +2309,13 @@ static void CG_Draw2D(void)
 	if (cg_shud.integer)
 	{
 		CG_SHUDRoutine();
-    return;
+		return;
 	}
 
 	if (cg_enableOSPHUD.integer)
 	{
 		CG_OSPHUDRoutine();
-    return;
+		return;
 	}
 
 	if (cg.snap->ps.pm_type == PM_INTERMISSION)

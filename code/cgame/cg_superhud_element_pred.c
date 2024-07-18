@@ -4,46 +4,46 @@
 
 typedef struct
 {
-  superhudConfig_t config;
-  superhudDrawContext_t ctx;
+	superhudConfig_t config;
+	superhudDrawContext_t ctx;
 } shudElementStatusbarPreDecorate;
 
 void* CG_SHUDElementPreDCreate(superhudConfig_t* config)
 {
-  shudElementStatusbarPreDecorate *sbai;
+	shudElementStatusbarPreDecorate* sbai;
 
-  sbai = Z_Malloc(sizeof(*sbai));
-  OSP_MEMORY_CHECK(sbai);
+	sbai = Z_Malloc(sizeof(*sbai));
+	OSP_MEMORY_CHECK(sbai);
 
-  memset(sbai,0,sizeof(*sbai));
+	memset(sbai, 0, sizeof(*sbai));
 
-  memcpy(&sbai->config, config, sizeof(sbai->config));
+	memcpy(&sbai->config, config, sizeof(sbai->config));
 
-  CG_SHUDDrawMakeContext(&sbai->config, &sbai->ctx);
+	CG_SHUDDrawMakeContext(&sbai->config, &sbai->ctx);
 
-  if (config->image.isSet)
-  {
-    sbai->ctx.image = trap_R_RegisterShader(sbai->config.image.value);
-  }
+	if (config->image.isSet)
+	{
+		sbai->ctx.image = trap_R_RegisterShader(sbai->config.image.value);
+	}
 
-  return sbai;
+	return sbai;
 }
 
-void CG_SHUDElementPreDRoutine(void *context)
+void CG_SHUDElementPreDRoutine(void* context)
 {
-  shudElementStatusbarPreDecorate *sbai = (shudElementStatusbarPreDecorate *)context;
+	shudElementStatusbarPreDecorate* sbai = (shudElementStatusbarPreDecorate*)context;
 
 	trap_R_SetColor(sbai->ctx.color);
-	trap_R_DrawStretchPic(sbai->ctx.x, sbai->ctx.y, sbai->ctx.w, sbai->ctx.h, 0, 0, 1, 1, 
-	     sbai->ctx.image ? sbai->ctx.image: cgs.media.whiteShader );
+	trap_R_DrawStretchPic(sbai->ctx.x, sbai->ctx.y, sbai->ctx.w, sbai->ctx.h, 0, 0, 1, 1,
+	                      sbai->ctx.image ? sbai->ctx.image : cgs.media.whiteShader);
 	trap_R_SetColor(NULL);
 
 }
 
-void CG_SHUDElementPreDDestroy(void *context)
+void CG_SHUDElementPreDDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }

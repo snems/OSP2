@@ -5,33 +5,33 @@
 #define FPS_MAX_FRAMES  32
 typedef struct
 {
-  superhudConfig_t config;
-  float timeAverage;
-  int framesNum;
+	superhudConfig_t config;
+	float timeAverage;
+	int framesNum;
 	int timePrev;
-  superhudTextContext_t ctx;
+	superhudTextContext_t ctx;
 } shudElementFPS_t;
 
 void* CG_SHUDElementFPSCreate(superhudConfig_t* config)
 {
-  shudElementFPS_t *fps;
+	shudElementFPS_t* fps;
 
-  fps = Z_Malloc(sizeof(*fps));
-  OSP_MEMORY_CHECK(fps);
+	fps = Z_Malloc(sizeof(*fps));
+	OSP_MEMORY_CHECK(fps);
 
-  memset(fps,0,sizeof(*fps));
+	memset(fps, 0, sizeof(*fps));
 
-  memcpy(&fps->config, config, sizeof(fps->config));
+	memcpy(&fps->config, config, sizeof(fps->config));
 
-  CG_SHUDTextMakeContext(&fps->config, &fps->ctx);
-  fps->ctx.maxchars = 6;
+	CG_SHUDTextMakeContext(&fps->config, &fps->ctx);
+	fps->ctx.maxchars = 6;
 
-  return fps;
+	return fps;
 }
 
-void CG_SHUDElementFPSRoutine(void *context)
+void CG_SHUDElementFPSRoutine(void* context)
 {
-  shudElementFPS_t *fps = (shudElementFPS_t *)context;
+	shudElementFPS_t* fps = (shudElementFPS_t*)context;
 	char*   s;
 	int     fps_val;
 	int     t;
@@ -41,31 +41,31 @@ void CG_SHUDElementFPSRoutine(void *context)
 	t = trap_Milliseconds();
 	if (fps->timePrev == 0)
 	{
-	  // skip first measure result
-    fps->timePrev = t;
-	  return;
+		// skip first measure result
+		fps->timePrev = t;
+		return;
 	}
 	fps->timeAverage *= fps->framesNum;
 	fps->timeAverage += t - fps->timePrev;
 	fps->timeAverage /= ++fps->framesNum;
-  fps->timePrev = t;
+	fps->timePrev = t;
 
-  if (fps->framesNum > FPS_MAX_FRAMES)
-  {
-    fps->framesNum = FPS_MAX_FRAMES;
-  }
+	if (fps->framesNum > FPS_MAX_FRAMES)
+	{
+		fps->framesNum = FPS_MAX_FRAMES;
+	}
 
-  fps_val = 1000.0f/fps->timeAverage;
+	fps_val = 1000.0f / fps->timeAverage;
 
 	s = va("%ifps", fps_val);
 
-  CG_SHUDTextPrint(s, &fps->ctx);
+	CG_SHUDTextPrint(s, &fps->ctx);
 }
 
-void CG_SHUDElementFPSDestroy(void *context)
+void CG_SHUDElementFPSDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }

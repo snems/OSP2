@@ -4,31 +4,31 @@
 
 typedef struct
 {
-  superhudConfig_t config;
-  superhudTextContext_t ctx;
+	superhudConfig_t config;
+	superhudTextContext_t ctx;
 } shudElementNGP_t;
 
 void* CG_SHUDElementNGPCreate(superhudConfig_t* config)
 {
-  shudElementNGP_t *ngp;
+	shudElementNGP_t* ngp;
 
-  ngp = Z_Malloc(sizeof(*ngp));
-  OSP_MEMORY_CHECK(ngp);
+	ngp = Z_Malloc(sizeof(*ngp));
+	OSP_MEMORY_CHECK(ngp);
 
-  memset(ngp,0,sizeof(*ngp));
+	memset(ngp, 0, sizeof(*ngp));
 
-  memcpy(&ngp->config, config, sizeof(ngp->config));
+	memcpy(&ngp->config, config, sizeof(ngp->config));
 
-  CG_SHUDTextMakeContext(&ngp->config, &ngp->ctx);
-  ngp->ctx.maxchars = MAX_QPATH;
+	CG_SHUDTextMakeContext(&ngp->config, &ngp->ctx);
+	ngp->ctx.maxchars = MAX_QPATH;
 
-  return ngp;
+	return ngp;
 }
 
-void CG_SHUDElementNGPRoutine(void *context)
+void CG_SHUDElementNGPRoutine(void* context)
 {
-  shudElementNGP_t *ngp = (shudElementNGP_t *)context;
-  int ping;
+	shudElementNGP_t* ngp = (shudElementNGP_t*)context;
+	int ping;
 
 	if (cg.demoPlayback) return;
 
@@ -41,15 +41,15 @@ void CG_SHUDElementNGPRoutine(void *context)
 		ping = (int)((float)cgs.osp.pingTotalTime / (float)cgs.osp.pingCount);
 	}
 
-  CG_SHUDTextPrint(va("%ims", ping), &ngp->ctx);
+	CG_SHUDTextPrint(va("%ims", ping), &ngp->ctx);
 }
 
-void CG_SHUDElementNGPDestroy(void *context)
+void CG_SHUDElementNGPDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }
 
 

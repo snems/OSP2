@@ -599,7 +599,7 @@ typedef struct
 } font_t;
 
 static font_t fonts[] = {{"id"}, {"idblock"}, {"sansman"}, {"cpma"}};
-static int fonts_num = sizeof(fonts)/sizeof(fonts[0]);
+static int fonts_num = sizeof(fonts) / sizeof(fonts[0]);
 static const font_t* font = &fonts[0];
 static const font_metric_t* metrics = &fonts[0].metrics[0];
 
@@ -611,11 +611,11 @@ void CG_FontSelect(int index)
 		CG_Error("Requested nonexistent font number: %d\n", index);
 	}
 
-	font = &fonts[index];	
+	font = &fonts[index];
 	metrics = &font->metrics[0];
 }
 
-int CG_FontIndexFromName(const char *name)
+int CG_FontIndexFromName(const char* name)
 {
 	int index;
 	for (index = 0; index < fonts_num; ++index)
@@ -2188,7 +2188,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	}
 
 	sh = font->shader[0]; // low-res shader by default
-	
+
 	// select hi-res shader if accepted
 	for (i = 1; i < font->shaderCount; i++)
 	{
@@ -2247,7 +2247,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 				case OSP_TEXT_CMD_FADE:
 					fade = curr->value.fade;
 					color[3] = fade;
-				trap_R_SetColor(color);
+					trap_R_SetColor(color);
 					break;
 				case OSP_TEXT_CMD_STOP:
 				case OSP_TEXT_CMD_TEXT_COLOR:

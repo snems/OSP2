@@ -4,49 +4,49 @@
 
 enum flagType_t
 {
-  SHUDFLTYPE_OWN,
-  SHUDFLTYPE_NME,
-}flagType;
+	SHUDFLTYPE_OWN,
+	SHUDFLTYPE_NME,
+} flagType;
 
 typedef struct
 {
-  superhudConfig_t config;
-  superhudDrawContext_t ctx;
-  enum flagType_t flagType;
+	superhudConfig_t config;
+	superhudDrawContext_t ctx;
+	enum flagType_t flagType;
 } shudElementFlagStatus_t;
 
 static void* CG_SHUDElementFlagStatusCreate(superhudConfig_t* config, enum flagType_t flagType)
 {
-  shudElementFlagStatus_t *element;
+	shudElementFlagStatus_t* element;
 
-  element = Z_Malloc(sizeof(*element));
-  OSP_MEMORY_CHECK(element);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-  memset(element,0,sizeof(*element));
+	memset(element, 0, sizeof(*element));
 
-  memcpy(&element->config, config, sizeof(element->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-  CG_SHUDDrawMakeContext(&element->config, &element->ctx);
+	CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 
-  element->flagType = flagType;
+	element->flagType = flagType;
 
-  return element;
+	return element;
 }
 
 void* CG_SHUDElementFlagStatusNMECreate(superhudConfig_t* config)
 {
-  return CG_SHUDElementFlagStatusCreate(config, SHUDFLTYPE_NME);
+	return CG_SHUDElementFlagStatusCreate(config, SHUDFLTYPE_NME);
 }
 
 void* CG_SHUDElementFlagStatusOWNCreate(superhudConfig_t* config)
 {
-  return CG_SHUDElementFlagStatusCreate(config, SHUDFLTYPE_OWN);
+	return CG_SHUDElementFlagStatusCreate(config, SHUDFLTYPE_OWN);
 }
 
 void CG_SHUDElementFlagStatusRoutine(void* context)
 {
-  shudElementFlagStatus_t *element = (shudElementFlagStatus_t *)context;
-  team_t team;
+	shudElementFlagStatus_t* element = (shudElementFlagStatus_t*)context;
+	team_t team;
 	gitem_t* item;
 	qhandle_t flag;
 
@@ -54,24 +54,24 @@ void CG_SHUDElementFlagStatusRoutine(void* context)
 
 	if (element->flagType == SHUDFLTYPE_NME)
 	{
-	  switch (team) 
-	  {
-      case TEAM_RED:
-        team = TEAM_BLUE;
-        break;
-      case TEAM_BLUE:
-        team = TEAM_RED;
-        break;
-      case TEAM_FREE:
-      case TEAM_SPECTATOR:
-      case TEAM_4:
-      case TEAM_5:
-      case TEAM_6:
-      case TEAM_7:
-      case TEAM_NUM_TEAMS:
-        return;
-    }
-  }
+		switch (team)
+		{
+			case TEAM_RED:
+				team = TEAM_BLUE;
+				break;
+			case TEAM_BLUE:
+				team = TEAM_RED;
+				break;
+			case TEAM_FREE:
+			case TEAM_SPECTATOR:
+			case TEAM_4:
+			case TEAM_5:
+			case TEAM_6:
+			case TEAM_7:
+			case TEAM_NUM_TEAMS:
+				return;
+		}
+	}
 
 	if (team == TEAM_RED)
 	{
@@ -90,18 +90,18 @@ void CG_SHUDElementFlagStatusRoutine(void* context)
 
 	if (item && flag)
 	{
-	  // установка цвета пока отключена, надо доработать шейдеры
-	  //trap_R_SetColor(element->ctx.color);
-	  trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1, flag);
-	  //trap_R_SetColor(NULL);
+		// установка цвета пока отключена, надо доработать шейдеры
+		//trap_R_SetColor(element->ctx.color);
+		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1, flag);
+		//trap_R_SetColor(NULL);
 	}
 }
 
-void CG_SHUDElementFlagStatusDestroy(void *context)
+void CG_SHUDElementFlagStatusDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }
 

@@ -5,112 +5,112 @@
 
 typedef struct
 {
-  superhudConfig_t config;
-  superhudTextContext_t ctx;
-	superhudGlobalContext_t *gctx;
+	superhudConfig_t config;
+	superhudTextContext_t ctx;
+	superhudGlobalContext_t* gctx;
 	int index;
 } shudElementChat_t;
 
 static void* CG_SHUDElementChatCreate(superhudConfig_t* config, int line)
 {
-  shudElementChat_t *element;
+	shudElementChat_t* element;
 
-  element = Z_Malloc(sizeof(*element));
-  OSP_MEMORY_CHECK(element);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-  memset(element,0,sizeof(*element));
+	memset(element, 0, sizeof(*element));
 
-  memcpy(&element->config, config, sizeof(element->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-  element->gctx = CG_SHUDGetContext();
- 	element->index = line;
-  CG_SHUDTextMakeContext(&element->config, &element->ctx);
-  element->ctx.maxchars = MAX_SAY_TEXT;
+	element->gctx = CG_SHUDGetContext();
+	element->index = line;
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.maxchars = MAX_SAY_TEXT;
 
-  return element;
+	return element;
 }
 
 void* CG_SHUDElementChat1Create(superhudConfig_t* config)
 {
-  return CG_SHUDElementChatCreate(config, 1);
+	return CG_SHUDElementChatCreate(config, 1);
 }
 
 void* CG_SHUDElementChat2Create(superhudConfig_t* config)
 {
-  return CG_SHUDElementChatCreate(config, 2);
+	return CG_SHUDElementChatCreate(config, 2);
 }
 
 void* CG_SHUDElementChat3Create(superhudConfig_t* config)
 {
-  return CG_SHUDElementChatCreate(config, 3);
+	return CG_SHUDElementChatCreate(config, 3);
 }
 
 void* CG_SHUDElementChat4Create(superhudConfig_t* config)
 {
-  return CG_SHUDElementChatCreate(config, 4);
+	return CG_SHUDElementChatCreate(config, 4);
 }
 
 void* CG_SHUDElementChat5Create(superhudConfig_t* config)
 {
-  return CG_SHUDElementChatCreate(config, 5);
+	return CG_SHUDElementChatCreate(config, 5);
 }
 
 void* CG_SHUDElementChat6Create(superhudConfig_t* config)
 {
-  return CG_SHUDElementChatCreate(config, 6);
+	return CG_SHUDElementChatCreate(config, 6);
 }
 
 void* CG_SHUDElementChat7Create(superhudConfig_t* config)
 {
-  return CG_SHUDElementChatCreate(config, 7);
+	return CG_SHUDElementChatCreate(config, 7);
 }
 
 void* CG_SHUDElementChat8Create(superhudConfig_t* config)
 {
-  return CG_SHUDElementChatCreate(config, 8);
+	return CG_SHUDElementChatCreate(config, 8);
 }
 
-void CG_SHUDElementChatRoutine(void *context)
+void CG_SHUDElementChatRoutine(void* context)
 {
-  shudElementChat_t *element = (shudElementChat_t *)context;
-  float *fade;
-  int fadedelay;
-  superhudChatEntry_t *entry;
-  int index;
+	shudElementChat_t* element = (shudElementChat_t*)context;
+	float* fade;
+	int fadedelay;
+	superhudChatEntry_t* entry;
+	int index;
 
-  index = ((element->gctx->chat.index - 1) - (element->index - 1)) % SHUD_MAX_CHAT_LINES; 
+	index = ((element->gctx->chat.index - 1) - (element->index - 1)) % SHUD_MAX_CHAT_LINES;
 
-  entry = &element->gctx->chat.line[index];
+	entry = &element->gctx->chat.line[index];
 
-  if (entry->message[0] == 0)
-  {
-    return;
-  }
+	if (entry->message[0] == 0)
+	{
+		return;
+	}
 
-  if (element->config.time.isSet)
-  {
-    if (cg.time - entry->time > element->config.time.value)
-    {
-      return;
-    }
-    else if (element->config.fadedelay.isSet)
-    {
-	    fade = CG_FadeColor(entry->time, element->config.fadedelay.value);
-	    if (fade == NULL)
-	    {
-		    return;
-	    }
-	    element->ctx.color[3] = fade[3];
-    }
-  }
+	if (element->config.time.isSet)
+	{
+		if (cg.time - entry->time > element->config.time.value)
+		{
+			return;
+		}
+		else if (element->config.fadedelay.isSet)
+		{
+			fade = CG_FadeColor(entry->time, element->config.fadedelay.value);
+			if (fade == NULL)
+			{
+				return;
+			}
+			element->ctx.color[3] = fade[3];
+		}
+	}
 
-  CG_SHUDTextPrint(entry->message, &element->ctx);
+	CG_SHUDTextPrint(entry->message, &element->ctx);
 }
 
-void CG_SHUDElementChatDestroy(void *context)
+void CG_SHUDElementChatDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }

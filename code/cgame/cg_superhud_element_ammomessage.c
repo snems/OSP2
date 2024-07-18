@@ -4,31 +4,31 @@
 
 typedef struct
 {
-  superhudConfig_t config;
+	superhudConfig_t config;
 	int timePrev;
 	char s[MAX_QPATH];
-  superhudTextContext_t ctx;
+	superhudTextContext_t ctx;
 } shudElementAmmoMessage_t;
 
 void* CG_SHUDElementAmmoMessageCreate(superhudConfig_t* config)
 {
-  shudElementAmmoMessage_t *element;
+	shudElementAmmoMessage_t* element;
 
-  element = Z_Malloc(sizeof(*element));
-  OSP_MEMORY_CHECK(element);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-  memset(element,0,sizeof(*element));
+	memset(element, 0, sizeof(*element));
 
-  memcpy(&element->config, config, sizeof(element->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-  CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 
-  return element;
+	return element;
 }
 
-void CG_SHUDElementAmmoMessageRoutine(void *context)
+void CG_SHUDElementAmmoMessageRoutine(void* context)
 {
-  shudElementAmmoMessage_t *element = (shudElementAmmoMessage_t *)context;
+	shudElementAmmoMessage_t* element = (shudElementAmmoMessage_t*)context;
 	const char*  s;
 	int         w;
 
@@ -51,14 +51,14 @@ void CG_SHUDElementAmmoMessageRoutine(void *context)
 		s = "LOW AMMO WARNING";
 	}
 
-  CG_SHUDTextPrint(s, &element->ctx);
+	CG_SHUDTextPrint(s, &element->ctx);
 }
 
-void CG_SHUDElementAmmoMessageDestroy(void *context)
+void CG_SHUDElementAmmoMessageDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }
 

@@ -4,31 +4,31 @@
 
 typedef struct
 {
-  superhudConfig_t config;
-  superhudTextContext_t ctx;
+	superhudConfig_t config;
+	superhudTextContext_t ctx;
 } shudElementVMW_t;
 
 void* CG_SHUDElementVMWCreate(superhudConfig_t* config)
 {
-  shudElementVMW_t *tn;
+	shudElementVMW_t* tn;
 
-  tn = Z_Malloc(sizeof(*tn));
-  OSP_MEMORY_CHECK(tn);
+	tn = Z_Malloc(sizeof(*tn));
+	OSP_MEMORY_CHECK(tn);
 
-  memset(tn,0,sizeof(*tn));
+	memset(tn, 0, sizeof(*tn));
 
-  memcpy(&tn->config, config, sizeof(tn->config));
+	memcpy(&tn->config, config, sizeof(tn->config));
 
-  CG_SHUDTextMakeContext(&tn->config, &tn->ctx);
-  tn->ctx.maxchars = MAX_QPATH;
+	CG_SHUDTextMakeContext(&tn->config, &tn->ctx);
+	tn->ctx.maxchars = MAX_QPATH;
 
-  return tn;
+	return tn;
 }
 
-void CG_SHUDElementVMWRoutine(void *context)
+void CG_SHUDElementVMWRoutine(void* context)
 {
-  shudElementVMW_t *vmw = (shudElementVMW_t *)context;
-	char *s;
+	shudElementVMW_t* vmw = (shudElementVMW_t*)context;
+	char* s;
 	int time;
 
 	if (cgs.voteTime == 0) return;
@@ -47,14 +47,14 @@ void CG_SHUDElementVMWRoutine(void *context)
 	}
 	s = va("VOTE(%i):%s yes(F1):%i no(F2):%i", time, &cgs.voteString, cgs.voteYes, cgs.voteNo);
 
-  CG_SHUDTextPrint(s, &vmw->ctx);
+	CG_SHUDTextPrint(s, &vmw->ctx);
 }
 
-void CG_SHUDElementVMWDestroy(void *context)
+void CG_SHUDElementVMWDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }
 

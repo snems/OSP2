@@ -4,49 +4,49 @@
 
 typedef struct
 {
-  superhudConfig_t config;
+	superhudConfig_t config;
 	int timePrev;
 	char s[MAX_QPATH];
-  superhudTextContext_t ctx;
+	superhudTextContext_t ctx;
 } shudElementLocalTime_t;
 
 void* CG_SHUDElementLocalTimeCreate(superhudConfig_t* config)
 {
-  shudElementLocalTime_t *element;
+	shudElementLocalTime_t* element;
 
-  element = Z_Malloc(sizeof(*element));
-  OSP_MEMORY_CHECK(element);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-  memset(element,0,sizeof(*element));
+	memset(element, 0, sizeof(*element));
 
-  memcpy(&element->config, config, sizeof(element->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-  CG_SHUDTextMakeContext(&element->config, &element->ctx);
-  element->ctx.maxchars = 9;
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.maxchars = 9;
 
-  return element;
+	return element;
 }
 
-void CG_SHUDElementLocalTimeRoutine(void *context)
+void CG_SHUDElementLocalTimeRoutine(void* context)
 {
-  shudElementLocalTime_t *element = (shudElementLocalTime_t *)context;
+	shudElementLocalTime_t* element = (shudElementLocalTime_t*)context;
 	qtime_t qtime;
 
-  if (cg.time - element->timePrev > 1000)
-  {
-    element->timePrev = cg.time;
-	  trap_RealTime(&qtime);
-	  Com_sprintf(element->s, MAX_QPATH, "%02d:%02d", qtime.tm_hour, qtime.tm_min);
-  }
+	if (cg.time - element->timePrev > 1000)
+	{
+		element->timePrev = cg.time;
+		trap_RealTime(&qtime);
+		Com_sprintf(element->s, MAX_QPATH, "%02d:%02d", qtime.tm_hour, qtime.tm_min);
+	}
 
-  CG_SHUDTextPrint(element->s, &element->ctx);
+	CG_SHUDTextPrint(element->s, &element->ctx);
 }
 
-void CG_SHUDElementLocalTimeDestroy(void *context)
+void CG_SHUDElementLocalTimeDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }
 

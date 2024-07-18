@@ -99,7 +99,7 @@ const char*  CG_PlaceString(int rank)
 CG_OSPObituaryFragmessage
 =============
 */
-static void CG_ObituaryFragmessage(const char *msg)
+static void CG_ObituaryFragmessage(const char* msg)
 {
 	if (cg_shud.integer)
 	{
@@ -107,7 +107,7 @@ static void CG_ObituaryFragmessage(const char *msg)
 	}
 	else
 	{
-		const char *to_print = msg;
+		const char* to_print = msg;
 		char buf[256];
 		if (cgs.gametype < GT_TEAM)
 		{

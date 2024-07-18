@@ -4,43 +4,43 @@
 
 typedef struct
 {
-  superhudConfig_t config;
-  superhudDrawContext_t ctx;
+	superhudConfig_t config;
+	superhudDrawContext_t ctx;
 } shudElementStatusbarAttackerIcon;
 
 void* CG_SHUDElementAttackerIconCreate(superhudConfig_t* config)
 {
-  shudElementStatusbarAttackerIcon *element;
+	shudElementStatusbarAttackerIcon* element;
 
-  element = Z_Malloc(sizeof(*element));
-  OSP_MEMORY_CHECK(element);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-  memset(element,0,sizeof(*element));
+	memset(element, 0, sizeof(*element));
 
-  memcpy(&element->config, config, sizeof(element->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-  if (!config->rect.isSet)
-  {
-    element->config.rect.value[0] = 0;
-    element->config.rect.value[1] = 0;
-    element->config.rect.value[2] = 50;
-    element->config.rect.value[3] = 50;
-    element->config.rect.isSet = qtrue;
-  }
+	if (!config->rect.isSet)
+	{
+		element->config.rect.value[0] = 0;
+		element->config.rect.value[1] = 0;
+		element->config.rect.value[2] = 50;
+		element->config.rect.value[3] = 50;
+		element->config.rect.isSet = qtrue;
+	}
 
-  CG_SHUDDrawMakeContext(&element->config, &element->ctx);
+	CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 
-  if (config->image.isSet)
-  {
-    element->ctx.image = trap_R_RegisterShader(element->config.image.value);
-  }
+	if (config->image.isSet)
+	{
+		element->ctx.image = trap_R_RegisterShader(element->config.image.value);
+	}
 
-  return element;
+	return element;
 }
 
-void CG_SHUDElementAttackerIconRoutine(void *context)
+void CG_SHUDElementAttackerIconRoutine(void* context)
 {
-  shudElementStatusbarAttackerIcon *element = (shudElementStatusbarAttackerIcon *)context;
+	shudElementStatusbarAttackerIcon* element = (shudElementStatusbarAttackerIcon*)context;
 
 	int         t;
 	vec3_t      angles;
@@ -78,11 +78,11 @@ void CG_SHUDElementAttackerIconRoutine(void *context)
 
 }
 
-void CG_SHUDElementAttackerIconDestroy(void *context)
+void CG_SHUDElementAttackerIconDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }
 

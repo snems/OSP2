@@ -4,50 +4,50 @@
 
 typedef struct
 {
-  superhudConfig_t config;
-  superhudBarContext_t ctx;
+	superhudConfig_t config;
+	superhudBarContext_t ctx;
 } shudElementStatusbarArmorBar;
 
 void* CG_SHUDElementSBABCreate(superhudConfig_t* config)
 {
-  shudElementStatusbarArmorBar *element;
+	shudElementStatusbarArmorBar* element;
 
-  element = Z_Malloc(sizeof(*element));
-  OSP_MEMORY_CHECK(element);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-  memset(element,0,sizeof(*element));
+	memset(element, 0, sizeof(*element));
 
-  memcpy(&element->config, config, sizeof(element->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-  CG_SHUDBarMakeContext(&element->config, &element->ctx, 200);
+	CG_SHUDBarMakeContext(&element->config, &element->ctx, 200);
 
-  return element;
+	return element;
 }
 
-void CG_SHUDElementSBABRoutine(void *context)
+void CG_SHUDElementSBABRoutine(void* context)
 {
-  shudElementStatusbarArmorBar *element = (shudElementStatusbarArmorBar *)context;
-  float ap = cg.snap->ps.stats[STAT_ARMOR];
+	shudElementStatusbarArmorBar* element = (shudElementStatusbarArmorBar*)context;
+	float ap = cg.snap->ps.stats[STAT_ARMOR];
 
-  element->ctx.color_top[3] = 1.0f;
+	element->ctx.color_top[3] = 1.0f;
 
-  if (ap > 100)
-  {
-    VectorCopy(colorWhite, element->ctx.color_top);
-  }
-  else 
-  {
-    VectorSet(element->ctx.color_top, 1.0f, 0.7f, 0.0f);
-  }
+	if (ap > 100)
+	{
+		VectorCopy(colorWhite, element->ctx.color_top);
+	}
+	else
+	{
+		VectorSet(element->ctx.color_top, 1.0f, 0.7f, 0.0f);
+	}
 
-  CG_SHUDBarPrint(&element->ctx, ap);
+	CG_SHUDBarPrint(&element->ctx, ap);
 }
 
-void CG_SHUDElementSBABDestroy(void *context)
+void CG_SHUDElementSBABDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }
 

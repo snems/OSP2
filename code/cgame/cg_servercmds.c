@@ -998,7 +998,7 @@ void CG_ServerCommand(void)
 			}
 			Q_strncpyz(text, CG_Argv(1), 1024);
 			CG_RemoveChatEscapeChar(text);
-			if (!cg_shud.integer )
+			if (!cg_shud.integer)
 			{
 				CG_Printf("%s\n", text);
 			}

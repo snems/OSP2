@@ -4,29 +4,29 @@
 
 typedef struct
 {
-  superhudConfig_t config;
-  superhudTextContext_t ctx;
+	superhudConfig_t config;
+	superhudTextContext_t ctx;
 } shudElementFollowMessage_t;
 
 void* CG_SHUDElementFollowMessageCreate(superhudConfig_t* config)
 {
-  shudElementFollowMessage_t *element;
+	shudElementFollowMessage_t* element;
 
-  element = Z_Malloc(sizeof(*element));
-  OSP_MEMORY_CHECK(element);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-  memset(element,0,sizeof(*element));
+	memset(element, 0, sizeof(*element));
 
-  memcpy(&element->config, config, sizeof(element->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-  CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 
-  return element;
+	return element;
 }
 
-void CG_SHUDElementFollowMessageRoutine(void *context)
+void CG_SHUDElementFollowMessageRoutine(void* context)
 {
-  shudElementFollowMessage_t *element = (shudElementFollowMessage_t *)context;
+	shudElementFollowMessage_t* element = (shudElementFollowMessage_t*)context;
 	const char* str;
 
 	if (!cg.demoPlayback)
@@ -42,17 +42,17 @@ void CG_SHUDElementFollowMessageRoutine(void *context)
 	}
 	else if (cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR)
 	{
-	  return;
+		return;
 	}
 
 	str = cgs.clientinfo[cg.snap->ps.clientNum].name;
-  CG_SHUDTextPrint(va("Following %s", str), &element->ctx);
+	CG_SHUDTextPrint(va("Following %s", str), &element->ctx);
 }
 
-void CG_SHUDElementFollowMessageDestroy(void *context)
+void CG_SHUDElementFollowMessageDestroy(void* context)
 {
-  if (context)
-  {
-    Z_Free(context);
-  }
+	if (context)
+	{
+		Z_Free(context);
+	}
 }
