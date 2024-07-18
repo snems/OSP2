@@ -239,6 +239,7 @@ typedef enum
 typedef struct superHUDConfigElement_s
 {
 	const char* name;
+	const int order;
 	void* (*create)(superhudConfig_t* config);
 	void (*routine)(void *context);
 	void (*destroy)(void *context);

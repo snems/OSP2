@@ -203,6 +203,7 @@ void CG_SHUDLoadConfig(void)
 	else
 	{
 		int numberOfElementsCreated = 0;
+
 		CG_Printf("^3SuperHUD: creating HUD routines... ");
 		newElementLast = newElementsHead;
 		
@@ -220,6 +221,50 @@ void CG_SHUDLoadConfig(void)
 		}
 		CG_Printf("^3%d drawable element%s\n", numberOfElementsCreated, numberOfElementsCreated > 1 ? "s" : "");
 	}
+
+  CG_Printf("^3SuperHUD: sorting HUD routines... ");
+  {
+		superhudElement_t* prev;
+		superhudElement_t* current;
+		superhudElement_t* next;
+		superhudElement_t* new_head = newElementsHead;
+		int swapped;
+
+		do
+		{
+			swapped = 0;
+			prev = NULL;
+			current = newElementsHead;
+			next = newElementsHead->next;
+
+			while(current && next)
+			{
+				if (next->element.order < current->element.order)
+				{
+					//swap current and next
+					// prev->current->next->after next
+					if (prev)
+					{
+						prev->next = next;
+					}
+					else
+					{
+						newElementsHead = next;
+					}
+
+					current->next = next->next;
+					next->next = current;
+					++swapped;
+				}
+					
+				prev = current;
+				current = next;
+				next = current->next;
+			}
+		}while(swapped);
+
+
+  }
 
 	CG_Printf("^3SuperHUD: installing new routines... ");
 
