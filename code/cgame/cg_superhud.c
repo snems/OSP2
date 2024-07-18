@@ -128,7 +128,7 @@ void CG_SHUDLoadConfig(void)
 			// if this element is not default and we already got default, set it
 			if (!is_default && defaultElement)
 			{
-				//memcpy(&newElementLast->config, defaultElement, sizeof(newElementLast->config));
+				memcpy(&newElementLast->config, defaultElement, sizeof(newElementLast->config));
 			}
 
 			do
