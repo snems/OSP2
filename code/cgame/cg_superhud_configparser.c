@@ -116,8 +116,8 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "team6_NME", 108, },
 	{ "team7_NME", 109, },
 	{ "team8_NME", 110, },
-	{ "rewardicons", 111, },
-	{ "rewardnumbers", 112, },
+	{ "rewardicons", 111, CG_SHUDElementRewardIconCreate, CG_SHUDElementRewardRoutine, CG_SHUDElementRewardDestroy },
+	{ "rewardnumbers", 112, CG_SHUDElementRewardCountCreate, CG_SHUDElementRewardRoutine, CG_SHUDElementRewardDestroy },
 	{ "postdecorate", 113, CG_SHUDElementPreDCreate, CG_SHUDElementPreDRoutine, CG_SHUDElementPreDDestroy },
 	{ NULL, -1, NULL, NULL, NULL, NULL, NULL },
 };

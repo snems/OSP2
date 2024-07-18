@@ -448,6 +448,11 @@ void* CG_SHUDElementScoreMAXCreate(superhudConfig_t* config);
 void CG_SHUDElementScoreRoutine(void* context);
 void CG_SHUDElementScoreDestroy(void* context);
 
+void* CG_SHUDElementRewardIconCreate(superhudConfig_t* config);
+void* CG_SHUDElementRewardCountCreate(superhudConfig_t* config);
+void CG_SHUDElementRewardRoutine(void* context);
+void CG_SHUDElementRewardDestroy(void* context);
+
 /*
  * cg_superhud_util.c
  */
