@@ -6,11 +6,11 @@ typedef struct
 {
 	superhudConfig_t config;
 	superhudDrawContext_t ctx;
-} shudElementStatusbarPreDecorate;
+} shudElementStatusbarDecorate;
 
-void* CG_SHUDElementPreDCreate(superhudConfig_t* config)
+void* CG_SHUDElementDecorCreate(superhudConfig_t* config)
 {
-	shudElementStatusbarPreDecorate* sbai;
+	shudElementStatusbarDecorate* sbai;
 
 	sbai = Z_Malloc(sizeof(*sbai));
 	OSP_MEMORY_CHECK(sbai);
@@ -24,23 +24,36 @@ void* CG_SHUDElementPreDCreate(superhudConfig_t* config)
 	if (config->image.isSet)
 	{
 		sbai->ctx.image = trap_R_RegisterShader(sbai->config.image.value);
+		if (!sbai->ctx.image)
+		{
+			CG_Printf("^2Decorate image %s is not found\n", sbai->config.image.value);
+		}
 	}
 
 	return sbai;
 }
 
-void CG_SHUDElementPreDRoutine(void* context)
+void CG_SHUDElementDecorRoutine(void* context)
 {
-	shudElementStatusbarPreDecorate* sbai = (shudElementStatusbarPreDecorate*)context;
+	shudElementStatusbarDecorate* element = (shudElementStatusbarDecorate*)context;
 
-	trap_R_SetColor(sbai->ctx.color);
-	trap_R_DrawStretchPic(sbai->ctx.x, sbai->ctx.y, sbai->ctx.w, sbai->ctx.h, 0, 0, 1, 1,
-	                      sbai->ctx.image ? sbai->ctx.image : cgs.media.whiteShader);
-	trap_R_SetColor(NULL);
+	if (element->config.fill.isSet)
+	{
+		if (element->config.bgcolor.isSet)
+		{
+			CG_FillRect(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, element->config.bgcolor.value);
+		}
+	}
 
+	if (element->ctx.image)
+	{
+		trap_R_SetColor(element->ctx.color);
+		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1, element->ctx.image);
+		trap_R_SetColor(NULL);
+	}
 }
 
-void CG_SHUDElementPreDDestroy(void* context)
+void CG_SHUDElementDecorDestroy(void* context)
 {
 	if (context)
 	{

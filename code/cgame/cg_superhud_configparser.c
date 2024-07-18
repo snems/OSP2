@@ -6,7 +6,7 @@
 static superHUDConfigElement_t superHUDConfigItemElements[] =
 {
 	{ "!default", 0, },
-	{ "predecorate", 1, CG_SHUDElementPreDCreate, CG_SHUDElementPreDRoutine, CG_SHUDElementPreDDestroy },
+	{ "predecorate", 1, CG_SHUDElementDecorCreate, CG_SHUDElementDecorRoutine, CG_SHUDElementDecorDestroy },
 	{ "ammomessage", 2, CG_SHUDElementAmmoMessageCreate, CG_SHUDElementAmmoMessageRoutine, CG_SHUDElementAmmoMessageDestroy },
 	{ "attackericon", 3, CG_SHUDElementAttackerIconCreate, CG_SHUDElementAttackerIconRoutine, CG_SHUDElementAttackerIconDestroy },
 	{ "attackername", 4, CG_SHUDElementAttackerNameCreate, CG_SHUDElementAttackerNameRoutine, CG_SHUDElementAttackerNameDestroy },
@@ -118,7 +118,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "team8_NME", 110, },
 	{ "rewardicons", 111, CG_SHUDElementRewardIconCreate, CG_SHUDElementRewardRoutine, CG_SHUDElementRewardDestroy },
 	{ "rewardnumbers", 112, CG_SHUDElementRewardCountCreate, CG_SHUDElementRewardRoutine, CG_SHUDElementRewardDestroy },
-	{ "postdecorate", 113, CG_SHUDElementPreDCreate, CG_SHUDElementPreDRoutine, CG_SHUDElementPreDDestroy },
+	{ "postdecorate", 113, CG_SHUDElementDecorCreate, CG_SHUDElementDecorRoutine, CG_SHUDElementDecorDestroy },
 	{ NULL, -1, NULL, NULL, NULL, NULL, NULL },
 };
 

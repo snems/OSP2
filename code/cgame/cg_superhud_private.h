@@ -364,9 +364,9 @@ void* CG_SHUDElementNGCreate(superhudConfig_t* config);
 void CG_SHUDElementNGRoutine(void* context);
 void CG_SHUDElementNGDestroy(void* context);
 
-void* CG_SHUDElementPreDCreate(superhudConfig_t* config);
-void CG_SHUDElementPreDRoutine(void* context);
-void CG_SHUDElementPreDDestroy(void* context);
+void* CG_SHUDElementDecorCreate(superhudConfig_t* config);
+void CG_SHUDElementDecorRoutine(void* context);
+void CG_SHUDElementDecorDestroy(void* context);
 
 void* CG_SHUDElementPlayerSpeedCreate(superhudConfig_t* config);
 void CG_SHUDElementPlayerSpeedRoutine(void* context);
