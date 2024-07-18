@@ -49,39 +49,18 @@ static void CG_SHUDElementNameGetPairFFA(const char** own, const char** nme)
 	int i;
 	int k;
 
-	if (cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR)
-	{
-		for (i = 0, k = 0; i < MAX_CLIENTS; ++i)
-		{
-			if (cgs.clientinfo[i].infoValid && cgs.clientinfo[i].team != TEAM_SPECTATOR)
-			{
-				if (k == 0)
-				{
-					++k;
-					*own = cgs.clientinfo[i].name;
-				}
-				else
-				{
-					*nme = cgs.clientinfo[i].name;
-				}
-			}
-		}
-	}
-	else
-	{
-		int clientNum;
-		const char* info;
-		*own = cgs.clientinfo[cg.snap->ps.clientNum].name;
+	int clientNum;
+	const char* info;
+	*own = cgs.clientinfo[cg.snap->ps.clientNum].name;
 
-		clientNum = cg.predictedPlayerState.persistant[PERS_ATTACKER];
-		if (clientNum < 0 || clientNum >= MAX_CLIENTS)
-		{
-			return;
-		}
-
-		info = CG_ConfigString(CS_PLAYERS + clientNum);
-		*nme = Info_ValueForKey(info, "n");
+	clientNum = cg.predictedPlayerState.persistant[PERS_ATTACKER];
+	if (clientNum < 0 || clientNum >= MAX_CLIENTS)
+	{
+		return;
 	}
+
+	info = CG_ConfigString(CS_PLAYERS + clientNum);
+	*nme = Info_ValueForKey(info, "n");
 }
 
 static void CG_SHUDElementNameGetPair1vs1(const char** own, const char** nme)
