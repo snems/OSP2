@@ -27,7 +27,7 @@ static const float* CG_SHUDConfigPickColor(const superhudColor_t* in)
 			{
 				return colorBlue;
 			}
-			return colorWhite;
+			return colorRed;
 		case SUPERHUD_COLOR_E:
 			ci = &cgs.clientinfo[ cg.clientNum ];
 			if (ci->rt == TEAM_RED)
@@ -38,7 +38,7 @@ static const float* CG_SHUDConfigPickColor(const superhudColor_t* in)
 			{
 				return colorRed;
 			}
-			return colorWhite;
+			return colorBlue;
 		case SUPERHUD_COLOR_I:
 			return colorWhite;
 	}
@@ -84,6 +84,65 @@ static void CG_SHUDConfigDefaultsCheck(superhudConfig_t* config)
 	}
 }
 
+static void CG_SHUDTextMakeAdjustCoords(const superhudConfig_t* in, float *out_x, float *out_y)
+{
+	superhudAlignH_t h;
+	superhudAlignV_t v;
+
+	if (!in->rect.isSet)
+	{
+		return;
+	}
+
+	if (!in->alignH.isSet)
+	{
+		h = SUPERHUD_ALIGNH_CENTER;
+	}
+	else
+	{
+		h = in->alignH.value;
+	}
+
+	if (!in->alignV.isSet)
+	{
+		v = SUPERHUD_ALIGNV_CENTER;
+	}
+	else
+	{
+		v = in->alignV.value;
+	}
+
+	switch (h)
+	{
+    case SUPERHUD_ALIGNH_LEFT:
+    	//allready x
+			*out_x = in->rect.value[0];
+    	break;
+    case SUPERHUD_ALIGNH_CENTER:
+    	// x + width/2
+			*out_x = in->rect.value[0] + in->rect.value[2] / 2.0f;
+			break;
+    case SUPERHUD_ALIGNH_RIGHT:
+    	// x + width
+			*out_x = in->rect.value[0] + in->rect.value[2];
+      break;
+  }
+
+	switch (v) 
+	{
+    case SUPERHUD_ALIGNH_LEFT:
+			*out_y = in->rect.value[1];
+      break;
+    case SUPERHUD_ALIGNH_CENTER:
+			*out_y = in->rect.value[1] + in->rect.value[3]/2.0f;
+      break;
+    case SUPERHUD_ALIGNH_RIGHT:
+			*out_y = in->rect.value[1] + in->rect.value[3];
+      break;
+  }
+
+}
+
 void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* out)
 {
 	superhudConfig_t config;
@@ -92,22 +151,18 @@ void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* o
 
 	CG_SHUDConfigDefaultsCheck(&config);
 
-	switch (config.textAlign.value)
+	CG_SHUDTextMakeAdjustCoords(in, &out->textX, &out->textY);
+
+  switch (config.textAlign.value)
 	{
 		default:
 		case SUPERHUD_ALIGNH_LEFT:
-			out->textX = config.rect.value[0];
-			out->textY = config.rect.value[1];
 			out->flags |= DS_LEFT;
 			break;
 		case SUPERHUD_ALIGNH_CENTER:
-			out->textX = config.rect.value[0] + config.rect.value[2] / 2.0f;
-			out->textY = config.rect.value[1];
 			out->flags |= DS_CENTER;
 			break;
 		case SUPERHUD_ALIGNH_RIGHT:
-			out->textX = config.rect.value[0] + config.rect.value[2];
-			out->textY = config.rect.value[1];
 			out->flags |= DS_RIGHT;
 			break;
 	}
@@ -149,6 +204,7 @@ void CG_SHUDDrawMakeContext(const superhudConfig_t* in, superhudDrawContext_t* o
 
 void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out, float max)
 {
+	float x = 0, y = 0;
 	superhudConfig_t config;
 	memset(out, 0, sizeof(*out));
 	memcpy(&config, in, sizeof(config));
@@ -163,6 +219,9 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 
 	out->direction = config.direction.value;
 
+	x = config.rect.value[0];
+	y = config.rect.value[1];
+
 	if (config.doublebar.isSet)
 	{
 		static const float bar_gap = 4;
@@ -174,13 +233,13 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 			const float bar_height = config.rect.value[3] / 2 - bar_gap / 2;
 			const float bar_width = config.rect.value[2];
 
-			out->bar[0][0] = config.rect.value[0];//x
-			out->bar[0][1] = config.rect.value[1];//y
+			out->bar[0][0] = x;//x
+			out->bar[0][1] = y;//y
 			out->bar[0][2] = bar_width;//w
 			out->bar[0][3] = bar_height;   // height is half of rect and minus half of the gap between two bars
 			//
-			out->bar[1][0] = config.rect.value[0];//x
-			out->bar[1][1] = config.rect.value[1] + bar_height + bar_gap;//y starts after first bar and gap
+			out->bar[1][0] = x;//x
+			out->bar[1][1] = y + bar_height + bar_gap;//y starts after first bar and gap
 			out->bar[1][2] = bar_width;//w
 			out->bar[1][3] = bar_height;//h height is same as in first bar
 			CG_AdjustFrom640(&out->bar[1][0], &out->bar[1][1], &out->bar[1][2], &out->bar[1][3]);
@@ -194,13 +253,13 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 			const float bar_height = config.rect.value[3];
 			const float bar_width = config.rect.value[2] / 2 - bar_gap / 2;
 
-			out->bar[0][0] = config.rect.value[0];//x
-			out->bar[0][1] = config.rect.value[1];//y
+			out->bar[0][0] = x;//x
+			out->bar[0][1] = y;//y
 			out->bar[0][2] = bar_width;//w
 			out->bar[0][3] = bar_height;   //h
 			//
-			out->bar[1][0] = config.rect.value[0] + bar_width + bar_gap;//x
-			out->bar[1][1] = config.rect.value[1];//y
+			out->bar[1][0] = x + bar_width + bar_gap;//x
+			out->bar[1][1] = y;//y
 			out->bar[1][2] = bar_width;//w
 			out->bar[1][3] = bar_height;//h
 			CG_AdjustFrom640(&out->bar[1][0], &out->bar[1][1], &out->bar[1][2], &out->bar[1][3]);
@@ -212,8 +271,8 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 	else
 	{
 		// single bar
-		out->bar[0][0] = config.rect.value[0];
-		out->bar[0][1] = config.rect.value[1];
+		out->bar[0][0] = x;
+		out->bar[0][1] = y;
 		out->bar[0][2] = config.rect.value[2];
 		out->bar[0][3] = config.rect.value[3];
 		CG_AdjustFrom640(&out->bar[0][0], &out->bar[0][1], &out->bar[0][2], &out->bar[0][3]);

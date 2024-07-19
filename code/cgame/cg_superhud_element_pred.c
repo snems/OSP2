@@ -43,9 +43,14 @@ void CG_SHUDElementDecorRoutine(void* context)
 		{
 			CG_FillRect(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, element->config.bgcolor.value);
 		}
+		else if (element->ctx.image)
+		{
+			trap_R_SetColor(element->ctx.color);
+			trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 0, 0, element->ctx.image);
+			trap_R_SetColor(NULL);
+		}
 	}
-
-	if (element->ctx.image)
+	else if (element->ctx.image)
 	{
 		trap_R_SetColor(element->ctx.color);
 		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1, element->ctx.image);

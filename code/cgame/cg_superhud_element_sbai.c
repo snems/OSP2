@@ -34,7 +34,7 @@ void CG_SHUDElementSBAIRoutine(void* context)
 	shudElementStatusbarArmorIcon* element = (shudElementStatusbarArmorIcon*)context;
 
 	trap_R_SetColor(element->ctx.color);
-	trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w + 1, element->ctx.h, 0, 0, 1, 1,
+	trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1,
 	                      element->ctx.image ? element->ctx.image : cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]]);
 	trap_R_SetColor(NULL);
 
