@@ -2093,6 +2093,7 @@ extern int statsInfo[24];
 
 void CG_OSPCvarsRestrictValues(void);
 qboolean CG_OSPIsGameTypeCA(int gametype);
+qboolean CG_OSPIsGameTypeFreeze(void);
 qboolean CG_OSPIsStatsHidden(qboolean check_gametype, qboolean check_warmup);
 void CG_OSPUpdateUserInfo(qboolean arg);
 

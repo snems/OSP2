@@ -41,6 +41,11 @@ qboolean CG_OSPIsGameTypeCA(int gametype)
 	return gametype >= GT_CA ? qtrue : qfalse;
 }
 
+qboolean CG_OSPIsGameTypeFreeze()
+{
+	return cgs.gametype == GT_TEAM && cgs.osp.gameTypeFreeze;
+}
+
 
 
 qboolean CG_OSPIsStatsHidden(qboolean check_gametype, qboolean check_warmup)

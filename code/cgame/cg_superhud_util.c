@@ -495,8 +495,10 @@ void CG_SHUDBarPrint(const superhudBarContext_t* ctx, float value)
 
 team_t CG_SHUDGetOurActiveTeam(void)
 {
+	const qboolean is_freeze = CG_OSPIsGameTypeFreeze();
+
 	team_t our_team = TEAM_FREE;
-	if (cgs.osp.gameTypeFreeze)
+	if (is_freeze)
 	{
 		our_team = cgs.clientinfo[cg.clientNum].rt;
 	}
@@ -507,7 +509,7 @@ team_t CG_SHUDGetOurActiveTeam(void)
 
 	if (our_team == TEAM_SPECTATOR)
 	{
-		if (cgs.osp.gameTypeFreeze)
+		if (is_freeze)
 		{
 			our_team = cgs.clientinfo[cg.snap->ps.clientNum].rt;
 		}
