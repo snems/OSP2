@@ -2704,7 +2704,7 @@ static float CG_OSPHUDDrawScores(float y)
 		}
 		else
 		{
-			s = va("(%i) %2i", cgs.osp.osp_scores2, s2);
+			s = va("(%i) %2i", cgs.osp.osp_teamcount2, s2);
 		}
 
 		len = CG_DrawStrlen(s);
@@ -2810,7 +2810,7 @@ static float CG_OSPHUDDrawScores(float y)
 		}
 		else
 		{
-			s = va("(%i) %2i", cgs.osp.osp_scores1, s1);
+			s = va("(%i) %2i", cgs.osp.osp_teamcount1, s1);
 		}
 
 		len = CG_DrawStrlen(s);

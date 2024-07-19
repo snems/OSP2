@@ -453,6 +453,11 @@ void* CG_SHUDElementRewardCountCreate(superhudConfig_t* config);
 void CG_SHUDElementRewardRoutine(void* context);
 void CG_SHUDElementRewardDestroy(void* context);
 
+void* CG_SHUDElementTeamCountOWNCreate(superhudConfig_t* config);
+void* CG_SHUDElementTeamCountNMECreate(superhudConfig_t* config);
+void CG_SHUDElementTeamCountRoutine(void* context);
+void CG_SHUDElementTeamCountDestroy(void* context);
+
 /*
  * cg_superhud_util.c
  */

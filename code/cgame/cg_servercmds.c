@@ -283,11 +283,13 @@ static void CG_ConfigStringModified(void)
 	}
 	else if (num == CS_SCORES1)
 	{
-		Q_sscanf(str, "%i %i", &cgs.scores1, &cgs.osp.osp_scores1);
+		cgs.osp.osp_teamcount1 = -1;
+		Q_sscanf(str, "%i %i", &cgs.scores1, &cgs.osp.osp_teamcount1);
 	}
 	else if (num == CS_SCORES2)
 	{
-		Q_sscanf(str, "%i %i", &cgs.scores2, &cgs.osp.osp_scores2);
+		cgs.osp.osp_teamcount2 = -1;
+		Q_sscanf(str, "%i %i", &cgs.scores2, &cgs.osp.osp_teamcount2);
 	}
 	else if (num == CS_LEVEL_START_TIME)
 	{

@@ -1048,8 +1048,8 @@ typedef struct cgs_osp_s
 	qhandle_t blender180ShaderCopy[17];
 	qhandle_t decalOSPShader[17];
 	qhandle_t unknown_variable_999;
-	int osp_scores1;
-	int osp_scores2;
+	int osp_teamcount1;
+	int osp_teamcount2;
 	qhandle_t unknown_variable_1002;
 	qhandle_t pingPrintTime;
 	int pingTotalTime;
