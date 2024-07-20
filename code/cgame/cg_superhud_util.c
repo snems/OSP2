@@ -96,7 +96,7 @@ static void CG_SHUDTextMakeAdjustCoords(const superhudConfig_t* in, float *out_x
 
 	if (!in->alignH.isSet)
 	{
-		h = SUPERHUD_ALIGNH_CENTER;
+		h = SUPERHUD_ALIGNH_LEFT;
 	}
 	else
 	{

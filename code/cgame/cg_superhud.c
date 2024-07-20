@@ -287,6 +287,13 @@ void CG_SHUDRoutine(void)
 {
 	superhudElement_t* last = elementsHead;
 
+	CG_OSPDrawCrosshair();
+
+	if (CG_DrawIntermission() == 0)
+	{
+		CG_OSPDrawCenterString();
+	}
+
 	while (last)
 	{
 		if (last->element.routine)
@@ -294,12 +301,6 @@ void CG_SHUDRoutine(void)
 			last->element.routine(last->element.context);
 		}
 		last = last->next;
-	}
-	CG_OSPDrawCrosshair();
-
-	if (CG_DrawIntermission() == 0)
-	{
-		CG_OSPDrawCenterString();
 	}
 }
 

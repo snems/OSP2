@@ -2242,11 +2242,19 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 				case OSP_TEXT_CMD_SHADOW_COLOR:
 					VectorCopy(curr->value.color, color);
 					color[3] = fade;
+					if (setColor && color[3] > setColor[3])
+					{
+						color[3] = setColor[3];
+					}
 					trap_R_SetColor(color);
 					break;
 				case OSP_TEXT_CMD_FADE:
 					fade = curr->value.fade;
 					color[3] = fade;
+					if (setColor && color[3] > setColor[3])
+					{
+						color[3] = setColor[3];
+					}
 					trap_R_SetColor(color);
 					break;
 				case OSP_TEXT_CMD_STOP:
@@ -2294,11 +2302,19 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 			case OSP_TEXT_CMD_TEXT_COLOR:
 				VectorCopy(curr->value.color, color);
 				color[3] = fade;
+				if (setColor && color[3] > setColor[3])
+				{
+					color[3] = setColor[3];
+				}
 				trap_R_SetColor(color);
 				break;
 			case OSP_TEXT_CMD_FADE:
 				fade = curr->value.fade;
 				color[3] = fade;
+				if (setColor && color[3] > setColor[3])
+				{
+					color[3] = setColor[3];
+				}
 				trap_R_SetColor(color);
 				break;
 			case OSP_TEXT_CMD_SHADOW_COLOR:
