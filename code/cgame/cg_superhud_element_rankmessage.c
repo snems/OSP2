@@ -55,6 +55,8 @@ void CG_SHUDElementRankMessageRoutine(void* context)
 		return;
 	}
 
+	CG_SHUDFill(&element->config);
+
 	CG_SHUDTextPrint(element->msg, &element->ctx);
 }
 

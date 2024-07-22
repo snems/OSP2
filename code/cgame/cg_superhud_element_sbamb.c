@@ -76,6 +76,7 @@ void CG_SHUDElementSBAmBRoutine(void* context)
 		element->ctx.color_top[3] = 0;
 	}
 
+	CG_SHUDFill(&element->config);
 	CG_SHUDBarPrint(&element->ctx, ammo);
 }
 

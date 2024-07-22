@@ -50,6 +50,7 @@ void CG_SHUDElementAmmoMessageRoutine(void* context)
 	{
 		s = "LOW AMMO WARNING";
 	}
+	CG_SHUDFill(&element->config);
 
 	CG_SHUDTextPrint(s, &element->ctx);
 }

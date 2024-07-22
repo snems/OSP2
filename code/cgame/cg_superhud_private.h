@@ -506,6 +506,7 @@ void CG_SHUDTextPrint(const char* text, const superhudTextContext_t* pos);
 void CG_SHUDBarPrint(const superhudBarContext_t* ctx, float value);
 team_t CG_SHUDGetOurActiveTeam(void);
 qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhudConfig_t* cfg, int startTime);
+qboolean CG_SHUDFill(const superhudConfig_t* cfg);
 
 typedef struct
 {

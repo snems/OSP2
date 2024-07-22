@@ -33,6 +33,7 @@ void* CG_SHUDElementSBACCreate(superhudConfig_t* config)
 		Q_strncpyz(element->config.text.value, "%i", sizeof(element->config.text.value));
 	}
 
+	CG_SHUDFill(&element->config);
 	CG_SHUDTextMakeContext(&element->config, &element->position);
 	element->position.maxchars = 6;
 

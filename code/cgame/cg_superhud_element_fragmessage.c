@@ -12,15 +12,15 @@ typedef struct
 
 void* CG_SHUDElementFragMessageCreate(superhudConfig_t* config)
 {
-	shudElementFragMessage_t* fm;
+	shudElementFragMessage_t* element;
 	superhudGlobalContext_t* gctx;
 
-	fm = Z_Malloc(sizeof(*fm));
-	OSP_MEMORY_CHECK(fm);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-	memset(fm, 0, sizeof(*fm));
+	memset(element, 0, sizeof(*element));
 
-	memcpy(&fm->config, config, sizeof(fm->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
 	if (!config->time.isSet)
 	{
@@ -29,33 +29,35 @@ void* CG_SHUDElementFragMessageCreate(superhudConfig_t* config)
 	}
 
 	gctx = CG_SHUDGetContext();
-	fm->time = &gctx->fragmessage.time;
-	fm->msg = gctx->fragmessage.message;
+	element->time = &gctx->fragmessage.time;
+	element->msg = gctx->fragmessage.message;
 
-	CG_SHUDTextMakeContext(&fm->config, &fm->ctx);
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 
-	return fm;
+	return element;
 }
 
 void CG_SHUDElementFragMessageRoutine(void* context)
 {
-	shudElementFragMessage_t* fm = (shudElementFragMessage_t*)context;
+	shudElementFragMessage_t* element = (shudElementFragMessage_t*)context;
 	char    s[1024];
 	float* fade;
 	clientInfo_t* ci;
 
-	if (!*fm->time)
+	if (!*element->time)
 	{
 		return;
 	}
 
-	if (!CG_SHUDGetFadeColor(fm->ctx.color_origin, fm->ctx.color, &fm->config, *fm->time))
+	if (!CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, *element->time))
 	{
-		*fm->time = 0;
+		*element->time = 0;
 		return;
 	}
 
-	CG_SHUDTextPrint(fm->msg, &fm->ctx);
+	CG_SHUDFill(&element->config);
+
+	CG_SHUDTextPrint(element->msg, &element->ctx);
 }
 
 void CG_SHUDElementFragMessageDestroy(void* context)

@@ -146,6 +146,7 @@ void CG_SHUDElementScoreRoutine(void* context)
 
 	s = va(element->config.text.value, scores);
 
+	CG_SHUDFill(&element->config);
 	CG_SHUDTextPrint(s, &element->position);
 }
 

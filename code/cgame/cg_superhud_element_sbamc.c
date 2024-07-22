@@ -50,6 +50,7 @@ void CG_SHUDElementSBAmCRoutine(void* context)
 
 	s = va(element->config.text.value, ammo > 0 ? ammo : 0);
 
+	CG_SHUDFill(&element->config);
 	CG_SHUDTextPrint(s, &element->position);
 }
 

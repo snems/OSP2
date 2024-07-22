@@ -40,6 +40,7 @@ void CG_SHUDElementSBABRoutine(void* context)
 		VectorSet(element->ctx.color_top, 1.0f, 0.7f, 0.0f);
 	}
 
+	CG_SHUDFill(&element->config);
 	CG_SHUDBarPrint(&element->ctx, ap);
 }
 

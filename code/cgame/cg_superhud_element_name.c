@@ -182,6 +182,8 @@ void CG_SHUDElementNameRoutine(void* context)
 
 	CG_SHUDElementNameGetPair(&own, &nme);
 
+	CG_SHUDFill(&element->config);
+
 	if (element->type == SHUDENAME_TYPE_OWN)
 	{
 		CG_SHUDTextPrint(own, &element->ctx);

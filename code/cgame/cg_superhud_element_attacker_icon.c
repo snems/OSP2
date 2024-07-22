@@ -70,6 +70,8 @@ void CG_SHUDElementAttackerIconRoutine(void* context)
 		return;
 	}
 
+	CG_SHUDFill(&element->config);
+
 	angles[PITCH] = 0;
 	angles[YAW] = 180;
 	angles[ROLL] = 0;

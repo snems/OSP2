@@ -10,24 +10,24 @@ typedef struct
 
 void* CG_SHUDElementNGPCreate(superhudConfig_t* config)
 {
-	shudElementNGP_t* ngp;
+	shudElementNGP_t* element;
 
-	ngp = Z_Malloc(sizeof(*ngp));
-	OSP_MEMORY_CHECK(ngp);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-	memset(ngp, 0, sizeof(*ngp));
+	memset(element, 0, sizeof(*element));
 
-	memcpy(&ngp->config, config, sizeof(ngp->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-	CG_SHUDTextMakeContext(&ngp->config, &ngp->ctx);
-	ngp->ctx.maxchars = MAX_QPATH;
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.maxchars = MAX_QPATH;
 
-	return ngp;
+	return element;
 }
 
 void CG_SHUDElementNGPRoutine(void* context)
 {
-	shudElementNGP_t* ngp = (shudElementNGP_t*)context;
+	shudElementNGP_t* element = (shudElementNGP_t*)context;
 	int ping;
 
 	if (cg.demoPlayback) return;
@@ -41,7 +41,8 @@ void CG_SHUDElementNGPRoutine(void* context)
 		ping = (int)((float)cgs.osp.pingTotalTime / (float)cgs.osp.pingCount);
 	}
 
-	CG_SHUDTextPrint(va("%ims", ping), &ngp->ctx);
+	CG_SHUDFill(&element->config);
+	CG_SHUDTextPrint(va("%ims", ping), &element->ctx);
 }
 
 void CG_SHUDElementNGPDestroy(void* context)

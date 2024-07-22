@@ -38,6 +38,7 @@ void CG_SHUDElementItemPickupIconRoutine(void* context)
 
 	if (CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, cg.itemPickupTime))
 	{
+		CG_SHUDFill(&element->config);
 		CG_RegisterItemVisuals(cg.itemPickup);
 		trap_R_SetColor(element->ctx.color);
 		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w + 1, element->ctx.h, 0, 0, 1, 1,

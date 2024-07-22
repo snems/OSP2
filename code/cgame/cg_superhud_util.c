@@ -586,5 +586,43 @@ team_t CG_SHUDGetOurActiveTeam(void)
 	return our_team;
 }
 
+qboolean CG_SHUDFill(const superhudConfig_t* cfg)
+{
+	float x,y,w,h;
+	if (!cfg->fill.isSet || !cfg->rect.isSet)
+	{
+		return qfalse;
+	}
+	
+	x = cfg->rect.value[0];
+	y = cfg->rect.value[1];
+	w = cfg->rect.value[2];
+	h = cfg->rect.value[3];
+
+	CG_AdjustFrom640(&x, &y, &w, &h);
+	if (cfg->bgcolor.isSet)
+	{
+		CG_FillRect(x, y, w, h, cfg->bgcolor.value);
+		return qtrue;
+	}
+	if (cfg->image.isSet)
+	{
+		const float *color = colorWhite;
+		qhandle_t image = trap_R_RegisterShader(cfg->image.value);
+		if (!image)
+		{
+			return qfalse;
+		}
+		if (cfg->color.isSet)
+		{
+			color = CG_SHUDConfigPickColor(&cfg->color.value);
+		}
+		trap_R_SetColor(color);
+		trap_R_DrawStretchPic(x, y, w, h, 0, 0, 1, 1, image);
+		trap_R_SetColor(NULL);
+		return qtrue;
+	}
+	return qfalse;
+}
 
 

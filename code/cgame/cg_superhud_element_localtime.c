@@ -38,6 +38,7 @@ void CG_SHUDElementLocalTimeRoutine(void* context)
 		trap_RealTime(&qtime);
 		Com_sprintf(element->s, MAX_QPATH, "%02d:%02d", qtime.tm_hour, qtime.tm_min);
 	}
+	CG_SHUDFill(&element->config);
 
 	CG_SHUDTextPrint(element->s, &element->ctx);
 }

@@ -43,6 +43,8 @@ void CG_SHUDElementGameTimeRoutine(void* context)
 		tens = seconds / 10;
 		seconds -= tens * 10;
 
+		CG_SHUDFill(&element->config);
+
 		CG_SHUDTextPrint(va("%i:%i%i", mins, tens, seconds), &element->ctx);
 	}
 

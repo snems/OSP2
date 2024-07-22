@@ -31,7 +31,7 @@ void* CG_SHUDElementFPSCreate(superhudConfig_t* config)
 
 void CG_SHUDElementFPSRoutine(void* context)
 {
-	shudElementFPS_t* fps = (shudElementFPS_t*)context;
+	shudElementFPS_t* element = (shudElementFPS_t*)context;
 	char*   s;
 	int     fps_val;
 	int     t;
@@ -39,27 +39,29 @@ void CG_SHUDElementFPSRoutine(void* context)
 	// don't use serverTime, because that will be drifting to
 	// correct for internet lag changes, timescales, timedemos, etc
 	t = trap_Milliseconds();
-	if (fps->timePrev == 0)
+	if (element->timePrev == 0)
 	{
 		// skip first measure result
-		fps->timePrev = t;
+		element->timePrev = t;
 		return;
 	}
-	fps->timeAverage *= fps->framesNum;
-	fps->timeAverage += t - fps->timePrev;
-	fps->timeAverage /= ++fps->framesNum;
-	fps->timePrev = t;
+	element->timeAverage *= element->framesNum;
+	element->timeAverage += t - element->timePrev;
+	element->timeAverage /= ++element->framesNum;
+	element->timePrev = t;
 
-	if (fps->framesNum > FPS_MAX_FRAMES)
+	if (element->framesNum > FPS_MAX_FRAMES)
 	{
-		fps->framesNum = FPS_MAX_FRAMES;
+		element->framesNum = FPS_MAX_FRAMES;
 	}
 
-	fps_val = 1000.0f / fps->timeAverage;
+	fps_val = 1000.0f / element->timeAverage;
 
 	s = va("%ifps", fps_val);
 
-	CG_SHUDTextPrint(s, &fps->ctx);
+	CG_SHUDFill(&element->config);
+
+	CG_SHUDTextPrint(s, &element->ctx);
 }
 
 void CG_SHUDElementFPSDestroy(void* context)

@@ -11,38 +11,38 @@ typedef struct
 
 void* CG_SHUDElementNGCreate(superhudConfig_t* config)
 {
-	shudElementNG_t* ng;
+	shudElementNG_t* element;
 
-	ng = Z_Malloc(sizeof(*ng));
-	OSP_MEMORY_CHECK(ng);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-	memset(ng, 0, sizeof(*ng));
+	memset(element, 0, sizeof(*element));
 
-	memcpy(&ng->config, config, sizeof(ng->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-	CG_SHUDDrawMakeContext(&ng->config, &ng->ctx);
+	CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 
 	if (config->image.isSet)
 	{
-		ng->ctx.image = trap_R_RegisterShader(ng->config.image.value);
+		element->ctx.image = trap_R_RegisterShader(element->config.image.value);
 	}
 
-	CG_SHUDTextMakeContext(&ng->config, &ng->tctx);
+	CG_SHUDTextMakeContext(&element->config, &element->tctx);
 
-	ng->tctx.textX = 320;
-	ng->tctx.textY = 232;
+	element->tctx.textX = 320;
+	element->tctx.textY = 232;
 
-	ng->tctx.fontH = 16;
-	ng->tctx.fontW = 12;
+	element->tctx.fontH = 16;
+	element->tctx.fontW = 12;
 
-	ng->tctx.flags |= DS_CENTER;
+	element->tctx.flags |= DS_CENTER;
 
-	return ng;
+	return element;
 }
 
 void CG_SHUDElementNGRoutine(void* context)
 {
-	shudElementNG_t* ng = (shudElementNG_t*) context;
+	shudElementNG_t* element = (shudElementNG_t*) context;
 	float x, y, w, h;
 	float ax, ay, aw, ah;
 	int a;
@@ -53,32 +53,34 @@ void CG_SHUDElementNGRoutine(void* context)
 	int     color;
 	float   vscale;
 
-	x = ax = ng->config.rect.value[0];
-	y = ay = ng->config.rect.value[1];
-	w = aw = ng->config.rect.value[2];
-	h = ah = ng->config.rect.value[3];
+	x = ax = element->config.rect.value[0];
+	y = ay = element->config.rect.value[1];
+	w = aw = element->config.rect.value[2];
+	h = ah = element->config.rect.value[3];
+
+	CG_SHUDFill(&element->config);
 
 	trap_R_SetColor(NULL);
 
 	CG_AdjustFrom640(&ax, &ay, &aw, &ah);
-	if (ng->config.fill.isSet)
+	if (element->config.fill.isSet)
 	{
-		if (ng->config.bgcolor.isSet)
+		if (element->config.bgcolor.isSet)
 		{
-			trap_R_SetColor(ng->config.bgcolor.value);
+			trap_R_SetColor(element->config.bgcolor.value);
 			trap_R_DrawStretchPic(ax, ay, aw, ah, 0, 0, 1, 1, cgs.media.whiteShader);
 			trap_R_SetColor(NULL);
 		}
 		else
 		{
-			trap_R_SetColor(ng->config.bgcolor.value);
+			trap_R_SetColor(element->config.bgcolor.value);
 			trap_R_DrawStretchPic(ax, ay, aw, ah, 0, 0, 1, 1, cgs.media.whiteShader);
 			trap_R_SetColor(NULL);
 		}
 	}
-	else if (ng->config.image.isSet)
+	else if (element->config.image.isSet)
 	{
-		trap_R_DrawStretchPic(ax, ay, aw, ah, 0, 0, 1, 1, ng->ctx.image);
+		trap_R_DrawStretchPic(ax, ay, aw, ah, 0, 0, 1, 1, element->ctx.image);
 	}
 	else
 	{
@@ -180,7 +182,7 @@ void CG_SHUDElementNGRoutine(void* context)
 		}
 
 		// also add text in center of screen
-		CG_SHUDTextPrint("^1Connection Interrupted", &ng->tctx);
+		CG_SHUDTextPrint("^1Connection Interrupted", &element->tctx);
 
 		// blink the icon
 		if ((cg.time >> 9) & 1)

@@ -54,7 +54,7 @@ void CG_SHUDElementTargetStatusRoutine(void* context)
 		if (ci->team != TEAM_FREE && ci->team == cg.snap->ps.persistant[PERS_TEAM] && ch_TeamCrosshairHealth.integer != 0 && !(cg.snap->ps.pm_flags & PMF_FOLLOW))
 		{
 			Com_sprintf(s, 1024, "^5[^7%i/%i^5]", ci->health, ci->armor);
-			element->ctx.color[3] = fade[3];
+	    CG_SHUDFill(&element->config);
 			CG_SHUDTextPrint(s, &element->ctx);
 		}
 	}

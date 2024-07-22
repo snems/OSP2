@@ -19,6 +19,8 @@ void* CG_SHUDElementFollowMessageCreate(superhudConfig_t* config)
 
 	memcpy(&element->config, config, sizeof(element->config));
 
+	CG_SHUDFill(&element->config);
+
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 
 	return element;

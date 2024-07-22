@@ -88,6 +88,8 @@ void CG_SHUDElementFlagStatusRoutine(void* context)
 		return;
 	}
 
+	CG_SHUDFill(&element->config);
+
 	if (item && flag)
 	{
 		// установка цвета пока отключена, надо доработать шейдеры

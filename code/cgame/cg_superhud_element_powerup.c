@@ -204,6 +204,8 @@ void CG_SHUDElementPwRoutine(void* context)
 		return;
 	}
 
+	CG_SHUDFill(&element->config);
+
 	pwElement = &pw->element[element->pwIndex - 1];
 
 	if (element->pwType == SHUDPWTYPE_TIME)

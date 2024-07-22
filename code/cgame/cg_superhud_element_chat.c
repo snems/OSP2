@@ -92,6 +92,8 @@ void CG_SHUDElementChatRoutine(void* context)
 		return;
 	}
 
+	CG_SHUDFill(&element->config);
+
 	CG_SHUDTextPrint(entry->message, &element->ctx);
 }
 

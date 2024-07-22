@@ -47,6 +47,7 @@ void CG_SHUDElementSBHCRoutine(void* context)
 
 	s = va(element->config.text.value, hp > 0 ? hp : 0);
 
+	CG_SHUDFill(&element->config);
 	CG_SHUDTextPrint(s, &element->position);
 }
 

@@ -37,20 +37,7 @@ void CG_SHUDElementDecorRoutine(void* context)
 {
 	shudElementStatusbarDecorate* element = (shudElementStatusbarDecorate*)context;
 
-	if (element->config.fill.isSet)
-	{
-		if (element->config.bgcolor.isSet)
-		{
-			CG_FillRect(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, element->config.bgcolor.value);
-		}
-		else if (element->ctx.image)
-		{
-			trap_R_SetColor(element->ctx.color);
-			trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1, element->ctx.image);
-			trap_R_SetColor(NULL);
-		}
-	}
-	else if (element->ctx.image)
+	if (!CG_SHUDFill(&element->config) && element->ctx.image)
 	{
 		trap_R_SetColor(element->ctx.color);
 		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 0, 0, element->ctx.image);

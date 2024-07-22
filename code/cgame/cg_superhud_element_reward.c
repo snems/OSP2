@@ -87,6 +87,7 @@ void CG_SHUDElementRewardRoutine(void* context)
 		}
 	}
 
+	CG_SHUDFill(&element->config);
 
 	if (element->type == SHUD_REWARD_ICON)
 	{

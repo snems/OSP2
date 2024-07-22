@@ -56,6 +56,8 @@ void CG_SHUDElementAttackerNameRoutine(void* context)
 		return;
 	}
 
+	CG_SHUDFill(&element->config);
+
 	info = CG_ConfigString(CS_PLAYERS + clientNum);
 	name = Info_ValueForKey(info, "n");
 

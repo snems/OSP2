@@ -82,6 +82,7 @@ void CG_SHUDElementTeamCountRoutine(void* context)
 	if ( count > 0)
 	{
 		s = va(element->config.text.value, count);
+	  CG_SHUDFill(&element->config);
 		CG_SHUDTextPrint(s, &element->position);
 	}
 

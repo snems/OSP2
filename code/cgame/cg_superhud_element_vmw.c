@@ -10,24 +10,24 @@ typedef struct
 
 void* CG_SHUDElementVMWCreate(superhudConfig_t* config)
 {
-	shudElementVMW_t* tn;
+	shudElementVMW_t* element;
 
-	tn = Z_Malloc(sizeof(*tn));
-	OSP_MEMORY_CHECK(tn);
+	element = Z_Malloc(sizeof(*element));
+	OSP_MEMORY_CHECK(element);
 
-	memset(tn, 0, sizeof(*tn));
+	memset(element, 0, sizeof(*element));
 
-	memcpy(&tn->config, config, sizeof(tn->config));
+	memcpy(&element->config, config, sizeof(element->config));
 
-	CG_SHUDTextMakeContext(&tn->config, &tn->ctx);
-	tn->ctx.maxchars = MAX_QPATH;
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.maxchars = MAX_QPATH;
 
-	return tn;
+	return element;
 }
 
 void CG_SHUDElementVMWRoutine(void* context)
 {
-	shudElementVMW_t* vmw = (shudElementVMW_t*)context;
+	shudElementVMW_t* element = (shudElementVMW_t*)context;
 	char* s;
 	int time;
 
@@ -47,7 +47,8 @@ void CG_SHUDElementVMWRoutine(void* context)
 	}
 	s = va("VOTE(%i):%s yes(F1):%i no(F2):%i", time, &cgs.voteString, cgs.voteYes, cgs.voteNo);
 
-	CG_SHUDTextPrint(s, &vmw->ctx);
+	CG_SHUDFill(&element->config);
+	CG_SHUDTextPrint(s, &element->ctx);
 }
 
 void CG_SHUDElementVMWDestroy(void* context)

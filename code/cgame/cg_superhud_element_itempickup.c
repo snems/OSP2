@@ -46,6 +46,7 @@ void CG_SHUDElementItemPickupRoutine(void* context)
 		seconds -= mins * 60;
 		tens = seconds / 10;
 		seconds -= tens * 10;
+		CG_SHUDFill(&element->config);
 		CG_SHUDTextPrint(va("%i:%i%i", mins, tens, seconds), &element->ctx);
 		CG_SHUDTextPrint(va("%i:%i%i %s", mins, tens, seconds, bg_itemlist[cg.itemPickup].pickup_name), &element->ctx);
 	}
