@@ -280,11 +280,11 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 		CG_AdjustFrom640(&out->bar[0][0], &out->bar[0][1], &out->bar[0][2], &out->bar[0][3]);
 		if (out->direction == SUPERHUD_DIR_LEFT_TO_RIGHT || out->direction == SUPERHUD_DIR_RIGHT_TO_LEFT)
 		{
-			out->max = config.rect.value[2]; // max / width
+			out->max = out->bar[0][2]; // max / width
 		}
 		else
 		{
-			out->max = config.rect.value[3]; // max / height
+			out->max = out->bar[0][3]; // max / height
 		}
 		out->koeff = out->max / max;
 	}
