@@ -27,7 +27,7 @@ void* CG_SHUDElementAttackerNameCreate(superhudConfig_t* config)
 
 void CG_SHUDElementAttackerNameRoutine(void* context)
 {
-	shudElementAttackerName_t* an = (shudElementAttackerName_t*)context;
+	shudElementAttackerName_t* element = (shudElementAttackerName_t*)context;
 	const float* fade;
 	int         t;
 	const char*  info;
@@ -50,25 +50,16 @@ void CG_SHUDElementAttackerNameRoutine(void* context)
 		return;
 	}
 
-	t = cg.time - cg.attackerTime;
-	if (t > ATTACKER_HEAD_TIME)
+	if (!CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, cg.attackerTime))
 	{
 		cg.attackerTime = 0;
 		return;
 	}
 
-	fade = CG_FadeColor(cg.attackerTime, ATTACKER_HEAD_TIME);
-	if (fade == NULL)
-	{
-		trap_R_SetColor(NULL);
-		return;
-	}
-	an->ctx.color[3] = fade[3];
-
 	info = CG_ConfigString(CS_PLAYERS + clientNum);
 	name = Info_ValueForKey(info, "n");
 
-	CG_SHUDTextPrint(name, &an->ctx);
+	CG_SHUDTextPrint(name, &element->ctx);
 }
 
 void CG_SHUDElementAttackerNameDestroy(void* context)

@@ -39,32 +39,23 @@ void* CG_SHUDElementRankMessageCreate(superhudConfig_t* config)
 
 void CG_SHUDElementRankMessageRoutine(void* context)
 {
-	shudElementRankMessage_t* rm = (shudElementRankMessage_t*)context;
+	shudElementRankMessage_t* element = (shudElementRankMessage_t*)context;
 	char    s[1024];
 	float* fade;
 	clientInfo_t* ci;
 
-	if (!*rm->time)
+	if (!*element->time)
 	{
 		return;
 	}
 
-	if (cg.time - *rm->time > rm->config.time.value)
+	if (!CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, *element->time))
 	{
-		*rm->time = 0;
+		*element->time = 0;
 		return;
 	}
 
-	fade = CG_FadeColor(*rm->time, 1000);
-	if (fade == NULL)
-	{
-		trap_R_SetColor(NULL);
-		return;
-	}
-
-	rm->ctx.color[3] = fade[3];
-
-	CG_SHUDTextPrint(rm->msg, &rm->ctx);
+	CG_SHUDTextPrint(element->msg, &element->ctx);
 }
 
 void CG_SHUDElementRankMessageDestroy(void* context)

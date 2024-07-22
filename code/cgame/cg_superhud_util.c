@@ -182,6 +182,7 @@ void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* o
 	out->fontIndex = CG_FontIndexFromName(config.font.isSet ? config.font.value : "sansman");
 
 	Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color);
+	Vector4Copy(out->color, out->color_origin);
 }
 
 void CG_SHUDDrawMakeContext(const superhudConfig_t* in, superhudDrawContext_t* out)
@@ -200,6 +201,7 @@ void CG_SHUDDrawMakeContext(const superhudConfig_t* in, superhudDrawContext_t* o
 	CG_AdjustFrom640(&out->x, &out->y, &out->w, &out->h);
 
 	Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color);
+	Vector4Copy(out->color, out->color_origin);
 }
 
 void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out, float max)
@@ -297,6 +299,69 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 	{
 		Vector4Set(out->color_back, 0, 0, 0, 0);
 	}
+}
+
+qboolean CG_SHUDIsTimeOut(const superhudConfig_t* cfg, int startTime)
+{
+	if (cfg->time.isSet)
+	{
+		if ((cg.time - startTime) < cfg->time.value)
+		{
+			//fade time is not started;
+			return qfalse;
+		}
+	}
+	return qtrue;
+}
+
+ /*
+ 	*  Затухание
+ 	*  возвращает qfalse если элемент потух
+ 	*/
+qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhudConfig_t* cfg, int startTime)
+{
+	int time = 0;
+
+	Vector4Copy(cfg->fade.value, out);
+
+	if (!CG_SHUDIsTimeOut(cfg, startTime))
+	{
+		return qtrue;	
+	}
+
+	if (cfg->time.isSet)
+	{
+		time = cfg->time.value;
+	}
+
+	if (cfg->fade.isSet)
+	{
+		int fadetime;
+		float fadedelay = SUPERHUD_DEFAULT_FADEDELAY;
+
+		fadetime = cg.time - startTime - time;
+
+		if (cfg->fadedelay.isSet)
+		{
+			fadedelay = (float)cfg->fadedelay.value;
+		}
+
+		if (fadetime > 0 && fadetime < fadedelay)
+		{
+			vec4_t tmpfade;
+			float k = (float)fadetime/fadedelay;
+			Vector4Copy(cfg->fade.value , tmpfade);
+			Vector4Subtract(tmpfade, from_color, tmpfade);
+			Vector4MA(from_color, k, tmpfade, out);
+			return qtrue;
+		}
+		else
+		{
+			return qfalse;
+		}
+	}
+
+	return qtrue;
 }
 
 void CG_SHUDTextPrint(const char* text, const superhudTextContext_t* ctx)

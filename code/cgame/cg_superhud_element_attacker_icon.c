@@ -64,8 +64,7 @@ void CG_SHUDElementAttackerIconRoutine(void* context)
 		return;
 	}
 
-	t = cg.time - cg.attackerTime;
-	if (t > ATTACKER_HEAD_TIME)
+	if (!CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, cg.attackerTime))
 	{
 		cg.attackerTime = 0;
 		return;

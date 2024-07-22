@@ -7,6 +7,8 @@
 extern "C" {
 #endif
 
+#define SUPERHUD_DEFAULT_FADEDELAY 1000.0
+
 typedef enum
 {
 	SUPERHUD_ALIGNH_LEFT,
@@ -468,6 +470,7 @@ typedef struct
 	float fontW;
 	float fontH;
 	int flags;
+	vec4_t color_origin;
 	vec4_t color;
 	int maxchars;
 	int fontIndex;
@@ -481,6 +484,7 @@ typedef struct
 	float h;
 	qhandle_t image;
 	vec4_t color;
+	vec4_t color_origin;
 } superhudDrawContext_t;
 
 typedef struct
@@ -501,6 +505,7 @@ void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* o
 void CG_SHUDTextPrint(const char* text, const superhudTextContext_t* pos);
 void CG_SHUDBarPrint(const superhudBarContext_t* ctx, float value);
 team_t CG_SHUDGetOurActiveTeam(void);
+qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhudConfig_t* cfg, int startTime);
 
 typedef struct
 {

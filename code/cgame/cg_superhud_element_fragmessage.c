@@ -49,20 +49,11 @@ void CG_SHUDElementFragMessageRoutine(void* context)
 		return;
 	}
 
-	if (cg.time - *fm->time > fm->config.time.value)
+	if (!CG_SHUDGetFadeColor(fm->ctx.color_origin, fm->ctx.color, &fm->config, *fm->time))
 	{
 		*fm->time = 0;
 		return;
 	}
-
-	fade = CG_FadeColor(*fm->time, 1000);
-	if (fade == NULL)
-	{
-		trap_R_SetColor(NULL);
-		return;
-	}
-
-	fm->ctx.color[3] = fade[3];
 
 	CG_SHUDTextPrint(fm->msg, &fm->ctx);
 }

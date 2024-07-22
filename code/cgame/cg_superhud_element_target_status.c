@@ -38,11 +38,12 @@ void CG_SHUDElementTargetStatusRoutine(void* context)
 	if (global_viewlistFirstOption > 1) return;
 
 	CG_ScanForCrosshairEntity();
+	if (cg.crosshairClientTime == 0) return;
 
-	fade = CG_FadeColor(cg.crosshairClientTime, 1000);
-	if (fade == NULL)
+
+	if (!CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, cg.crosshairClientTime))
 	{
-		trap_R_SetColor(NULL);
+		cg.crosshairClientTime = 0;
 		return;
 	}
 

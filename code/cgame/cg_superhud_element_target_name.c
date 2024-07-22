@@ -29,7 +29,6 @@ void CG_SHUDElementTargetNameRoutine(void* context)
 {
 	shudElementTargetName_t* element = (shudElementTargetName_t*)context;
 	char    s[1024];
-	float* fade;
 	clientInfo_t* ci;
 
 	if (cg_drawCrosshair.integer == 0) return;
@@ -38,11 +37,12 @@ void CG_SHUDElementTargetNameRoutine(void* context)
 	if (global_viewlistFirstOption > 1) return;
 
 	CG_ScanForCrosshairEntity();
+	if (cg.crosshairClientTime == 0) return;
 
-	fade = CG_FadeColor(cg.crosshairClientTime, 1000);
-	if (fade == NULL)
+
+	if (!CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, cg.crosshairClientTime))
 	{
-		trap_R_SetColor(NULL);
+		cg.crosshairClientTime = 0;
 		return;
 	}
 
@@ -52,7 +52,6 @@ void CG_SHUDElementTargetNameRoutine(void* context)
 	if ((ci->team == cg.snap->ps.persistant[PERS_TEAM]) || cg_drawCrosshairNames.integer != 2 || (cgs.osp.gameTypeFreeze && ci->team == cgs.clientinfo[cg.snap->ps.clientNum].team))
 	{
 		Com_sprintf(s, 1024, "%s", ci->name);
-		element->ctx.color[3] = fade[3];
 		CG_SHUDTextPrint(s, &element->ctx);
 	}
 }

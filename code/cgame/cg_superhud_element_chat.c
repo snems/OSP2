@@ -87,21 +87,9 @@ void CG_SHUDElementChatRoutine(void* context)
 		return;
 	}
 
-	if (element->config.time.isSet)
+	if (!CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, entry->time))
 	{
-		if (cg.time - entry->time > element->config.time.value)
-		{
-			return;
-		}
-		else if (element->config.fadedelay.isSet)
-		{
-			fade = CG_FadeColor(entry->time, element->config.fadedelay.value);
-			if (fade == NULL)
-			{
-				return;
-			}
-			element->ctx.color[3] = fade[3];
-		}
+		return;
 	}
 
 	CG_SHUDTextPrint(entry->message, &element->ctx);

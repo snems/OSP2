@@ -34,9 +34,8 @@ void CG_SHUDElementItemPickupRoutine(void* context)
 {
 	shudElementItemPickup_t* element = (shudElementItemPickup_t*)context;
 
-	float* fade;
-	fade = CG_FadeColor(cg.itemPickupTime, element->config.time.value);
-	if (fade)
+
+	if (CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, cg.itemPickupTime))
 	{
 		int         mins, seconds, tens;
 		int         msec;
@@ -47,9 +46,7 @@ void CG_SHUDElementItemPickupRoutine(void* context)
 		seconds -= mins * 60;
 		tens = seconds / 10;
 		seconds -= tens * 10;
-
 		CG_SHUDTextPrint(va("%i:%i%i", mins, tens, seconds), &element->ctx);
-		element->ctx.color[3] = fade[3];
 		CG_SHUDTextPrint(va("%i:%i%i %s", mins, tens, seconds, bg_itemlist[cg.itemPickup].pickup_name), &element->ctx);
 	}
 }

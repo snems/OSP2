@@ -32,18 +32,12 @@ static void* CG_SHUDElementRewardCreate(superhudConfig_t* config, shudRewardType
 
 	element->type = type;
 
-	if (type == SHUD_REWARD_ICON)
+	CG_SHUDDrawMakeContext(&element->config, &element->ctx.d);
+	CG_SHUDTextMakeContext(&element->config, &element->ctx.t);
+	if (!element->config.text.isSet)
 	{
-		CG_SHUDDrawMakeContext(&element->config, &element->ctx.d);
-	}
-	else
-	{
-		CG_SHUDTextMakeContext(&element->config, &element->ctx.t);
-		if (!element->config.text.isSet)
-		{
-			element->config.text.isSet = qtrue;
-			Q_strncpyz(element->config.text.value, "%d", sizeof(element->config.text.value));
-		}
+		element->config.text.isSet = qtrue;
+		Q_strncpyz(element->config.text.value, "%d", sizeof(element->config.text.value));
 	}
 
 	return element;
@@ -63,7 +57,6 @@ void CG_SHUDElementRewardRoutine(void* context)
 {
 	shudElementStatusbarRewards* element = (shudElementStatusbarRewards*)context;
 
-	float*   color;
 	int     i, count;
 	float   x, y, w, h;
 	char    buf[32];
@@ -73,8 +66,7 @@ void CG_SHUDElementRewardRoutine(void* context)
 		return;
 	}
 
-	color = CG_FadeColor(cg.rewardTime, REWARD_TIME);
-	if (!color)
+	if (!CG_SHUDGetFadeColor(element->ctx.d.color_origin, element->ctx.d.color, &element->config, cg.rewardTime))
 	{
 		if (cg.rewardStack > 0)
 		{
@@ -86,7 +78,7 @@ void CG_SHUDElementRewardRoutine(void* context)
 			}
 			cg.rewardTime = cg.time;
 			cg.rewardStack--;
-			color = CG_FadeColor(cg.rewardTime, REWARD_TIME);
+			CG_SHUDGetFadeColor(element->ctx.d.color_origin, element->ctx.d.color, &element->config, cg.rewardTime);
 			trap_S_StartLocalSound(cg.rewardSound[0], CHAN_ANNOUNCER);
 		}
 		else
@@ -95,13 +87,14 @@ void CG_SHUDElementRewardRoutine(void* context)
 		}
 	}
 
+
 	if (element->type == SHUD_REWARD_ICON)
 	{
-		trap_R_SetColor(color);
+		trap_R_SetColor(element->ctx.d.color);
 		trap_R_DrawStretchPic(element->ctx.d.x, element->ctx.d.y, element->ctx.d.w + 1, element->ctx.d.h, 0, 0, 1, 1, cg.rewardShader[0]);
 		trap_R_SetColor(NULL);
 	}
-	else if (1 || cg.rewardCount[0])
+	else if (cg.rewardCount[0])
 	{
 		const char *s;
 		s = va(element->config.text.value, cg.rewardCount[0]);
