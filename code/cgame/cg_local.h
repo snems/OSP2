@@ -2089,7 +2089,7 @@ extern int statsInfo[24];
 #define OSP_CUSTOM_CLIENT_MAXFPS_FLAG          0x20
 
 // OSP Custom client 2
-#define OSP_CUSTOM_CLIENT_2_DISABLE_HIT_BOX_FLAG  0x01
+#define OSP_CUSTOM_CLIENT_2_ENABLE_HIT_BOX_FLAG  0x01
 
 void CG_OSPCvarsRestrictValues(void);
 qboolean CG_OSPIsGameTypeCA(int gametype);
