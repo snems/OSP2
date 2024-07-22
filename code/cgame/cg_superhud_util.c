@@ -606,7 +606,9 @@ qboolean CG_SHUDFill(const superhudConfig_t* cfg)
 	CG_AdjustFrom640(&x, &y, &w, &h);
 	if (cfg->bgcolor.isSet)
 	{
-		CG_FillRect(x, y, w, h, cfg->bgcolor.value);
+		trap_R_SetColor(cfg->bgcolor.value);
+		trap_R_DrawStretchPic(x, y, w, h, 0, 0, 0, 0, cgs.media.whiteShader);
+		trap_R_SetColor(NULL);
 		return qtrue;
 	}
 	if (cfg->image.isSet)

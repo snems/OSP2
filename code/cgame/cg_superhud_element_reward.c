@@ -32,8 +32,15 @@ static void* CG_SHUDElementRewardCreate(superhudConfig_t* config, shudRewardType
 
 	element->type = type;
 
-	CG_SHUDDrawMakeContext(&element->config, &element->ctx.d);
-	CG_SHUDTextMakeContext(&element->config, &element->ctx.t);
+	if (type == SHUD_REWARD_ICON)
+	{
+		CG_SHUDDrawMakeContext(&element->config, &element->ctx.d);
+	}
+	else
+	{
+		CG_SHUDTextMakeContext(&element->config, &element->ctx.t);
+	}
+
 	if (!element->config.text.isSet)
 	{
 		element->config.text.isSet = qtrue;
@@ -60,13 +67,26 @@ void CG_SHUDElementRewardRoutine(void* context)
 	int     i, count;
 	float   x, y, w, h;
 	char    buf[32];
+	float   *color_origin;
+	float   *color;
 
 	if (!cg_drawRewards.integer)
 	{
 		return;
 	}
 
-	if (!CG_SHUDGetFadeColor(element->ctx.d.color_origin, element->ctx.d.color, &element->config, cg.rewardTime))
+	if (element == SHUD_REWARD_ICON)
+	{
+		color_origin = element->ctx.d.color_origin;
+		color = element->ctx.d.color;
+	}
+	else
+	{
+		color_origin = element->ctx.t.color_origin;
+		color = element->ctx.t.color;
+	}
+
+	if (!CG_SHUDGetFadeColor(color_origin, color, &element->config, cg.rewardTime))
 	{
 		if (cg.rewardStack > 0)
 		{
@@ -78,7 +98,7 @@ void CG_SHUDElementRewardRoutine(void* context)
 			}
 			cg.rewardTime = cg.time;
 			cg.rewardStack--;
-			CG_SHUDGetFadeColor(element->ctx.d.color_origin, element->ctx.d.color, &element->config, cg.rewardTime);
+			CG_SHUDGetFadeColor(color_origin, color, &element->config, cg.rewardTime);
 			trap_S_StartLocalSound(cg.rewardSound[0], CHAN_ANNOUNCER);
 		}
 		else
@@ -91,9 +111,12 @@ void CG_SHUDElementRewardRoutine(void* context)
 
 	if (element->type == SHUD_REWARD_ICON)
 	{
-		trap_R_SetColor(element->ctx.d.color);
-		trap_R_DrawStretchPic(element->ctx.d.x, element->ctx.d.y, element->ctx.d.w + 1, element->ctx.d.h, 0, 0, 1, 1, cg.rewardShader[0]);
-		trap_R_SetColor(NULL);
+		if (cg.rewardShader[0])
+		{
+			trap_R_SetColor(colorWhite);
+			trap_R_DrawStretchPic(element->ctx.d.x, element->ctx.d.y, element->ctx.d.w, element->ctx.d.h, 0, 0, 1, 1, cg.rewardShader[0]);
+			trap_R_SetColor(NULL);
+		}
 	}
 	else if (cg.rewardCount[0])
 	{
