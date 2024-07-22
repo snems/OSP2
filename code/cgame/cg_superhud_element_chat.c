@@ -82,13 +82,14 @@ void CG_SHUDElementChatRoutine(void* context)
 
 	entry = &element->gctx->chat.line[index];
 
-	if (entry->message[0] == 0)
+	if (entry->time == 0 || entry->message[0] == 0)
 	{
 		return;
 	}
 
 	if (!CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, entry->time))
 	{
+		entry->time = 0;
 		return;
 	}
 

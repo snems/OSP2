@@ -33,9 +33,11 @@ void* CG_SHUDElementItemPickupCreate(superhudConfig_t* config)
 void CG_SHUDElementItemPickupRoutine(void* context)
 {
 	shudElementItemPickup_t* element = (shudElementItemPickup_t*)context;
+	qboolean visible;
 
+	visible = CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, cg.itemPickupTime);
 
-	if (CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, cg.itemPickupTime))
+	if (visible)
 	{
 		int         mins, seconds, tens;
 		int         msec;

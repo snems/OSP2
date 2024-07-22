@@ -303,6 +303,10 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 
 qboolean CG_SHUDIsTimeOut(const superhudConfig_t* cfg, int startTime)
 {
+	if (!startTime)
+	{
+		return qtrue;
+	}
 	if (cfg->time.isSet)
 	{
 		if ((cg.time - startTime) < cfg->time.value)
@@ -361,7 +365,7 @@ qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhud
 		}
 	}
 
-	return qtrue;
+	return qfalse;
 }
 
 void CG_SHUDTextPrint(const char* text, const superhudTextContext_t* ctx)
