@@ -326,7 +326,7 @@ qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhud
 {
 	int time = 0;
 
-	Vector4Copy(cfg->fade.value, out);
+	Vector4Copy(from_color, out);
 
 	if (!CG_SHUDIsTimeOut(cfg, startTime))
 	{
