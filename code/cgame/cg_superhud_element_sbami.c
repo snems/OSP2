@@ -41,7 +41,7 @@ void CG_SHUDElementSBAmIRoutine(void* context)
 	{
 		CG_SHUDFill(&element->config);
 		trap_R_SetColor(element->ctx.color);
-		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w + 1, element->ctx.h, 0, 0, 1, 1, icon);
+		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1, icon);
 		trap_R_SetColor(NULL);
 	}
 

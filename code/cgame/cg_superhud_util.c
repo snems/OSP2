@@ -632,3 +632,176 @@ qboolean CG_SHUDFill(const superhudConfig_t* cfg)
 }
 
 
+qboolean shudElementCompileTeamOverlayConfig(const char *configString, int width, int maxLocation, shudTeamOverlay_t *configOut, const char **err_message)
+{
+	const char* teamOverlayStr;
+	int total_len;
+	char teamOverlayChar;
+	char string[OSPHUD_TEAMOVERLAY_STR_SIZE];
+	int nameLen = 0;
+	int numberOfNames = 0;
+	int numberOfPowerups = 0;
+	int numberOfHealths = 0;
+	int numberOfArmors = 0;
+	int numberOfAmmos = 0;
+	int numberOfLocations = 0;
+
+
+	memset(string, ' ', 128);
+	string[127] = 0;
+	memset(configOut, 0, sizeof(*configOut));
+
+	if (strlen(configString) > 20)
+	{
+		*err_message = "Rejected ch_Teamoverlay setting, too long";
+		return qfalse;
+	}
+	configOut->ammoLenChar = 1;
+	configOut->powerupLenChar = 1;
+	configOut->healthLenChar = 3;
+	configOut->armorLenChar = 3;
+	configOut->locationLenChar = maxLocation;
+
+	for (total_len = 0, teamOverlayStr = configString; *teamOverlayStr ; ++teamOverlayStr)
+	{
+		teamOverlayChar = *teamOverlayStr;
+		switch (teamOverlayChar)
+		{
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				nameLen = 10 * nameLen + (teamOverlayChar - '0');
+				break;
+			case 'n':
+			case 'N':
+				configOut->nameOffsetChar = total_len;
+				configOut->nameLenChar = nameLen ? nameLen : 12;
+				total_len += configOut->nameLenChar;
+				configOut->isNameEnabled = qtrue;
+				++numberOfNames;
+				break;
+			case 'p':
+			case 'P':
+				configOut->powerupOffsetChar = total_len;
+				total_len +=  configOut->powerupLenChar;
+				configOut->isPowerupEnabled = qtrue;
+				++numberOfPowerups;
+				break;
+			case 'h':
+			case 'H':
+				configOut->healthOffsetChar = total_len;
+				total_len += configOut->healthLenChar;
+				configOut->isHealthEnabled = qtrue;
+				++numberOfHealths;
+				break;
+			case 'a':
+			case 'A':
+				configOut->armorOffsetChar = total_len;
+				total_len += configOut->armorLenChar;
+				configOut->isArmorEnabled = qtrue;
+				++numberOfArmors;
+				break;
+			case 'w':
+			case 'W':
+				configOut->ammoOffsetChar = total_len;
+				total_len += configOut->ammoLenChar;
+				configOut->isAmmoEnabled = qtrue;
+				++numberOfAmmos;
+				break;
+			case 'l':
+			case 'L':
+				configOut->locationOffsetChar = total_len;
+				total_len += configOut->locationLenChar;
+				configOut->isLocationEnabled = qtrue;
+				++numberOfLocations;
+				break;
+			case ' ':
+				total_len += 1;
+				break;
+			default:
+				string[total_len] = teamOverlayChar;
+				total_len += 1;
+				break;
+		}
+	}
+
+	if (numberOfNames > 1 || numberOfPowerups > 1 || numberOfHealths > 1 || numberOfArmors > 1 || numberOfAmmos > 1 || numberOfLocations > 1)
+	{
+		*err_message = "Rejected ch_Teamoverlay setting, used an item more than once";
+		return qfalse;
+	}
+
+	if (configOut->isNameEnabled == qfalse)
+	{
+		*err_message = "Rejected ch_Teamoverlay setting - useless";
+		return qfalse;
+	}
+
+	string[total_len] = 0;
+
+	/* remove leading and tailing spaces */
+	{
+		char* ptr = &string[0];
+		char* start;
+
+		while (*ptr && *ptr != ' ')
+		{
+			++ptr;
+		}
+		configOut->strX = (ptr - &string[0]);
+		start = ptr;
+
+		ptr += strlen(ptr) - 1;
+		while (ptr != start && *ptr == ' ')
+		{
+			*ptr = 0;
+			--ptr;
+		}
+		Q_strncpyz(configOut->str, start, OSPHUD_TEAMOVERLAY_STR_SIZE);
+	}
+	configOut->overlayWidthChar = total_len;
+	teamOverlayWidth = total_len;
+
+	configOut->powerupOffsetPix = configOut->powerupOffsetChar * width;
+	//CG_AdjustFrom640(&configOut->powerupOffsetPix, NULL, NULL, NULL);
+	configOut->powerupLenPix = configOut->powerupLenChar * width;
+	CG_AdjustFrom640(&configOut->powerupLenPix, NULL, NULL, NULL);
+
+	configOut->nameOffsetPix = configOut->nameOffsetChar * width;
+	//CG_AdjustFrom640(&configOut->nameOffsetPix, NULL, NULL, NULL);
+	configOut->nameLenPix = configOut->nameLenChar * width;
+	CG_AdjustFrom640(&configOut->nameLenPix, NULL, NULL, NULL);
+
+	configOut->healthOffsetPix = configOut->healthOffsetChar * width;
+	//CG_AdjustFrom640(&configOut->healthOffsetPix, NULL, NULL, NULL);
+	configOut->healthLenPix = configOut->healthLenChar * width;
+	CG_AdjustFrom640(&configOut->healthLenPix, NULL, NULL, NULL);
+
+	configOut->armorOffsetPix = configOut->armorOffsetChar * width;
+	//CG_AdjustFrom640(&configOut->armorOffsetPix, NULL, NULL, NULL);
+	configOut->armorLenPix = configOut->armorLenChar * width;
+	CG_AdjustFrom640(&configOut->armorLenPix, NULL, NULL, NULL);
+
+	configOut->ammoOffsetPix = configOut->ammoOffsetChar * width;
+	//CG_AdjustFrom640(&configOut->ammoOffsetPix, NULL, NULL, NULL);
+	configOut->ammoLenPix = configOut->ammoLenChar * width;
+	CG_AdjustFrom640(&configOut->ammoLenPix, NULL, NULL, NULL);
+
+	configOut->locationOffsetPix = configOut->locationOffsetChar * width;
+	//CG_AdjustFrom640(&configOut->locationOffsetPix, NULL, NULL, NULL);
+	configOut->locationLenPix = configOut->locationLenChar * width;
+	CG_AdjustFrom640(&configOut->locationLenPix, NULL, NULL, NULL);
+
+	configOut->overlayWidthPix = configOut->overlayWidthChar * width;
+	CG_AdjustFrom640(&configOut->overlayWidthPix, NULL, NULL, NULL);
+
+	return qtrue;
+}
+

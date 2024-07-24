@@ -460,6 +460,26 @@ void* CG_SHUDElementTeamCountNMECreate(superhudConfig_t* config);
 void CG_SHUDElementTeamCountRoutine(void* context);
 void CG_SHUDElementTeamCountDestroy(void* context);
 
+void* CG_SHUDElementTeam1Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam2Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam3Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam4Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam5Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam6Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam7Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam8Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam9Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam10Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam11Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam12Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam13Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam14Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam15Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam16Create(superhudConfig_t* config);
+void CG_SHUDElementTeamRoutine(void* context);
+void CG_SHUDElementTeamDestroy(void* context);
+
+
 /*
  * cg_superhud_util.c
  */
@@ -499,6 +519,51 @@ typedef struct
 	qboolean two_bars; // one or two bars
 } superhudBarContext_t;
 
+#define OSPHUD_TEAMOVERLAY_STR_SIZE 128
+typedef struct
+{
+	qboolean isPowerupEnabled;
+	int powerupOffsetChar;
+	int powerupLenChar;
+	float powerupOffsetPix;
+	float powerupLenPix;
+
+	qboolean isNameEnabled;
+	int nameOffsetChar;
+	int nameLenChar;
+	float nameOffsetPix;
+	float nameLenPix;
+
+	qboolean isHealthEnabled;
+	int healthOffsetChar;
+	int healthLenChar;
+	float healthOffsetPix;
+	float healthLenPix;
+
+	qboolean isArmorEnabled;
+	int armorOffsetChar;
+	int armorLenChar;
+	float armorOffsetPix;
+	float armorLenPix;
+
+	qboolean isAmmoEnabled;
+	int ammoOffsetChar;
+	int ammoLenChar;
+	float ammoOffsetPix;
+	float ammoLenPix;
+
+	qboolean isLocationEnabled;
+	int locationOffsetChar;
+	int locationLenChar;
+	float locationOffsetPix;
+	float locationLenPix;
+
+	int overlayWidthChar;
+	float overlayWidthPix;
+	int strX;
+	char str[OSPHUD_TEAMOVERLAY_STR_SIZE];
+} shudTeamOverlay_t;
+
 void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out, float max);
 void CG_SHUDDrawMakeContext(const superhudConfig_t* in, superhudDrawContext_t* out);
 void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* out);
@@ -507,6 +572,7 @@ void CG_SHUDBarPrint(const superhudBarContext_t* ctx, float value);
 team_t CG_SHUDGetOurActiveTeam(void);
 qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhudConfig_t* cfg, int startTime);
 qboolean CG_SHUDFill(const superhudConfig_t* cfg);
+qboolean shudElementCompileTeamOverlayConfig(const char *configString, int width, int maxLocation, shudTeamOverlay_t *configOut, const char **err_message);
 
 typedef struct
 {
@@ -547,6 +613,7 @@ typedef struct
 } superhudGlobalContext_t;
 
 superhudGlobalContext_t* CG_SHUDGetContext(void);
+
 
 #ifdef __cplusplus
 }

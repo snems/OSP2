@@ -222,7 +222,7 @@ void CG_SHUDLoadConfig(void)
 		CG_Printf("^3%d drawable element%s\n", numberOfElementsCreated, numberOfElementsCreated > 1 ? "s" : "");
 	}
 
-	CG_Printf("^3SuperHUD: sorting HUD routines... ");
+	CG_Printf("^3SuperHUD: sorting HUD routines... \n");
 	{
 		superhudElement_t* prev;
 		superhudElement_t* current;
