@@ -5,21 +5,14 @@
 typedef struct
 {
 	superhudConfig_t config;
-	int timePrev;
-	char s[MAX_QPATH];
 	superhudTextContext_t ctx;
 } shudElementAmmoMessage_t;
 
-void* CG_SHUDElementAmmoMessageCreate(superhudConfig_t* config)
+void* CG_SHUDElementAmmoMessageCreate(const superhudConfig_t* config)
 {
 	shudElementAmmoMessage_t* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 
@@ -30,7 +23,6 @@ void CG_SHUDElementAmmoMessageRoutine(void* context)
 {
 	shudElementAmmoMessage_t* element = (shudElementAmmoMessage_t*)context;
 	const char*  s;
-	int         w;
 
 	if (cg_drawAmmoWarning.integer == 0)
 	{

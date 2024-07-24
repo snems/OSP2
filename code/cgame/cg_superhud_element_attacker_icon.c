@@ -10,16 +10,11 @@ typedef struct
 	vec3_t      angles;
 } shudElementStatusbarAttackerIcon;
 
-void* CG_SHUDElementAttackerIconCreate(superhudConfig_t* config)
+void* CG_SHUDElementAttackerIconCreate(const superhudConfig_t* config)
 {
 	shudElementStatusbarAttackerIcon* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	if (!config->rect.isSet)
 	{

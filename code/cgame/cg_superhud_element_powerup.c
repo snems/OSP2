@@ -17,17 +17,11 @@ typedef struct
 	int pwIndex;
 } shudElementPowerupContext;
 
-static void* CG_SHUDElementPwCreate(superhudConfig_t* config, enum shudPWType pwType, int pwIndex)
+static void* CG_SHUDElementPwCreate(const superhudConfig_t* config, enum shudPWType pwType, int pwIndex)
 {
 	shudElementPowerupContext* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	element->pwType = pwType;
 	element->pwIndex = pwIndex;
@@ -44,82 +38,82 @@ static void* CG_SHUDElementPwCreate(superhudConfig_t* config, enum shudPWType pw
 	return element;
 }
 
-void* CG_SHUDElementPwTime1Create(superhudConfig_t* config)
+void* CG_SHUDElementPwTime1Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_TIME, 1);
 }
 
-void* CG_SHUDElementPwTime2Create(superhudConfig_t* config)
+void* CG_SHUDElementPwTime2Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_TIME, 2);
 }
 
-void* CG_SHUDElementPwTime3Create(superhudConfig_t* config)
+void* CG_SHUDElementPwTime3Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_TIME, 3);
 }
 
-void* CG_SHUDElementPwTime4Create(superhudConfig_t* config)
+void* CG_SHUDElementPwTime4Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_TIME, 4);
 }
 
-void* CG_SHUDElementPwTime5Create(superhudConfig_t* config)
+void* CG_SHUDElementPwTime5Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_TIME, 5);
 }
 
-void* CG_SHUDElementPwTime6Create(superhudConfig_t* config)
+void* CG_SHUDElementPwTime6Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_TIME, 6);
 }
 
-void* CG_SHUDElementPwTime7Create(superhudConfig_t* config)
+void* CG_SHUDElementPwTime7Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_TIME, 7);
 }
 
-void* CG_SHUDElementPwTime8Create(superhudConfig_t* config)
+void* CG_SHUDElementPwTime8Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_TIME, 8);
 }
 
-void* CG_SHUDElementPwIcon1Create(superhudConfig_t* config)
+void* CG_SHUDElementPwIcon1Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_ICON, 1);
 }
 
-void* CG_SHUDElementPwIcon2Create(superhudConfig_t* config)
+void* CG_SHUDElementPwIcon2Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_ICON, 2);
 }
 
-void* CG_SHUDElementPwIcon3Create(superhudConfig_t* config)
+void* CG_SHUDElementPwIcon3Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_ICON, 3);
 }
 
-void* CG_SHUDElementPwIcon4Create(superhudConfig_t* config)
+void* CG_SHUDElementPwIcon4Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_ICON, 4);
 }
 
-void* CG_SHUDElementPwIcon5Create(superhudConfig_t* config)
+void* CG_SHUDElementPwIcon5Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_ICON, 5);
 }
 
-void* CG_SHUDElementPwIcon6Create(superhudConfig_t* config)
+void* CG_SHUDElementPwIcon6Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_ICON, 6);
 }
 
-void* CG_SHUDElementPwIcon7Create(superhudConfig_t* config)
+void* CG_SHUDElementPwIcon7Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_ICON, 7);
 }
 
-void* CG_SHUDElementPwIcon8Create(superhudConfig_t* config)
+void* CG_SHUDElementPwIcon8Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementPwCreate(config, SHUDPWTYPE_ICON, 8);
 }

@@ -10,31 +10,26 @@ typedef struct
 	const char* msg;
 } shudElementRankMessage_t;
 
-void* CG_SHUDElementRankMessageCreate(superhudConfig_t* config)
+void* CG_SHUDElementRankMessageCreate(const superhudConfig_t* config)
 {
-	shudElementRankMessage_t* rm;
+	shudElementRankMessage_t* element;
 	superhudGlobalContext_t* gctx;
 
-	rm = Z_Malloc(sizeof(*rm));
-	OSP_MEMORY_CHECK(rm);
+	SHUD_ELEMENT_INIT(element, config);
 
-	memset(rm, 0, sizeof(*rm));
-
-	memcpy(&rm->config, config, sizeof(rm->config));
-
-	if (!config->time.isSet)
+	if (!element->config.time.isSet)
 	{
-		config->time.isSet = qtrue;
-		config->time.value = 2000;
+		element->config.time.isSet = qtrue;
+		element->config.time.value = 2000;
 	}
 
 	gctx = CG_SHUDGetContext();
-	rm->time = &gctx->rankmessage.time;
-	rm->msg = gctx->rankmessage.message;
+	element->time = &gctx->rankmessage.time;
+	element->msg = gctx->rankmessage.message;
 
-	CG_SHUDTextMakeContext(&rm->config, &rm->ctx);
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 
-	return rm;
+	return element;
 }
 
 void CG_SHUDElementRankMessageRoutine(void* context)

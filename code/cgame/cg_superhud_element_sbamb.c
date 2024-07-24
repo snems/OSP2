@@ -13,18 +13,12 @@ typedef struct
 	int white;
 } shudElementStatusbarAmmoBar;
 
-void* CG_SHUDElementSBAmBCreate(superhudConfig_t* config)
+void* CG_SHUDElementSBAmBCreate(const superhudConfig_t* config)
 {
 	int i;
 	shudElementStatusbarAmmoBar* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
-
+	SHUD_ELEMENT_INIT(element, config);
 
 	for (i = 0; i < MAX_WEAPONS; ++i)
 	{

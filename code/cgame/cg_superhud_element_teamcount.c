@@ -9,16 +9,11 @@ typedef struct
 	qboolean enemy;
 } shudElementStatusbarTeamCount;
 
-void* CG_SHUDElementTeamCountCreate(superhudConfig_t* config, qboolean enemy)
+void* CG_SHUDElementTeamCountCreate(const superhudConfig_t* config, qboolean enemy)
 {
 	shudElementStatusbarTeamCount* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	//load defaults
 	if (!element->config.color.isSet)
@@ -42,12 +37,12 @@ void* CG_SHUDElementTeamCountCreate(superhudConfig_t* config, qboolean enemy)
 	return element;
 }
 
-void* CG_SHUDElementTeamCountOWNCreate(superhudConfig_t* config)
+void* CG_SHUDElementTeamCountOWNCreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCountCreate(config, qfalse);
 }
 
-void* CG_SHUDElementTeamCountNMECreate(superhudConfig_t* config)
+void* CG_SHUDElementTeamCountNMECreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCountCreate(config, qtrue);
 }

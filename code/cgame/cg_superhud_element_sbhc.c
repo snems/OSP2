@@ -9,16 +9,11 @@ typedef struct
 	superhudTextContext_t position;
 } shudElementStatusbarHealthCount;
 
-void* CG_SHUDElementSBHCCreate(superhudConfig_t* config)
+void* CG_SHUDElementSBHCCreate(const superhudConfig_t* config)
 {
 	shudElementStatusbarHealthCount* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	//load defaults
 	if (!element->config.color.isSet)

@@ -9,16 +9,11 @@ typedef struct
 	superhudTextContext_t tctx;
 } shudElementNG_t;
 
-void* CG_SHUDElementNGCreate(superhudConfig_t* config)
+void* CG_SHUDElementNGCreate(const superhudConfig_t* config)
 {
 	shudElementNG_t* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 

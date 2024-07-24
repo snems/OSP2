@@ -19,16 +19,11 @@ typedef struct
 	shudRewardType_t type;
 } shudElementStatusbarRewards;
 
-static void* CG_SHUDElementRewardCreate(superhudConfig_t* config, shudRewardType_t type)
+static void* CG_SHUDElementRewardCreate(const superhudConfig_t* config, shudRewardType_t type)
 {
 	shudElementStatusbarRewards* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	element->type = type;
 
@@ -50,12 +45,12 @@ static void* CG_SHUDElementRewardCreate(superhudConfig_t* config, shudRewardType
 	return element;
 }
 
-void* CG_SHUDElementRewardIconCreate(superhudConfig_t* config)
+void* CG_SHUDElementRewardIconCreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementRewardCreate(config, SHUD_REWARD_ICON);
 }
 
-void* CG_SHUDElementRewardCountCreate(superhudConfig_t* config)
+void* CG_SHUDElementRewardCountCreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementRewardCreate(config, SHUD_REWARD_COUNT);
 }

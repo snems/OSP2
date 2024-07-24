@@ -8,21 +8,16 @@ typedef struct
 	superhudTextContext_t ctx;
 } shudElementAttackerName_t;
 
-void* CG_SHUDElementAttackerNameCreate(superhudConfig_t* config)
+void* CG_SHUDElementAttackerNameCreate(const superhudConfig_t* config)
 {
-	shudElementAttackerName_t* an;
+	shudElementAttackerName_t* element;
 
-	an = Z_Malloc(sizeof(*an));
-	OSP_MEMORY_CHECK(an);
+	SHUD_ELEMENT_INIT(element, config);
 
-	memset(an, 0, sizeof(*an));
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.maxchars = MAX_QPATH;
 
-	memcpy(&an->config, config, sizeof(an->config));
-
-	CG_SHUDTextMakeContext(&an->config, &an->ctx);
-	an->ctx.maxchars = MAX_QPATH;
-
-	return an;
+	return element;
 }
 
 void CG_SHUDElementAttackerNameRoutine(void* context)

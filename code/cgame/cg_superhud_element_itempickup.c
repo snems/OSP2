@@ -8,16 +8,11 @@ typedef struct
 	superhudTextContext_t ctx;
 } shudElementItemPickup_t;
 
-void* CG_SHUDElementItemPickupCreate(superhudConfig_t* config)
+void* CG_SHUDElementItemPickupCreate(const superhudConfig_t* config)
 {
 	shudElementItemPickup_t* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 

@@ -8,16 +8,11 @@ typedef struct
 	superhudDrawContext_t ctx;
 } shudElementStatusbarItemPickupIcon;
 
-void* CG_SHUDElementItemPickupIconCreate(superhudConfig_t* config)
+void* CG_SHUDElementItemPickupIconCreate(const superhudConfig_t* config)
 {
 	shudElementStatusbarItemPickupIcon* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 

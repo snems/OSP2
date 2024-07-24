@@ -24,12 +24,7 @@ static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 
 	shudElementTeam_t* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	element->index = line;
 
@@ -76,82 +71,82 @@ static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 	return element;
 }
 
-void* CG_SHUDElementTeam1Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam1Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 1);
 }
 
-void* CG_SHUDElementTeam2Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam2Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 2);
 }
 
-void* CG_SHUDElementTeam3Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam3Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 3);
 }
 
-void* CG_SHUDElementTeam4Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam4Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 4);
 }
 
-void* CG_SHUDElementTeam5Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam5Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 5);
 }
 
-void* CG_SHUDElementTeam6Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam6Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 6);
 }
 
-void* CG_SHUDElementTeam7Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam7Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 7);
 }
 
-void* CG_SHUDElementTeam8Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam8Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 8);
 }
 
-void* CG_SHUDElementTeam9Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam9Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 9);
 }
 
-void* CG_SHUDElementTeam10Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam10Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 10);
 }
 
-void* CG_SHUDElementTeam11Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam11Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 11);
 }
 
-void* CG_SHUDElementTeam12Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam12Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 12);
 }
 
-void* CG_SHUDElementTeam13Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam13Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 13);
 }
 
-void* CG_SHUDElementTeam14Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam14Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 14);
 }
 
-void* CG_SHUDElementTeam15Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam15Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 15);
 }
 
-void* CG_SHUDElementTeam16Create(superhudConfig_t* config)
+void* CG_SHUDElementTeam16Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementTeamCreate(config, 16);
 }

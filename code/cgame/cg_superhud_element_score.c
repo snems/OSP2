@@ -16,16 +16,11 @@ typedef struct
 	shudElementScoreType_t type;
 } shudElementScore;
 
-static void* CG_SHUDElementScoreCreate(superhudConfig_t* config, shudElementScoreType_t type)
+static void* CG_SHUDElementScoreCreate(const superhudConfig_t* config, shudElementScoreType_t type)
 {
 	shudElementScore* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	//load defaults
 	if (!element->config.color.isSet)
@@ -48,17 +43,17 @@ static void* CG_SHUDElementScoreCreate(superhudConfig_t* config, shudElementScor
 	return element;
 }
 
-void* CG_SHUDElementScoreOWNCreate(superhudConfig_t* config)
+void* CG_SHUDElementScoreOWNCreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementScoreCreate(config, SHUD_ELEMENT_SCORE_OWN);
 }
 
-void* CG_SHUDElementScoreNMECreate(superhudConfig_t* config)
+void* CG_SHUDElementScoreNMECreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementScoreCreate(config, SHUD_ELEMENT_SCORE_NME);
 }
 
-void* CG_SHUDElementScoreMAXCreate(superhudConfig_t* config)
+void* CG_SHUDElementScoreMAXCreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementScoreCreate(config, SHUD_ELEMENT_SCORE_MAX);
 }

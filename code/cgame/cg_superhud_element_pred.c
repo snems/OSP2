@@ -8,34 +8,29 @@ typedef struct
 	superhudDrawContext_t ctx;
 } shudElementStatusbarDecorate;
 
-void* CG_SHUDElementDecorCreate(superhudConfig_t* config)
+void* CG_SHUDElementDecorCreate(const superhudConfig_t* config)
 {
-	shudElementStatusbarDecorate* sbai;
+	shudElementStatusbarDecorate* element;
 
-	sbai = Z_Malloc(sizeof(*sbai));
-	OSP_MEMORY_CHECK(sbai);
+	SHUD_ELEMENT_INIT(element, config);
 
-	memset(sbai, 0, sizeof(*sbai));
-
-	memcpy(&sbai->config, config, sizeof(sbai->config));
-
-	CG_SHUDDrawMakeContext(&sbai->config, &sbai->ctx);
+	CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 
 	if (config->image.isSet)
 	{
-		sbai->ctx.image = trap_R_RegisterShader(sbai->config.image.value);
-		if (!sbai->ctx.image)
+		element->ctx.image = trap_R_RegisterShader(element->config.image.value);
+		if (!element->ctx.image)
 		{
-			CG_Printf("^2Decorate image %s is not found\n", sbai->config.image.value);
+			CG_Printf("^2Decorate image %s is not found\n", element->config.image.value);
 		}
 	}
 
-	sbai->ctx.coordPicture.arr[0] = 0;
-	sbai->ctx.coordPicture.arr[1] = 0;
-	sbai->ctx.coordPicture.arr[2] = 0;
-	sbai->ctx.coordPicture.arr[3] = 0;
+	element->ctx.coordPicture.arr[0] = 0;
+	element->ctx.coordPicture.arr[1] = 0;
+	element->ctx.coordPicture.arr[2] = 0;
+	element->ctx.coordPicture.arr[3] = 0;
 
-	return sbai;
+	return element;
 }
 
 void CG_SHUDElementDecorRoutine(void* context)

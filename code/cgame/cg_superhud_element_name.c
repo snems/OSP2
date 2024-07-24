@@ -15,16 +15,11 @@ typedef struct
 	enum shudElementNameType_t type;
 } shudElementName_t;
 
-static void* CG_SHUDElementNameCreate(superhudConfig_t* config, enum shudElementNameType_t type)
+static void* CG_SHUDElementNameCreate(const superhudConfig_t* config, enum shudElementNameType_t type)
 {
 	shudElementName_t* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	element->type = type;
 
@@ -34,12 +29,12 @@ static void* CG_SHUDElementNameCreate(superhudConfig_t* config, enum shudElement
 	return element;
 }
 
-void* CG_SHUDElementNameOWNCreate(superhudConfig_t* config)
+void* CG_SHUDElementNameOWNCreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementNameCreate(config, SHUDENAME_TYPE_OWN);
 }
 
-void* CG_SHUDElementNameNMECreate(superhudConfig_t* config)
+void* CG_SHUDElementNameNMECreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementNameCreate(config, SHUDENAME_TYPE_NME);
 }

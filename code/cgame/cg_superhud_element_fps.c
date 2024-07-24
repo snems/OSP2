@@ -12,21 +12,16 @@ typedef struct
 	superhudTextContext_t ctx;
 } shudElementFPS_t;
 
-void* CG_SHUDElementFPSCreate(superhudConfig_t* config)
+void* CG_SHUDElementFPSCreate(const superhudConfig_t* config)
 {
-	shudElementFPS_t* fps;
+	shudElementFPS_t* element;
 
-	fps = Z_Malloc(sizeof(*fps));
-	OSP_MEMORY_CHECK(fps);
+	SHUD_ELEMENT_INIT(element, config);
 
-	memset(fps, 0, sizeof(*fps));
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.maxchars = 6;
 
-	memcpy(&fps->config, config, sizeof(fps->config));
-
-	CG_SHUDTextMakeContext(&fps->config, &fps->ctx);
-	fps->ctx.maxchars = 6;
-
-	return fps;
+	return element;
 }
 
 void CG_SHUDElementFPSRoutine(void* context)

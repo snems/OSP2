@@ -1,5 +1,3 @@
-
-#include "cg_local.h"
 #include "cg_superhud_private.h"
 #include "../qcommon/qcommon.h"
 
@@ -11,16 +9,11 @@ typedef struct
 	int index;
 } shudElementChat_t;
 
-static void* CG_SHUDElementChatCreate(superhudConfig_t* config, int line)
+static void* CG_SHUDElementChatCreate(const superhudConfig_t* config, int line)
 {
 	shudElementChat_t* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	element->gctx = CG_SHUDGetContext();
 	element->index = line;
@@ -30,42 +23,42 @@ static void* CG_SHUDElementChatCreate(superhudConfig_t* config, int line)
 	return element;
 }
 
-void* CG_SHUDElementChat1Create(superhudConfig_t* config)
+void* CG_SHUDElementChat1Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementChatCreate(config, 1);
 }
 
-void* CG_SHUDElementChat2Create(superhudConfig_t* config)
+void* CG_SHUDElementChat2Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementChatCreate(config, 2);
 }
 
-void* CG_SHUDElementChat3Create(superhudConfig_t* config)
+void* CG_SHUDElementChat3Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementChatCreate(config, 3);
 }
 
-void* CG_SHUDElementChat4Create(superhudConfig_t* config)
+void* CG_SHUDElementChat4Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementChatCreate(config, 4);
 }
 
-void* CG_SHUDElementChat5Create(superhudConfig_t* config)
+void* CG_SHUDElementChat5Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementChatCreate(config, 5);
 }
 
-void* CG_SHUDElementChat6Create(superhudConfig_t* config)
+void* CG_SHUDElementChat6Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementChatCreate(config, 6);
 }
 
-void* CG_SHUDElementChat7Create(superhudConfig_t* config)
+void* CG_SHUDElementChat7Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementChatCreate(config, 7);
 }
 
-void* CG_SHUDElementChat8Create(superhudConfig_t* config)
+void* CG_SHUDElementChat8Create(const superhudConfig_t* config)
 {
 	return CG_SHUDElementChatCreate(config, 8);
 }

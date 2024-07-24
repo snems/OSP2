@@ -9,16 +9,11 @@ typedef struct
 	superhudTextContext_t ctx;
 } shudElementGameTime_t;
 
-void* CG_SHUDElementGameTimeCreate(superhudConfig_t* config)
+void* CG_SHUDElementGameTimeCreate(const superhudConfig_t* config)
 {
 	shudElementGameTime_t* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 	element->ctx.maxchars = 9;

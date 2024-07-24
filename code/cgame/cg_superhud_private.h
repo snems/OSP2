@@ -242,7 +242,7 @@ typedef struct superHUDConfigElement_s
 {
 	const char* name;
 	const int order;
-	void* (*create)(superhudConfig_t* config);
+	void* (*create)(const superhudConfig_t* config);
 	void (*routine)(void* context);
 	void (*destroy)(void* context);
 	void* context;
@@ -277,6 +277,14 @@ typedef struct
 	superhudConfigParseStatus_t status;
 } superhudConfigParseElement_t;
 
+#define SHUD_ELEMENT_INIT(E, CFG)                     \
+	do{                                                 \
+		E = Z_Malloc(sizeof(*E));                         \
+		OSP_MEMORY_CHECK(E);                              \
+		memset(E, 0, sizeof(*E));                         \
+		memcpy(&E->config, CFG, sizeof(element->config)); \
+	}while(0)
+
 void CG_SHUDParserInit(void);
 const superHUDConfigElement_t* CG_SHUDFindConfigElementItem(const char* name);
 const superHUDConfigCommand_t* CG_SHUDFindConfigCommandItem(const char* name);
@@ -290,192 +298,192 @@ qboolean CG_SHUDFileInfoSkipCommandEnd(configFileInfo_t* cfi);
 const superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_t* cfi);
 const superhudConfigParseCommand_t CG_SHUDFileInfoGetCommandItem(configFileInfo_t* cfi);
 
-void* CG_SHUDElementFPSCreate(superhudConfig_t* config);
+void* CG_SHUDElementFPSCreate(const superhudConfig_t* config);
 void CG_SHUDElementFPSRoutine(void* context);
 void CG_SHUDElementFPSDestroy(void* context);
 
-void* CG_SHUDElementSBHCCreate(superhudConfig_t* config);
+void* CG_SHUDElementSBHCCreate(const superhudConfig_t* config);
 void CG_SHUDElementSBHCRoutine(void* context);
 void CG_SHUDElementSBHCDestroy(void* context);
 
-void* CG_SHUDElementSBHBCreate(superhudConfig_t* config);
+void* CG_SHUDElementSBHBCreate(const superhudConfig_t* config);
 void CG_SHUDElementSBHBRoutine(void* context);
 void CG_SHUDElementSBHBDestroy(void* context);
 
-void* CG_SHUDElementSBHICreate(superhudConfig_t* config);
+void* CG_SHUDElementSBHICreate(const superhudConfig_t* config);
 void CG_SHUDElementSBHIRoutine(void* context);
 void CG_SHUDElementSBHIDestroy(void* context);
 
-void* CG_SHUDElementSBACCreate(superhudConfig_t* config);
+void* CG_SHUDElementSBACCreate(const superhudConfig_t* config);
 void CG_SHUDElementSBACRoutine(void* context);
 void CG_SHUDElementSBACDestroy(void* context);
 
-void* CG_SHUDElementSBABCreate(superhudConfig_t* config);
+void* CG_SHUDElementSBABCreate(const superhudConfig_t* config);
 void CG_SHUDElementSBABRoutine(void* context);
 void CG_SHUDElementSBABDestroy(void* context);
 
-void* CG_SHUDElementSBAICreate(superhudConfig_t* config);
+void* CG_SHUDElementSBAICreate(const superhudConfig_t* config);
 void CG_SHUDElementSBAIRoutine(void* context);
 void CG_SHUDElementSBAIDestroy(void* context);
 
-void* CG_SHUDElementSBAmBCreate(superhudConfig_t* config);
+void* CG_SHUDElementSBAmBCreate(const superhudConfig_t* config);
 void CG_SHUDElementSBAmBRoutine(void* context);
 void CG_SHUDElementSBAmBDestroy(void* context);
 
-void* CG_SHUDElementSBAmCCreate(superhudConfig_t* config);
+void* CG_SHUDElementSBAmCCreate(const superhudConfig_t* config);
 void CG_SHUDElementSBAmCRoutine(void* context);
 void CG_SHUDElementSBAmCDestroy(void* context);
 
-void* CG_SHUDElementSBAmICreate(superhudConfig_t* config);
+void* CG_SHUDElementSBAmICreate(const superhudConfig_t* config);
 void CG_SHUDElementSBAmIRoutine(void* context);
 void CG_SHUDElementSBAmIDestroy(void* context);
 
-void* CG_SHUDElementTargetNameCreate(superhudConfig_t* config);
+void* CG_SHUDElementTargetNameCreate(const superhudConfig_t* config);
 void CG_SHUDElementTargetNameRoutine(void* context);
 void CG_SHUDElementTargetNameDestroy(void* context);
 
-void* CG_SHUDElementTargetStatusCreate(superhudConfig_t* config);
+void* CG_SHUDElementTargetStatusCreate(const superhudConfig_t* config);
 void CG_SHUDElementTargetStatusRoutine(void* context);
 void CG_SHUDElementTargetStatusDestroy(void* context);
 
-void* CG_SHUDElementVMWCreate(superhudConfig_t* config);
+void* CG_SHUDElementVMWCreate(const superhudConfig_t* config);
 void CG_SHUDElementVMWRoutine(void* context);
 void CG_SHUDElementVMWDestroy(void* context);
 
-void* CG_SHUDElementAttackerNameCreate(superhudConfig_t* config);
+void* CG_SHUDElementAttackerNameCreate(const superhudConfig_t* config);
 void CG_SHUDElementAttackerNameRoutine(void* context);
 void CG_SHUDElementAttackerNameDestroy(void* context);
 
-void* CG_SHUDElementAttackerIconCreate(superhudConfig_t* config);
+void* CG_SHUDElementAttackerIconCreate(const superhudConfig_t* config);
 void CG_SHUDElementAttackerIconRoutine(void* context);
 void CG_SHUDElementAttackerIconDestroy(void* context);
 
-void* CG_SHUDElementFragMessageCreate(superhudConfig_t* config);
+void* CG_SHUDElementFragMessageCreate(const superhudConfig_t* config);
 void CG_SHUDElementFragMessageRoutine(void* context);
 void CG_SHUDElementFragMessageDestroy(void* context);
 
-void* CG_SHUDElementRankMessageCreate(superhudConfig_t* config);
+void* CG_SHUDElementRankMessageCreate(const superhudConfig_t* config);
 void CG_SHUDElementRankMessageRoutine(void* context);
 void CG_SHUDElementRankMessageDestroy(void* context);
 
-void* CG_SHUDElementNGPCreate(superhudConfig_t* config);
+void* CG_SHUDElementNGPCreate(const superhudConfig_t* config);
 void CG_SHUDElementNGPRoutine(void* context);
 void CG_SHUDElementNGPDestroy(void* context);
 
-void* CG_SHUDElementNGCreate(superhudConfig_t* config);
+void* CG_SHUDElementNGCreate(const superhudConfig_t* config);
 void CG_SHUDElementNGRoutine(void* context);
 void CG_SHUDElementNGDestroy(void* context);
 
-void* CG_SHUDElementDecorCreate(superhudConfig_t* config);
+void* CG_SHUDElementDecorCreate(const superhudConfig_t* config);
 void CG_SHUDElementDecorRoutine(void* context);
 void CG_SHUDElementDecorDestroy(void* context);
 
-void* CG_SHUDElementPlayerSpeedCreate(superhudConfig_t* config);
+void* CG_SHUDElementPlayerSpeedCreate(const superhudConfig_t* config);
 void CG_SHUDElementPlayerSpeedRoutine(void* context);
 void CG_SHUDElementPlayerSpeedDestroy(void* context);
 
-void* CG_SHUDElementLocalTimeCreate(superhudConfig_t* config);
+void* CG_SHUDElementLocalTimeCreate(const superhudConfig_t* config);
 void CG_SHUDElementLocalTimeRoutine(void* context);
 void CG_SHUDElementLocalTimeDestroy(void* context);
 
-void* CG_SHUDElementAmmoMessageCreate(superhudConfig_t* config);
+void* CG_SHUDElementAmmoMessageCreate(const superhudConfig_t* config);
 void CG_SHUDElementAmmoMessageRoutine(void* context);
 void CG_SHUDElementAmmoMessageDestroy(void* context);
 
-void* CG_SHUDElementChat1Create(superhudConfig_t* config);
-void* CG_SHUDElementChat2Create(superhudConfig_t* config);
-void* CG_SHUDElementChat3Create(superhudConfig_t* config);
-void* CG_SHUDElementChat4Create(superhudConfig_t* config);
-void* CG_SHUDElementChat5Create(superhudConfig_t* config);
-void* CG_SHUDElementChat6Create(superhudConfig_t* config);
-void* CG_SHUDElementChat7Create(superhudConfig_t* config);
-void* CG_SHUDElementChat8Create(superhudConfig_t* config);
+void* CG_SHUDElementChat1Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat2Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat3Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat4Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat5Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat6Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat7Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat8Create(const superhudConfig_t* config);
 void CG_SHUDElementChatRoutine(void* context);
 void CG_SHUDElementChatDestroy(void* context);
 
-void* CG_SHUDElementSpecMessageCreate(superhudConfig_t* config);
+void* CG_SHUDElementSpecMessageCreate(const superhudConfig_t* config);
 void CG_SHUDElementSpecMessageRoutine(void* context);
 void CG_SHUDElementSpecMessageDestroy(void* context);
 
-void* CG_SHUDElementFollowMessageCreate(superhudConfig_t* config);
+void* CG_SHUDElementFollowMessageCreate(const superhudConfig_t* config);
 void CG_SHUDElementFollowMessageRoutine(void* context);
 void CG_SHUDElementFollowMessageDestroy(void* context);
 
-void* CG_SHUDElementGameTimeCreate(superhudConfig_t* config);
+void* CG_SHUDElementGameTimeCreate(const superhudConfig_t* config);
 void CG_SHUDElementGameTimeRoutine(void* context);
 void CG_SHUDElementGameTimeDestroy(void* context);
 
-void* CG_SHUDElementItemPickupCreate(superhudConfig_t* config);
+void* CG_SHUDElementItemPickupCreate(const superhudConfig_t* config);
 void CG_SHUDElementItemPickupRoutine(void* context);
 void CG_SHUDElementItemPickupDestroy(void* context);
 
-void* CG_SHUDElementItemPickupIconCreate(superhudConfig_t* config);
+void* CG_SHUDElementItemPickupIconCreate(const superhudConfig_t* config);
 void CG_SHUDElementItemPickupIconRoutine(void* context);
 void CG_SHUDElementItemPickupIconDestroy(void* context);
 
-void* CG_SHUDElementFlagStatusNMECreate(superhudConfig_t* config);
-void* CG_SHUDElementFlagStatusOWNCreate(superhudConfig_t* config);
+void* CG_SHUDElementFlagStatusNMECreate(const superhudConfig_t* config);
+void* CG_SHUDElementFlagStatusOWNCreate(const superhudConfig_t* config);
 void CG_SHUDElementFlagStatusRoutine(void* context);
 void CG_SHUDElementFlagStatusDestroy(void* context);
 
 #define SUPERHUD_UPDATE_TIME 50
 
-void* CG_SHUDElementPwTime1Create(superhudConfig_t* config);
-void* CG_SHUDElementPwTime2Create(superhudConfig_t* config);
-void* CG_SHUDElementPwTime3Create(superhudConfig_t* config);
-void* CG_SHUDElementPwTime4Create(superhudConfig_t* config);
-void* CG_SHUDElementPwTime5Create(superhudConfig_t* config);
-void* CG_SHUDElementPwTime6Create(superhudConfig_t* config);
-void* CG_SHUDElementPwTime7Create(superhudConfig_t* config);
-void* CG_SHUDElementPwTime8Create(superhudConfig_t* config);
-void* CG_SHUDElementPwIcon1Create(superhudConfig_t* config);
-void* CG_SHUDElementPwIcon2Create(superhudConfig_t* config);
-void* CG_SHUDElementPwIcon3Create(superhudConfig_t* config);
-void* CG_SHUDElementPwIcon4Create(superhudConfig_t* config);
-void* CG_SHUDElementPwIcon5Create(superhudConfig_t* config);
-void* CG_SHUDElementPwIcon6Create(superhudConfig_t* config);
-void* CG_SHUDElementPwIcon7Create(superhudConfig_t* config);
-void* CG_SHUDElementPwIcon8Create(superhudConfig_t* config);
+void* CG_SHUDElementPwTime1Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwTime2Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwTime3Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwTime4Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwTime5Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwTime6Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwTime7Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwTime8Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwIcon1Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwIcon2Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwIcon3Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwIcon4Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwIcon5Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwIcon6Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwIcon7Create(const superhudConfig_t* config);
+void* CG_SHUDElementPwIcon8Create(const superhudConfig_t* config);
 void CG_SHUDElementPwRoutine(void* context);
 void CG_SHUDElementPwDestroy(void* context);
 
-void* CG_SHUDElementNameNMECreate(superhudConfig_t* config);
-void* CG_SHUDElementNameOWNCreate(superhudConfig_t* config);
+void* CG_SHUDElementNameNMECreate(const superhudConfig_t* config);
+void* CG_SHUDElementNameOWNCreate(const superhudConfig_t* config);
 void CG_SHUDElementNameRoutine(void* context);
 void CG_SHUDElementNameDestroy(void* context);
 
-void* CG_SHUDElementScoreNMECreate(superhudConfig_t* config);
-void* CG_SHUDElementScoreOWNCreate(superhudConfig_t* config);
-void* CG_SHUDElementScoreMAXCreate(superhudConfig_t* config);
+void* CG_SHUDElementScoreNMECreate(const superhudConfig_t* config);
+void* CG_SHUDElementScoreOWNCreate(const superhudConfig_t* config);
+void* CG_SHUDElementScoreMAXCreate(const superhudConfig_t* config);
 void CG_SHUDElementScoreRoutine(void* context);
 void CG_SHUDElementScoreDestroy(void* context);
 
-void* CG_SHUDElementRewardIconCreate(superhudConfig_t* config);
-void* CG_SHUDElementRewardCountCreate(superhudConfig_t* config);
+void* CG_SHUDElementRewardIconCreate(const superhudConfig_t* config);
+void* CG_SHUDElementRewardCountCreate(const superhudConfig_t* config);
 void CG_SHUDElementRewardRoutine(void* context);
 void CG_SHUDElementRewardDestroy(void* context);
 
-void* CG_SHUDElementTeamCountOWNCreate(superhudConfig_t* config);
-void* CG_SHUDElementTeamCountNMECreate(superhudConfig_t* config);
+void* CG_SHUDElementTeamCountOWNCreate(const superhudConfig_t* config);
+void* CG_SHUDElementTeamCountNMECreate(const superhudConfig_t* config);
 void CG_SHUDElementTeamCountRoutine(void* context);
 void CG_SHUDElementTeamCountDestroy(void* context);
 
-void* CG_SHUDElementTeam1Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam2Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam3Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam4Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam5Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam6Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam7Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam8Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam9Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam10Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam11Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam12Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam13Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam14Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam15Create(superhudConfig_t* config);
-void* CG_SHUDElementTeam16Create(superhudConfig_t* config);
+void* CG_SHUDElementTeam1Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam2Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam3Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam4Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam5Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam6Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam7Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam8Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam9Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam10Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam11Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam12Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam13Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam14Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam15Create(const superhudConfig_t* config);
+void* CG_SHUDElementTeam16Create(const superhudConfig_t* config);
 void CG_SHUDElementTeamRoutine(void* context);
 void CG_SHUDElementTeamDestroy(void* context);
 

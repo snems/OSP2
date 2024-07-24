@@ -15,16 +15,11 @@ typedef struct
 	enum flagType_t flagType;
 } shudElementFlagStatus_t;
 
-static void* CG_SHUDElementFlagStatusCreate(superhudConfig_t* config, enum flagType_t flagType)
+static void* CG_SHUDElementFlagStatusCreate(const superhudConfig_t* config, enum flagType_t flagType)
 {
 	shudElementFlagStatus_t* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 
@@ -33,12 +28,12 @@ static void* CG_SHUDElementFlagStatusCreate(superhudConfig_t* config, enum flagT
 	return element;
 }
 
-void* CG_SHUDElementFlagStatusNMECreate(superhudConfig_t* config)
+void* CG_SHUDElementFlagStatusNMECreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementFlagStatusCreate(config, SHUDFLTYPE_NME);
 }
 
-void* CG_SHUDElementFlagStatusOWNCreate(superhudConfig_t* config)
+void* CG_SHUDElementFlagStatusOWNCreate(const superhudConfig_t* config)
 {
 	return CG_SHUDElementFlagStatusCreate(config, SHUDFLTYPE_OWN);
 }

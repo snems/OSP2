@@ -8,16 +8,11 @@ typedef struct
 	superhudTextContext_t position;
 } shudElementStatusbarAmmoCount;
 
-void* CG_SHUDElementSBAmCCreate(superhudConfig_t* config)
+void* CG_SHUDElementSBAmCCreate(const superhudConfig_t* config)
 {
 	shudElementStatusbarAmmoCount* element;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
-
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
+	SHUD_ELEMENT_INIT(element, config);
 
 	//load defaults
 	if (!element->config.color.isSet)

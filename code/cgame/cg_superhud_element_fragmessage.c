@@ -10,22 +10,17 @@ typedef struct
 	const char* msg;
 } shudElementFragMessage_t;
 
-void* CG_SHUDElementFragMessageCreate(superhudConfig_t* config)
+void* CG_SHUDElementFragMessageCreate(const superhudConfig_t* config)
 {
 	shudElementFragMessage_t* element;
 	superhudGlobalContext_t* gctx;
 
-	element = Z_Malloc(sizeof(*element));
-	OSP_MEMORY_CHECK(element);
+	SHUD_ELEMENT_INIT(element, config);
 
-	memset(element, 0, sizeof(*element));
-
-	memcpy(&element->config, config, sizeof(element->config));
-
-	if (!config->time.isSet)
+	if (!element->config.time.isSet)
 	{
-		config->time.isSet = qtrue;
-		config->time.value = 2000;
+		element->config.time.isSet = qtrue;
+		element->config.time.value = 2000;
 	}
 
 	gctx = CG_SHUDGetContext();
