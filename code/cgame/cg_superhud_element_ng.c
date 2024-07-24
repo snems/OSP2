@@ -29,11 +29,11 @@ void* CG_SHUDElementNGCreate(superhudConfig_t* config)
 
 	CG_SHUDTextMakeContext(&element->config, &element->tctx);
 
-	element->tctx.textX = 320;
-	element->tctx.textY = 232;
+	element->tctx.coord.named.x = 320;
+	element->tctx.coord.named.y = 232;
 
-	element->tctx.fontH = 16;
-	element->tctx.fontW = 12;
+	element->tctx.coord.named.h = 16;
+	element->tctx.coord.named.w = 12;
 
 	element->tctx.flags |= DS_CENTER;
 

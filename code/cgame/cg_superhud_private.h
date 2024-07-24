@@ -483,12 +483,21 @@ void CG_SHUDElementTeamDestroy(void* context);
 /*
  * cg_superhud_util.c
  */
+typedef union
+	{
+		struct
+		{
+			float x;
+			float y;
+			float w;
+			float h;
+		}named;
+		vec4_t arr;
+	}superhudCoord_t;
+
 typedef struct
 {
-	float textX;
-	float textY;
-	float fontW;
-	float fontH;
+	superhudCoord_t coord;
 	int flags;
 	vec4_t color_origin;
 	vec4_t color;
@@ -498,10 +507,8 @@ typedef struct
 
 typedef struct
 {
-	float x;
-	float y;
-	float w;
-	float h;
+	superhudCoord_t coord;
+	superhudCoord_t coordPicture;
 	qhandle_t image;
 	vec4_t color;
 	vec4_t color_origin;
@@ -522,37 +529,26 @@ typedef struct
 #define OSPHUD_TEAMOVERLAY_STR_SIZE 128
 typedef struct
 {
-	qboolean isPowerupEnabled;
 	int powerupOffsetChar;
 	int powerupLenChar;
 	float powerupOffsetPix;
 	float powerupLenPix;
 
-	qboolean isNameEnabled;
 	int nameOffsetChar;
 	int nameLenChar;
 	float nameOffsetPix;
 	float nameLenPix;
 
-	qboolean isHealthEnabled;
-	int healthOffsetChar;
-	int healthLenChar;
-	float healthOffsetPix;
-	float healthLenPix;
+	int healthAndArmorOffsetChar;
+	int healthAndArmorLenChar;
+	float healthAndArmorOffsetPix;
+	float healthAndArmorLenPix;
 
-	qboolean isArmorEnabled;
-	int armorOffsetChar;
-	int armorLenChar;
-	float armorOffsetPix;
-	float armorLenPix;
+	int weaponOffsetChar;
+	int weaponLenChar;
+	float weaponOffsetPix;
+	float weaponLenPix;
 
-	qboolean isAmmoEnabled;
-	int ammoOffsetChar;
-	int ammoLenChar;
-	float ammoOffsetPix;
-	float ammoLenPix;
-
-	qboolean isLocationEnabled;
 	int locationOffsetChar;
 	int locationLenChar;
 	float locationOffsetPix;
@@ -560,19 +556,19 @@ typedef struct
 
 	int overlayWidthChar;
 	float overlayWidthPix;
-	int strX;
-	char str[OSPHUD_TEAMOVERLAY_STR_SIZE];
 } shudTeamOverlay_t;
 
 void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out, float max);
 void CG_SHUDDrawMakeContext(const superhudConfig_t* in, superhudDrawContext_t* out);
 void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* out);
 void CG_SHUDTextPrint(const char* text, const superhudTextContext_t* pos);
+void CG_SHUDDrawStretchPic(superhudCoord_t coord, const superhudCoord_t coordPicture, const float *color, qhandle_t shader);
+void CG_SHUDDrawStretchPicCtx(const superhudDrawContext_t* out);
 void CG_SHUDBarPrint(const superhudBarContext_t* ctx, float value);
 team_t CG_SHUDGetOurActiveTeam(void);
 qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhudConfig_t* cfg, int startTime);
 qboolean CG_SHUDFill(const superhudConfig_t* cfg);
-qboolean shudElementCompileTeamOverlayConfig(const char *configString, int width, int maxLocation, shudTeamOverlay_t *configOut, const char **err_message);
+void CG_SHUDElementCompileTeamOverlayConfig(int fontWidth, shudTeamOverlay_t *configOut);
 
 typedef struct
 {

@@ -37,12 +37,8 @@ void* CG_SHUDElementSBHICreate(superhudConfig_t* config)
 void CG_SHUDElementSBHIRoutine(void* context)
 {
 	shudElementStatusbarHealthIcon* element = (shudElementStatusbarHealthIcon*)context;
-
 	CG_SHUDFill(&element->config);
-	trap_R_SetColor(element->ctx.color);
-	trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1, element->ctx.image);
-	trap_R_SetColor(NULL);
-
+	CG_SHUDDrawStretchPicCtx(&element->ctx);
 }
 
 void CG_SHUDElementSBHIDestroy(void* context)

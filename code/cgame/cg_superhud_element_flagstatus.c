@@ -76,12 +76,12 @@ void CG_SHUDElementFlagStatusRoutine(void* context)
 	if (team == TEAM_RED)
 	{
 		item = BG_FindItemForPowerup(PW_REDFLAG);
-		flag = cgs.media.redFlagShader[cgs.redflag];
+		element->ctx.image = cgs.media.redFlagShader[cgs.redflag];
 	}
 	else if (team == TEAM_BLUE)
 	{
 		item = BG_FindItemForPowerup(PW_BLUEFLAG);
-		flag = cgs.media.blueFlagShader[cgs.blueflag];
+		element->ctx.image = cgs.media.blueFlagShader[cgs.blueflag];
 	}
 	else
 	{
@@ -92,10 +92,7 @@ void CG_SHUDElementFlagStatusRoutine(void* context)
 
 	if (item && flag)
 	{
-		// установка цвета пока отключена, надо доработать шейдеры
-		//trap_R_SetColor(element->ctx.color);
-		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1, flag);
-		//trap_R_SetColor(NULL);
+		CG_SHUDDrawStretchPicCtx(&element->ctx);
 	}
 }
 

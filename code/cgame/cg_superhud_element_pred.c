@@ -30,6 +30,11 @@ void* CG_SHUDElementDecorCreate(superhudConfig_t* config)
 		}
 	}
 
+	sbai->ctx.coordPicture.arr[0] = 0;
+	sbai->ctx.coordPicture.arr[1] = 0;
+	sbai->ctx.coordPicture.arr[2] = 0;
+	sbai->ctx.coordPicture.arr[3] = 0;
+
 	return sbai;
 }
 
@@ -39,9 +44,7 @@ void CG_SHUDElementDecorRoutine(void* context)
 
 	if (!CG_SHUDFill(&element->config) && element->ctx.image)
 	{
-		trap_R_SetColor(element->ctx.color);
-		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 0, 0, element->ctx.image);
-		trap_R_SetColor(NULL);
+	  CG_SHUDDrawStretchPicCtx(&element->ctx);
 	}
 }
 
@@ -52,3 +55,4 @@ void CG_SHUDElementDecorDestroy(void* context)
 		Z_Free(context);
 	}
 }
+

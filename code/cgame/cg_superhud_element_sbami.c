@@ -33,16 +33,13 @@ void CG_SHUDElementSBAmIRoutine(void* context)
 {
 	shudElementStatusbarAmmoIcon* element = (shudElementStatusbarAmmoIcon*)context;
 	int wp = cg.weaponSelect;
-	qhandle_t icon = cg_weapons[wp].ammoIcon;
 
 	if (wp == WP_NONE) return;
 
-	if (icon)
+	if ((element->ctx.image = cg_weapons[wp].ammoIcon))
 	{
 		CG_SHUDFill(&element->config);
-		trap_R_SetColor(element->ctx.color);
-		trap_R_DrawStretchPic(element->ctx.x, element->ctx.y, element->ctx.w, element->ctx.h, 0, 0, 1, 1, icon);
-		trap_R_SetColor(NULL);
+	  CG_SHUDDrawStretchPicCtx(&element->ctx);
 	}
 
 }

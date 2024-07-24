@@ -7,24 +7,25 @@
 typedef struct
 {
 	superhudConfig_t config;
-	superhudTextContext_t ctx;
-	const shudTeamOverlay_t *teamOverlay;
+	superhudDrawContext_t ctxPowerup;
+	superhudTextContext_t ctxName;
+	superhudTextContext_t ctxHealthArmor;
+	superhudDrawContext_t ctxWeapon;
+	superhudTextContext_t ctxLocation;
 	int index;
-	float x, y, w, h;
 } shudElementTeam_t;
 
 
-static void* CG_SHUDElementTeamCreate(superhudConfig_t* config, int line)
+static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 {
-	static shudTeamOverlay_t teamOverlay;
-	static qboolean teamOverlayInitialized = qfalse;
-	const char *err_msg = "";
+	shudTeamOverlay_t teamOverlay;
+
+	superhudConfig_t lcfg;
 
 	shudElementTeam_t* element;
 
 	element = Z_Malloc(sizeof(*element));
 	OSP_MEMORY_CHECK(element);
-
 
 	memset(element, 0, sizeof(*element));
 
@@ -38,30 +39,39 @@ static void* CG_SHUDElementTeamCreate(superhudConfig_t* config, int line)
 	element->config.alignH.isSet = qtrue;
 	element->config.alignH.value = SUPERHUD_ALIGNH_LEFT;
 	element->config.alignV.isSet = qtrue;
-	element->config.alignV.value = SUPERHUD_ALIGNV_CENTER;
+	element->config.alignV.value = SUPERHUD_ALIGNV_TOP;
 
-	
-	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	CG_SHUDElementCompileTeamOverlayConfig(config->fontsize.value[0], &teamOverlay);
 
-	if (!teamOverlayInitialized)
-	{
-		if (!shudElementCompileTeamOverlayConfig(ch_Teamoverlay.string, config->fontsize.value[0], cg_MaxlocationWidth.integer, &teamOverlay, &err_msg))
-		{
-			CG_Printf("Could not parse team overlay config string \"%s\" with message: %s \n", ch_Teamoverlay.string, err_msg);
-			shudElementCompileTeamOverlayConfig("p12n h/aw l", config->fontsize.value[0], cg_MaxlocationWidth.integer, &teamOverlay, &err_msg);
-		}
-		teamOverlayInitialized = qtrue;
-	}
+	memcpy(&lcfg, &element->config, sizeof(element->config));
 
-	element->teamOverlay = &teamOverlay;
-	element->x = element->ctx.textX;
-	element->y = element->ctx.textY;
-	element->w = element->ctx.fontW;
-	element->h = element->ctx.fontH;
-	
-	NYAN_MSG(element->teamOverlay->str);
+	// setup powerup
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.powerupOffsetPix; 
+	lcfg.rect.value[2] = teamOverlay.powerupLenPix; 
+	CG_SHUDDrawMakeContext(&lcfg, &element->ctxPowerup);
 
-	CG_AdjustFrom640(&element->x, &element->y, &element->w, &element->h);
+	// setup name
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.nameOffsetPix; 
+	lcfg.rect.value[2] = teamOverlay.nameLenPix; 
+	CG_SHUDTextMakeContext(&lcfg, &element->ctxName);
+	element->ctxName.maxchars = teamOverlay.nameLenChar;
+
+	// setup health and armor
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.healthAndArmorOffsetPix; 
+	lcfg.rect.value[2] = teamOverlay.healthAndArmorLenPix; 
+	CG_SHUDTextMakeContext(&lcfg, &element->ctxHealthArmor);
+	element->ctxName.maxchars = teamOverlay.healthAndArmorLenChar;
+
+	// setup weapon
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.weaponOffsetPix; 
+	lcfg.rect.value[2] = teamOverlay.weaponLenPix; 
+	CG_SHUDDrawMakeContext(&lcfg, &element->ctxWeapon);
+
+	// setup location
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.locationOffsetPix; 
+	lcfg.rect.value[2] = teamOverlay.locationLenPix; 
+	CG_SHUDTextMakeContext(&lcfg, &element->ctxLocation);
+	element->ctxName.maxchars = teamOverlay.locationLenChar;
 
 	return element;
 }
@@ -183,84 +193,28 @@ void CG_SHUDElementTeamRoutine(void* context)
 	//get player
 	ci = &cgs.clientinfo[sortedTeamPlayers[index]];
 
-	CG_FontSelect(element->ctx.fontIndex);
-	if (element->teamOverlay->isNameEnabled)
-	{
-		CG_OSPDrawString(element->ctx.textX + element->teamOverlay->nameOffsetPix,
-		                 element->ctx.textY,
-		                 ci->name,
-		                 element->ctx.color,
-		                 element->ctx.fontW,
-		                 element->ctx.fontH,
-		                 element->teamOverlay->nameLenChar,
-		                 element->ctx.flags);
-	}
+	// draw name	
+	CG_SHUDTextPrint(ci->name, &element->ctxName);
 
-	if (element->teamOverlay->isHealthEnabled)
-	{
-		char buf[16];
-		vec4_t healthColor;
-		CG_GetColorForHealth(ci->health, ci->armor, healthColor);
-		Com_sprintf(buf, 16, "%3i", ci->health);
-		CG_OSPDrawString(element->ctx.textX + element->teamOverlay->healthOffsetPix,
-		                 element->ctx.textY,
-		                 buf,
-		                 healthColor,
-		                 element->ctx.fontW,
-		                 element->ctx.fontH,
-		                 element->teamOverlay->healthLenChar,
-		                 element->ctx.flags);
-	}
+	// draw health and armor
+	CG_GetColorForHealth(ci->health, ci->armor, element->ctxHealthArmor.color);
+  CG_SHUDTextPrint(va("%3i/%i", ci->health, ci->armor), &element->ctxHealthArmor);
 
-	if (element->teamOverlay->isArmorEnabled)
-	{
-		char buf[16];
-		Com_sprintf(buf, 16, "%3i", ci->armor);
-		CG_OSPDrawString(element->ctx.textX + element->teamOverlay->armorOffsetPix,
-		                 element->ctx.textY,
-		                 buf,
-		                 element->ctx.color,
-		                 element->ctx.fontW,
-		                 element->ctx.fontH,
-		                 element->teamOverlay->armorLenChar,
-		                 element->ctx.flags);
-	}
+	// draw weapon
+	element->ctxWeapon.image = cg_weapons[ci->curWeapon].ammoIcon ?  cg_weapons[ci->curWeapon].ammoIcon : cgs.media.deferShader;
+	CG_SHUDDrawStretchPicCtx(&element->ctxWeapon);
 
-	if (element->teamOverlay->isAmmoEnabled)
-	{
-		qhandle_t icon = cg_weapons[ci->curWeapon].ammoIcon ?  cg_weapons[ci->curWeapon].ammoIcon : cgs.media.deferShader;
-		float offset = element->teamOverlay->ammoOffsetPix;
-		CG_AdjustFrom640(&offset, NULL, NULL, NULL);
-
-		trap_R_SetColor(element->ctx.color);
-		trap_R_DrawStretchPic(element->x + offset, 
-												  element->y, 
-												  element->w, 
-												  element->h, 
-												  0, 0, 1, 1, 
-												  icon);
-		trap_R_SetColor(NULL);
-
-	}
-	if (element->teamOverlay->isPowerupEnabled)
+	// draw powerup
 	{
 		int k = 0;
 		gitem_t* gi;
-		float offset = element->teamOverlay->powerupOffsetPix;
 		ci->powerups |= 2;
-		CG_AdjustFrom640(&offset, NULL, NULL, NULL);
 		do
 		{
 			if (cgs.osp.gameTypeFreeze && ci->health <= 0)
 			{
-				trap_R_SetColor(element->ctx.color);
-				trap_R_DrawStretchPic(element->x + offset, 
-														  element->y, 
-														  element->w, 
-														  element->h, 
-														  0, 0, 1, 1, 
-														  cgs.media.noammoShader);
-				trap_R_SetColor(NULL);
+				element->ctxPowerup.image = cgs.media.noammoShader;
+				CG_SHUDDrawStretchPicCtx(&element->ctxPowerup);
 				break;
 			}
 			else if (ci->powerups & (1 << k))
@@ -268,20 +222,15 @@ void CG_SHUDElementTeamRoutine(void* context)
 				gi = BG_FindItemForPowerup(k);
 				if (gi)
 				{
-					trap_R_SetColor(element->ctx.color);
-					trap_R_DrawStretchPic(element->x + offset, 
-															  element->y, 
-															  element->w, 
-															  element->h, 
-															  0, 0, 1, 1, 
-															  trap_R_RegisterShader(gi->icon));
-					trap_R_SetColor(NULL);
+					element->ctxPowerup.image = trap_R_RegisterShader(gi->icon);
+					CG_SHUDDrawStretchPicCtx(&element->ctxPowerup);
 				}
 			}
 		}
 		while (++k < 16);
 	}
-	if (cg_MaxlocationWidth.integer && element->teamOverlay->isLocationEnabled)
+
+	// draw location
 	{
 		const char* location = NULL;
 		if (customLocationsEnabled != 0)
@@ -303,14 +252,8 @@ void CG_SHUDElementTeamRoutine(void* context)
 		{
 			location = "unknown";
 		}
-		CG_OSPDrawString(element->ctx.textX + element->teamOverlay->locationOffsetPix,
-		                 element->ctx.textY,
-		                 location,
-		                 element->ctx.color,
-		                 element->ctx.fontW,
-		                 element->ctx.fontH,
-		                 element->teamOverlay->locationLenChar,
-		                 element->ctx.flags);
+
+  	CG_SHUDTextPrint(location, &element->ctxLocation);
 	}
 }
 

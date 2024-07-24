@@ -111,12 +111,8 @@ void CG_SHUDElementRewardRoutine(void* context)
 
 	if (element->type == SHUD_REWARD_ICON)
 	{
-		if (cg.rewardShader[0])
-		{
-			trap_R_SetColor(colorWhite);
-			trap_R_DrawStretchPic(element->ctx.d.x, element->ctx.d.y, element->ctx.d.w, element->ctx.d.h, 0, 0, 1, 1, cg.rewardShader[0]);
-			trap_R_SetColor(NULL);
-		}
+		element->ctx.d.image = cg.rewardShader[0];
+		CG_SHUDDrawStretchPicCtx(&element->ctx.d);
 	}
 	else if (cg.rewardCount[0])
 	{

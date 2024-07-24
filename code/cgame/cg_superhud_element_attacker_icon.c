@@ -6,6 +6,8 @@ typedef struct
 {
 	superhudConfig_t config;
 	superhudDrawContext_t ctx;
+	superhudCoord_t coord; //adjusted
+	vec3_t      angles;
 } shudElementStatusbarAttackerIcon;
 
 void* CG_SHUDElementAttackerIconCreate(superhudConfig_t* config)
@@ -35,6 +37,10 @@ void* CG_SHUDElementAttackerIconCreate(superhudConfig_t* config)
 		element->ctx.image = trap_R_RegisterShader(element->config.image.value);
 	}
 
+	element->angles[PITCH] = 0;
+	element->angles[YAW] = 180;
+	element->angles[ROLL] = 0;
+
 	return element;
 }
 
@@ -43,7 +49,6 @@ void CG_SHUDElementAttackerIconRoutine(void* context)
 	shudElementStatusbarAttackerIcon* element = (shudElementStatusbarAttackerIcon*)context;
 
 	int         t;
-	vec3_t      angles;
 	const char*  info;
 	const char*  name;
 	int         clientNum;
@@ -71,12 +76,7 @@ void CG_SHUDElementAttackerIconRoutine(void* context)
 	}
 
 	CG_SHUDFill(&element->config);
-
-	angles[PITCH] = 0;
-	angles[YAW] = 180;
-	angles[ROLL] = 0;
-	CG_DrawHead(element->config.rect.value[0], element->config.rect.value[1], element->config.rect.value[2], element->config.rect.value[3], clientNum, angles);
-
+	CG_DrawHead(element->config.rect.value[0], element->config.rect.value[1], element->config.rect.value[2], element->config.rect.value[3], clientNum, element->angles);
 }
 
 void CG_SHUDElementAttackerIconDestroy(void* context)

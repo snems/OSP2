@@ -214,9 +214,8 @@ void CG_SHUDElementPwRoutine(void* context)
 	}
 	else
 	{
-		trap_R_DrawStretchPic(element->drawCtx.x, element->drawCtx.y, element->drawCtx.w, element->drawCtx.h,
-		                      0, 0, 1, 1,
-		                      pwElement->powerup);
+		element->drawCtx.image = pwElement->powerup;
+		CG_SHUDDrawStretchPicCtx(&element->drawCtx);
 	}
 }
 
