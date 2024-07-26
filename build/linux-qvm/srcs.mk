@@ -40,6 +40,7 @@ CG_SRC = \
  cg_superhud_element_score \
  cg_superhud_element_reward \
  cg_superhud_element_team \
+ cg_superhud_element_weaponlist \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

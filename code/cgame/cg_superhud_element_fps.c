@@ -27,7 +27,6 @@ void* CG_SHUDElementFPSCreate(const superhudConfig_t* config)
 void CG_SHUDElementFPSRoutine(void* context)
 {
 	shudElementFPS_t* element = (shudElementFPS_t*)context;
-	char*   s;
 	int     fps_val;
 	int     t;
 
@@ -52,11 +51,11 @@ void CG_SHUDElementFPSRoutine(void* context)
 
 	fps_val = 1000.0f / element->timeAverage;
 
-	s = va("%ifps", fps_val);
+	element->ctx.text = va("%ifps", fps_val);
 
 	CG_SHUDFill(&element->config);
 
-	CG_SHUDTextPrint(s, &element->ctx);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementFPSDestroy(void* context)

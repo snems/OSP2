@@ -43,7 +43,8 @@ void CG_SHUDElementFollowMessageRoutine(void* context)
 	}
 
 	str = cgs.clientinfo[cg.snap->ps.clientNum].name;
-	CG_SHUDTextPrint(va("Following %s", str), &element->ctx);
+	element->ctx.text = va("Following %s", str);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementFollowMessageDestroy(void* context)

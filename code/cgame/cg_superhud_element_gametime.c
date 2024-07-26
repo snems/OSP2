@@ -40,7 +40,8 @@ void CG_SHUDElementGameTimeRoutine(void* context)
 
 		CG_SHUDFill(&element->config);
 
-		CG_SHUDTextPrint(va("%i:%i%i", mins, tens, seconds), &element->ctx);
+		element->ctx.text = va("%i:%i%i", mins, tens, seconds);
+		CG_SHUDTextPrint(&element->ctx);
 	}
 
 }

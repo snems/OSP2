@@ -181,12 +181,13 @@ void CG_SHUDElementNameRoutine(void* context)
 
 	if (element->type == SHUDENAME_TYPE_OWN)
 	{
-		CG_SHUDTextPrint(own, &element->ctx);
+		element->ctx.text = own;
 	}
 	else
 	{
-		CG_SHUDTextPrint(nme, &element->ctx);
+		element->ctx.text = nme;
 	}
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementNameDestroy(void* context)

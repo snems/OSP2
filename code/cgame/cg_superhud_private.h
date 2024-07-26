@@ -487,6 +487,10 @@ void* CG_SHUDElementTeam16Create(const superhudConfig_t* config);
 void CG_SHUDElementTeamRoutine(void* context);
 void CG_SHUDElementTeamDestroy(void* context);
 
+void* CG_SHUDElementWeaponListCreate(const superhudConfig_t* config);
+void CG_SHUDElementWeaponListRoutine(void* context);
+void CG_SHUDElementWeaponListDestroy(void* context);
+
 
 /*
  * cg_superhud_util.c
@@ -511,6 +515,7 @@ typedef struct
 	vec4_t color;
 	int maxchars;
 	int fontIndex;
+	const char *text;
 } superhudTextContext_t;
 
 typedef struct
@@ -569,13 +574,14 @@ typedef struct
 void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out, float max);
 void CG_SHUDDrawMakeContext(const superhudConfig_t* in, superhudDrawContext_t* out);
 void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* out);
-void CG_SHUDTextPrint(const char* text, const superhudTextContext_t* pos);
+void CG_SHUDTextPrint(const superhudTextContext_t* pos);
 void CG_SHUDDrawStretchPic(superhudCoord_t coord, const superhudCoord_t coordPicture, const float *color, qhandle_t shader);
 void CG_SHUDDrawStretchPicCtx(const superhudDrawContext_t* out);
 void CG_SHUDBarPrint(const superhudBarContext_t* ctx, float value);
 team_t CG_SHUDGetOurActiveTeam(void);
 qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhudConfig_t* cfg, int startTime);
 qboolean CG_SHUDFill(const superhudConfig_t* cfg);
+void CG_SHUDFillWithColor(const superhudCoord_t* coord, const float *color);
 void CG_SHUDElementCompileTeamOverlayConfig(int fontWidth, shudTeamOverlay_t *configOut);
 
 typedef struct

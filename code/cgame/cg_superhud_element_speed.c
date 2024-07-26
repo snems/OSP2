@@ -25,7 +25,8 @@ void CG_SHUDElementPlayerSpeedRoutine(void* context)
 	shudElementPlayerSpeed_t* element = (shudElementPlayerSpeed_t*)context;
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(va("%dups", (int)cg.xyspeed), &element->ctx);
+	element->ctx.text = va("%dups", (int)cg.xyspeed);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementPlayerSpeedDestroy(void* context)

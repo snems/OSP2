@@ -23,10 +23,7 @@ void* CG_SHUDElementAttackerNameCreate(const superhudConfig_t* config)
 void CG_SHUDElementAttackerNameRoutine(void* context)
 {
 	shudElementAttackerName_t* element = (shudElementAttackerName_t*)context;
-	const float* fade;
-	int         t;
 	const char*  info;
-	const char*  name;
 	int         clientNum;
 
 	if (cg.predictedPlayerState.stats[STAT_HEALTH] <= 0)
@@ -54,9 +51,9 @@ void CG_SHUDElementAttackerNameRoutine(void* context)
 	CG_SHUDFill(&element->config);
 
 	info = CG_ConfigString(CS_PLAYERS + clientNum);
-	name = Info_ValueForKey(info, "n");
+	element->ctx.text = Info_ValueForKey(info, "n");
 
-	CG_SHUDTextPrint(name, &element->ctx);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementAttackerNameDestroy(void* context)

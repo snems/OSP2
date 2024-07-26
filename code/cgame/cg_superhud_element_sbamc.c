@@ -5,7 +5,7 @@
 typedef struct
 {
 	superhudConfig_t config;
-	superhudTextContext_t position;
+	superhudTextContext_t ctx;
 } shudElementStatusbarAmmoCount;
 
 void* CG_SHUDElementSBAmCCreate(const superhudConfig_t* config)
@@ -28,8 +28,8 @@ void* CG_SHUDElementSBAmCCreate(const superhudConfig_t* config)
 		Q_strncpyz(element->config.text.value, "%i", sizeof(element->config.text.value));
 	}
 
-	CG_SHUDTextMakeContext(&element->config, &element->position);
-	element->position.maxchars = 6;
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.maxchars = 6;
 
 	return element;
 }
@@ -37,16 +37,15 @@ void* CG_SHUDElementSBAmCCreate(const superhudConfig_t* config)
 void CG_SHUDElementSBAmCRoutine(void* context)
 {
 	shudElementStatusbarAmmoCount* element = (shudElementStatusbarAmmoCount*)context;
-	const char* s;
 	int wp = cg.weaponSelect;
 	int ammo = cg.predictedPlayerState.ammo[wp];
 
 	if (wp == WP_NONE || wp == WP_GAUNTLET) return;
 
-	s = va(element->config.text.value, ammo > 0 ? ammo : 0);
+	element->ctx.text = va(element->config.text.value, ammo > 0 ? ammo : 0);
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(s, &element->position);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementSBAmCDestroy(void* context)

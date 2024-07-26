@@ -16,6 +16,7 @@ void* CG_SHUDElementSpecMessageCreate(const superhudConfig_t* config)
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 
+	element->ctx.text = "^1SPECTATOR";
 	return element;
 }
 
@@ -26,7 +27,7 @@ void CG_SHUDElementSpecMessageRoutine(void* context)
 	if (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR)
 	{
 	  CG_SHUDFill(&element->config);
-		CG_SHUDTextPrint("SPECTATOR", &element->ctx);
+		CG_SHUDTextPrint(&element->ctx);
 	}
 }
 

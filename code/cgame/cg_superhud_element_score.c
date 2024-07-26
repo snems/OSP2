@@ -12,7 +12,7 @@ typedef enum
 typedef struct
 {
 	superhudConfig_t config;
-	superhudTextContext_t position;
+	superhudTextContext_t ctx;
 	shudElementScoreType_t type;
 } shudElementScore;
 
@@ -36,7 +36,7 @@ static void* CG_SHUDElementScoreCreate(const superhudConfig_t* config, shudEleme
 		Q_strncpyz(element->config.text.value, "%i", sizeof(element->config.text.value));
 	}
 
-	CG_SHUDTextMakeContext(&element->config, &element->position);
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 
 	element->type = type;
 
@@ -139,10 +139,10 @@ void CG_SHUDElementScoreRoutine(void* context)
 	}
 	if (!result) return;
 
-	s = va(element->config.text.value, scores);
+	element->ctx.text = va(element->config.text.value, scores);
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(s, &element->position);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementScoreDestroy(void* context)

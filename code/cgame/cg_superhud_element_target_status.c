@@ -50,7 +50,8 @@ void CG_SHUDElementTargetStatusRoutine(void* context)
 		{
 			Com_sprintf(s, 1024, "^5[^7%i/%i^5]", ci->health, ci->armor);
 	    CG_SHUDFill(&element->config);
-			CG_SHUDTextPrint(s, &element->ctx);
+	    element->ctx.text = s;
+			CG_SHUDTextPrint(&element->ctx);
 		}
 	}
 }

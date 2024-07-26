@@ -5,7 +5,7 @@
 typedef struct
 {
 	superhudConfig_t config;
-	superhudTextContext_t position;
+	superhudTextContext_t ctx;
 	qboolean enemy;
 } shudElementStatusbarTeamCount;
 
@@ -29,8 +29,8 @@ void* CG_SHUDElementTeamCountCreate(const superhudConfig_t* config, qboolean ene
 		Q_strncpyz(element->config.text.value, "%i", sizeof(element->config.text.value));
 	}
 
-	CG_SHUDTextMakeContext(&element->config, &element->position);
-	element->position.maxchars = 6;
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.maxchars = 6;
 
 	element->enemy = enemy;
 
@@ -50,7 +50,6 @@ void* CG_SHUDElementTeamCountNMECreate(const superhudConfig_t* config)
 void CG_SHUDElementTeamCountRoutine(void* context)
 {
 	shudElementStatusbarTeamCount* element = (shudElementStatusbarTeamCount*)context;
-	const char* s;
 	int count;
 	team_t team;
 
@@ -76,9 +75,9 @@ void CG_SHUDElementTeamCountRoutine(void* context)
 
 	if ( count > 0)
 	{
-		s = va(element->config.text.value, count);
 	  CG_SHUDFill(&element->config);
-		CG_SHUDTextPrint(s, &element->position);
+	  element->ctx.text = va(element->config.text.value, count); 
+		CG_SHUDTextPrint(&element->ctx);
 	}
 
 }

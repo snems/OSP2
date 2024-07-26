@@ -30,7 +30,8 @@ void* CG_SHUDElementNGCreate(const superhudConfig_t* config)
 	element->tctx.coord.named.h = 16;
 	element->tctx.coord.named.w = 12;
 
-	element->tctx.flags |= DS_CENTER;
+	element->tctx.flags |= DS_HCENTER;
+	element->tctx.text = "^1Connection Interrupted";
 
 	return element;
 }
@@ -177,7 +178,7 @@ void CG_SHUDElementNGRoutine(void* context)
 		}
 
 		// also add text in center of screen
-		CG_SHUDTextPrint("^1Connection Interrupted", &element->tctx);
+		CG_SHUDTextPrint(&element->tctx);
 
 		// blink the icon
 		if ((cg.time >> 9) & 1)

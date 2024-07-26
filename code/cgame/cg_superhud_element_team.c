@@ -189,11 +189,13 @@ void CG_SHUDElementTeamRoutine(void* context)
 	ci = &cgs.clientinfo[sortedTeamPlayers[index]];
 
 	// draw name	
-	CG_SHUDTextPrint(ci->name, &element->ctxName);
+	element->ctxName.text = ci->name;
+	CG_SHUDTextPrint(&element->ctxName);
 
 	// draw health and armor
 	CG_GetColorForHealth(ci->health, ci->armor, element->ctxHealthArmor.color);
-  CG_SHUDTextPrint(va("%3i/%i", ci->health, ci->armor), &element->ctxHealthArmor);
+	element->ctxHealthArmor.text = va("%3i/%i", ci->health, ci->armor);
+  CG_SHUDTextPrint(&element->ctxHealthArmor);
 
 	// draw weapon
 	element->ctxWeapon.image = cg_weapons[ci->curWeapon].ammoIcon ?  cg_weapons[ci->curWeapon].ammoIcon : cgs.media.deferShader;
@@ -227,28 +229,27 @@ void CG_SHUDElementTeamRoutine(void* context)
 
 	// draw location
 	{
-		const char* location = NULL;
 		if (customLocationsEnabled != 0)
 		{
-			location = CG_CustomLocationsGetName(ci->customLocation);
+			element->ctxLocation.text = CG_CustomLocationsGetName(ci->customLocation);
 		}
 		else
 		{
 			if (qfalse && ch_ColorLocations.integer != 0 && cgs.gametype == GT_CTF)
 			{
-				//location = osp_get_something(ci->location);
+				//element->ctxLocation.text = osp_get_something(ci->location);
 			}
 			else
 			{
-				location = CG_ConfigString(CS_LOCATIONS + ci->location);
+				element->ctxLocation.text = CG_ConfigString(CS_LOCATIONS + ci->location);
 			}
 		}
-		if (!location || *location == 0)
+		if (!element->ctxLocation.text || *element->ctxLocation.text == 0)
 		{
-			location = "unknown";
+			element->ctxLocation.text = "unknown";
 		}
 
-  	CG_SHUDTextPrint(location, &element->ctxLocation);
+  	CG_SHUDTextPrint(&element->ctxLocation);
 	}
 }
 

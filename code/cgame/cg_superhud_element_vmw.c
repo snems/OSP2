@@ -23,7 +23,6 @@ void* CG_SHUDElementVMWCreate(const superhudConfig_t* config)
 void CG_SHUDElementVMWRoutine(void* context)
 {
 	shudElementVMW_t* element = (shudElementVMW_t*)context;
-	char* s;
 	int time;
 
 	if (cgs.voteTime == 0) return;
@@ -40,10 +39,10 @@ void CG_SHUDElementVMWRoutine(void* context)
 	{
 		time = 0;
 	}
-	s = va("VOTE(%i):%s yes(F1):%i no(F2):%i", time, &cgs.voteString, cgs.voteYes, cgs.voteNo);
+	element->ctx.text = va("VOTE(%i):%s yes(F1):%i no(F2):%i", time, &cgs.voteString, cgs.voteYes, cgs.voteNo);
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(s, &element->ctx);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementVMWDestroy(void* context)

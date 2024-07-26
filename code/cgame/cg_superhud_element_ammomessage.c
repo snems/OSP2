@@ -22,7 +22,6 @@ void* CG_SHUDElementAmmoMessageCreate(const superhudConfig_t* config)
 void CG_SHUDElementAmmoMessageRoutine(void* context)
 {
 	shudElementAmmoMessage_t* element = (shudElementAmmoMessage_t*)context;
-	const char*  s;
 
 	if (cg_drawAmmoWarning.integer == 0)
 	{
@@ -36,15 +35,15 @@ void CG_SHUDElementAmmoMessageRoutine(void* context)
 
 	if (cg.lowAmmoWarning == 2)
 	{
-		s = "OUT OF AMMO";
+		element->ctx.text = "OUT OF AMMO";
 	}
 	else
 	{
-		s = "LOW AMMO WARNING";
+		element->ctx.text = "LOW AMMO WARNING";
 	}
 	CG_SHUDFill(&element->config);
 
-	CG_SHUDTextPrint(s, &element->ctx);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementAmmoMessageDestroy(void* context)

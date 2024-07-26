@@ -958,18 +958,17 @@ static float DrawStringLength(const char* string, float ax, float aw, float max_
 	return (ax - xx);
 }
 
-static float DrawCompiledStringLength(const text_command_t* cmd, float ax, float aw, float max_ax, int proportional)
+static float DrawCompiledStringLength(const text_command_t* cmd, float aw, float max_ax, int proportional)
 {
 	const font_metric_t* fm;
 	float           x_end;
-	float           xx;
+	float           ax = 0;
 	int i;
 	const text_command_t* curr;
 
 	if (!cmd)
 		return 0.0f;
 
-	xx = ax;
 
 	for (i = 0; i < OSP_TEXT_CMD_MAX; ++i)
 	{
@@ -999,7 +998,7 @@ static float DrawCompiledStringLength(const text_command_t* cmd, float ax, float
 		}
 	}
 
-	return (ax - xx);
+	return ax;
 }
 
 
@@ -1040,9 +1039,9 @@ void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, 
 
 	proportional = (flags & DS_PROPORTIONAL);
 
-	if (flags & (DS_CENTER | DS_RIGHT))
+	if (flags & (DS_HCENTER | DS_HRIGHT))
 	{
-		if (flags & DS_CENTER)
+		if (flags & DS_HCENTER)
 		{
 			ax -= 0.5f * DrawStringLength(string, ax, aw, max_ax, proportional);
 		}
@@ -1050,6 +1049,15 @@ void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, 
 		{
 			ax -= DrawStringLength(string, ax, aw, max_ax, proportional);
 		}
+	}
+
+	if (flags & DS_VCENTER)
+	{
+		ay -= ah/2;
+	}
+	else if (flags & DS_VTOP)
+	{
+		ay -= ah;
 	}
 
 	sh = font->shader[0]; // low-res shader by default
@@ -2127,6 +2135,37 @@ float CG_OSPDrawStringLengthNew(const char* string, float ax, float aw, float ma
 	return (ax - xx);
 }
 
+int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, int flags)
+{
+	float           aw; // absolute positions/dimensions
+	float           max_ax;
+	text_command_t* text_commands;
+
+	if (!string)
+		return 0;
+
+
+	text_commands = CG_CompiledTextCreate(string);
+	if (!text_commands)
+	{
+		return 0;
+	}
+
+	CG_AdjustFrom640(NULL, NULL, &charWidth, NULL);
+	aw = charWidth;
+
+	if (maxChars <= 0)
+	{
+		max_ax = 9999999.0f;
+	}
+	else
+	{
+		max_ax = aw * maxChars;
+	}
+
+	return DrawCompiledStringLength(text_commands, charWidth, max_ax, flags & DS_PROPORTIONAL);
+}
+
 void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags)
 {
 	const font_metric_t* fm;
@@ -2174,10 +2213,10 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 
 	proportional = (flags & DS_PROPORTIONAL);
 
-	if (flags & (DS_CENTER | DS_RIGHT))
+	if (flags & (DS_HCENTER | DS_HRIGHT))
 	{
-		float tmp = DrawCompiledStringLength(text_commands, ax, aw, max_ax, proportional);
-		if (flags & DS_CENTER)
+		float tmp = DrawCompiledStringLength(text_commands, aw, max_ax, proportional);
+		if (flags & DS_HCENTER)
 		{
 			ax -= 0.5f * tmp;
 		}
@@ -2185,6 +2224,15 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		{
 			ax -= tmp;
 		}
+	}
+
+	if (flags & DS_VCENTER)
+	{
+		ay -= ah/2;
+	}
+	else if (flags & DS_VTOP)
+	{
+		ay -= ah;
 	}
 
 	sh = font->shader[0]; // low-res shader by default

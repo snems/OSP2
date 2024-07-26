@@ -157,18 +157,35 @@ void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* o
 	{
 		default:
 		case SUPERHUD_ALIGNH_LEFT:
-			out->flags |= DS_LEFT;
+			out->flags |= DS_HLEFT;
 			break;
 		case SUPERHUD_ALIGNH_CENTER:
-			out->flags |= DS_CENTER;
+			out->flags |= DS_HCENTER;
 			break;
 		case SUPERHUD_ALIGNH_RIGHT:
-			out->flags |= DS_RIGHT;
+			out->flags |= DS_HRIGHT;
 			break;
 	}
 
 	out->coord.named.w = config.fontsize.value[0];
 	out->coord.named.h = config.fontsize.value[1];
+
+	if (config.alignV.isSet)
+	{
+  	switch (config.alignV.value)
+		{
+			default:
+			case SUPERHUD_ALIGNV_TOP:
+				out->flags |= DS_VTOP;
+				break;
+			case SUPERHUD_ALIGNV_CENTER:
+				out->flags |= DS_VCENTER;
+				break;
+			case SUPERHUD_ALIGNV_BOTTOM:
+				out->flags |= DS_VBOTTOM;
+				break;
+		}
+	}
 
 	if (!config.monospace.isSet)
 	{
@@ -371,12 +388,17 @@ qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhud
 	return qfalse;
 }
 
-void CG_SHUDTextPrint(const char* text, const superhudTextContext_t* ctx)
+void CG_SHUDTextPrint(const superhudTextContext_t* ctx)
 {
+	if (!ctx->text || !ctx->text[0])
+	{
+		return;
+	}
+
 	CG_FontSelect(ctx->fontIndex);
 	CG_OSPDrawString(ctx->coord.named.x,
 	                 ctx->coord.named.y,
-	                 text,
+	                 ctx->text,
 	                 ctx->color,
 	                 ctx->coord.named.w,
 	                 ctx->coord.named.h,
@@ -591,6 +613,20 @@ team_t CG_SHUDGetOurActiveTeam(void)
 		}
 	}
 	return our_team;
+}
+
+void CG_SHUDFillWithColor(const superhudCoord_t* coord, const float *color)
+{
+	float x,y,w,h;
+	
+	x = coord->named.x;
+	y = coord->named.y;
+	w = coord->named.w;
+	h = coord->named.h;
+	CG_AdjustFrom640(&x, &y, &w, &h);
+  trap_R_SetColor(color);
+  trap_R_DrawStretchPic(x, y, w, h, 0, 0, 0, 0, cgs.media.whiteShader);
+  trap_R_SetColor(NULL);
 }
 
 qboolean CG_SHUDFill(const superhudConfig_t* cfg)

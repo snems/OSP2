@@ -88,7 +88,8 @@ void CG_SHUDElementChatRoutine(void* context)
 
 	CG_SHUDFill(&element->config);
 
-	CG_SHUDTextPrint(entry->message, &element->ctx);
+	element->ctx.text = entry->message;
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementChatDestroy(void* context)

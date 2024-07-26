@@ -111,7 +111,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "votemessagearena", 103, },
 	{ "votemessageworld", 104, CG_SHUDElementVMWCreate, CG_SHUDElementVMWRoutine, CG_SHUDElementVMWDestroy },
 	{ "warmupinfo", 105, },
-	{ "weaponlist", 106, },
+	{ "weaponlist", 106, CG_SHUDElementWeaponListCreate, CG_SHUDElementWeaponListRoutine, CG_SHUDElementWeaponListDestroy },
 	{ "weaponselection", 107, },
 	{ "weaponselectionname", 108, },
 	{ "chat", 109, },

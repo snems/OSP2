@@ -1,4 +1,3 @@
-#include "cg_local.h"
 #include "cg_superhud_private.h"
 #include "../qcommon/qcommon.h"
 
@@ -7,7 +6,6 @@ typedef struct
 	superhudConfig_t config;
 	superhudTextContext_t ctx;
 	int* time;
-	const char* msg;
 } shudElementFragMessage_t;
 
 void* CG_SHUDElementFragMessageCreate(const superhudConfig_t* config)
@@ -25,7 +23,7 @@ void* CG_SHUDElementFragMessageCreate(const superhudConfig_t* config)
 
 	gctx = CG_SHUDGetContext();
 	element->time = &gctx->fragmessage.time;
-	element->msg = gctx->fragmessage.message;
+	element->ctx.text = gctx->fragmessage.message;
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 
@@ -35,9 +33,6 @@ void* CG_SHUDElementFragMessageCreate(const superhudConfig_t* config)
 void CG_SHUDElementFragMessageRoutine(void* context)
 {
 	shudElementFragMessage_t* element = (shudElementFragMessage_t*)context;
-	char    s[1024];
-	float* fade;
-	clientInfo_t* ci;
 
 	if (!*element->time)
 	{
@@ -52,7 +47,7 @@ void CG_SHUDElementFragMessageRoutine(void* context)
 
 	CG_SHUDFill(&element->config);
 
-	CG_SHUDTextPrint(element->msg, &element->ctx);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementFragMessageDestroy(void* context)

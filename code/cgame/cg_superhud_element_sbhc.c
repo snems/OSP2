@@ -6,7 +6,7 @@
 typedef struct
 {
 	superhudConfig_t config;
-	superhudTextContext_t position;
+	superhudTextContext_t ctx;
 } shudElementStatusbarHealthCount;
 
 void* CG_SHUDElementSBHCCreate(const superhudConfig_t* config)
@@ -28,8 +28,8 @@ void* CG_SHUDElementSBHCCreate(const superhudConfig_t* config)
 		Q_strncpyz(element->config.text.value, "%i", sizeof(element->config.text.value));
 	}
 
-	CG_SHUDTextMakeContext(&element->config, &element->position);
-	element->position.maxchars = 6;
+	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.maxchars = 6;
 
 	return element;
 }
@@ -37,13 +37,12 @@ void* CG_SHUDElementSBHCCreate(const superhudConfig_t* config)
 void CG_SHUDElementSBHCRoutine(void* context)
 {
 	shudElementStatusbarHealthCount* element = (shudElementStatusbarHealthCount*)context;
-	const char* s;
 	int hp = cg.snap->ps.stats[STAT_HEALTH];
 
-	s = va(element->config.text.value, hp > 0 ? hp : 0);
+	element->ctx.text = va(element->config.text.value, hp > 0 ? hp : 0);
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(s, &element->position);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementSBHCDestroy(void* context)

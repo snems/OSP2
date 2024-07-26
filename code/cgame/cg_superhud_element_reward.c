@@ -111,9 +111,8 @@ void CG_SHUDElementRewardRoutine(void* context)
 	}
 	else if (cg.rewardCount[0])
 	{
-		const char *s;
-		s = va(element->config.text.value, cg.rewardCount[0]);
-		CG_SHUDTextPrint(s, &element->ctx.t);
+		element->ctx.t.text = va(element->config.text.value, cg.rewardCount[0]);
+		CG_SHUDTextPrint(&element->ctx.t);
 	}
 }
 

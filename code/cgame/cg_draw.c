@@ -1519,7 +1519,7 @@ void CG_DrawReward(void)
 	if (cg.rewardCount[0] > 1)
 	{
 		Com_sprintf(buf, sizeof(buf), "%d", cg.rewardCount[0]);
-		CG_DrawString(x + w / 2.0f, y + h, buf, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 16,  DS_CENTER | DS_PROPORTIONAL);
+		CG_DrawString(x + w / 2.0f, y + h, buf, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 16,  DS_HCENTER | DS_PROPORTIONAL);
 	}
 
 	trap_R_SetColor(NULL);

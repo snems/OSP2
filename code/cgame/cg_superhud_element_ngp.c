@@ -37,7 +37,8 @@ void CG_SHUDElementNGPRoutine(void* context)
 	}
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(va("%ims", ping), &element->ctx);
+	element->ctx.text = va("%ims", ping);
+	CG_SHUDTextPrint(&element->ctx);
 }
 
 void CG_SHUDElementNGPDestroy(void* context)

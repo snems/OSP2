@@ -204,7 +204,8 @@ void CG_SHUDElementPwRoutine(void* context)
 
 	if (element->pwType == SHUDPWTYPE_TIME)
 	{
-		CG_SHUDTextPrint(va("%d", pwElement->time), &element->textCtx);
+		element->textCtx.text = va("%d", pwElement->time); 
+		CG_SHUDTextPrint(&element->textCtx);
 	}
 	else
 	{

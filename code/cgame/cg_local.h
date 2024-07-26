@@ -1496,6 +1496,7 @@ void CG_DrawPicOld(float x, float y, float width, float height, qhandle_t hShade
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader);
 
 float CG_OSPDrawStringLength(const char* string, float ax, float aw, float max_ax, int proportional);
+int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, int flags);
 
 void CG_OSPDrawStringPrepare(const char* from, char* to, int size);
 void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
@@ -1530,12 +1531,15 @@ void CG_CompiledTextDestroy(text_command_t* root);
 // flags for CG_DrawString
 enum
 {
-	DS_LEFT         = 0,   // alignment
-	DS_SHADOW       = 0x1,
-	DS_FORCE_COLOR  = 0x2,
-	DS_PROPORTIONAL = 0x4,
-	DS_CENTER = 0x8,    // alignment
-	DS_RIGHT  = 0x10    // alignment
+	DS_VBOTTOM      = 0,   // vertical boootm is default
+	DS_HLEFT        = 0,   // horizontal left is default
+	DS_SHADOW       = 0x1, // draw shadow
+	DS_FORCE_COLOR  = 0x2, // force color, ignore ^x
+	DS_PROPORTIONAL = 0x4, // proportional font
+	DS_HCENTER      = 0x8, // horizontal center
+	DS_HRIGHT       = 0x10,// horizontal right
+	DS_VTOP         = 0x20,// vertical top
+	DS_VCENTER      = 0x40,// vertical center
 };
 void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
 
