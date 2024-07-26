@@ -286,6 +286,11 @@ error_exit:
 void CG_SHUDRoutine(void)
 {
 	superhudElement_t* last = elementsHead;
+	int vflags;
+	qboolean skip;
+	const qboolean is_dead = cg.predictedPlayerState.pm_type == PM_DEAD || cg.predictedPlayerState.pm_type == PM_FREEZE;
+	const qboolean is_intermission = cg.predictedPlayerState.pm_type == PM_INTERMISSION;
+	const qboolean is_team_game = cgs.gametype >= GT_TEAM;
 
 	CG_OSPDrawCrosshair();
 
@@ -296,7 +301,17 @@ void CG_SHUDRoutine(void)
 
 	while (last)
 	{
-		if (last->element.routine)
+		// check visibility
+		vflags = last->config.visiblity.isSet ? last->config.visiblity.value : last->element.visibility;
+		skip = qfalse;
+
+		skip = (!(vflags&SE_IM) && is_intermission) || 
+		       ((vflags&SE_TEAM_ONLY) && (!is_team_game)) || 
+			     (!(vflags&SE_DEAD) && is_dead) ||  
+		       (!(vflags&SE_SPECT) && CG_IsSpectator() && !CG_IsFollowing())
+		; 
+
+		if (!skip && last->element.routine)
 		{
 			last->element.routine(last->element.context);
 		}

@@ -3,133 +3,6 @@
 #include "../qcommon/qcommon.h"
 
 
-static superHUDConfigElement_t superHUDConfigItemElements[] =
-{
-	{ "!default", 0, },
-	{ "predecorate", 1, CG_SHUDElementDecorCreate, CG_SHUDElementDecorRoutine, CG_SHUDElementDecorDestroy },
-	{ "ammomessage", 2, CG_SHUDElementAmmoMessageCreate, CG_SHUDElementAmmoMessageRoutine, CG_SHUDElementAmmoMessageDestroy },
-	{ "attackericon", 3, CG_SHUDElementAttackerIconCreate, CG_SHUDElementAttackerIconRoutine, CG_SHUDElementAttackerIconDestroy },
-	{ "attackername", 4, CG_SHUDElementAttackerNameCreate, CG_SHUDElementAttackerNameRoutine, CG_SHUDElementAttackerNameDestroy },
-	{ "chat1", 5, CG_SHUDElementChat1Create, CG_SHUDElementChatRoutine, CG_SHUDElementChatDestroy },
-	{ "chat2", 6, CG_SHUDElementChat2Create, CG_SHUDElementChatRoutine, CG_SHUDElementChatDestroy },
-	{ "chat3", 7, CG_SHUDElementChat3Create, CG_SHUDElementChatRoutine, CG_SHUDElementChatDestroy },
-	{ "chat4", 8, CG_SHUDElementChat4Create, CG_SHUDElementChatRoutine, CG_SHUDElementChatDestroy },
-	{ "chat5", 9, CG_SHUDElementChat5Create, CG_SHUDElementChatRoutine, CG_SHUDElementChatDestroy },
-	{ "chat6", 10, CG_SHUDElementChat6Create, CG_SHUDElementChatRoutine, CG_SHUDElementChatDestroy },
-	{ "chat7", 11, CG_SHUDElementChat7Create, CG_SHUDElementChatRoutine, CG_SHUDElementChatDestroy },
-	{ "chat8", 12, CG_SHUDElementChat8Create, CG_SHUDElementChatRoutine, CG_SHUDElementChatDestroy },
-	{ "console", 13, },
-	{ "flagstatus_nme", 14, CG_SHUDElementFlagStatusNMECreate, CG_SHUDElementFlagStatusRoutine, CG_SHUDElementFlagStatusDestroy },
-	{ "flagstatus_own", 15, CG_SHUDElementFlagStatusOWNCreate, CG_SHUDElementFlagStatusRoutine, CG_SHUDElementFlagStatusDestroy },
-	{ "followmessage", 16, CG_SHUDElementFollowMessageCreate, CG_SHUDElementFollowMessageRoutine, CG_SHUDElementFollowMessageDestroy },
-	{ "fps", 17, CG_SHUDElementFPSCreate, CG_SHUDElementFPSRoutine, CG_SHUDElementFPSDestroy, NULL, NULL},
-	{ "fragmessage", 18, CG_SHUDElementFragMessageCreate, CG_SHUDElementFragMessageRoutine, CG_SHUDElementFragMessageDestroy, NULL, NULL},
-	{ "gametime", 19, CG_SHUDElementGameTimeCreate, CG_SHUDElementGameTimeRoutine, CG_SHUDElementGameTimeDestroy },
-	{ "gametype", 20, },
-	{ "itempickup", 21, CG_SHUDElementItemPickupCreate, CG_SHUDElementItemPickupRoutine, CG_SHUDElementItemPickupDestroy },
-	{ "itempickupicon", 22, CG_SHUDElementItemPickupIconCreate, CG_SHUDElementItemPickupIconRoutine, CG_SHUDElementItemPickupIconDestroy },
-	{ "itemtimers1_icons", 23, },
-	{ "itemtimers2_icons", 24, },
-	{ "itemtimers3_icons", 25, },
-	{ "itemtimers4_icons", 26, },
-	{ "itemtimers1_times", 27, },
-	{ "itemtimers2_times", 28, },
-	{ "itemtimers3_times", 29, },
-	{ "itemtimers4_times", 30, },
-	{ "keydown_back", 31, },
-	{ "keydown_crouch", 32, },
-	{ "keydown_forward", 33, },
-	{ "keydown_jump", 34, },
-	{ "keydown_left", 35, },
-	{ "keydown_right", 36, },
-	{ "keyup_back", 37, },
-	{ "keyup_crouch", 38, },
-	{ "keyup_forward", 39, },
-	{ "keyup_jump", 40, },
-	{ "keyup_left", 41, },
-	{ "keyup_right", 42, },
-	{ "localtime", 43, CG_SHUDElementLocalTimeCreate, CG_SHUDElementLocalTimeRoutine, CG_SHUDElementLocalTimeDestroy },
-	{ "multiview", 44, },
-	{ "name_nme", 45, CG_SHUDElementNameNMECreate, CG_SHUDElementNameRoutine, CG_SHUDElementNameDestroy  },
-	{ "name_own", 46, CG_SHUDElementNameOWNCreate, CG_SHUDElementNameRoutine, CG_SHUDElementNameDestroy  },
-	{ "netgraph", 47, CG_SHUDElementNGCreate, CG_SHUDElementNGRoutine, CG_SHUDElementNGDestroy },
-	{ "netgraphping", 48, CG_SHUDElementNGPCreate, CG_SHUDElementNGPRoutine, CG_SHUDElementNGPDestroy },
-	{ "playerspeed", 49, CG_SHUDElementPlayerSpeedCreate, CG_SHUDElementPlayerSpeedRoutine, CG_SHUDElementPlayerSpeedDestroy },
-	{ "powerup1_icon", 50, CG_SHUDElementPwIcon1Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup2_icon", 51, CG_SHUDElementPwIcon2Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup3_icon", 52, CG_SHUDElementPwIcon3Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup4_icon", 53, CG_SHUDElementPwIcon4Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup5_icon", 54, CG_SHUDElementPwIcon5Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup6_icon", 55, CG_SHUDElementPwIcon6Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup7_icon", 56, CG_SHUDElementPwIcon7Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup8_icon", 57, CG_SHUDElementPwIcon8Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup1_time", 58, CG_SHUDElementPwTime1Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup2_time", 59, CG_SHUDElementPwTime2Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup3_time", 60, CG_SHUDElementPwTime3Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup4_time", 61, CG_SHUDElementPwTime4Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup5_time", 62, CG_SHUDElementPwTime5Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup6_time", 63, CG_SHUDElementPwTime6Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup7_time", 64, CG_SHUDElementPwTime7Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "powerup8_time", 65, CG_SHUDElementPwTime8Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
-	{ "rankmessage", 66, CG_SHUDElementRankMessageCreate, CG_SHUDElementRankMessageRoutine, CG_SHUDElementRankMessageDestroy},
-	{ "recordingdemo", 67, },
-	{ "score_limit", 68, CG_SHUDElementScoreMAXCreate, CG_SHUDElementScoreRoutine, CG_SHUDElementScoreDestroy },
-	{ "score_nme", 69, CG_SHUDElementScoreNMECreate, CG_SHUDElementScoreRoutine, CG_SHUDElementScoreDestroy },
-	{ "score_own", 70, CG_SHUDElementScoreOWNCreate, CG_SHUDElementScoreRoutine, CG_SHUDElementScoreDestroy },
-	{ "specmessage", 71, CG_SHUDElementSpecMessageCreate, CG_SHUDElementSpecMessageRoutine, CG_SHUDElementSpecMessageDestroy },
-	{ "statusbar_armorbar", 72, CG_SHUDElementSBABCreate, CG_SHUDElementSBABRoutine, CG_SHUDElementSBABDestroy },
-	{ "statusbar_armorcount", 73, CG_SHUDElementSBACCreate, CG_SHUDElementSBACRoutine, CG_SHUDElementSBACDestroy },
-	{ "statusbar_armoricon", 74, CG_SHUDElementSBAICreate, CG_SHUDElementSBAIRoutine, CG_SHUDElementSBAIDestroy },
-	{ "statusbar_ammobar", 75, CG_SHUDElementSBAmBCreate, CG_SHUDElementSBAmBRoutine, CG_SHUDElementSBAmBDestroy },
-	{ "statusbar_ammocount", 76, CG_SHUDElementSBAmCCreate, CG_SHUDElementSBAmCRoutine, CG_SHUDElementSBAmCDestroy },
-	{ "statusbar_ammoicon", 77, CG_SHUDElementSBAmICreate, CG_SHUDElementSBAmIRoutine, CG_SHUDElementSBAmIDestroy },
-	{ "statusbar_healthbar", 78, CG_SHUDElementSBHBCreate, CG_SHUDElementSBHBRoutine, CG_SHUDElementSBHBDestroy },
-	{ "statusbar_healthcount", 79, CG_SHUDElementSBHCCreate, CG_SHUDElementSBHCRoutine, CG_SHUDElementSBHCDestroy },
-	{ "statusbar_healthicon", 80, CG_SHUDElementSBHICreate, CG_SHUDElementSBHIRoutine, CG_SHUDElementSBHIDestroy },
-	{ "targetname", 81, CG_SHUDElementTargetNameCreate, CG_SHUDElementTargetNameRoutine, CG_SHUDElementTargetNameDestroy },
-	{ "targetstatus", 82, CG_SHUDElementTargetStatusCreate, CG_SHUDElementTargetStatusRoutine, CG_SHUDElementTargetStatusDestroy },
-	{ "teamcount_nme", 83, CG_SHUDElementTeamCountNMECreate, CG_SHUDElementTeamCountRoutine, CG_SHUDElementTeamCountDestroy },
-	{ "teamcount_own", 84, CG_SHUDElementTeamCountOWNCreate, CG_SHUDElementTeamCountRoutine, CG_SHUDElementTeamCountDestroy },
-	{ "teamicon_nme", 85, },
-	{ "teamicon_own", 86, },
-	{ "team1", 87, CG_SHUDElementTeam1Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team2", 88, CG_SHUDElementTeam2Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team3", 89, CG_SHUDElementTeam3Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team4", 90, CG_SHUDElementTeam4Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team5", 91, CG_SHUDElementTeam5Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team6", 92, CG_SHUDElementTeam6Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team7", 93, CG_SHUDElementTeam7Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team8", 94, CG_SHUDElementTeam8Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team9", 95, CG_SHUDElementTeam9Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team10", 96, CG_SHUDElementTeam10Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team11", 97, CG_SHUDElementTeam11Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team12", 98, CG_SHUDElementTeam12Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team13", 99, CG_SHUDElementTeam13Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team14", 100, CG_SHUDElementTeam14Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team15", 101, CG_SHUDElementTeam15Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "team16", 102, CG_SHUDElementTeam16Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
-	{ "votemessagearena", 103, },
-	{ "votemessageworld", 104, CG_SHUDElementVMWCreate, CG_SHUDElementVMWRoutine, CG_SHUDElementVMWDestroy },
-	{ "warmupinfo", 105, },
-	{ "weaponlist", 106, CG_SHUDElementWeaponListCreate, CG_SHUDElementWeaponListRoutine, CG_SHUDElementWeaponListDestroy },
-	{ "weaponselection", 107, },
-	{ "weaponselectionname", 108, },
-	{ "chat", 109, },
-	{ "gameevents", 110, },
-	{ "team1_NME", 111, },
-	{ "team2_NME", 112, },
-	{ "team3_NME", 113, },
-	{ "team4_NME", 114, },
-	{ "team5_NME", 115, },
-	{ "team6_NME", 116, },
-	{ "team7_NME", 117, },
-	{ "team8_NME", 118, },
-	{ "rewardicons", 119, CG_SHUDElementRewardIconCreate, CG_SHUDElementRewardRoutine, CG_SHUDElementRewardDestroy },
-	{ "rewardnumbers", 120, CG_SHUDElementRewardCountCreate, CG_SHUDElementRewardRoutine, CG_SHUDElementRewardDestroy },
-	{ "postdecorate", 121, CG_SHUDElementDecorCreate, CG_SHUDElementDecorRoutine, CG_SHUDElementDecorDestroy },
-	{ NULL, -1, NULL, NULL, NULL, NULL, NULL },
-};
-
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseColor(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAlighH(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAlighV(configFileInfo_t* finfo, superhudConfig_t* config);
@@ -219,16 +92,18 @@ static superHUDConfigCommand_t superHUDConfigItemCommands[] =
 
 #define SHUD_CONFIG_ITEMS_DICT_SIZE   256
 
-static superHUDConfigElement_t* superHUDConfigItemElementsDict[SHUD_CONFIG_ITEMS_DICT_SIZE];
+static superhudElementDictMember_t* superHUDConfigItemElementsDict[SHUD_CONFIG_ITEMS_DICT_SIZE];
 static superHUDConfigCommand_t* superHUDConfigItemCommandsDict[SHUD_CONFIG_ITEMS_DICT_SIZE];
 
 const superHUDConfigElement_t* CG_SHUDFindConfigElementItem(const char* name)
 {
-	const superHUDConfigElement_t* target = superHUDConfigItemElementsDict[Com_GenerateHashValue(name, SHUD_CONFIG_ITEMS_DICT_SIZE)];
+	const superhudElementDictMember_t* targetEl = superHUDConfigItemElementsDict[Com_GenerateHashValue(name, SHUD_CONFIG_ITEMS_DICT_SIZE)];
+	const superHUDConfigElement_t* target = targetEl ? targetEl->element : NULL;
 
 	while (target && Q_stricmp(name, target->name))
 	{
-		target = target->next;
+		targetEl = targetEl->next;
+		target = targetEl ? targetEl->element : NULL;
 	}
 	return target;
 }
@@ -1340,29 +1215,42 @@ const superhudConfigParseCommand_t CG_SHUDFileInfoGetCommandItem(configFileInfo_
 
 /*
  * Инициализация парсера
+ * No need to free allocated memory as object will be destroyed only when cgame.qvm die
  */
 void CG_SHUDParserInit(void)
 {
 	int i = 0;
 	static qboolean initialized = qfalse;
+	const superHUDConfigElement_t *e;
+	const superHUDConfigElement_t *root;
+
 
 	if (initialized)
 	{
 		return;
 	}
 
-	while (superHUDConfigItemElements[i].name)
-	{
-		superHUDConfigElement_t** target = NULL;
-		superHUDConfigElement_t* collision = NULL;
+	CG_SHUDAvailableElementsInit();
 
-		unsigned long hash = Com_GenerateHashValue(superHUDConfigItemElements[i].name, SHUD_CONFIG_ITEMS_DICT_SIZE);
+	root = CG_SHUDAvailableElementsGet();
+	
+	e = root;
+
+	while (e->name)
+	{
+		superhudElementDictMember_t** target = NULL;
+		superhudElementDictMember_t* collision = NULL;
+		unsigned long hash;
+
+		hash = Com_GenerateHashValue(e->name, SHUD_CONFIG_ITEMS_DICT_SIZE);
 
 		/* store in the hash table */
 		target = &superHUDConfigItemElementsDict[hash];
 		if (*target == NULL)
 		{
-			*target = &superHUDConfigItemElements[i];
+			*target = Z_Malloc(sizeof(superhudElementDictMember_t));
+			OSP_MEMORY_CHECK(*target);
+			(*target)->element = e;
 		}
 		else
 		{
@@ -1372,9 +1260,12 @@ void CG_SHUDParserInit(void)
 			{
 				collision = collision->next;
 			}
-			collision->next = &superHUDConfigItemElements[i];
+			collision->next = Z_Malloc(sizeof(superhudElementDictMember_t));
+			OSP_MEMORY_CHECK(collision->next);
+			collision->next->element = e;
 		}
 		++i;
+		e = root + i;
 	}
 
 	i = 0;

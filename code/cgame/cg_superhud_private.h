@@ -193,6 +193,11 @@ typedef struct
 		int value;
 		qboolean isSet;
 	} hlsize;
+	struct
+	{
+		int value;
+		qboolean isSet;
+	} visiblity;
 } superhudConfig_t;
 
 typedef superhudConfig_t superhudElementDefault_t;
@@ -238,16 +243,29 @@ typedef enum
 	SUPERHUD_CONFIG_LOST_ELEMENT_BODY,
 } superhudConfigParseStatus_t;
 
+
+#define SE_IM         0x00000001 // available in intermission view
+#define SE_TEAM_ONLY  0x00000002 // team only
+#define SE_SPECT      0x00000004 // available in spectator and not folowing view
+#define SE_DEAD       0x00000008 // available if dead or freeze
+
 typedef struct superHUDConfigElement_s
 {
 	const char* name;
-	const int order;
+	int visibility;
 	void* (*create)(const superhudConfig_t* config);
 	void (*routine)(void* context);
 	void (*destroy)(void* context);
 	void* context;
-	struct superHUDConfigElement_s* next;
+	int order;
 } superHUDConfigElement_t;
+
+typedef struct superhudElementDictMember_s
+{
+	const superHUDConfigElement_t *element;
+	struct superhudElementDictMember_s* next;
+}
+superhudElementDictMember_t;
 
 typedef struct superhudElement_s
 {
@@ -623,6 +641,8 @@ typedef struct
 } superhudGlobalContext_t;
 
 superhudGlobalContext_t* CG_SHUDGetContext(void);
+void CG_SHUDAvailableElementsInit(void);
+const superHUDConfigElement_t *CG_SHUDAvailableElementsGet (void);
 
 
 #ifdef __cplusplus

@@ -26,18 +26,7 @@ void CG_SHUDElementFollowMessageRoutine(void* context)
 	shudElementFollowMessage_t* element = (shudElementFollowMessage_t*)context;
 	const char* str;
 
-	if (!cg.demoPlayback)
-	{
-		if (!(cg.snap->ps.pm_flags & PMF_FOLLOW))
-		{
-			return;
-		}
-		else if (cg.snap->ps.pm_type == PM_FREEZE || cg.intermissionStarted || cg.snap->ps.clientNum == cg.clientNum)
-		{
-			return;
-		}
-	}
-	else if (cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR)
+	if (!CG_IsFollowing())
 	{
 		return;
 	}

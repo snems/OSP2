@@ -9,6 +9,7 @@ typedef struct
 	vec4_t bar2_bottom;
 } drawBarCoords_t;
 
+
 static const float* CG_SHUDConfigPickColor(const superhudColor_t* in)
 {
 	clientInfo_t* ci;

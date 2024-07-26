@@ -343,3 +343,27 @@ void CG_OSPConfigFreezeModeSet(int value)
 	}
 }
 
+qboolean CG_IsSpectator(void)
+{
+	return (cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR);
+}
+
+qboolean CG_IsFollowing(void)
+{
+	if (!cg.demoPlayback)
+	{
+		if (!(cg.snap->ps.pm_flags & PMF_FOLLOW))
+		{
+			return qfalse;
+		}
+		else if (cg.snap->ps.pm_type == PM_FREEZE || cg.intermissionStarted || cg.snap->ps.clientNum == cg.clientNum)
+		{
+			return qfalse;
+		}
+	}
+	else if (cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR)
+	{
+		return qfalse;
+	}
+	return qtrue;
+}

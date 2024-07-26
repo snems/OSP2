@@ -2114,6 +2114,9 @@ void CG_OSPConfigCustomClient2Set(int value);
 void CG_OSPConfigModeSet(int value);
 void CG_OSPConfigFreezeModeSet(int value);
 
+qboolean CG_IsSpectator(void);
+qboolean CG_IsFollowing(void);
+
 //
 //cg_osphud.c
 //
