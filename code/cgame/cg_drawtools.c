@@ -533,7 +533,7 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					back_color[2] = bc;
 
 					commands[i].type = OSP_TEXT_CMD_SHADOW_COLOR;
-					VectorCopy(commands[i].value.color, back_color);
+					VectorCopy(back_color, commands[i].value.color);
 					back_color_was_set = qtrue;
 
 					++i;
@@ -2138,13 +2138,11 @@ float CG_OSPDrawStringLengthNew(const char* string, float ax, float aw, float ma
 
 int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, int flags)
 {
-	float           aw; // absolute positions/dimensions
 	float           max_ax;
 	text_command_t* text_commands;
 
 	if (!string)
 		return 0;
-
 
 	text_commands = CG_CompiledTextCreate(string);
 	if (!text_commands)
@@ -2152,16 +2150,13 @@ int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, in
 		return 0;
 	}
 
-	CG_AdjustFrom640(NULL, NULL, &charWidth, NULL);
-	aw = charWidth;
-
 	if (maxChars <= 0)
 	{
 		max_ax = 9999999.0f;
 	}
 	else
 	{
-		max_ax = aw * maxChars;
+		max_ax = charWidth * maxChars;
 	}
 
 	return DrawCompiledStringLength(text_commands, charWidth, max_ax, flags & DS_PROPORTIONAL);

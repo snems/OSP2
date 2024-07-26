@@ -2147,7 +2147,6 @@ void CG_DynamicMemReport(void);
 if(!TESTPTR){\
     CG_DynamicMemReport();\
     CG_Error( "%s:%d: Couldn't allocate memory\n", __FILE__, __LINE__);\
-		while(1){};\
 }
 
 //

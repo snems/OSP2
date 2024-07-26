@@ -23,9 +23,9 @@ void* CG_SHUDElementFragMessageCreate(const superhudConfig_t* config)
 
 	gctx = CG_SHUDGetContext();
 	element->time = &gctx->fragmessage.time;
-	element->ctx.text = gctx->fragmessage.message;
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
+	element->ctx.text = gctx->fragmessage.message;
 
 	return element;
 }
@@ -46,7 +46,6 @@ void CG_SHUDElementFragMessageRoutine(void* context)
 	}
 
 	CG_SHUDFill(&element->config);
-
 	CG_SHUDTextPrint(&element->ctx);
 }
 
