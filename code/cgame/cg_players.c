@@ -2011,14 +2011,7 @@ void CG_AddHitBox(centity_t* cent, team_t team)
 	vec3_t corners[8];
 	int         content;
 
-	if (!cg_drawHitBox.integer)
-	{
-		return;
-	}
-
-	// if the player is in fog, don't show it
-	content = trap_CM_PointContents(cent->lerpOrigin, 0);
-	if (content & CONTENTS_FOG)
+	if (!cg_drawHitBox.integer || !cg.demoPlayback)
 	{
 		return;
 	}
@@ -2032,12 +2025,6 @@ void CG_AddHitBox(centity_t* cent, team_t team)
 
 	// don't draw it for dead players
 	if (cent->currentState.eFlags & EF_DEAD)
-	{
-		return;
-	}
-
-	// no hitboxes when invisible
-	if (cent->currentState.powerups & (1 << PW_INVIS))
 	{
 		return;
 	}

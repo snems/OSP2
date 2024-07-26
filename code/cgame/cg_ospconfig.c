@@ -301,7 +301,7 @@ void CG_OSPConfigCustomClientSet(int value)
 void CG_OSPConfigCustomClient2Set(int value)
 {
 	cgs.osp.custom_client_2 = value;
-	CG_CvarTouch("cg_drawHitBox");
+	CG_CvarTouch("cg_hitSounds");
 }
 
 /*

@@ -319,6 +319,34 @@ void CG_OSPClientVersion_f(void)
 	CG_Printf("^3OSP2 Client Version:^7 %s\n", OSP_VERSION);
 }
 
+#define CG_YES_NO_STR(VAL) ((VAL) ? "^2Yes" : "^1No")
+void CG_OSPClientConfig_f(void)
+{
+	const char *server_mode = "VQ3";
+
+	if (cgs.osp.server_mode & 1)
+	{
+		server_mode = "Promode";
+	}
+	else if (cgs.osp.server_mode & 2)
+	{
+		server_mode = "CQ3";
+	}
+
+
+	CG_Printf("^5OSP2 Server-forced settings:\n", OSP_VERSION);
+	CG_Printf("    ^3Server mode:                ^2%s\n", server_mode);
+	CG_Printf("    ^3Alternative weapons:        %s\n", CG_YES_NO_STR(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG));
+	CG_Printf("    ^3Timer(deprecated):          %s\n", CG_YES_NO_STR(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_TIMER_FLAG));
+	CG_Printf("    ^3FPS restrition(deprecated): %s\n", CG_YES_NO_STR((cgs.osp.custom_client & OSP_CUSTOM_CLIENT_MAXFPS_FLAG) == 0));
+	CG_Printf("    ^3Damage info:                %s\n", CG_YES_NO_STR(cgs.osp.custom_client_2 & OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO));
+	CG_Printf("    ^3Pmove allowed:              %s\n", CG_YES_NO_STR(cgs.osp.allow_pmove));
+	CG_Printf("    ^3Timenudge minimum:          ^3%d\n", cgs.osp.serverConfigMinimumTimenudge);
+	CG_Printf("    ^3Timenudge maximum:          ^3%d\n", cgs.osp.serverConfigMaximumTimenudge);
+	CG_Printf("    ^3Maxpackets minimum:         ^3%d\n", cgs.osp.serverConfigMinimumMaxpackets);
+	CG_Printf("    ^3Maxpackets maximum:         ^3%d\n", cgs.osp.serverConfigMaximumMaxpackets);
+}
+
 void CG_OSPCredits_f(void)
 {
 	char string[1024];
@@ -525,6 +553,7 @@ static consoleCommand_t commands[] =
 	{ "-fire", CG_OSPFireUp_f },
 	{ "select", CG_OSPSelect_f },
 	{ "clientversion", CG_OSPClientVersion_f },
+	{ "clientconfig", CG_OSPClientConfig_f },
 	{ "credits", CG_OSPCredits_f },
 	{ "motd", CG_OSPMoTD_f },
 	{ "myname", CG_OSPMyName_f },

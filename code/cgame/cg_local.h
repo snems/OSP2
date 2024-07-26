@@ -896,6 +896,7 @@ typedef struct
 	sfxHandle_t hitLowestSound;
 	sfxHandle_t hitLowSound;
 	sfxHandle_t hitSound;
+	sfxHandle_t hitSounds[4];
 	sfxHandle_t hitHighSound;
 	sfxHandle_t fragSound;
 	sfxHandle_t hitSoundHighArmor;
@@ -1406,6 +1407,7 @@ extern vmCvar_t           cg_enemyRailColors;
 extern vmCvar_t           cg_enemyFrozenColor;
 
 extern vmCvar_t           cg_spectGlow;
+extern vmCvar_t           cg_hitSounds;
 
 //
 // cg_main.c
@@ -2093,7 +2095,7 @@ extern int statsInfo[24];
 #define OSP_CUSTOM_CLIENT_MAXFPS_FLAG          0x20
 
 // OSP Custom client 2
-#define OSP_CUSTOM_CLIENT_2_ENABLE_HIT_BOX_FLAG  0x01
+#define OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO    0x01
 
 void CG_OSPCvarsRestrictValues(void);
 qboolean CG_OSPIsGameTypeCA(int gametype);
@@ -2192,7 +2194,7 @@ void CG_LocalEventCvarChanged_cg_altplasma(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_altlightning(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_altgrenades(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enableOSPHUD(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_drawHitBox(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_hitSounds(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_playerModelColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_playerRailColors(cvarTable_t* cvart);
