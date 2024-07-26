@@ -41,9 +41,6 @@ void* CG_SHUDElementNameNMECreate(const superhudConfig_t* config)
 
 static void CG_SHUDElementNameGetPairFFA(const char** own, const char** nme)
 {
-	int i;
-	int k;
-
 	int clientNum;
 	const char* info;
 	*own = cgs.clientinfo[cg.snap->ps.clientNum].name;
@@ -83,8 +80,6 @@ static void CG_SHUDElementNameGetPair1vs1(const char** own, const char** nme)
 	}
 	else
 	{
-		int clientNum;
-		const char* info;
 		*own = cgs.clientinfo[cg.snap->ps.clientNum].name;
 
 		for (i = 0; i < MAX_CLIENTS; ++i)
@@ -173,7 +168,6 @@ void CG_SHUDElementNameRoutine(void* context)
 	shudElementName_t* element = (shudElementName_t*)context;
 	const char*  own;
 	const char*  nme;
-	int         clientNum;
 
 	CG_SHUDElementNameGetPair(&own, &nme);
 

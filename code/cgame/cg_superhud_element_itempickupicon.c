@@ -29,8 +29,6 @@ void CG_SHUDElementItemPickupIconRoutine(void* context)
 {
 	shudElementStatusbarItemPickupIcon* element = (shudElementStatusbarItemPickupIcon*)context;
 
-	float* fade;
-
 	if (CG_SHUDGetFadeColor(element->ctx.color_origin, element->ctx.color, &element->config, cg.itemPickupTime))
 	{
 		element->ctx.image = cg_items[cg.itemPickup].icon;

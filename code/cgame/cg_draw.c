@@ -1477,7 +1477,7 @@ CG_DrawReward
 void CG_DrawReward(void)
 {
 	float*   color;
-	int     i, count;
+	int     i;
 	float   x, y, w, h;
 	char    buf[32];
 

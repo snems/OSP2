@@ -39,20 +39,19 @@ void* CG_SHUDElementNGCreate(const superhudConfig_t* config)
 void CG_SHUDElementNGRoutine(void* context)
 {
 	shudElementNG_t* element = (shudElementNG_t*) context;
-	float x, y, w, h;
 	float ax, ay, aw, ah;
 	int a;
 	int i;
 	int v;
 
 	float   mid, range;
-	int     color;
+	int     color = 0;
 	float   vscale;
 
-	x = ax = element->config.rect.value[0];
-	y = ay = element->config.rect.value[1];
-	w = aw = element->config.rect.value[2];
-	h = ah = element->config.rect.value[3];
+	ax = element->config.rect.value[0];
+	ay = element->config.rect.value[1];
+	aw = element->config.rect.value[2];
+	ah = element->config.rect.value[3];
 
 	CG_SHUDFill(&element->config);
 
@@ -62,12 +61,6 @@ void CG_SHUDElementNGRoutine(void* context)
 	if (element->config.fill.isSet)
 	{
 		if (element->config.bgcolor.isSet)
-		{
-			trap_R_SetColor(element->config.bgcolor.value);
-			trap_R_DrawStretchPic(ax, ay, aw, ah, 0, 0, 1, 1, cgs.media.whiteShader);
-			trap_R_SetColor(NULL);
-		}
-		else
 		{
 			trap_R_SetColor(element->config.bgcolor.value);
 			trap_R_DrawStretchPic(ax, ay, aw, ah, 0, 0, 1, 1, cgs.media.whiteShader);

@@ -24,7 +24,6 @@ void CG_SHUDElementTargetStatusRoutine(void* context)
 {
 	shudElementTargetStatus_t* element = (shudElementTargetStatus_t*)context;
 	char    s[1024];
-	float* fade;
 	clientInfo_t* ci;
 
 	if (cg_drawCrosshair.integer == 0) return;

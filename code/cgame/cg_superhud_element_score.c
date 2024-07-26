@@ -61,12 +61,11 @@ void* CG_SHUDElementScoreMAXCreate(const superhudConfig_t* config)
 static qboolean CG_SHUDScoresGetMax(int* scores)
 {
 	*scores = cgs.fraglimit;
-	return *scores > 0 && *scores > SCORE_NOT_PRESENT;
+	return *scores > 0;
 }
 
 static qboolean CG_SHUDScoresGetOWN(int* scores)
 {
-	int clientNum = cg.snap->ps.clientNum;
 	team_t team = CG_SHUDGetOurActiveTeam();
 
 	switch (team)
@@ -91,7 +90,6 @@ static qboolean CG_SHUDScoresGetOWN(int* scores)
 
 static qboolean CG_SHUDScoresGetNME(int* scores)
 {
-	int clientNum = cg.snap->ps.clientNum;
 	team_t team = CG_SHUDGetOurActiveTeam();
 
 	switch (team)
@@ -121,7 +119,6 @@ static qboolean CG_SHUDScoresGetNME(int* scores)
 void CG_SHUDElementScoreRoutine(void* context)
 {
 	shudElementScore* element = (shudElementScore*)context;
-	const char* s;
 	int scores;
 	qboolean result = qfalse;
 

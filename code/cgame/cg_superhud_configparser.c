@@ -157,7 +157,6 @@ static superhudConfigParseStatus_t CG_SHUDParseString(configFileInfo_t* finfo, c
 {
 	superhudConfigParseStatus_t status;
 	int rc;
-	qboolean skip;
 	char c;
 	char* src;
 	char* dst;
@@ -356,9 +355,7 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseTime(configFileInfo_
 
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseVisFlags(configFileInfo_t* finfo, superhudConfig_t* config)
 {
-	superhudConfigParseStatus_t status;
 	config->visflags.isSet = qfalse;
-
 	return SUPERHUD_CONFIG_OK;
 }
 
@@ -419,7 +416,6 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseTextOffset(configFil
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseTextAlign(configFileInfo_t* finfo, superhudConfig_t* config)
 {
 	char c;
-	int rc;
 	superhudConfigParseStatus_t status;
 
 	config->textAlign.isSet = qfalse;
@@ -555,7 +551,6 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseMargins(configFileIn
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseItTeam(configFileInfo_t* finfo, superhudConfig_t* config)
 {
 	char c;
-	int rc;
 	superhudConfigParseStatus_t status;
 
 	config->itTeam.isSet = qfalse;
@@ -786,7 +781,6 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAngles(configFileInf
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAlighH(configFileInfo_t* finfo, superhudConfig_t* config)
 {
 	char c;
-	int rc;
 	superhudConfigParseStatus_t status;
 
 	config->alignH.isSet = qfalse;
@@ -827,7 +821,6 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAlighH(configFileInf
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAlighV(configFileInfo_t* finfo, superhudConfig_t* config)
 {
 	char c;
-	int rc;
 	superhudConfigParseStatus_t status;
 
 	config->alignV.isSet = qfalse;
@@ -951,7 +944,6 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseColor(configFileInfo
 qboolean CG_SHUDFileInfoInit(configFileInfo_t* info, const char* fileContent)
 {
 	int line_number = 0;
-	const char* tmp;
 	const char* startline = fileContent;
 	const char* endline;
 	const char* endoffile = fileContent + strlen(fileContent) + 1;

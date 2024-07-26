@@ -24,7 +24,6 @@ typedef struct
 void* CG_SHUDElementWeaponListCreate(const superhudConfig_t* config)
 {
 	shudElementWeaponList_t* element;
-	int i;
 
 	SHUD_ELEMENT_INIT(element, config);
 

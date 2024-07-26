@@ -43,7 +43,7 @@ void CG_SHUDElementFlagStatusRoutine(void* context)
 	shudElementFlagStatus_t* element = (shudElementFlagStatus_t*)context;
 	team_t team;
 	gitem_t* item;
-	qhandle_t flag;
+	qhandle_t flag = 0;
 
 	team = cgs.clientinfo[cg.snap->ps.clientNum].team;
 

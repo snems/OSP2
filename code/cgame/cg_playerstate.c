@@ -349,7 +349,6 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 	{
 	  const int atta = ps->persistant[PERS_ATTACKEE_ARMOR];
 		const qboolean is_osp = atta == 0;
-		qhandle_t sound;
 		int damage;
 
 		if (is_osp)

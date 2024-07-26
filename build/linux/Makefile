@@ -97,6 +97,7 @@ BR=$(BUILD_DIR)/release-$(PLATFORM)-$(ARCH)
 
 QADIR=$(MOUNT_DIR)/game
 CGDIR=$(MOUNT_DIR)/cgame
+COMDIR=$(MOUNT_DIR)/qcommon
 UIDIR=$(MOUNT_DIR)/q3_ui
 
 bin_path=$(shell which $(1) 2> /dev/null)
@@ -320,6 +321,7 @@ makedirs:
 	@if [ ! -d $(B) ];then $(MKDIR) $(B);fi
 	@if [ ! -d $(B)/$(MOD) ];then $(MKDIR) $(B)/$(MOD);fi
 	@if [ ! -d $(B)/$(MOD)/cgame ];then $(MKDIR) $(B)/$(MOD)/cgame;fi
+	@if [ ! -d $(B)/$(MOD)/qcommon ];then $(MKDIR) $(B)/$(MOD)/qcommon;fi
 	@if [ ! -d $(B)/$(MOD)/game ];then $(MKDIR) $(B)/$(MOD)/game;fi
 	@if [ ! -d $(B)/$(MOD)/ui ];then $(MKDIR) $(B)/$(MOD)/ui;fi
 	@if [ ! -d $(B)/$(MOD)/vm ];then $(MKDIR) $(B)/$(MOD)/vm;fi
@@ -331,11 +333,8 @@ makedirs:
 
 CGOBJ_ = \
   $(B)/$(MOD)/cgame/cg_main.o \
-  $(B)/$(MOD)/cgame/bg_lib.o \
-  $(B)/$(MOD)/cgame/bg_misc.o \
-  $(B)/$(MOD)/cgame/bg_pmove.o \
-  $(B)/$(MOD)/cgame/bg_slidemove.o \
   $(B)/$(MOD)/cgame/cg_consolecmds.o \
+  $(B)/$(MOD)/cgame/cg_customloc.o \
   $(B)/$(MOD)/cgame/cg_draw.o \
   $(B)/$(MOD)/cgame/cg_drawtools.o \
   $(B)/$(MOD)/cgame/cg_effects.o \
@@ -358,9 +357,56 @@ CGOBJ_ = \
   $(B)/$(MOD)/cgame/cg_osphud.o \
   $(B)/$(MOD)/cgame/cg_osputil.o \
   $(B)/$(MOD)/cgame/cg_unlagged.o \
+  $(B)/$(MOD)/cgame/cg_superhud.o \
+  $(B)/$(MOD)/cgame/cg_superhud_configparser.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_ammomessage.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_attacker_icon.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_attacker_name.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_chat.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_flagstatus.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_followmessage.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_fps.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_fragmessage.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_gametime.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_itempickup.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_itempickupicon.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_localtime.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_name.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_ng.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_ngp.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_powerup.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_pred.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_rankmessage.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_reward.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_sbab.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_sbac.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_sbai.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_sbamb.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_sbamc.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_sbami.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_sbhb.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_sbhc.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_sbhi.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_score.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_specmessage.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_speed.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_target_name.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_target_status.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_team.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_teamcount.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_vmw.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_weaponlist.o \
+  $(B)/$(MOD)/cgame/cg_superhud_private.o \
+  $(B)/$(MOD)/cgame/cg_superhud_util.o \
   \
-  $(B)/$(MOD)/game/q_math.o \
-  $(B)/$(MOD)/game/q_shared.o
+  $(B)/$(MOD)/game/bg_lib.o \
+  $(B)/$(MOD)/game/bg_misc.o \
+  $(B)/$(MOD)/game/bg_pmove.o \
+  $(B)/$(MOD)/game/bg_slidemove.o \
+  \
+  $(B)/$(MOD)/qcommon/common.o \
+  $(B)/$(MOD)/qcommon/q_math.o \
+  $(B)/$(MOD)/qcommon/q_shared.o 
 
 CGOBJ = $(CGOBJ_) $(B)/$(MOD)/cgame/cg_syscalls.o
 
@@ -493,6 +539,9 @@ $(B)/$(MOD)/ui/bg_%.o: $(QADIR)/bg_%.c
 
 $(B)/$(MOD)/ui/%.o: $(UIDIR)/%.c
 	$(DO_UI_CC)
+
+$(B)/$(MOD)/qcommon/%.o: $(COMDIR)/%.c
+	$(DO_GAME_CC)
 
 #############################################################################
 # MISC

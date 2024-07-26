@@ -360,8 +360,6 @@ static void CG_Obituary(entityState_t* ent)
 	}
 	if (attacker == cg.snap->ps.clientNum)
 	{
-		const char* fragmsg;
-
 		if (ch_fragMessage.integer)
 		{
 			Q_strncpyz(&targetName[0], Info_ValueForKey(targetInfo, "n"), sizeof(targetName) - 2);

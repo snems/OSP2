@@ -114,10 +114,10 @@ Adjusted for resolution and screen aspect ratio
 void CG_AdjustFrom640(float* x, float* y, float* w, float* h)
 {
 	// scale for screen sizes
-	*x *= cgs.screenXScale_Old;
-	*y *= cgs.screenYScale_Old;
-	*w *= cgs.screenXScale_Old;
-	*h *= cgs.screenYScale_Old;
+	if(x) *x *= cgs.screenXScale_Old;
+	if(y) *y *= cgs.screenYScale_Old;
+	if(w) *w *= cgs.screenXScale_Old;
+	if(h) *h *= cgs.screenYScale_Old;
 }
 void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide)
 {
@@ -129,13 +129,13 @@ void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean corre
 	}
 #endif
 	// scale for screen sizes
-	*x *= cgs.screenXScale_Old;
-	*y *= cgs.screenYScale_Old;
-	*h *= cgs.screenYScale_Old;
+	if(x) *x *= cgs.screenXScale_Old;
+	if(y) *y *= cgs.screenYScale_Old;
+	if(h) *h *= cgs.screenYScale_Old;
 
 	if (!correctWide)
 	{
-		*w *= cgs.screenXScale_Old;
+		if(w) *w *= cgs.screenXScale_Old;
 	}
 	else
 	{
@@ -147,7 +147,7 @@ void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean corre
 			koeff = cgs.screenXScale_Old * (cgs.glconfig.vidHeight * 640.0) / (cgs.glconfig.vidWidth * 480.0);
 		}
 
-		*w *= koeff;
+		if(w) *w *= koeff;
 	}
 }
 
@@ -435,7 +435,6 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 	char* dmem;
 	int i = 0;
 	int len;
-	vec4_t text_color;
 	vec4_t back_color;
 	qboolean back_color_was_set = qfalse;
 	float rc, gc, bc;
@@ -445,6 +444,8 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 	{
 		return NULL;
 	}
+
+	Vector4Copy(colorWhite, back_color);
 
 	commands = Z_Malloc(sizeof(*commands) * OSP_TEXT_CMD_MAX) ;
 	OSP_MEMORY_CHECK(commands);
@@ -532,7 +533,7 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					back_color[2] = bc;
 
 					commands[i].type = OSP_TEXT_CMD_SHADOW_COLOR;
-					VectorCopy(back_color, commands[i].value.color);
+					VectorCopy(commands[i].value.color, back_color);
 					back_color_was_set = qtrue;
 
 					++i;
@@ -976,7 +977,7 @@ static float DrawCompiledStringLength(const text_command_t* cmd, float aw, float
 
 		if (curr->type == OSP_TEXT_CMD_CHAR)
 		{
-			fm = &metrics[ curr->value.character ];
+			fm = &metrics[ (unsigned char)curr->value.character ];
 			if (proportional)
 			{
 				ax += fm->space1 * aw;          // add extra space if required by metrics
@@ -2265,7 +2266,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 			switch (curr->type)
 			{
 				case OSP_TEXT_CMD_CHAR:
-					fm = &metrics[ curr->value.character ];
+					fm = &metrics[ (unsigned char)curr->value.character ];
 					if (proportional)
 					{
 						tc = fm->tc_prop;
@@ -2325,7 +2326,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		switch (curr->type)
 		{
 			case OSP_TEXT_CMD_CHAR:
-				fm = &metrics[ curr->value.character ];
+				fm = &metrics[ (unsigned char)curr->value.character ];
 				if (proportional)
 				{
 					tc = fm->tc_prop;

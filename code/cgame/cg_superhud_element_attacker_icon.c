@@ -42,10 +42,6 @@ void* CG_SHUDElementAttackerIconCreate(const superhudConfig_t* config)
 void CG_SHUDElementAttackerIconRoutine(void* context)
 {
 	shudElementStatusbarAttackerIcon* element = (shudElementStatusbarAttackerIcon*)context;
-
-	int         t;
-	const char*  info;
-	const char*  name;
 	int         clientNum;
 
 	if (cg.predictedPlayerState.stats[STAT_HEALTH] <= 0)

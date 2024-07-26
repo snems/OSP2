@@ -124,9 +124,6 @@ static void CG_SHUDElementPwUpdateState(struct superhudPowerupsCache_t* pw)
 	playerState_t*   ps;
 	int     t;
 	gitem_t* item;
-	int     color;
-	float   size;
-	float   f;
 
 	ps = &cg.snap->ps;
 

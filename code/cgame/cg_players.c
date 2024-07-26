@@ -2009,7 +2009,6 @@ void CG_AddHitBox(centity_t* cent, team_t team)
 	vec3_t maxs = {15, 15, 32};
 	float extx, exty, extz;
 	vec3_t corners[8];
-	int         content;
 
 	if (!cg_drawHitBox.integer || !cg.demoPlayback)
 	{

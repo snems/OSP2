@@ -29,8 +29,6 @@ void CG_SHUDLoadConfig(void)
 	//read fileneame into local buffer
 	fileHandle_t fileHandle;
 	int rc;
-	//configFileInfo_t cf;
-	char c;
 	char* fileContent;
 	int fileContentSize;
 	qboolean filePrepared;
@@ -227,7 +225,6 @@ void CG_SHUDLoadConfig(void)
 		superhudElement_t* prev;
 		superhudElement_t* current;
 		superhudElement_t* next;
-		superhudElement_t* new_head = newElementsHead;
 		int swapped;
 
 		do
@@ -350,11 +347,10 @@ void CG_SHUDEventChat(const char* message)
 
 void CG_SHUDEventTeamChat(const char* message)
 {
-	int len;
+	int len = 0;
 	char* loc_start;
 	char* loc_end;
-	char* p, *ls;
-	int lastcolor;
+	char* p;
 	int size = 1024;
 	int index;
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
@@ -412,13 +408,8 @@ void CG_SHUDEventTeamChat(const char* message)
 		if (Q_IsColorString(message))
 		{
 			*p++ = *message++;
-			lastcolor = *message;
 			*p++ = *message++;
 			continue;
-		}
-		if (*message == ' ')
-		{
-			ls = p;
 		}
 		*p++ = *message++;
 		len++;

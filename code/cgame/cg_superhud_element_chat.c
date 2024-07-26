@@ -66,8 +66,6 @@ void* CG_SHUDElementChat8Create(const superhudConfig_t* config)
 void CG_SHUDElementChatRoutine(void* context)
 {
 	shudElementChat_t* element = (shudElementChat_t*)context;
-	float* fade;
-	int fadedelay;
 	superhudChatEntry_t* entry;
 	int index;
 

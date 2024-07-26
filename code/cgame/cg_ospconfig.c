@@ -230,10 +230,7 @@ void CG_OSPCvarsRestrictValues(void)
  */
 void CG_OSPConfigPmoveSet(int value)
 {
-	cvarTable_t* cvart;
 	cgs.osp.allow_pmove = value;
-
-	cvart = CG_GetCgCvarByName("pmove_fixed");
 	CG_CvarTouch("pmove_fixed");
 }
 

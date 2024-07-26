@@ -36,9 +36,6 @@ void* CG_SHUDElementRankMessageCreate(const superhudConfig_t* config)
 void CG_SHUDElementRankMessageRoutine(void* context)
 {
 	shudElementRankMessage_t* element = (shudElementRankMessage_t*)context;
-	char    s[1024];
-	float* fade;
-	clientInfo_t* ci;
 
 	if (!*element->time)
 	{

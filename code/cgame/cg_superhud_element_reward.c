@@ -59,9 +59,7 @@ void CG_SHUDElementRewardRoutine(void* context)
 {
 	shudElementStatusbarRewards* element = (shudElementStatusbarRewards*)context;
 
-	int     i, count;
-	float   x, y, w, h;
-	char    buf[32];
+	int     i;
 	float   *color_origin;
 	float   *color;
 
@@ -70,7 +68,7 @@ void CG_SHUDElementRewardRoutine(void* context)
 		return;
 	}
 
-	if (element == SHUD_REWARD_ICON)
+	if (element->type == SHUD_REWARD_ICON)
 	{
 		color_origin = element->ctx.d.color_origin;
 		color = element->ctx.d.color;
