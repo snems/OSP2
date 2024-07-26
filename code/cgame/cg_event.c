@@ -420,9 +420,6 @@ static void CG_Obituary(entityState_t* ent)
 				message2 = "'s rocket";
 				break;
 			case MOD_PLASMA:
-				message = "was melted by";
-				message2 = "'s plasmagun";
-				break;
 			case MOD_PLASMA_SPLASH:
 				message = "was melted by";
 				message2 = "'s plasmagun";

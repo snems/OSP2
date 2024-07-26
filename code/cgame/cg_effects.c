@@ -115,10 +115,10 @@ localEntity_t* CG_SmokePuff(const vec3_t p, const vec3_t vel,
 
 	le = CG_AllocLocalEntity();
 	le->leFlags = leFlags;
+	le->radius = radius;
 
 	re = &le->refEntity;
 	re->rotation = Q_random(&seed) * 360;
-	re->radius = radius;
 	re->shaderTime = startTime / 1000.0f;
 
 	le->leType = LE_MOVE_SCALE_FADE;
@@ -536,13 +536,13 @@ void CG_BigExplode(vec3_t playerOrigin)
 		return;
 	}
 
-	VectorCopy(playerOrigin, origin);
+	VectorCopy(playerOrigin, origin);//-V760
 	velocity[0] = crandom() * EXP_VELOCITY;
 	velocity[1] = crandom() * EXP_VELOCITY;
 	velocity[2] = EXP_JUMP + crandom() * EXP_VELOCITY;
 	CG_LaunchExplode(origin, velocity, cgs.media.smoke2);
 
-	VectorCopy(playerOrigin, origin);
+	VectorCopy(playerOrigin, origin);//-V760
 	velocity[0] = crandom() * EXP_VELOCITY;
 	velocity[1] = crandom() * EXP_VELOCITY;
 	velocity[2] = EXP_JUMP + crandom() * EXP_VELOCITY;

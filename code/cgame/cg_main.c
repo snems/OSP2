@@ -1585,7 +1585,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		CG_OSPConfigModeSet(atoi(CG_ConfigString(CS_OSP_SERVER_MODE)));
 
 		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT);
-		if (conf)
+		if (conf)//-V547
 		{
 			CG_OSPConfigCustomClientSet(atoi(conf));
 		}
@@ -1595,7 +1595,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		}
 
 		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT2);
-		if (conf)
+		if (conf)//-V547
 		{
 			CG_OSPConfigCustomClient2Set(atoi(conf));
 		}

@@ -71,11 +71,13 @@ void CG_FreeMarkPoly(markPoly_t* le)
 	if (le == NULL)
 	{
 		CG_Error("CG_FreeMarkPoly: null ponter dereference");
+		return;
 	}
 
-	if (!le->prevMark)
+	if (!le->prevMark) 
 	{
 		CG_Error("CG_FreeMarPoly: no previous mark");
+		return;
 	}
 
 	// remove from the doubly linked active list
@@ -219,7 +221,7 @@ void CG_ImpactMark(qhandle_t markShader, const vec3_t origin, const vec3_t dir,
 			VectorSubtract(v->xyz, origin, delta);
 			v->st[0] = 0.5 + DotProduct(delta, axis[1]) * texCoordScale;
 			v->st[1] = 0.5 + DotProduct(delta, axis[2]) * texCoordScale;
-			*(int*)v->modulate = *(int*)colors;
+			memcpy(v->modulate, colors, sizeof(v->modulate));
 		}
 
 		// if it is a temporary (shadow) mark, add it immediately and forget about it
@@ -405,14 +407,9 @@ static char* shaderAnimNames[MAX_SHADER_ANIMS] =
 	NULL
 };
 static qhandle_t shaderAnims[MAX_SHADER_ANIMS][MAX_SHADER_ANIM_FRAMES];
-static int  shaderAnimCounts[MAX_SHADER_ANIMS] =
-{
-	23
-};
-static float    shaderAnimSTRatio[MAX_SHADER_ANIMS] =
-{
-	1.0f
-};
+static int  shaderAnimCounts[MAX_SHADER_ANIMS] = { 23, };
+
+static float    shaderAnimSTRatio[MAX_SHADER_ANIMS] = { 1.0f };
 static int  numShaderAnims;
 // done.
 
@@ -1292,7 +1289,6 @@ CG_AddParticles
 void CG_ParticleSnowFlurry(qhandle_t pshader, centity_t* cent)
 {
 	cparticle_t* p;
-	qboolean turb = qtrue;
 
 	if (!pshader)
 		CG_Printf("CG_ParticleSnowFlurry pshader == ZERO!\n");
@@ -1328,28 +1324,21 @@ void CG_ParticleSnowFlurry(qhandle_t pshader, centity_t* cent)
 		p->width = 1;
 	}
 
-	p->vel[2] = -20;
-
 	p->type = P_WEATHER_FLURRY;
 
-	if (turb)
-		p->vel[2] = -10;
+	p->vel[2] = -10;
 
 	VectorCopy(cent->currentState.origin, p->org);
 
 	p->vel[0] = p->vel[1] = 0;
 
-	p->accel[0] = p->accel[1] = p->accel[2] = 0;
-
 	p->vel[0] += cent->currentState.angles[0] * 32 + (crandom() * 16);
 	p->vel[1] += cent->currentState.angles[1] * 32 + (crandom() * 16);
 	p->vel[2] += cent->currentState.angles[2];
 
-	if (turb)
-	{
-		p->accel[0] = crandom() * 16;
-		p->accel[1] = crandom() * 16;
-	}
+	p->accel[0] = crandom() * 16;
+	p->accel[1] = crandom() * 16;
+	p->accel[2] = 0;
 
 }
 
@@ -1782,7 +1771,6 @@ void CG_Particle_Bleed(qhandle_t pshader, vec3_t start, vec3_t dir, int fleshEnt
 	p->next = active_particles;
 	active_particles = p;
 	p->time = cg.time;
-	p->alpha = 1.0;
 	p->alphavel = 0;
 	p->roll = 0;
 
@@ -1843,7 +1831,6 @@ void CG_Particle_OilParticle(qhandle_t pshader, centity_t* cent)
 	p->next = active_particles;
 	active_particles = p;
 	p->time = cg.time;
-	p->alpha = 1.0;
 	p->alphavel = 0;
 	p->roll = 0;
 
@@ -1904,7 +1891,6 @@ void CG_Particle_OilSlick(qhandle_t pshader, centity_t* cent)
 
 	p->startfade = p->endtime;
 
-	p->alpha = 1.0;
 	p->alphavel = 0;
 	p->roll = 0;
 
@@ -2050,7 +2036,6 @@ void CG_BloodPool(localEntity_t* le, qhandle_t pshader, trace_t* tr)
 	p->endtime = cg.time + 3000;
 	p->startfade = p->endtime;
 
-	p->alpha = 1.0;
 	p->alphavel = 0;
 	p->roll = 0;
 
@@ -2124,7 +2109,6 @@ void CG_ParticleBloodCloud(centity_t* cent, vec3_t origin, vec3_t dir)
 		active_particles = p;
 
 		p->time = cg.time;
-		p->alpha = 1.0;
 		p->alphavel = 0;
 		p->roll = 0;
 
@@ -2175,7 +2159,7 @@ void CG_ParticleSparks(vec3_t org, vec3_t vel, int duration, float x, float y, f
 	p->time = cg.time;
 
 	p->endtime = cg.time + duration;
-	p->startfade = cg.time + duration / 2;
+	p->startfade = (float)cg.time + (float)duration / 2.0f;
 
 	p->color = EMISIVEFADE;
 	p->alpha = 0.4f;
@@ -2199,7 +2183,6 @@ void CG_ParticleSparks(vec3_t org, vec3_t vel, int duration, float x, float y, f
 	p->vel[1] = vel[1];
 	p->vel[2] = vel[2];
 
-	p->accel[0] = p->accel[1] = p->accel[2] = 0;
 
 	p->vel[0] += (crandom() * 4);
 	p->vel[1] += (crandom() * 4);
@@ -2207,6 +2190,7 @@ void CG_ParticleSparks(vec3_t org, vec3_t vel, int duration, float x, float y, f
 
 	p->accel[0] = crandom() * 4;
 	p->accel[1] = crandom() * 4;
+	p->accel[2] = 0;
 
 }
 
@@ -2250,7 +2234,6 @@ void CG_ParticleDust(centity_t* cent, vec3_t origin, vec3_t dir)
 		active_particles = p;
 
 		p->time = cg.time;
-		p->alpha = 5.0;
 		p->alphavel = 0;
 		p->roll = 0;
 

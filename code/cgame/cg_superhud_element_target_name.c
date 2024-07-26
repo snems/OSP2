@@ -50,6 +50,7 @@ void CG_SHUDElementTargetNameRoutine(void* context)
 	  CG_SHUDFill(&element->config);
 	  element->ctx.text = s;
 		CG_SHUDTextPrint(&element->ctx);
+	  element->ctx.text = NULL;
 	}
 }
 

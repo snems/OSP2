@@ -541,7 +541,7 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					break;
 				default:
 					color_index = (text[1] - 0x30) % 10;
-					VectorCopy(g_color_table[color_index], commands[i].value.color);
+					VectorCopy(g_color_table[color_index], commands[i].value.color); //-V557
 					commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
 					++i;
 					text += 2;
@@ -640,7 +640,7 @@ static qboolean CG_FileExist(const char* file)
 
 	trap_FS_FOpenFile(file, &f, FS_READ);
 	if (f == FS_INVALID_HANDLE)
-		return qfalse;
+		return qfalse;//-V1020
 	else
 	{
 		trap_FS_FCloseFile(f);

@@ -2137,10 +2137,17 @@ void CG_OSPColorFromChar(char c, float* vector);
 void CG_OSPColorFromNumber(int number, float* vector);
 void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size);
 void CG_DynamicMemReport(void);
+
+
+/*
+ * Check memory after allocation
+ * There is qvm shutdown in CG_Error, but infinitie loop needed to make static analyzers happy
+ */
 #define OSP_MEMORY_CHECK(TESTPTR) \
 if(!TESTPTR){\
     CG_DynamicMemReport();\
     CG_Error( "%s:%d: Couldn't allocate memory\n", __FILE__, __LINE__);\
+		while(1){};\
 }
 
 //

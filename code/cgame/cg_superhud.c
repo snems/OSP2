@@ -97,7 +97,7 @@ void CG_SHUDLoadConfig(void)
 				break;
 			case SUPERHUD_CONFIG_END_OF_ELEMENT:
 			case SUPERHUD_CONFIG_WRONG_COMMAND_NAME:
-				CG_Printf("^1SuperHUD: found unexpected character: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
+				CG_Printf("^1SuperHUD: found command name or end of element: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
 				goto error_exit;
 		}
 		if (statusElement.status == SUPERHUD_CONFIG_OK)
@@ -300,7 +300,6 @@ void CG_SHUDRoutine(void)
 	{
 		// check visibility
 		vflags = last->config.visiblity.isSet ? last->config.visiblity.value : last->element.visibility;
-		skip = qfalse;
 
 		skip = (!(vflags&SE_IM) && is_intermission) || 
 		       ((vflags&SE_TEAM_ONLY) && (!is_team_game)) || 

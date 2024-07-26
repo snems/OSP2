@@ -131,13 +131,13 @@ static void CG_SHUDTextMakeAdjustCoords(const superhudConfig_t* in, float *out_x
 
 	switch (v) 
 	{
-    case SUPERHUD_ALIGNH_LEFT:
+    case SUPERHUD_ALIGNV_TOP:
 			*out_y = in->rect.value[1];
       break;
-    case SUPERHUD_ALIGNH_CENTER:
+    case SUPERHUD_ALIGNV_CENTER:
 			*out_y = in->rect.value[1] + in->rect.value[3]/2.0f;
       break;
-    case SUPERHUD_ALIGNH_RIGHT:
+    case SUPERHUD_ALIGNV_BOTTOM:
 			*out_y = in->rect.value[1] + in->rect.value[3];
       break;
   }

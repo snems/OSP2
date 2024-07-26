@@ -118,15 +118,12 @@ static void CG_SHUDElementNameGetPairTeam(const char** own, const char** nme)
 
 	switch (our_team)
 	{
+		case TEAM_SPECTATOR:
 		case TEAM_RED:
 			*own = "Red";
 			*nme = "Blue";
 			break;
 		case TEAM_BLUE:
-			*own = "Blue";
-			*nme = "Red";
-			break;
-		case TEAM_SPECTATOR:
 			*own = "Blue";
 			*nme = "Red";
 			break;

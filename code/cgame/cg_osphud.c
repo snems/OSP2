@@ -441,7 +441,7 @@ static float CG_OSPDrawStatusBar(float arg)
 			}
 			else
 			{
-				if (value >= 0)
+				if (value > 0)
 				{
 					color = 0;  // green
 				}
@@ -762,7 +762,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 		health = ps->ammo[es->currentState.weapon];
 		if (health > -1)
 		{
-			if (health >= 0)
+			if (health > 0)
 			{
 				trap_R_SetColor(colorCPMStatusbar0_1[0]);
 			}
@@ -1143,7 +1143,7 @@ static void CG_OSPDrawCPMStatusbar3(void)
 		if (ammo > -1)
 		{
 			qhandle_t ammoIcon;
-			if (ammo >= 0)
+			if (ammo > 0)
 			{
 				ammoColorIndex = 0;
 			}
@@ -1300,7 +1300,7 @@ static void CG_OSPDrawCPMStatusbar4(void)
 		value = ps->ammo[cent->currentState.weapon];
 		if (value > -1)
 		{
-			if (value >= 0)
+			if (value > 0)
 			{
 				colorIndex = 0;
 			}
@@ -1481,7 +1481,7 @@ static void CG_OSPDrawCPMStatusbar5(void)
 	value = ps->ammo[cent->currentState.weapon];
 	if (value > -1)
 	{
-		if (value >= 0)
+		if (value > 0)
 		{
 			colorIndex = 0;
 		}
@@ -1649,7 +1649,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 	pos1[1] = 0.0f;
 	pos1[2] = 0.0f;
 
-	if (ch_StatusbarFormat.integer == 10 && ch_StatusbarFormat.integer == 12)
+	if (ch_StatusbarFormat.integer == 10 || ch_StatusbarFormat.integer == 12)
 	{
 		int weapon;
 		qhandle_t icon;
@@ -1715,7 +1715,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 				{
 					colorIndex = 2;
 				}
-				else if (ammo >= 0)
+				else if (ammo > 0)
 				{
 					colorIndex = 0;
 				}
@@ -2285,7 +2285,7 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 		teamOverlayUnkFlag = qtrue;
 	}
 
-	teamOverlayUnkFlag = qfalse;
+	teamOverlayUnkFlag = qfalse; //-V519
 	if (right)
 	{
 		x = 640 - teamOverlay.overlayWidthChar;
@@ -2665,18 +2665,10 @@ static float CG_OSPHUDDrawScores(float y)
 		}
 		else
 		{
-			if ((cgs.gametype != GT_TEAM) && (cgs.osp.gameTypeFreeze == 0) && (CG_OSPIsGameTypeCA(cgs.gametype) == 0) && (cgs.gametype != 4) && ch_drawFlagNames.integer)
+			if ((cgs.gametype != GT_TEAM) && (cgs.osp.gameTypeFreeze == 0) && (CG_OSPIsGameTypeCA(cgs.gametype) == 0) && (cgs.gametype != GT_CTF) && ch_drawFlagNames.integer)
 			{
-				if (cgs.gametype == GT_CTF)
-				{
-					x = SCREEN_WIDTH;
-					y -= (float)(fontScoresH + 8);
-				}
-				else
-				{
-					x = SCREEN_WIDTH;
-					y -= 8.0f;
-				}
+				x = SCREEN_WIDTH;
+				y -= 8.0f;
 			}
 			else
 			{
@@ -4234,20 +4226,12 @@ void CG_OSPHUDRoutine(void)
 					CG_OSPDrawCPMStatusbar5();
 					break;
 				case 9:
-					CG_OSPDrawQ3CompStatusbar();
-					drew = 424.0f;
-					break;
 				case 10:
-					CG_OSPDrawQ3CompStatusbar();
-					drew = 424.0f;
-					break;
 				case 11:
-					CG_OSPDrawQ3CompStatusbar();
-					drew = 424.0f;
-					break;
 				case 12:
 					CG_OSPDrawQ3CompStatusbar();
 					drew = 424.0f;
+					break;
 			}
 		}
 
@@ -4404,9 +4388,6 @@ void CG_OSPHUDRoutine(void)
 					switch (ch_StatusbarFormat.integer)
 					{
 						case 4:
-							CG_OSPDrawWeaponBarCPM1(380);
-							weaponBarDrew = qfalse;
-							break;
 						case 5:
 							CG_OSPDrawWeaponBarCPM1(380);
 							weaponBarDrew = qfalse;
