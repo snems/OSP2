@@ -10,40 +10,56 @@ typedef struct
 } drawBarCoords_t;
 
 
-static const float* CG_SHUDConfigPickColor(const superhudColor_t* in)
+static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float *color)
 {
 	clientInfo_t* ci;
+	const superhudColor_t *in = &config->color.value;
+	const float *target;
+
+	if (!config->color.isSet)
+	{
+		Vector4Copy(colorWhite, color);
+		return;
+	}
 
 	switch (in->type)
 	{
 		case SUPERHUD_COLOR_RGBA:
-			return in->rgba;
+			target = in->rgba;
+			break;
 		case SUPERHUD_COLOR_T:
 			ci = &cgs.clientinfo[ cg.clientNum ];
 			if (ci->rt == TEAM_RED)
 			{
-				return colorRed;
+			  target = colorRed;
+			  break;
 			}
 			else if (ci->rt == TEAM_BLUE)
 			{
-				return colorBlue;
+			  target = colorBlue;
+			  break;
 			}
-			return colorRed;
+			target = colorRed;
+			break;
 		case SUPERHUD_COLOR_E:
 			ci = &cgs.clientinfo[ cg.clientNum ];
 			if (ci->rt == TEAM_RED)
 			{
-				return colorBlue;
+			  target = colorBlue;
+			  break;
 			}
 			else if (ci->rt == TEAM_BLUE)
 			{
-				return colorRed;
+			  target = colorRed;
+			  break;
 			}
-			return colorBlue;
+			target = colorBlue;
+			break;
 		case SUPERHUD_COLOR_I:
-			return colorWhite;
+			target = colorWhite;
+			break;
 	}
-	return colorWhite;
+	Vector4Copy(target, color);
 }
 
 static void CG_SHUDConfigDefaultsCheck(superhudConfig_t* config)
@@ -199,7 +215,7 @@ void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* o
 
 	out->fontIndex = CG_FontIndexFromName(config.font.isSet ? config.font.value : "sansman");
 
-	Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color);
+	CG_SHUDConfigPickColor(&config, out->color);
 	Vector4Copy(out->color, out->color_origin);
 }
 
@@ -221,7 +237,7 @@ void CG_SHUDDrawMakeContext(const superhudConfig_t* in, superhudDrawContext_t* o
 	out->coordPicture.named.w = 1.0f;
 	out->coordPicture.named.h = 1.0f;
 
-	Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color);
+	CG_SHUDConfigPickColor(&config, out->color);
 	Vector4Copy(out->color, out->color_origin);
 }
 
@@ -310,8 +326,8 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 		out->koeff = out->max / max;
 	}
 
-	Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color_top);
-	Vector4Copy(CG_SHUDConfigPickColor(&config.color.value), out->color_top_origin);
+	CG_SHUDConfigPickColor(&config, out->color_top);
+	Vector4Copy(out->color_top, out->color_top_origin);
 	if (config.bgcolor.isSet)
 	{
 		Vector4Copy(config.bgcolor.value, out->color_back);
@@ -389,13 +405,14 @@ qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhud
 	return qfalse;
 }
 
-void CG_SHUDTextPrint(const superhudTextContext_t* ctx)
+void CG_SHUDTextPrint(const superhudConfig_t* cfg, superhudTextContext_t* ctx)
 {
 	if (!ctx->text || !ctx->text[0])
 	{
 		return;
 	}
 
+	CG_SHUDConfigPickColor(cfg, ctx->color);
 	CG_FontSelect(ctx->fontIndex);
 	CG_OSPDrawString(ctx->coord.named.x,
 	                 ctx->coord.named.y,
@@ -532,9 +549,11 @@ static void CG_SHUDBarPreparePrintBTT(const superhudBarContext_t* ctx, float val
 	coords->bar2_value[1] += ctx->bar[1][3] - coords->bar2_value[3]; //y = y + max_height - height
 }
 
-void CG_SHUDBarPrint(const superhudBarContext_t* ctx, float value)
+void CG_SHUDBarPrint(const superhudConfig_t* cfg, superhudBarContext_t* ctx, float value)
 {
 	drawBarCoords_t coords;
+
+	CG_SHUDConfigPickColor(cfg, ctx->color_top);
 
 	memset(&coords, 0, sizeof(coords));
 
@@ -653,16 +672,15 @@ qboolean CG_SHUDFill(const superhudConfig_t* cfg)
 	}
 	if (cfg->image.isSet)
 	{
-		const float *color = colorWhite;
+		vec4_t color;
 		qhandle_t image = trap_R_RegisterShader(cfg->image.value);
 		if (!image)
 		{
 			return qfalse;
 		}
-		if (cfg->color.isSet)
-		{
-			color = CG_SHUDConfigPickColor(&cfg->color.value);
-		}
+
+		CG_SHUDConfigPickColor(cfg, color);
+
 		trap_R_SetColor(color);
 		trap_R_DrawStretchPic(x, y, w, h, 0, 0, 1, 1, image);
 		trap_R_SetColor(NULL);
@@ -735,8 +753,10 @@ void CG_SHUDDrawStretchPic(superhudCoord_t coord, const superhudCoord_t coordPic
 	trap_R_SetColor(NULL);
 }
 
-void CG_SHUDDrawStretchPicCtx(const superhudDrawContext_t* out)
+void CG_SHUDDrawStretchPicCtx(const superhudConfig_t* cfg, superhudDrawContext_t* out)
 {
+	// we have to pick color again, because team could changed
+	CG_SHUDConfigPickColor(cfg, out->color);
 	CG_SHUDDrawStretchPic(out->coord, out->coordPicture, out->color, out->image);
 }
 

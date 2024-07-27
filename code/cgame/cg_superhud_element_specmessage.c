@@ -27,7 +27,7 @@ void CG_SHUDElementSpecMessageRoutine(void* context)
 	if (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR)
 	{
 	  CG_SHUDFill(&element->config);
-		CG_SHUDTextPrint(&element->ctx);
+		CG_SHUDTextPrint(&element->config, &element->ctx);
 	}
 }
 

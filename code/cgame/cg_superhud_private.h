@@ -590,15 +590,17 @@ typedef struct
 } shudTeamOverlay_t;
 
 void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out, float max);
-void CG_SHUDDrawMakeContext(const superhudConfig_t* in, superhudDrawContext_t* out);
 void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* out);
-void CG_SHUDTextPrint(const superhudTextContext_t* pos);
 void CG_SHUDDrawStretchPic(superhudCoord_t coord, const superhudCoord_t coordPicture, const float *color, qhandle_t shader);
-void CG_SHUDDrawStretchPicCtx(const superhudDrawContext_t* out);
-void CG_SHUDBarPrint(const superhudBarContext_t* ctx, float value);
+void CG_SHUDDrawMakeContext(const superhudConfig_t* cfg, superhudDrawContext_t* out);
+
+void CG_SHUDTextPrint(const superhudConfig_t* cfg, superhudTextContext_t* pos);
+void CG_SHUDDrawStretchPicCtx(const superhudConfig_t* cfg, superhudDrawContext_t* out);
+void CG_SHUDBarPrint(const superhudConfig_t* cfg, superhudBarContext_t* ctx, float value);
+qboolean CG_SHUDFill(const superhudConfig_t* cfg);
+
 team_t CG_SHUDGetOurActiveTeam(void);
 qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhudConfig_t* cfg, int startTime);
-qboolean CG_SHUDFill(const superhudConfig_t* cfg);
 void CG_SHUDFillWithColor(const superhudCoord_t* coord, const float *color);
 void CG_SHUDElementCompileTeamOverlayConfig(int fontWidth, shudTeamOverlay_t *configOut);
 

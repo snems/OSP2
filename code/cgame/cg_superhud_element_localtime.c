@@ -36,7 +36,7 @@ void CG_SHUDElementLocalTimeRoutine(void* context)
 	}
 	CG_SHUDFill(&element->config);
 
-	CG_SHUDTextPrint(&element->ctx);
+	CG_SHUDTextPrint(&element->config, &element->ctx);
 }
 
 void CG_SHUDElementLocalTimeDestroy(void* context)

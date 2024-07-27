@@ -42,7 +42,7 @@ void CG_SHUDElementVMWRoutine(void* context)
 	element->ctx.text = va("VOTE(%i):%s yes(F1):%i no(F2):%i", time, &cgs.voteString, cgs.voteYes, cgs.voteNo);
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(&element->ctx);
+	CG_SHUDTextPrint(&element->config, &element->ctx);
 }
 
 void CG_SHUDElementVMWDestroy(void* context)

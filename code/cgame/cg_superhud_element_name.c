@@ -178,7 +178,7 @@ void CG_SHUDElementNameRoutine(void* context)
 	{
 		element->ctx.text = nme;
 	}
-	CG_SHUDTextPrint(&element->ctx);
+	CG_SHUDTextPrint(&element->config, &element->ctx);
 }
 
 void CG_SHUDElementNameDestroy(void* context)

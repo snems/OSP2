@@ -16,19 +16,21 @@ void* CG_SHUDElementSBAICreate(const superhudConfig_t* config)
 
 	CG_SHUDDrawMakeContext(&element->config, &element->ctx);
 
-	if (config->image.isSet)
-	{
-		element->ctx.image = trap_R_RegisterShader(element->config.image.value);
-	}
-
 	return element;
 }
 
 void CG_SHUDElementSBAIRoutine(void* context)
 {
-	shudElementStatusbarArmorIcon* element = (shudElementStatusbarArmorIcon*)context;
-	CG_SHUDFill(&element->config);
-	CG_SHUDDrawStretchPicCtx(&element->ctx);
+
+	if (cg.snap->ps.stats[STAT_ARMOR])
+	{
+	  unsigned int index = cg.snap->ps.stats[STAT_OSP_8];
+		shudElementStatusbarArmorIcon* element = (shudElementStatusbarArmorIcon*)context;
+		if (index > 2) index = 0;
+		element->ctx.image = cgs.media.armorIcon[index];
+		CG_SHUDFill(&element->config);
+		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
+	}
 }
 
 void CG_SHUDElementSBAIDestroy(void* context)

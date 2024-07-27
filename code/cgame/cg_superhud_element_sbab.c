@@ -36,7 +36,7 @@ void CG_SHUDElementSBABRoutine(void* context)
 	}
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDBarPrint(&element->ctx, ap);
+	CG_SHUDBarPrint(&element->config, &element->ctx, ap);
 }
 
 void CG_SHUDElementSBABDestroy(void* context)

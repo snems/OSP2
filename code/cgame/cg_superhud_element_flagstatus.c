@@ -43,7 +43,6 @@ void CG_SHUDElementFlagStatusRoutine(void* context)
 	shudElementFlagStatus_t* element = (shudElementFlagStatus_t*)context;
 	team_t team;
 	gitem_t* item;
-	qhandle_t flag = 0;
 
 	team = cgs.clientinfo[cg.snap->ps.clientNum].team;
 
@@ -85,9 +84,9 @@ void CG_SHUDElementFlagStatusRoutine(void* context)
 
 	CG_SHUDFill(&element->config);
 
-	if (item && flag)
+	if (item)
 	{
-		CG_SHUDDrawStretchPicCtx(&element->ctx);
+		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
 	}
 }
 

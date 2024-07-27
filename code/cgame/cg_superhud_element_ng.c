@@ -171,7 +171,7 @@ void CG_SHUDElementNGRoutine(void* context)
 		}
 
 		// also add text in center of screen
-		CG_SHUDTextPrint(&element->tctx);
+		CG_SHUDTextPrint(&element->config, &element->tctx);
 
 		// blink the icon
 		if ((cg.time >> 9) & 1)

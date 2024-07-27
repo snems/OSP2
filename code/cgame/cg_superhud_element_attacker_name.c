@@ -53,7 +53,7 @@ void CG_SHUDElementAttackerNameRoutine(void* context)
 	info = CG_ConfigString(CS_PLAYERS + clientNum);
 	element->ctx.text = Info_ValueForKey(info, "n");
 
-	CG_SHUDTextPrint(&element->ctx);
+	CG_SHUDTextPrint(&element->config, &element->ctx);
 }
 
 void CG_SHUDElementAttackerNameDestroy(void* context)

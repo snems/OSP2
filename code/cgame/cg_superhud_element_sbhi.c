@@ -33,7 +33,7 @@ void CG_SHUDElementSBHIRoutine(void* context)
 {
 	shudElementStatusbarHealthIcon* element = (shudElementStatusbarHealthIcon*)context;
 	CG_SHUDFill(&element->config);
-	CG_SHUDDrawStretchPicCtx(&element->ctx);
+	CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
 }
 
 void CG_SHUDElementSBHIDestroy(void* context)

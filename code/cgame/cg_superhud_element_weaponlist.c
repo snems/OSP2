@@ -189,8 +189,8 @@ void CG_SHUDElementWeaponListRoutine(void* context)
 	for (i = 0; i < element->weaponNum; ++i)
 	{
 		CG_SHUDFillWithColor(&element->back[i].coord, element->back[i].color);
-    CG_SHUDDrawStretchPicCtx(&element->weaponIcon[i]);
-    CG_SHUDTextPrint(&element->ammoCount[i]);
+    CG_SHUDDrawStretchPicCtx(&element->config, &element->weaponIcon[i]);
+    CG_SHUDTextPrint(&element->config, &element->ammoCount[i]);
 	}
 }
 

@@ -25,11 +25,6 @@ void* CG_SHUDElementDecorCreate(const superhudConfig_t* config)
 		}
 	}
 
-	element->ctx.coordPicture.arr[0] = 0;
-	element->ctx.coordPicture.arr[1] = 0;
-	element->ctx.coordPicture.arr[2] = 0;
-	element->ctx.coordPicture.arr[3] = 0;
-
 	return element;
 }
 
@@ -39,7 +34,7 @@ void CG_SHUDElementDecorRoutine(void* context)
 
 	if (!CG_SHUDFill(&element->config) && element->ctx.image)
 	{
-	  CG_SHUDDrawStretchPicCtx(&element->ctx);
+	  CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
 	}
 }
 

@@ -55,7 +55,7 @@ void CG_SHUDElementFPSRoutine(void* context)
 
 	CG_SHUDFill(&element->config);
 
-	CG_SHUDTextPrint(&element->ctx);
+	CG_SHUDTextPrint(&element->config, &element->ctx);
 }
 
 void CG_SHUDElementFPSDestroy(void* context)

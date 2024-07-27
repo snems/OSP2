@@ -34,7 +34,7 @@ void CG_SHUDElementSBAmIRoutine(void* context)
 	if ((element->ctx.image = cg_weapons[wp].ammoIcon))
 	{
 		CG_SHUDFill(&element->config);
-	  CG_SHUDDrawStretchPicCtx(&element->ctx);
+	  CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
 	}
 
 }

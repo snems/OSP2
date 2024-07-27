@@ -45,7 +45,7 @@ void CG_SHUDElementSBAmCRoutine(void* context)
 	element->ctx.text = va(element->config.text.value, ammo > 0 ? ammo : 0);
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(&element->ctx);
+	CG_SHUDTextPrint(&element->config, &element->ctx);
 }
 
 void CG_SHUDElementSBAmCDestroy(void* context)

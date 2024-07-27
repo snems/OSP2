@@ -73,11 +73,11 @@ void CG_SHUDElementTeamCountRoutine(void* context)
 		return;
 	}
 
-	if ( count > 0)
+	if ( count >= 0)
 	{
 	  CG_SHUDFill(&element->config);
 	  element->ctx.text = va(element->config.text.value, count); 
-		CG_SHUDTextPrint(&element->ctx);
+		CG_SHUDTextPrint(&element->config, &element->ctx);
 	}
 
 }

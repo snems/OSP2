@@ -105,12 +105,12 @@ void CG_SHUDElementRewardRoutine(void* context)
 	if (element->type == SHUD_REWARD_ICON)
 	{
 		element->ctx.d.image = cg.rewardShader[0];
-		CG_SHUDDrawStretchPicCtx(&element->ctx.d);
+		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx.d);
 	}
 	else if (cg.rewardCount[0])
 	{
 		element->ctx.t.text = va(element->config.text.value, cg.rewardCount[0]);
-		CG_SHUDTextPrint(&element->ctx.t);
+		CG_SHUDTextPrint(&element->config, &element->ctx.t);
 	}
 }
 

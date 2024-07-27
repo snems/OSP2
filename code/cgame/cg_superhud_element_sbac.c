@@ -42,7 +42,7 @@ void CG_SHUDElementSBACRoutine(void* context)
 	element->ctx.text = va(element->config.text.value, ap > 0 ? ap : 0);
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(&element->ctx);
+	CG_SHUDTextPrint(&element->config, &element->ctx);
 }
 
 void CG_SHUDElementSBACDestroy(void* context)

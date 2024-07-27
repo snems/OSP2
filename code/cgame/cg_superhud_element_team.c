@@ -190,16 +190,16 @@ void CG_SHUDElementTeamRoutine(void* context)
 
 	// draw name	
 	element->ctxName.text = ci->name;
-	CG_SHUDTextPrint(&element->ctxName);
+	CG_SHUDTextPrint(&element->config, &element->ctxName);
 
 	// draw health and armor
 	CG_GetColorForHealth(ci->health, ci->armor, element->ctxHealthArmor.color);
 	element->ctxHealthArmor.text = va("%3i/%i", ci->health, ci->armor);
-  CG_SHUDTextPrint(&element->ctxHealthArmor);
+  CG_SHUDTextPrint(&element->config, &element->ctxHealthArmor);
 
 	// draw weapon
 	element->ctxWeapon.image = cg_weapons[ci->curWeapon].ammoIcon ?  cg_weapons[ci->curWeapon].ammoIcon : cgs.media.deferShader;
-	CG_SHUDDrawStretchPicCtx(&element->ctxWeapon);
+	CG_SHUDDrawStretchPicCtx(&element->config, &element->ctxWeapon);
 
 	// draw powerup
 	{
@@ -211,7 +211,7 @@ void CG_SHUDElementTeamRoutine(void* context)
 			if (cgs.osp.gameTypeFreeze && ci->health <= 0)
 			{
 				element->ctxPowerup.image = cgs.media.noammoShader;
-				CG_SHUDDrawStretchPicCtx(&element->ctxPowerup);
+				CG_SHUDDrawStretchPicCtx(&element->config, &element->ctxPowerup);
 				break;
 			}
 			else if (ci->powerups & (1 << k))
@@ -220,7 +220,7 @@ void CG_SHUDElementTeamRoutine(void* context)
 				if (gi)
 				{
 					element->ctxPowerup.image = trap_R_RegisterShader(gi->icon);
-					CG_SHUDDrawStretchPicCtx(&element->ctxPowerup);
+					CG_SHUDDrawStretchPicCtx(&element->config, &element->ctxPowerup);
 				}
 			}
 		}
@@ -249,7 +249,7 @@ void CG_SHUDElementTeamRoutine(void* context)
 			element->ctxLocation.text = "unknown";
 		}
 
-  	CG_SHUDTextPrint(&element->ctxLocation);
+  	CG_SHUDTextPrint(&element->config, &element->ctxLocation);
 	}
 }
 

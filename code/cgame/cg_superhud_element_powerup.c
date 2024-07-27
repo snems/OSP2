@@ -202,12 +202,12 @@ void CG_SHUDElementPwRoutine(void* context)
 	if (element->pwType == SHUDPWTYPE_TIME)
 	{
 		element->textCtx.text = va("%d", pwElement->time); 
-		CG_SHUDTextPrint(&element->textCtx);
+		CG_SHUDTextPrint(&element->config, &element->textCtx);
 	}
 	else
 	{
 		element->drawCtx.image = pwElement->powerup;
-		CG_SHUDDrawStretchPicCtx(&element->drawCtx);
+		CG_SHUDDrawStretchPicCtx(&element->config, &element->drawCtx);
 	}
 }
 

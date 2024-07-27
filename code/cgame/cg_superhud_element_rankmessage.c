@@ -50,7 +50,7 @@ void CG_SHUDElementRankMessageRoutine(void* context)
 
 	CG_SHUDFill(&element->config);
 
-	CG_SHUDTextPrint(&element->ctx);
+	CG_SHUDTextPrint(&element->config, &element->ctx);
 }
 
 void CG_SHUDElementRankMessageDestroy(void* context)

@@ -44,7 +44,7 @@ void CG_SHUDElementSBHBRoutine(void* context)
 	}
 
 	CG_SHUDFill(&element->config);
-	CG_SHUDBarPrint(&element->ctx, hp);
+	CG_SHUDBarPrint(&element->config, &element->ctx, hp);
 }
 
 void CG_SHUDElementSBHBDestroy(void* context)

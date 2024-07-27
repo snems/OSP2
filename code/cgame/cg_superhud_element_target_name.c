@@ -49,7 +49,7 @@ void CG_SHUDElementTargetNameRoutine(void* context)
 		Com_sprintf(s, 1024, "%s", ci->name);
 	  CG_SHUDFill(&element->config);
 	  element->ctx.text = s;
-		CG_SHUDTextPrint(&element->ctx);
+		CG_SHUDTextPrint(&element->config, &element->ctx);
 	  element->ctx.text = NULL;
 	}
 }
