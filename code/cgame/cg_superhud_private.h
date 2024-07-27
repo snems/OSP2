@@ -416,6 +416,14 @@ void* CG_SHUDElementChat5Create(const superhudConfig_t* config);
 void* CG_SHUDElementChat6Create(const superhudConfig_t* config);
 void* CG_SHUDElementChat7Create(const superhudConfig_t* config);
 void* CG_SHUDElementChat8Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat9Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat10Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat11Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat12Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat13Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat14Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat15Create(const superhudConfig_t* config);
+void* CG_SHUDElementChat16Create(const superhudConfig_t* config);
 void CG_SHUDElementChatRoutine(void* context);
 void CG_SHUDElementChatDestroy(void* context);
 
@@ -610,7 +618,7 @@ typedef struct
 	int time;
 } superhudChatEntry_t;
 
-#define SHUD_MAX_CHAT_LINES 8
+#define SHUD_MAX_CHAT_LINES 16
 #define SHUD_MAX_POWERUPS 8
 
 typedef struct

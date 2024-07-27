@@ -63,6 +63,46 @@ void* CG_SHUDElementChat8Create(const superhudConfig_t* config)
 	return CG_SHUDElementChatCreate(config, 8);
 }
 
+void* CG_SHUDElementChat9Create(const superhudConfig_t* config)
+{
+	return CG_SHUDElementChatCreate(config, 9);
+}
+
+void* CG_SHUDElementChat10Create(const superhudConfig_t* config)
+{
+	return CG_SHUDElementChatCreate(config, 10);
+}
+
+void* CG_SHUDElementChat11Create(const superhudConfig_t* config)
+{
+	return CG_SHUDElementChatCreate(config, 11);
+}
+
+void* CG_SHUDElementChat12Create(const superhudConfig_t* config)
+{
+	return CG_SHUDElementChatCreate(config, 12);
+}
+
+void* CG_SHUDElementChat13Create(const superhudConfig_t* config)
+{
+	return CG_SHUDElementChatCreate(config, 13);
+}
+
+void* CG_SHUDElementChat14Create(const superhudConfig_t* config)
+{
+	return CG_SHUDElementChatCreate(config, 14);
+}
+
+void* CG_SHUDElementChat15Create(const superhudConfig_t* config)
+{
+	return CG_SHUDElementChatCreate(config, 15);
+}
+
+void* CG_SHUDElementChat16Create(const superhudConfig_t* config)
+{
+	return CG_SHUDElementChatCreate(config, 16);
+}
+
 void CG_SHUDElementChatRoutine(void* context)
 {
 	shudElementChat_t* element = (shudElementChat_t*)context;
