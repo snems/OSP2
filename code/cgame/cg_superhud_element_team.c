@@ -34,7 +34,7 @@ static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 	element->config.alignH.isSet = qtrue;
 	element->config.alignH.value = SUPERHUD_ALIGNH_LEFT;
 	element->config.alignV.isSet = qtrue;
-	element->config.alignV.value = SUPERHUD_ALIGNV_TOP;
+	element->config.alignV.value = SUPERHUD_ALIGNV_CENTER;
 
 	CG_SHUDElementCompileTeamOverlayConfig(config->fontsize.value[0], &teamOverlay);
 
@@ -55,7 +55,7 @@ static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.healthAndArmorOffsetPix; 
 	lcfg.rect.value[2] = teamOverlay.healthAndArmorLenPix; 
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxHealthArmor);
-	element->ctxName.maxchars = teamOverlay.healthAndArmorLenChar;
+	element->ctxHealthArmor.maxchars = teamOverlay.healthAndArmorLenChar;
 
 	// setup weapon
 	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.weaponOffsetPix; 
@@ -66,7 +66,10 @@ static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.locationOffsetPix; 
 	lcfg.rect.value[2] = teamOverlay.locationLenPix; 
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxLocation);
-	element->ctxName.maxchars = teamOverlay.locationLenChar;
+	element->ctxLocation.maxchars = teamOverlay.locationLenChar;
+
+	// setup width of element
+	element->config.rect.value[2] = teamOverlay.overlayWidthPix;
 
 	return element;
 }
