@@ -21,12 +21,8 @@ static void CG_SHUDRoutenesDestroy(superhudElement_t* shud)
 
 }
 
-/*
- * Load SuperHUD config
- */
-void CG_SHUDLoadConfig(void)
+qboolean CG_SHUDLoadConfigPrivate(const char *filename)
 {
-	//read fileneame into local buffer
 	fileHandle_t fileHandle;
 	int rc;
 	char* fileContent;
@@ -42,7 +38,7 @@ void CG_SHUDLoadConfig(void)
 	char superhudFilename[MAX_QPATH];
 	int numberOfElements = 0;
 
-	Com_sprintf(superhudFilename, MAX_QPATH, "hud/%s.cfg", ch_file.string);
+	Com_sprintf(superhudFilename, MAX_QPATH, "hud/%s.cfg", filename);
 
 	CG_Printf("^3SuperHUD: loading config file: %s\n", superhudFilename);
 
@@ -50,12 +46,12 @@ void CG_SHUDLoadConfig(void)
 	if (rc < 0 || !fileHandle)
 	{
 		CG_Printf("^1SuperHUD: config file: %s is not found.\n", superhudFilename);
-		return;
+		return qfalse;
 	}
 	if (rc == 0)
 	{
 		CG_Printf("^1SuperHUD: config file: %s is empty.\n", superhudFilename);
-		return;
+		return qfalse;
 	}
 
 	fileContentSize = rc + 1;
@@ -73,7 +69,7 @@ void CG_SHUDLoadConfig(void)
 	if (!filePrepared)
 	{
 		CG_Printf("^1SuperHUD: config file: could not prepare %s for parsing.\n", superhudFilename);
-		return;
+		return qfalse;
 	}
 
 	do
@@ -272,12 +268,28 @@ void CG_SHUDLoadConfig(void)
 	CG_Printf("^3OK\n");
 
 	CG_SHUDFileInfoTeardown(&finfo);
-	return;
+	return qtrue;
 
 error_exit:
 	CG_SHUDRoutenesDestroy(newElementsHead);
 	CG_SHUDFileInfoTeardown(&finfo);
-	return;
+	return qfalse;
+}
+
+/*
+ * Load SuperHUD config
+ */
+void CG_SHUDLoadConfig(void)
+{
+	if (!CG_SHUDLoadConfigPrivate(ch_file.string))
+	{
+		CG_Printf("^1SuperHUD: couldn't load file %s, going to load default.cfg\n", ch_file.string);
+		if (!CG_SHUDLoadConfigPrivate("default"))
+		{
+			CG_Printf("^1SuperHUD: couldn't default config, going to disable SuperHUD\n", ch_file.string);
+			trap_Cvar_Set("cg_shud", "0");
+		}
+	}
 }
 
 void CG_SHUDRoutine(void)
