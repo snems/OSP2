@@ -157,17 +157,23 @@ void CG_SHUDElementTeamRoutine(void* context)
 	clientInfo_t* ci;
 	int cnt = 0;
 	int index;
-	int persistantTeam;
+	int ourTeam;
 
-
-	persistantTeam = cg.snap->ps.persistant[PERS_TEAM];
+	if (CG_OSPIsGameTypeFreeze())
+	{
+		ourTeam = cgs.clientinfo[cg.clientNum].rt;
+	}
+	else
+	{
+		ourTeam = cg.snap->ps.persistant[PERS_TEAM];
+	}
 
 	for (index = 0; index < numSortedTeamPlayers; ++index)
 	{
 		ci = &cgs.clientinfo[sortedTeamPlayers[index]];
 		if (ci->infoValid)
 		{
-			if (ci->team != persistantTeam && ci->rt != persistantTeam)
+			if (ci->team != ourTeam && ci->rt != ourTeam)
 			{
 				continue;
 			}
@@ -205,7 +211,7 @@ void CG_SHUDElementTeamRoutine(void* context)
 	{
 		int k = 0;
 		gitem_t* gi;
-		ci->powerups |= 2;
+
 		do
 		{
 			if (cgs.osp.gameTypeFreeze && ci->health <= 0)
