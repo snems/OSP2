@@ -17,6 +17,12 @@ void* CG_SHUDElementAttackerNameCreate(const superhudConfig_t* config)
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 	element->ctx.maxchars = MAX_QPATH;
 
+	if (!element->config.time.isSet)
+	{
+		element->config.time.value = ATTACKER_HEAD_TIME;
+		element->config.time.isSet = qtrue;
+	}
+
 	return element;
 }
 

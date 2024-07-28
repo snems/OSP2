@@ -32,6 +32,12 @@ void* CG_SHUDElementAttackerIconCreate(const superhudConfig_t* config)
 		element->ctx.image = trap_R_RegisterShader(element->config.image.value);
 	}
 
+	if (!element->config.time.isSet)
+	{
+		element->config.time.value = ATTACKER_HEAD_TIME;
+		element->config.time.isSet = qtrue;
+	}
+
 	element->angles[PITCH] = 0;
 	element->angles[YAW] = 180;
 	element->angles[ROLL] = 0;
