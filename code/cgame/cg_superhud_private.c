@@ -83,7 +83,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "score_limit", 0, CG_SHUDElementScoreMAXCreate, CG_SHUDElementScoreRoutine, CG_SHUDElementScoreDestroy },
 	{ "score_nme", 0, CG_SHUDElementScoreNMECreate, CG_SHUDElementScoreRoutine, CG_SHUDElementScoreDestroy },
 	{ "score_own", 0, CG_SHUDElementScoreOWNCreate, CG_SHUDElementScoreRoutine, CG_SHUDElementScoreDestroy },
-	{ "specmessage", 0, CG_SHUDElementSpecMessageCreate, CG_SHUDElementSpecMessageRoutine, CG_SHUDElementSpecMessageDestroy },
+	{ "specmessage", SE_SPECT, CG_SHUDElementSpecMessageCreate, CG_SHUDElementSpecMessageRoutine, CG_SHUDElementSpecMessageDestroy },
 	{ "statusbar_armorbar", 0, CG_SHUDElementSBABCreate, CG_SHUDElementSBABRoutine, CG_SHUDElementSBABDestroy },
 	{ "statusbar_armorcount", 0, CG_SHUDElementSBACCreate, CG_SHUDElementSBACRoutine, CG_SHUDElementSBACDestroy },
 	{ "statusbar_armoricon", 0, CG_SHUDElementSBAICreate, CG_SHUDElementSBAIRoutine, CG_SHUDElementSBAIDestroy },

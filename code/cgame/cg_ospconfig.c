@@ -342,7 +342,7 @@ void CG_OSPConfigFreezeModeSet(int value)
 
 qboolean CG_IsSpectator(void)
 {
-	return (cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR);
+	return (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR);
 }
 
 qboolean CG_IsFollowing(void)
@@ -353,7 +353,7 @@ qboolean CG_IsFollowing(void)
 		{
 			return qfalse;
 		}
-		else if (cg.snap->ps.pm_type == PM_FREEZE || cg.intermissionStarted || cg.snap->ps.clientNum == cg.clientNum)
+		else if (cg.snap->ps.pm_type == PM_FREEZE || cg.intermissionStarted || (cg.snap->ps.clientNum == cg.clientNum && CG_OSPIsGameTypeFreeze()))
 		{
 			return qfalse;
 		}
