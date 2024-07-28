@@ -84,7 +84,7 @@ extern "C" {
 #define GIANT_WIDTH         32
 #define GIANT_HEIGHT        48
 
-#define NUM_CROSSHAIRS      10
+#define NUM_CROSSHAIRS      100
 
 #define TEAM_OVERLAY_MAXNAME_WIDTH  12
 #define TEAM_OVERLAY_MAXLOCATION_WIDTH  16
@@ -762,6 +762,7 @@ typedef struct
 	qhandle_t   tracerShader;
 	qhandle_t   crosshairShader[NUM_CROSSHAIRS];
 	qhandle_t   crosshairShader2[NUM_CROSSHAIRS];
+	int         numberOfCrosshairs;
 	qhandle_t   lagometerShader;
 	qhandle_t   backTileShader;
 	qhandle_t   noammoShader;

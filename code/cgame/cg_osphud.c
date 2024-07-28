@@ -271,7 +271,7 @@ void CG_OSPDrawCrosshair(void)
 	y = (float)cg_crosshairY.integer;
 	CG_AdjustFrom640_Old(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
 
-	shader = isColorWasSet ? cgs.media.crosshairShader[crosshair % NUM_CROSSHAIRS] : cgs.media.crosshairShader2[crosshair % NUM_CROSSHAIRS];
+	shader = isColorWasSet ? cgs.media.crosshairShader[crosshair % cgs.media.numberOfCrosshairs] : cgs.media.crosshairShader2[crosshair % cgs.media.numberOfCrosshairs];
 
 	trap_R_DrawStretchPic(
 	    x + (float)cg.refdef.x + (0.5f * ((float)cg.refdef.width - w)),
