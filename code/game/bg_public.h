@@ -54,6 +54,8 @@ extern "C" {
 #define CROUCH_VIEWHEIGHT   12
 #define DEAD_VIEWHEIGHT     -16
 
+#define	PM_STEP_HEIGHT		18
+
 //
 // config strings are a general means of communicating variable length strings
 // from the server to all connected clients.
@@ -481,7 +483,8 @@ typedef enum
 	EV_TAUNT_FOLLOWME,
 	EV_TAUNT_GETFLAG,
 	EV_TAUNT_GUARDBASE,
-	EV_TAUNT_PATROL
+	EV_TAUNT_PATROL,
+	EV_MAX
 
 } entity_event_t;
 
@@ -735,7 +738,7 @@ typedef enum
 void    BG_EvaluateTrajectory(const trajectory_t* tr, int atTime, vec3_t result);
 void    BG_EvaluateTrajectoryDelta(const trajectory_t* tr, int atTime, vec3_t result);
 
-void    BG_AddPredictableEventToPlayerstate(int newEvent, int eventParm, playerState_t* ps);
+void	  BG_AddPredictableEventToPlayerstate( entity_event_t newEvent, int eventParm, playerState_t *ps, int entityNum );
 
 void    BG_TouchJumpPad(playerState_t* ps, entityState_t* jumppad);
 

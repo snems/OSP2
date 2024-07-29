@@ -315,6 +315,8 @@ vmCvar_t           cg_spectGlow;
 vmCvar_t           cg_hitSounds;
 
 vmCvar_t           ch_file;
+vmCvar_t           cg_aa;
+vmCvar_t           cg_a;
 
 
 static cvarTable_t cvarTable[] =
@@ -548,6 +550,9 @@ static cvarTable_t cvarTable[] =
 	{ &cg_enemyModelColors,  "cg_enemyModelColors", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModelColors},
 	{ &cg_enemyRailColors,   "cg_enemyRailColors", "",   CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyRailColors},
 	{ &cg_enemyFrozenColor,  "cg_enemyFrozenColor", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyFrozenColor},
+
+	{ &cg_aa, "cg_aa", "1.0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_physics},
+	{ &cg_a, "cg_a", "10.0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_physics},
 
 };
 

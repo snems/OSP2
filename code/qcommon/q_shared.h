@@ -406,6 +406,11 @@ typedef int     sfxHandle_t;
 typedef int     fileHandle_t;
 typedef int     clipHandle_t;
 
+#define ARRAY_LEN(x)		(sizeof(x) / sizeof(*(x)))
+#define STRARRAY_LEN(x)		(ARRAY_LEN(x) - 1)
+
+extern const byte locase[ 256 ];
+
 #ifndef FS_INVALID_HANDLE
 #define FS_INVALID_HANDLE 0
 #endif

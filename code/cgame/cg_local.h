@@ -1409,6 +1409,8 @@ extern vmCvar_t           cg_enemyFrozenColor;
 
 extern vmCvar_t           cg_spectGlow;
 extern vmCvar_t           cg_hitSounds;
+extern vmCvar_t           cg_aa;
+extern vmCvar_t           cg_a;
 
 //
 // cg_main.c
@@ -2050,6 +2052,8 @@ qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
 #define OSP_VERSION "0.03-test.012"
 
+extern const char		*eventnames[EV_MAX];
+
 
 //
 // cg_ospconfig.c
@@ -2218,6 +2222,7 @@ void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_file(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart);
 
+void CG_LocalEventCvarChanged_physics(cvarTable_t* cvart);
 
 #ifdef __cplusplus
 }

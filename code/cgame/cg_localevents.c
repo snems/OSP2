@@ -1,5 +1,6 @@
 #include "cg_superhud.h"
 #include "cg_local.h"
+#include "../game/bg_local.h"
 
 int global_handicap; // unused?
 //	void         (*onChanged)(cvarTable_t *cvart);
@@ -347,4 +348,9 @@ void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart)
 	}
 }
 
+void CG_LocalEventCvarChanged_physics(cvarTable_t* cvart)
+{
+	pm_airaccelerate = cg_aa.value;
+	pm_accelerate = cg_a.value;
+}
 

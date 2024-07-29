@@ -34,6 +34,11 @@ static  centity_t*   cg_solidEntities[MAX_ENTITIES_IN_SNAPSHOT];
 static  int         cg_numTriggerEntities;
 static  centity_t*   cg_triggerEntities[MAX_ENTITIES_IN_SNAPSHOT];
 
+int				eventStack;
+entity_event_t	events[ MAX_PREDICTED_EVENTS ];
+int				eventParms[ MAX_PREDICTED_EVENTS ];
+int				eventParm2[ MAX_PREDICTED_EVENTS ]; // client entity index
+
 #define ABS(x) ((x) < 0 ? (-(x)) : (x))
 
 static int IsUnacceptableError(playerState_t* ps, playerState_t* pps)
@@ -63,7 +68,7 @@ static int IsUnacceptableError(playerState_t* ps, playerState_t* pps)
 	{
 		if (cg_showmiss.integer)
 		{
-			CG_Printf("delta: %.2f  ", VectorLength(delta));
+			CG_Printf("delta: %.2f  ", VectorLengthSquared(delta));
 		}
 		return 3;
 	}
@@ -481,7 +486,7 @@ static void CG_TouchItem(centity_t* cent)
 	}
 
 	// grab it
-	BG_AddPredictableEventToPlayerstate(EV_ITEM_PICKUP, cent->currentState.modelindex, &cg.predictedPlayerState);
+	BG_AddPredictableEventToPlayerstate( EV_ITEM_PICKUP, cent->currentState.modelindex , &cg.predictedPlayerState, cent - cg_entities );
 
 	// remove it from the frame so it won't be drawn
 	cent->currentState.eFlags |= EF_NODRAW;
@@ -1003,7 +1008,6 @@ void CG_PredictPlayerState(void)
 		}
 	}
 }
-
 
 
 

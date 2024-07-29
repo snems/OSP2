@@ -29,7 +29,7 @@ COM_GenerateHashValue
 ==================
 */
 // ASCII lowcase conversion table with '\\' turned to '/' and '.' to '\0'
-static const byte hash_locase[ 256 ] =
+const byte locase[ 256 ] =
 {
 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 	0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
@@ -74,7 +74,7 @@ unsigned long Com_GenerateHashValue(const char* fname, const unsigned int size)
 	s = (byte*)fname;
 	hash = 0;
 
-	while ((c = hash_locase[(byte) * s++]) != '\0')
+	while ((c = locase[(byte) * s++]) != '\0')
 	{
 		hash = hash * 101 + c;
 	}
