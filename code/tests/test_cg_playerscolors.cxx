@@ -3,7 +3,7 @@
 #include "../cgame/cg_local.h"
 
 
-TEST_CASE("Test sructures: player colors set, color1 is one character", "[API][CG_PlayerColorsFromCS]")
+TEST_CASE("Test sructures: player colors set, color1 is one character", "[cgame][CG_PlayerColorsFromCS]")
 {
   playerColors_t colors{};
   playerColorsOverride_t override{};
@@ -13,7 +13,7 @@ TEST_CASE("Test sructures: player colors set, color1 is one character", "[API][C
   CHECK(override.isRailColorSet == qtrue);
 }
 
-TEST_CASE("Test sructures: player colors set, color1 four characters", "[API][CG_PlayerColorsFromCS]")
+TEST_CASE("Test sructures: player colors set, color1 four characters", "[cgame][CG_PlayerColorsFromCS]")
 {
   playerColors_t colors{};
   playerColorsOverride_t override{};
@@ -23,7 +23,7 @@ TEST_CASE("Test sructures: player colors set, color1 four characters", "[API][CG
   CHECK(override.isRailColorSet == qtrue);
 }
 
-TEST_CASE("Test sructures: player colors set, color1 four characters, first zero", "[API][CG_PlayerColorsFromCS]")
+TEST_CASE("Test sructures: player colors set, color1 four characters, first zero", "[cgame][CG_PlayerColorsFromCS]")
 {
   playerColors_t colors{};
   playerColorsOverride_t override{};

@@ -1,3 +1,4 @@
+#include "cg_superhud.h"
 #include "cg_local.h"
 
 int global_handicap; // unused?
@@ -256,12 +257,12 @@ void CG_LocalEventCvarChanged_cg_enableOSPHUD(cvarTable_t* cvart)
 	}
 }
 
-void CG_LocalEventCvarChanged_cg_drawHitBox(cvarTable_t* cvart)
+void CG_LocalEventCvarChanged_cg_hitSounds(cvarTable_t* cvart)
 {
-	if ((cgs.osp.custom_client_2 & OSP_CUSTOM_CLIENT_2_DISABLE_HIT_BOX_FLAG) && cg_drawHitBox.integer)
+	if (!(cgs.osp.custom_client_2 & OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO) && cg_hitSounds.integer)
 	{
-		CG_Printf("^3Hitbox has been disabled on this server.\n");
-		trap_Cvar_Set("cg_drawHitBox", "0");
+		CG_Printf("^3Damage info has been disabled on this server.\n");
+		trap_Cvar_Set("cg_hitSounds", "0");
 	}
 }
 
@@ -323,6 +324,27 @@ void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart)
 {
 	/* touch fragsound to reload it */
 	(void)CG_GetFragSound();
+}
+
+void CG_LocalEventCvarChanged_ch_file(cvarTable_t* cvart)
+{
+	if (cvart->vmCvar->string[0])
+	{
+		CG_SHUDLoadConfig();
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart)
+{
+	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_OSP_HUD_FLAG) && cg_shud.integer)
+	{
+		CG_Printf("^3The SuperHUD has been disabled on this server.\n");
+		trap_Cvar_Set("cg_shud", "0");
+	}
+	if (cvart->vmCvar->integer && ch_file.string[0])
+	{
+		CG_SHUDLoadConfig();
+	}
 }
 
 

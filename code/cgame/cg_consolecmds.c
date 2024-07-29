@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // executed by a key binding
 
 #include "cg_local.h"
+#include "cg_superhud.h"
 
 
 
@@ -67,6 +68,41 @@ Keybinding command
 static void CG_SizeDown_f(void)
 {
 	trap_Cvar_Set("cg_viewsize", va("%i", (int)(cg_viewsize.integer - 10)));
+}
+
+/*
+=================
+CG_NextCrosshair_f
+
+Keybinding command
+=================
+*/
+static void CG_NextCrosshair_f(void)
+{
+	int curr = cg_drawCrosshair.integer + 1;
+
+	if (curr < cgs.media.numberOfCrosshairs)
+	{
+		trap_Cvar_Set("cg_drawCrosshair", va("%i", curr));
+	}
+
+}
+
+/*
+=================
+CG_NextCrosshair_f
+
+Keybinding command
+=================
+*/
+static void CG_PrevCrosshair_f(void)
+{
+	int curr = cg_drawCrosshair.integer - 1;
+
+	if (curr >= 0)
+	{
+		trap_Cvar_Set("cg_drawCrosshair", va("%i", curr));
+	}
 }
 
 
@@ -318,6 +354,34 @@ void CG_OSPClientVersion_f(void)
 	CG_Printf("^3OSP2 Client Version:^7 %s\n", OSP_VERSION);
 }
 
+#define CG_YES_NO_STR(VAL) ((VAL) ? "^2Yes" : "^1No")
+void CG_OSPClientConfig_f(void)
+{
+	const char *physics = "VQ3";
+
+	if (cgs.osp.server_mode & 1)
+	{
+		physics = "Promode";
+	}
+	else if (cgs.osp.server_mode & 2)
+	{
+		physics = "CQ3";
+	}
+
+
+	CG_Printf("^5OSP2 Server-forced settings:\n", OSP_VERSION);
+	CG_Printf("    ^3Physics:                     ^2%s\n", physics);
+	CG_Printf("    ^3Alternative weapons:         %s\n", CG_YES_NO_STR(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG));
+	CG_Printf("    ^3Timer(deprecated):           %s\n", CG_YES_NO_STR(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_TIMER_FLAG));
+	CG_Printf("    ^3FPS restriction(deprecated): %s\n", CG_YES_NO_STR((cgs.osp.custom_client & OSP_CUSTOM_CLIENT_MAXFPS_FLAG) == 0));
+	CG_Printf("    ^3Damage info:                 %s\n", CG_YES_NO_STR(cgs.osp.custom_client_2 & OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO));
+	CG_Printf("    ^3Pmove allowed:               %s\n", CG_YES_NO_STR(cgs.osp.allow_pmove));
+	CG_Printf("    ^3Timenudge minimum:           ^3%s\n", cgs.osp.serverConfigMinimumTimenudge ? va("%i", cgs.osp.serverConfigMinimumTimenudge) : "-");
+	CG_Printf("    ^3Timenudge maximum:           ^3%s\n", cgs.osp.serverConfigMaximumTimenudge ? va("%i", cgs.osp.serverConfigMaximumTimenudge) : "-");
+	CG_Printf("    ^3Maxpackets minimum:          ^3%s\n", cgs.osp.serverConfigMinimumMaxpackets ? va("%i", cgs.osp.serverConfigMinimumMaxpackets) : "-");
+	CG_Printf("    ^3Maxpackets maximum:          ^3%s\n", cgs.osp.serverConfigMaximumMaxpackets ? va("%i", cgs.osp.serverConfigMinimumMaxpackets) : "-");
+}
+
 void CG_OSPCredits_f(void)
 {
 	char string[1024];
@@ -500,6 +564,11 @@ void CG_OSPDynamicMem_f(void)
 	CG_DynamicMemReport();
 }
 
+void CG_ReloadHud_f(void)
+{
+	CG_SHUDLoadConfig();
+}
+
 
 typedef struct
 {
@@ -519,6 +588,7 @@ static consoleCommand_t commands[] =
 	{ "-fire", CG_OSPFireUp_f },
 	{ "select", CG_OSPSelect_f },
 	{ "clientversion", CG_OSPClientVersion_f },
+	{ "clientconfig", CG_OSPClientConfig_f },
 	{ "credits", CG_OSPCredits_f },
 	{ "motd", CG_OSPMoTD_f },
 	{ "myname", CG_OSPMyName_f },
@@ -540,6 +610,8 @@ static consoleCommand_t commands[] =
 	{ "sizedown", CG_SizeDown_f },
 	{ "weapnext", CG_NextWeapon_f },
 	{ "weapprev", CG_PrevWeapon_f },
+	{ "crossnext", CG_NextCrosshair_f },
+	{ "crossprev", CG_PrevCrosshair_f },
 	{ "weapon", CG_Weapon_f },
 	{ "tell_target", CG_TellTarget_f },
 	{ "tell_attacker", CG_TellAttacker_f },
@@ -573,6 +645,7 @@ static consoleCommand_t commands[] =
 	{ "decalprev", CG_OSPDcalPrev_f },
 	{ "decalrotclock", CG_OSPDecalRotClock_f },
 	{ "decalrotcounter", CG_OSPDecalRotCounter_f },
+	{ "reloadHUD", CG_ReloadHud_f },
 };
 
 

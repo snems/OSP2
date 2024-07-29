@@ -19,4 +19,11 @@
 2024-06-10 cg_customLoc
            cg_autoAction
 2024-06-10 v0.02
+2024-07-29 v0.03
+           SuperHUD system
+           OSP font for cg_drawTimer2
+           cg_oldRail position fixed
+           cg_oldRail ring
+           crosshairs from xq3e
+           multilevel hitsound
 

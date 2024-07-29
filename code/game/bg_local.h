@@ -57,7 +57,7 @@ typedef struct
 	int         previous_waterlevel;
 } pml_t;
 
-extern  pmove_t*     pm;
+extern  pmove_t*     pm;//-V707
 extern  pml_t       pml;
 
 // movement parameters

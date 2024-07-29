@@ -89,10 +89,7 @@ void CG_CustomLocationsLoad(void)
 	}
 
 	fileContent = Z_Malloc(rc + 1);
-	if (!fileContent)
-	{
-		OSP_MEMORY_EXCEPTION();
-	}
+	OSP_MEMORY_CHECK(fileContent);
 
 	trap_FS_Read(fileContent, rc, locFileHandle);
 	trap_FS_FCloseFile(locFileHandle);
@@ -106,7 +103,6 @@ void CG_CustomLocationsLoad(void)
 
 		if (line[0])
 		{
-			int x = 0, y = 0, z = 0;
 			matches = Q_sscanf(&line[0], "%f %f %f %s",
 			                   &customLocationEntry[numberOfCustomLocations].pos[0],
 			                   &customLocationEntry[numberOfCustomLocations].pos[1],
@@ -180,7 +176,6 @@ const char* CG_CustomLocationsGetName(const float* pos)
 
 void CG_CustomLocationsSetLocation(const char* info, vec3_t loc)
 {
-	char tmp[1024];
 	int rc;
 	int values[4];
 
@@ -202,7 +197,6 @@ void CG_CustomLocationsSetLocation(const char* info, vec3_t loc)
 qboolean CG_CustomLocationsTeamChatCode(const char* str, vec3_t cloc, char** cloc_begin, char** cloc_end)
 {
 	int rc;
-	int size;
 	int x, y, z;
 
 	/* find and decode string: ($x$y$z) */
@@ -237,7 +231,6 @@ static void CG_OSPCustomLocationsWrite(void)
 	char path[MAX_QPATH];
 	char line[1024];
 	int rc;
-	char* fileContent;
 	fileHandle_t locFileHandle;
 	int i;
 

@@ -80,7 +80,7 @@ unsigned long Com_GenerateHashValue(const char* fname, const unsigned int size)
 	}
 
 	hash = (hash ^ (hash >> 10) ^ (hash >> 20));
-	hash &= (size - 1);
+	hash &= (unsigned long)(size - 1);
 
 	return hash;
 }
@@ -842,14 +842,17 @@ void Q_strncpyz(char* dest, const char* src, int destsize)
 	if (!dest)
 	{
 		Com_Error(ERR_FATAL, "Q_strncpyz: NULL dest");
+		return;
 	}
 	if (!src)
 	{
 		Com_Error(ERR_FATAL, "Q_strncpyz: NULL src");
+		return;
 	}
 	if (destsize < 1)
 	{
 		Com_Error(ERR_FATAL, "Q_strncpyz: destsize < 1");
+		return;
 	}
 
 	strncpy(dest, src, destsize - 1);

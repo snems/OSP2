@@ -545,11 +545,6 @@ static void CG_TouchTriggerPrediction(void)
 		}
 		cent = cg_triggerEntities[ i ];
 		ent = &cent->currentState;
-		if (ent == NULL)
-		{
-			CG_Printf("CG_TouchTriggerPrediction() error: cg_triggerEntities[%d]->currentState is NULL\n", i);
-			continue;
-		}
 
 		if (ent->eType == ET_ITEM && !spectator)
 		{

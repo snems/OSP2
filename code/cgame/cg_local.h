@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ===========================================================================
 */
 //
+#ifndef CG_LOCAL_H
+#define CG_LOCAL_H
 #include "../qcommon/q_shared.h"
 #include "tr_types.h"
 #include "../game/bg_public.h"
@@ -32,6 +34,7 @@ extern "C" {
 #define NYAN_POINT()      CG_Printf( "%s:%d: DEBUG point reached\n", __FILE__, __LINE__)
 #define NYAN_INT(VALUE)   CG_Printf( "%s:%d: %s = %i\n", __FILE__, __LINE__, #VALUE, (int)VALUE)
 #define NYAN_FLOAT(VALUE) CG_Printf( "%s:%d: %s = %f\n", __FILE__, __LINE__, #VALUE, (float)VALUE)
+#define NYAN_VEC4(VALUE) CG_Printf( "%s:%d: %s = %f,%f,%f,%f\n", __FILE__, __LINE__, #VALUE, VALUE[0], VALUE[1], VALUE[2], VALUE[3])
 #define NYAN_MSG(VALUE)   CG_Printf( "%s:%d: %s\n", __FILE__, __LINE__, VALUE)
 
 // The entire cgame module is unloaded and reloaded on each level change,
@@ -81,7 +84,7 @@ extern "C" {
 #define GIANT_WIDTH         32
 #define GIANT_HEIGHT        48
 
-#define NUM_CROSSHAIRS      10
+#define NUM_CROSSHAIRS      100
 
 #define TEAM_OVERLAY_MAXNAME_WIDTH  12
 #define TEAM_OVERLAY_MAXLOCATION_WIDTH  16
@@ -759,21 +762,22 @@ typedef struct
 	qhandle_t   tracerShader;
 	qhandle_t   crosshairShader[NUM_CROSSHAIRS];
 	qhandle_t   crosshairShader2[NUM_CROSSHAIRS];
+	int         numberOfCrosshairs;
 	qhandle_t   lagometerShader;
 	qhandle_t   backTileShader;
 	qhandle_t   noammoShader;
 
 	qhandle_t   smokePuffShader;
-	qhandle_t smokePuffNoPicMipShader;
+	qhandle_t   smokePuffNoPicMipShader;
 	qhandle_t   smokePuffRageProShader;
 	qhandle_t   shotgunSmokePuffShader;
-	qhandle_t shotgunSmokePuffNoPicMipShader;
+	qhandle_t   shotgunSmokePuffNoPicMipShader;
 	qhandle_t   plasmaBallShader;
-	qhandle_t plasmaBallNoPicMipShader;
+	qhandle_t   plasmaBallNoPicMipShader;
 	qhandle_t   plasmaNewBallShader;
-	qhandle_t plasmaNewBallNoPicMipShader;
-	qhandle_t grenadeCPMANoPicMipShader;
-	qhandle_t grenadeCPMAModel;
+	qhandle_t   plasmaNewBallNoPicMipShader;
+	qhandle_t   grenadeCPMANoPicMipShader;
+	qhandle_t   grenadeCPMAModel;
 	qhandle_t   waterBubbleShader;
 	qhandle_t   bloodTrailShader;
 
@@ -893,6 +897,7 @@ typedef struct
 	sfxHandle_t hitLowestSound;
 	sfxHandle_t hitLowSound;
 	sfxHandle_t hitSound;
+	sfxHandle_t hitSounds[4];
 	sfxHandle_t hitHighSound;
 	sfxHandle_t fragSound;
 	sfxHandle_t hitSoundHighArmor;
@@ -1045,8 +1050,8 @@ typedef struct cgs_osp_s
 	qhandle_t blender180ShaderCopy[17];
 	qhandle_t decalOSPShader[17];
 	qhandle_t unknown_variable_999;
-	int osp_scores1;
-	int osp_scores2;
+	int osp_teamcount1;
+	int osp_teamcount2;
 	qhandle_t unknown_variable_1002;
 	qhandle_t pingPrintTime;
 	int pingTotalTime;
@@ -1289,6 +1294,9 @@ extern vmCvar_t           cg_deadBodyBlack;
 extern vmCvar_t           cg_drawDecals;
 extern vmCvar_t           cg_drawPing;
 extern vmCvar_t           cg_enableOSPHUD;
+extern vmCvar_t           cg_shud;
+extern vmCvar_t           cg_shudChatOnly;
+extern vmCvar_t           cg_shudTeamChatOnly;
 extern vmCvar_t           cg_enableBreath;
 extern vmCvar_t           cg_enemyColors;
 extern vmCvar_t           cg_enemyModel;
@@ -1334,6 +1342,7 @@ extern vmCvar_t           ch_TeamBackground;
 extern vmCvar_t           cf_Following;
 extern vmCvar_t           ch_FilterLocationsTeamchat;
 extern vmCvar_t           ch_fragMessage;
+extern vmCvar_t           ch_file;
 extern vmCvar_t           cf_Fragmsg;
 extern vmCvar_t           ch_graphs;
 extern vmCvar_t           ch_InverseTeamChat;
@@ -1399,6 +1408,7 @@ extern vmCvar_t           cg_enemyRailColors;
 extern vmCvar_t           cg_enemyFrozenColor;
 
 extern vmCvar_t           cg_spectGlow;
+extern vmCvar_t           cg_hitSounds;
 
 //
 // cg_main.c
@@ -1423,6 +1433,7 @@ const char* CG_Argv(int arg);
 
 void QDECL CG_Printf(const char* msg, ...);
 void QDECL CG_Error(const char* msg, ...);
+void CG_PrintLog(char* msg);
 
 void CG_StartMusic(void);
 
@@ -1487,14 +1498,51 @@ void CG_FillRect(float x, float y, float width, float height, const float* color
 void CG_DrawPicOld(float x, float y, float width, float height, qhandle_t hShader);
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader);
 
+float CG_OSPDrawStringLength(const char* string, float ax, float aw, float max_ax, int proportional);
+int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, int flags);
+
+void CG_OSPDrawStringPrepare(const char* from, char* to, int size);
+void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
+void CG_FontSelect(int index);
+int CG_FontIndexFromName(const char* name);
+
+#define OSP_TEXT_CMD_MAX 2048
+
+typedef enum
+{
+	OSP_TEXT_CMD_CHAR = 0,
+	OSP_TEXT_CMD_STOP,
+	OSP_TEXT_CMD_FADE,
+	OSP_TEXT_CMD_TEXT_COLOR,
+	OSP_TEXT_CMD_SHADOW_COLOR,
+} text_command_type_t;
+
+typedef struct
+{
+	text_command_type_t type;
+	union
+	{
+		char character;
+		float fade;
+		vec4_t color;
+	} value;
+} text_command_t;
+
+text_command_t* CG_CompiledTextCreate(const char* text);
+void CG_CompiledTextDestroy(text_command_t* root);
+
 // flags for CG_DrawString
 enum
 {
-	DS_SHADOW      = 0x1,
-	DS_FORCE_COLOR = 0x2,
-	DS_PROPORTIONAL = 0x4,
-	DS_CENTER = 0x8,    // alignment
-	DS_RIGHT  = 0x10    // alignment
+	DS_VBOTTOM      = 0,   // vertical boootm is default
+	DS_HLEFT        = 0,   // horizontal left is default
+	DS_SHADOW       = 0x1, // draw shadow
+	DS_FORCE_COLOR  = 0x2, // force color, ignore ^x
+	DS_PROPORTIONAL = 0x4, // proportional font
+	DS_HCENTER      = 0x8, // horizontal center
+	DS_HRIGHT       = 0x10,// horizontal right
+	DS_VTOP         = 0x20,// vertical top
+	DS_VCENTER      = 0x40,// vertical center
 };
 void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
 
@@ -1523,11 +1571,11 @@ void CG_DrawTopBottom(float x, float y, float w, float h, float size);
 void CG_OSPDrawPoly(float x, float y, float w, float h, vec4_t color);
 qboolean CG_OSPGetClientFontSize(const vmCvar_t* cvar, int* w, int* h);
 int CG_OSPDrawStringWithShadow(int x, int y, const char* str, int charWidth, int charHeight, const vec4_t color, int maxChars);
-int CG_OSPDrawString(int x, int y, const char* str, int charWidth, int charHeight, vec4_t const colors, int maxChars, qboolean disableColorChange);
+int CG_OSPDrawStringOld(int x, int y, const char* str, int charWidth, int charHeight, vec4_t const colors, int maxChars, qboolean disableColorChange);
 qboolean CG_Hex16GetColor(const char* str, float* color);
 
 //
-// cg_draw.c, cg_newDraw.c
+// cg_draw.c
 //
 typedef struct
 {
@@ -1605,6 +1653,21 @@ void CG_OSPDrawCenterString(void);
 void CG_OSPSetColor(vec4_t color);
 void CG_OSPDrawPic(float x, float y, float w, float h, qhandle_t hShader);
 void CG_OSPDraw3DModel(float x, float y, float w, float h, qhandle_t model, qhandle_t skin, vec3_t pos, vec3_t angles, vec3_t angles2);
+
+#define LAG_SAMPLES     1024
+#define MAX_LAGOMETER_PING  900
+#define MAX_LAGOMETER_RANGE 300
+
+typedef struct
+{
+	int     frameSamples[LAG_SAMPLES];
+	int     frameCount;
+	int     snapshotFlags[LAG_SAMPLES];
+	int     snapshotSamples[LAG_SAMPLES];
+	int     snapshotCount;
+} lagometer_t;
+
+extern lagometer_t     lagometer;
 
 
 //
@@ -1985,7 +2048,7 @@ int CG_NewParticleArea(int num);
 
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
-#define OSP_VERSION "0.02"
+#define OSP_VERSION "0.03"
 
 
 //
@@ -2033,10 +2096,11 @@ extern int statsInfo[24];
 #define OSP_CUSTOM_CLIENT_MAXFPS_FLAG          0x20
 
 // OSP Custom client 2
-#define OSP_CUSTOM_CLIENT_2_DISABLE_HIT_BOX_FLAG  0x01
+#define OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO    0x01
 
 void CG_OSPCvarsRestrictValues(void);
 qboolean CG_OSPIsGameTypeCA(int gametype);
+qboolean CG_OSPIsGameTypeFreeze(void);
 qboolean CG_OSPIsStatsHidden(qboolean check_gametype, qboolean check_warmup);
 void CG_OSPUpdateUserInfo(qboolean arg);
 
@@ -2052,6 +2116,9 @@ void CG_OSPConfigCustomClientSet(int value);
 void CG_OSPConfigCustomClient2Set(int value);
 void CG_OSPConfigModeSet(int value);
 void CG_OSPConfigFreezeModeSet(int value);
+
+qboolean CG_IsSpectator(void);
+qboolean CG_IsFollowing(void);
 
 //
 //cg_osphud.c
@@ -2071,8 +2138,14 @@ void CG_OSPColorFromChar(char c, float* vector);
 void CG_OSPColorFromNumber(int number, float* vector);
 void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size);
 void CG_DynamicMemReport(void);
-#define OSP_MEMORY_EXCEPTION() \
-{\
+
+
+/*
+ * Check memory after allocation
+ * There is qvm shutdown in CG_Error, but infinitie loop needed to make static analyzers happy
+ */
+#define OSP_MEMORY_CHECK(TESTPTR) \
+if(!TESTPTR){\
     CG_DynamicMemReport();\
     CG_Error( "%s:%d: Couldn't allocate memory\n", __FILE__, __LINE__);\
 }
@@ -2128,7 +2201,7 @@ void CG_LocalEventCvarChanged_cg_altplasma(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_altlightning(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_altgrenades(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enableOSPHUD(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_drawHitBox(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_hitSounds(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_playerModelColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_playerRailColors(cvarTable_t* cvart);
@@ -2142,6 +2215,11 @@ void CG_LocalEventCvarChanged_cg_enemyFrozenColor(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart);
 
+void CG_LocalEventCvarChanged_ch_file(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart);
+
+
 #ifdef __cplusplus
 }
 #endif
+#endif //ifndef CG_LOCAL_H

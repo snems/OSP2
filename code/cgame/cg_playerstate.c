@@ -321,6 +321,64 @@ static void pushReward(sfxHandle_t sfx, qhandle_t shader, int rewardCount)
 		cg.rewardCount[cg.rewardStack] = rewardCount;
 	}
 }
+/*
+==================
+CG_CheckLocalSounds
+==================
+*/
+void CG_HitSound(playerState_t* ps, playerState_t* ops)
+{
+	const int hits = ps->persistant[PERS_HITS] - ops->persistant[PERS_HITS];
+	if (!hits)
+	{
+		return;
+	}
+
+	if (cg_lightningSilent.integer && ops->weapon == WP_LIGHTNING)
+	{
+		return;
+	}
+
+	if (hits < 0)
+	{
+		//frendly fire
+		trap_S_StartLocalSound(cgs.media.hitTeamSound, CHAN_LOCAL_SOUND);
+		return;
+	}
+	//hits > 0 here
+	{
+	  const int atta = ps->persistant[PERS_ATTACKEE_ARMOR];
+		const qboolean is_osp = atta == 0;
+		int damage;
+
+		if (is_osp)
+		{
+			damage = hits;
+		}
+		else
+		{
+			damage = atta & 0x00FF;
+		}
+
+		if (cg_hitSounds.integer || cgs.osp.server_mode == OSP_SERVER_MODE_PROMODE || cgs.osp.server_mode == OSP_SERVER_MODE_CQ3)
+		{
+			int index;
+			if ( damage > 75 ) index = 3;
+			else if ( damage > 50 ) index = 2;
+			else if ( damage > 25 ) index = 1;
+			else index = 0;
+
+			if ( cg_hitSounds.integer > 1 ) // reversed: higher damage - higher tone
+				index = 3 - index;
+
+			trap_S_StartLocalSound( cgs.media.hitSounds[ index ], CHAN_LOCAL_SOUND );
+		}
+		else
+		{
+			trap_S_StartLocalSound(cgs.media.hitSound, CHAN_LOCAL_SOUND);
+		}
+	}
+}
 
 /*
 ==================
@@ -331,7 +389,6 @@ void CG_CheckLocalSounds(playerState_t* ps, playerState_t* ops)
 {
 	int         highScore, reward;
 	sfxHandle_t sfx;
-	qboolean noHitsound = cg_lightningSilent.integer && ops->weapon == WP_LIGHTNING;
 
 	// don't play the sounds if the player just changed teams
 	if (ps->persistant[PERS_TEAM] != ops->persistant[PERS_TEAM])
@@ -340,17 +397,7 @@ void CG_CheckLocalSounds(playerState_t* ps, playerState_t* ops)
 	}
 
 	// hit changes
-	if (ps->persistant[PERS_HITS] > ops->persistant[PERS_HITS])
-	{
-		if (!noHitsound)
-		{
-			trap_S_StartLocalSound(cgs.media.hitSound, CHAN_LOCAL_SOUND);
-		}
-	}
-	else if (ps->persistant[PERS_HITS] < ops->persistant[PERS_HITS])
-	{
-		trap_S_StartLocalSound(cgs.media.hitTeamSound, CHAN_LOCAL_SOUND);
-	}
+	CG_HitSound(ps, ops);
 
 	// health changes of more than -1 should make pain sounds
 	if (ps->stats[STAT_HEALTH] < ops->stats[STAT_HEALTH] - 1)

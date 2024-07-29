@@ -281,9 +281,35 @@ void CG_RailTrail(clientInfo_t* ci, vec3_t start, vec3_t end)
 
 	if (cg_oldRail.integer != 0)
 	{
-		// nudge down a bit so it isn't exactly in center
-		re->origin[2] -= 8;
-		re->oldorigin[2] -= 8;
+
+		le = CG_AllocLocalEntity();
+		re = &le->refEntity;
+		le->leType = LE_FADE_RGB;
+		le->startTime = cg.time;
+		le->endTime = cg.time + cg_railTrailTime.value;
+		le->lifeRate = 1.0 / (le->endTime - le->startTime);
+
+		re->shaderTime = cg.time / 1000.0f;
+		re->reType = RT_RAIL_RINGS;
+		re->radius = 1.1f;
+		if (cg_nomip.integer & 0x20)
+		{
+			re->customShader = cgs.media.railRingsShaderNoPicMip;
+		}
+		else
+		{
+			re->customShader = cgs.media.railRingsShader;
+		}
+		VectorCopy(start, re->origin);
+		VectorCopy(end, re->oldorigin);
+
+		le->color[0] = ci->colors.railRings[0] * 0.75;
+		le->color[1] = ci->colors.railRings[1] * 0.75;
+		le->color[2] = ci->colors.railRings[2] * 0.75;
+		le->color[3] = 1.0f;
+
+		AxisClear(re->axis);
+
 		return;
 	}
 	skip = -1;

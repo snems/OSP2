@@ -241,7 +241,7 @@ static qboolean CG_ParseAnimationFile(const char* filename, clientInfo_t* ci)
 		token = COM_Parse(&text_p);
 		if (!*token)
 		{
-			if (i >= TORSO_GETFLAG && i <= TORSO_NEGATIVE)
+			if (i >= TORSO_GETFLAG)
 			{
 				animations[i].firstFrame = animations[TORSO_GESTURE].firstFrame;
 				animations[i].frameLerp = animations[TORSO_GESTURE].frameLerp;
@@ -2009,16 +2009,8 @@ void CG_AddHitBox(centity_t* cent, team_t team)
 	vec3_t maxs = {15, 15, 32};
 	float extx, exty, extz;
 	vec3_t corners[8];
-	int         content;
 
-	if (!cg_drawHitBox.integer)
-	{
-		return;
-	}
-
-	// if the player is in fog, don't show it
-	content = trap_CM_PointContents(cent->lerpOrigin, 0);
-	if (content & CONTENTS_FOG)
+	if (!cg_drawHitBox.integer || !cg.demoPlayback)
 	{
 		return;
 	}
@@ -2032,12 +2024,6 @@ void CG_AddHitBox(centity_t* cent, team_t team)
 
 	// don't draw it for dead players
 	if (cent->currentState.eFlags & EF_DEAD)
-	{
-		return;
-	}
-
-	// no hitboxes when invisible
-	if (cent->currentState.powerups & (1 << PW_INVIS))
 	{
 		return;
 	}

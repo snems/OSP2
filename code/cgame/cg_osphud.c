@@ -12,15 +12,15 @@ struct crosshairColors_s
 #define OSPHUD_TEAMOVERLAY_STR_SIZE 128
 typedef struct
 {
-	int powerupX;
-	int nameX;
-	int healthX;
-	int armorX;
-	int ammoX;
-	int locationX;
-	int overlayWidth;
+	int powerupOffsetChar;
+	int nameOffsetChar;
+	int healthOffsetChar;
+	int armorOffsetChar;
+	int ammoOffsetChar;
+	int locationOffsetChar;
+	int overlayWidthChar;
 	int strX;
-	int maxChars;
+	int nameLenChar;
 	char str[OSPHUD_TEAMOVERLAY_STR_SIZE];
 } teamOverlay_t;
 
@@ -162,14 +162,14 @@ void CG_OSPDrawCrosshair(void)
 		char* speed_str;
 		speed_str =
 		    va("<%fups>", cg.xyspeed);
-		CG_OSPDrawString((320 - 5 * strlen(speed_str)),
-		                 225.0f - 0.5f * cg_crosshairSize.value,
-		                 speed_str,
-		                 10,
-		                 10,
-		                 crosshairSpeedColor,
-		                 0,
-		                 0);
+		CG_OSPDrawStringOld((320 - 5 * strlen(speed_str)),
+		                    225.0f - 0.5f * cg_crosshairSize.value,
+		                    speed_str,
+		                    10,
+		                    10,
+		                    crosshairSpeedColor,
+		                    0,
+		                    0);
 	}
 
 	switch (weapon)
@@ -271,7 +271,7 @@ void CG_OSPDrawCrosshair(void)
 	y = (float)cg_crosshairY.integer;
 	CG_AdjustFrom640_Old(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
 
-	shader = isColorWasSet ? cgs.media.crosshairShader[crosshair % NUM_CROSSHAIRS] : cgs.media.crosshairShader2[crosshair % NUM_CROSSHAIRS];
+	shader = isColorWasSet ? cgs.media.crosshairShader[crosshair % cgs.media.numberOfCrosshairs] : cgs.media.crosshairShader2[crosshair % cgs.media.numberOfCrosshairs];
 
 	trap_R_DrawStretchPic(
 	    x + (float)cg.refdef.x + (0.5f * ((float)cg.refdef.width - w)),
@@ -441,7 +441,7 @@ static float CG_OSPDrawStatusBar(float arg)
 			}
 			else
 			{
-				if (value >= 0)
+				if (value > 0)
 				{
 					color = 0;  // green
 				}
@@ -641,7 +641,7 @@ static void CG_OSPDrawStatusBarAmmo2(float y)
 			}
 			CG_DrawPicOld(posX, posY, ammoW, ammoH, cg_weapons[weaponIndex].ammoIcon);
 			str = va("%3i", cg.snap->ps.ammo[weaponIndex]);
-			CG_OSPDrawString(posX + ammoW * 2, posY, str, ammoW, ammoH, NULL, 0, 0);
+			CG_OSPDrawStringOld(posX + ammoW * 2, posY, str, ammoW, ammoH, NULL, 0, 0);
 			++i;
 		}
 		++weaponIndex;
@@ -762,7 +762,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 		health = ps->ammo[es->currentState.weapon];
 		if (health > -1)
 		{
-			if (health >= 0)
+			if (health > 0)
 			{
 				trap_R_SetColor(colorCPMStatusbar0_1[0]);
 			}
@@ -1143,7 +1143,7 @@ static void CG_OSPDrawCPMStatusbar3(void)
 		if (ammo > -1)
 		{
 			qhandle_t ammoIcon;
-			if (ammo >= 0)
+			if (ammo > 0)
 			{
 				ammoColorIndex = 0;
 			}
@@ -1300,7 +1300,7 @@ static void CG_OSPDrawCPMStatusbar4(void)
 		value = ps->ammo[cent->currentState.weapon];
 		if (value > -1)
 		{
-			if (value >= 0)
+			if (value > 0)
 			{
 				colorIndex = 0;
 			}
@@ -1481,7 +1481,7 @@ static void CG_OSPDrawCPMStatusbar5(void)
 	value = ps->ammo[cent->currentState.weapon];
 	if (value > -1)
 	{
-		if (value >= 0)
+		if (value > 0)
 		{
 			colorIndex = 0;
 		}
@@ -1649,7 +1649,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 	pos1[1] = 0.0f;
 	pos1[2] = 0.0f;
 
-	if (ch_StatusbarFormat.integer == 10 && ch_StatusbarFormat.integer == 12)
+	if (ch_StatusbarFormat.integer == 10 || ch_StatusbarFormat.integer == 12)
 	{
 		int weapon;
 		qhandle_t icon;
@@ -1715,7 +1715,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 				{
 					colorIndex = 2;
 				}
-				else if (ammo >= 0)
+				else if (ammo > 0)
 				{
 					colorIndex = 0;
 				}
@@ -1943,7 +1943,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 		if ((cgs.osp.server_mode & 0x2) != 0)
 		{
 			qhandle_t icon;
-			icon = cgs.media.armorIcon[ps->stats[STAT_OSP_9]];
+			icon = cgs.media.armorIcon[ps->stats[STAT_OSP_8]];
 			if (icon)
 			{
 				CG_DrawPicOld((float)(((486 - w_tmp) + (3 * w)) + 3), 452.0f, 24.0f, 24.0f, icon);
@@ -2032,7 +2032,7 @@ static float CG_OSPDrawTeamInfo(float y)
 			{
 				chatY = y - (float)((cgs.teamChatPos - i) * h);
 			}
-			CG_OSPDrawString(w, chatY, cgs.teamChatMsgs[i % chatHeight], w, h, NULL, maxChars, 0);
+			CG_OSPDrawStringOld(w, chatY, cgs.teamChatMsgs[i % chatHeight], w, h, NULL, maxChars, 0);
 		}
 
 	}
@@ -2101,39 +2101,39 @@ static void CG_OSPPrepareTeamOverlay(int w, qboolean right)
 				break;
 			case 'n':
 			case 'N':
-				teamOverlay.nameX = i;
-				teamOverlay.maxChars = nameLen ? nameLen : 12;
-				i += teamOverlay.maxChars * w;
+				teamOverlay.nameOffsetChar = i;
+				teamOverlay.nameLenChar = nameLen ? nameLen : 12;
+				i += teamOverlay.nameLenChar * w;
 				isNamePresent = qtrue;
 				++numberOfNames;
 				break;
 			case 'p':
 			case 'P':
-				teamOverlay.powerupX = i;
+				teamOverlay.powerupOffsetChar = i;
 				i +=  w;
 				++numberOfPowerups;
 				break;
 			case 'h':
 			case 'H':
-				teamOverlay.healthX = i;
+				teamOverlay.healthOffsetChar = i;
 				i += 3 * w;
 				++numberOfHealths;
 				break;
 			case 'a':
 			case 'A':
-				teamOverlay.armorX = i;
+				teamOverlay.armorOffsetChar = i;
 				i += 3 * w;
 				++numberOfArmors;
 				break;
 			case 'w':
 			case 'W':
-				teamOverlay.ammoX = i;
+				teamOverlay.ammoOffsetChar = i;
 				i += w;
 				++numberOfAmmos;
 				break;
 			case 'l':
 			case 'L':
-				teamOverlay.locationX = i;
+				teamOverlay.locationOffsetChar = i;
 				i += cg_MaxlocationWidth.integer * w;
 				++numberOfLocations;
 				break;
@@ -2181,60 +2181,60 @@ static void CG_OSPPrepareTeamOverlay(int w, qboolean right)
 		}
 		Q_strncpyz(teamOverlay.str, start, OSPHUD_TEAMOVERLAY_STR_SIZE);
 	}
-	teamOverlay.overlayWidth = i;
+	teamOverlay.overlayWidthChar = i;
 	teamOverlayWidth = i;
 
 	if (numberOfPowerups)
 	{
-		teamOverlay.powerupX += right ? 640 - i : 0;
-		if (teamOverlay.powerupX == 0)
+		teamOverlay.powerupOffsetChar += right ? 640 - i : 0;
+		if (teamOverlay.powerupOffsetChar == 0)
 		{
-			++teamOverlay.powerupX;
+			++teamOverlay.powerupOffsetChar;
 		}
 	}
 
 	if (numberOfNames)
 	{
-		teamOverlay.nameX += right ? 640 - i : 0;
-		if (teamOverlay.nameX == 0)
+		teamOverlay.nameOffsetChar += right ? 640 - i : 0;
+		if (teamOverlay.nameOffsetChar == 0)
 		{
-			++teamOverlay.nameX;
+			++teamOverlay.nameOffsetChar;
 		}
 	}
 
 	if (numberOfHealths)
 	{
-		teamOverlay.healthX += right ? 640 - i : 0;
-		if (teamOverlay.healthX == 0)
+		teamOverlay.healthOffsetChar += right ? 640 - i : 0;
+		if (teamOverlay.healthOffsetChar == 0)
 		{
-			++teamOverlay.healthX;
+			++teamOverlay.healthOffsetChar;
 		}
 	}
 
 	if (numberOfArmors)
 	{
-		teamOverlay.armorX += right ? 640 - i : 0;
-		if (teamOverlay.armorX == 0)
+		teamOverlay.armorOffsetChar += right ? 640 - i : 0;
+		if (teamOverlay.armorOffsetChar == 0)
 		{
-			++teamOverlay.armorX;
+			++teamOverlay.armorOffsetChar;
 		}
 	}
 
 	if (numberOfAmmos)
 	{
-		teamOverlay.ammoX += right ? 640 - i : 0;
-		if (teamOverlay.ammoX == 0)
+		teamOverlay.ammoOffsetChar += right ? 640 - i : 0;
+		if (teamOverlay.ammoOffsetChar == 0)
 		{
-			++teamOverlay.ammoX;
+			++teamOverlay.ammoOffsetChar;
 		}
 	}
 
 	if (numberOfLocations)
 	{
-		teamOverlay.locationX += right ? 640 - i : 0;
-		if (teamOverlay.locationX == 0)
+		teamOverlay.locationOffsetChar += right ? 640 - i : 0;
+		if (teamOverlay.locationOffsetChar == 0)
 		{
-			++teamOverlay.locationX;
+			++teamOverlay.locationOffsetChar;
 		}
 	}
 
@@ -2285,10 +2285,10 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 		teamOverlayUnkFlag = qtrue;
 	}
 
-	teamOverlayUnkFlag = qfalse;
+	teamOverlayUnkFlag = qfalse; //-V519
 	if (right)
 	{
-		x = 640 - teamOverlay.overlayWidth;
+		x = 640 - teamOverlay.overlayWidthChar;
 	}
 	else
 	{
@@ -2317,7 +2317,7 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 	}
 
 	CG_OSPSetColor(colorTeamOverlay);
-	CG_OSPDrawPic(x, y, (float)teamOverlay.overlayWidth, offsetY, cgs.media.teamStatusBar);
+	CG_OSPDrawPic(x, y, (float)teamOverlay.overlayWidthChar, offsetY, cgs.media.teamStatusBar);
 	CG_OSPSetColor(NULL);
 
 	for (i = 0; i < numSortedTeamPlayers; ++i)
@@ -2330,46 +2330,46 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 				continue;
 			}
 
-			if (teamOverlay.nameX)
+			if (teamOverlay.nameOffsetChar)
 			{
-				CG_OSPDrawString(teamOverlay.nameX, (int)y, ci->name, w, h, NULL, teamOverlay.maxChars, 0);
+				CG_OSPDrawStringOld(teamOverlay.nameOffsetChar, (int)y, ci->name, w, h, NULL, teamOverlay.nameLenChar, 0);
 			}
 
-			if (teamOverlay.healthX || teamOverlay.armorX)
+			if (teamOverlay.healthOffsetChar || teamOverlay.armorOffsetChar)
 			{
 				CG_GetColorForHealth(ci->health, ci->armor, healthColor);
 			}
 
-			if (teamOverlay.healthX)
+			if (teamOverlay.healthOffsetChar)
 			{
 				Com_sprintf(buf, 16, "%3i", ci->health);
-				CG_OSPDrawString(teamOverlay.healthX, (int)y, buf, w, h, healthColor, 0, 0);
+				CG_OSPDrawStringOld(teamOverlay.healthOffsetChar, (int)y, buf, w, h, healthColor, 0, 0);
 			}
 
-			if (teamOverlay.armorX)
+			if (teamOverlay.armorOffsetChar)
 			{
 				Com_sprintf(buf, 16, "%3i", ci->armor);
-				CG_OSPDrawString(teamOverlay.armorX, (int)y, buf, w, h, healthColor, 0, 0);
+				CG_OSPDrawStringOld(teamOverlay.armorOffsetChar, (int)y, buf, w, h, healthColor, 0, 0);
 			}
 			if (teamOverlay.strX)
 			{
-				CG_OSPDrawString(teamOverlay.strX, (int)y, teamOverlay.str, w, h, NULL, 0, 0);
+				CG_OSPDrawStringOld(teamOverlay.strX, (int)y, teamOverlay.str, w, h, NULL, 0, 0);
 			}
-			if (teamOverlay.ammoX)
+			if (teamOverlay.ammoOffsetChar)
 			{
 				if (cg_weapons[ci->curWeapon].ammoIcon)
 				{
-					CG_OSPDrawPic((float)teamOverlay.ammoX, y, (float)w, (float)h, cg_weapons[ci->curWeapon].ammoIcon);
+					CG_OSPDrawPic((float)teamOverlay.ammoOffsetChar, y, (float)w, (float)h, cg_weapons[ci->curWeapon].ammoIcon);
 				}
 				else
 				{
-					CG_OSPDrawPic((float)teamOverlay.ammoX, y, (float)w, (float)h, cgs.media.deferShader);
+					CG_OSPDrawPic((float)teamOverlay.ammoOffsetChar, y, (float)w, (float)h, cgs.media.deferShader);
 				}
 			}
 			if (cg_MaxlocationWidth.integer != 0)
 			{
 				const char* location = NULL;
-				if (teamOverlay.locationX != 0)
+				if (teamOverlay.locationOffsetChar != 0)
 				{
 					if (customLocationsEnabled != 0)
 					{
@@ -2390,13 +2390,13 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 					{
 						location = "unknown";
 					}
-					CG_OSPDrawString(teamOverlay.locationX, (int)y, location, w, h, NULL, cg_MaxlocationWidth.integer, 0);
+					CG_OSPDrawStringOld(teamOverlay.locationOffsetChar, (int)y, location, w, h, NULL, cg_MaxlocationWidth.integer, 0);
 				}
 			}
-			if (teamOverlay.powerupX)
+			if (teamOverlay.powerupOffsetChar)
 			{
 				int k = 0;
-				int px = teamOverlay.powerupX;
+				int px = teamOverlay.powerupOffsetChar;
 				gitem_t* gi;
 				do
 				{
@@ -2495,7 +2495,7 @@ static float CG_OSPDrawWeaponBarOld(float pos_y)
 		if (name)
 		{
 			x = (640 - (CG_DrawStrlen(name) * w)) / 2;
-			CG_OSPDrawString(x, y - h - 0x2, name, w, h, color, 0, 0);
+			CG_OSPDrawStringOld(x, y - h - 0x2, name, w, h, color, 0, 0);
 			pos_y -= h;
 		}
 	}
@@ -2571,7 +2571,7 @@ static void CG_OSPDrawWeaponBar_4_5(float pos_y)
 				if (cg.snap->ps.ammo[weaponNum] != -1)
 				{
 					str = va("%3i", cg.snap->ps.ammo[weaponNum]);
-					CG_OSPDrawString(x + w + 8, y + ((h + 8) / 2 - 8), str, 8, 8, NULL, 0, 0);
+					CG_OSPDrawStringOld(x + w + 8, y + ((h + 8) / 2 - 8), str, 8, 8, NULL, 0, 0);
 				}
 			}
 			y += h + 8;
@@ -2601,7 +2601,7 @@ float CG_OSPDrawPickupItem(float y)
 			CG_RegisterItemVisuals(cg.itemPickup);
 			trap_R_SetColor(color);
 			CG_DrawPicOld(8.0f, y, w, (float)h, cg_items[cg.itemPickup].icon);
-			CG_OSPDrawString(w + 8 + (w / 3), y, bg_itemlist[cg.itemPickup].pickup_name, w, h, color, 0, 0);
+			CG_OSPDrawStringOld(w + 8 + (w / 3), y, bg_itemlist[cg.itemPickup].pickup_name, w, h, color, 0, 0);
 			trap_R_SetColor(NULL);
 		}
 	}
@@ -2665,18 +2665,10 @@ static float CG_OSPHUDDrawScores(float y)
 		}
 		else
 		{
-			if ((cgs.gametype != GT_TEAM) && (cgs.osp.gameTypeFreeze == 0) && (CG_OSPIsGameTypeCA(cgs.gametype) == 0) && (cgs.gametype != 4) && ch_drawFlagNames.integer)
+			if ((cgs.gametype != GT_TEAM) && (cgs.osp.gameTypeFreeze == 0) && (CG_OSPIsGameTypeCA(cgs.gametype) == 0) && (cgs.gametype != GT_CTF) && ch_drawFlagNames.integer)
 			{
-				if (cgs.gametype == GT_CTF)
-				{
-					x = SCREEN_WIDTH;
-					y -= (float)(fontScoresH + 8);
-				}
-				else
-				{
-					x = SCREEN_WIDTH;
-					y -= 8.0f;
-				}
+				x = SCREEN_WIDTH;
+				y -= 8.0f;
 			}
 			else
 			{
@@ -2704,7 +2696,7 @@ static float CG_OSPHUDDrawScores(float y)
 		}
 		else
 		{
-			s = va("(%i) %2i", cgs.osp.osp_scores2, s2);
+			s = va("(%i) %2i", cgs.osp.osp_teamcount2, s2);
 		}
 
 		len = CG_DrawStrlen(s);
@@ -2810,7 +2802,7 @@ static float CG_OSPHUDDrawScores(float y)
 		}
 		else
 		{
-			s = va("(%i) %2i", cgs.osp.osp_scores1, s1);
+			s = va("(%i) %2i", cgs.osp.osp_teamcount1, s1);
 		}
 
 		len = CG_DrawStrlen(s);
@@ -4010,7 +4002,7 @@ static void CG_OSPDrawCrosshairNames(void)
 			float len;
 			len = (float)(CG_DrawStrlen(ci->name) * w);
 
-			CG_OSPDrawString((int)(320.0f - (len / 2.0f)), 170, ci->name, w, h, NULL, 0, 0);
+			CG_OSPDrawStringOld((int)(320.0f - (len / 2.0f)), 170, ci->name, w, h, NULL, 0, 0);
 
 			if (ci->team != TEAM_FREE && ci->team == cg.snap->ps.persistant[PERS_TEAM] && ch_TeamCrosshairHealth.integer != 0 && !(cg.snap->ps.pm_flags & PMF_FOLLOW))
 			{
@@ -4025,7 +4017,7 @@ static void CG_OSPDrawCrosshairNames(void)
 				Com_sprintf(str2, 64, "%i/%i", ci->health, ci->armor);
 				len2 = CG_DrawStrlen(str2);
 				color2[3] = color[3];
-				CG_OSPDrawString((int)(320.0f - ((float)(len2 * w2) / 2.0f)), h + 170, str2, w2, h2, color2, 0, 0);
+				CG_OSPDrawStringOld((int)(320.0f - ((float)(len2 * w2) / 2.0f)), h + 170, str2, w2, h2, color2, 0, 0);
 			}
 		}
 		else
@@ -4070,14 +4062,14 @@ static void CG_OSPDrawCrosshairNames(void)
 					x_name = healthW / 2.0f - nameW / 2.0f;
 					x_health = 0;
 				}
-				CG_OSPDrawString(x_name, y, ci->name, w, h, color, 0, 0);
+				CG_OSPDrawStringOld(x_name, y, ci->name, w, h, color, 0, 0);
 				CG_GetColorForHealth(ci->health, ci->armor, color2);
 				color2[3] = 0.5f * color[3];
-				CG_OSPDrawString(x_health, y + h, str2, w2, h2, color2, 0, 0);
+				CG_OSPDrawStringOld(x_health, y + h, str2, w2, h2, color2, 0, 0);
 			}
 			else
 			{
-				CG_OSPDrawString(0, y, ci->name, w, h, color, 0, 0);
+				CG_OSPDrawStringOld(0, y, ci->name, w, h, color, 0, 0);
 			}
 		}
 		trap_R_SetColor(NULL);
@@ -4110,11 +4102,11 @@ static void CG_OSPDrawSpectatorInfo(void)
 
 	str = "Following";
 	len = CG_OSPGetNormalizedStringSize(str);
-	CG_OSPDrawString(320 - (len * w / 2), 24, str, w, h, NULL, 0, 0);
+	CG_OSPDrawStringOld(320 - (len * w / 2), 24, str, w, h, NULL, 0, 0);
 
 	str = cgs.clientinfo[cg.snap->ps.clientNum].name;
 	len = CG_OSPGetNormalizedStringSize(str);
-	CG_OSPDrawString(320 - (len * w / 2), h + 24, str, w, h, NULL, 0, 0);
+	CG_OSPDrawStringOld(320 - (len * w / 2), h + 24, str, w, h, NULL, 0, 0);
 }
 
 static void CG_OSPDrawVote(void)
@@ -4150,7 +4142,7 @@ static void CG_OSPDrawVote(void)
 		posx = 0;
 	}
 
-	CG_OSPDrawString(posx, 58, votestr, w, h, NULL, 0, qfalse);
+	CG_OSPDrawStringOld(posx, 58, votestr, w, h, NULL, 0, qfalse);
 }
 
 
@@ -4234,20 +4226,12 @@ void CG_OSPHUDRoutine(void)
 					CG_OSPDrawCPMStatusbar5();
 					break;
 				case 9:
-					CG_OSPDrawQ3CompStatusbar();
-					drew = 424.0f;
-					break;
 				case 10:
-					CG_OSPDrawQ3CompStatusbar();
-					drew = 424.0f;
-					break;
 				case 11:
-					CG_OSPDrawQ3CompStatusbar();
-					drew = 424.0f;
-					break;
 				case 12:
 					CG_OSPDrawQ3CompStatusbar();
 					drew = 424.0f;
+					break;
 			}
 		}
 
@@ -4404,9 +4388,6 @@ void CG_OSPHUDRoutine(void)
 					switch (ch_StatusbarFormat.integer)
 					{
 						case 4:
-							CG_OSPDrawWeaponBarCPM1(380);
-							weaponBarDrew = qfalse;
-							break;
 						case 5:
 							CG_OSPDrawWeaponBarCPM1(380);
 							weaponBarDrew = qfalse;

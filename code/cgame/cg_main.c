@@ -197,6 +197,9 @@ vmCvar_t           cg_deadBodyBlack;
 vmCvar_t           cg_drawDecals;
 vmCvar_t           cg_drawPing;
 vmCvar_t           cg_enableOSPHUD;
+vmCvar_t           cg_shud;
+vmCvar_t           cg_shudChatOnly;
+vmCvar_t           cg_shudTeamChatOnly;
 vmCvar_t           cg_enableBreath;
 vmCvar_t           cg_enemyColors;
 vmCvar_t           cg_enemyModel;
@@ -309,6 +312,9 @@ vmCvar_t           cg_enemyRailColors;
 vmCvar_t           cg_enemyFrozenColor;
 
 vmCvar_t           cg_spectGlow;
+vmCvar_t           cg_hitSounds;
+
+vmCvar_t           ch_file;
 
 
 static cvarTable_t cvarTable[] =
@@ -428,8 +434,11 @@ static cvarTable_t cvarTable[] =
 	{ &cg_deadBodyFilter, "cg_deadBodyFilter", "0", CVAR_ARCHIVE },
 	{ &cg_drawDecals, "cg_drawDecals", "1", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
-	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enableOSPHUD},
-	{ &cg_enableBreath, "cg_enableBreath", "1",  },
+	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "2", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enableOSPHUD},
+	{ &cg_shud, "cg_shud", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_shud},
+	{ &cg_shudChatOnly, "cg_shudChatOnly", "1", CVAR_ARCHIVE },
+	{ &cg_shudTeamChatOnly, "cg_shudTeamChatOnly", "1", CVAR_ARCHIVE },
+	{ &cg_enableBreath, "cg_enableBreath", "1",  CVAR_ARCHIVE},
 	{ &cg_enemyColors, "cg_enemyColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyColors},
 	{ &cg_enemyModel, "cg_enemyModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModel},
 	{ &cg_teamModel, "cg_teamModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_teamModel},
@@ -439,7 +448,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_followpowerup, "cg_followpowerup", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followpowerup},
 	{ &cg_followviewcam, "cg_followviewcam", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_followviewcam},
 	{ &cg_forceColors, "cg_forceColors", "0", CVAR_ARCHIVE },
-	{ &cg_lightningImpact, "cg_lightningImpact", "1", CVAR_ARCHIVE },
+	{ &cg_lightningImpact, "cg_lightningImpact", "0", CVAR_ARCHIVE },
 	{ &cg_MaxlocationWidth, "cg_MaxlocationWidth", "16", CVAR_ARCHIVE },
 	{ &cg_muzzleFlash, "cg_muzzleFlash", "1", CVAR_ARCHIVE },
 	{ &cg_nochatbeep, "cg_noChatBeep", "0", CVAR_ARCHIVE },
@@ -474,6 +483,7 @@ static cvarTable_t cvarTable[] =
 	{ &cf_Following, "cf_Following", "24x24", CVAR_ARCHIVE },
 	{ &ch_FilterLocationsTeamchat, "ch_FilterLocationsTeamchat", "0", CVAR_ARCHIVE },
 	{ &ch_fragMessage, "ch_fragMessage", "1", CVAR_ARCHIVE },
+	{ &ch_file, "ch_file", "default", CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_file},
 	{ &cf_Fragmsg, "cf_Fragmsg", "16x16", CVAR_ARCHIVE },
 	{ &ch_graphs, "ch_graphs", "1", CVAR_ARCHIVE },
 	{ &ch_InverseTeamChat, "ch_InverseTeamChat", "1", CVAR_ARCHIVE },
@@ -520,13 +530,14 @@ static cvarTable_t cvarTable[] =
 	{ &cg_lightningHideCrosshair, "cg_lightningHideCrosshair", "0", CVAR_ARCHIVE },
 	{ &cg_lightningSilent, "cg_lightningSilent", "0", CVAR_ARCHIVE },
 	{ &cg_delag, "cg_delag", "1", CVAR_ARCHIVE },
-	{ &cg_drawHitBox, "cg_drawHitBox", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_drawHitBox},
+	{ &cg_drawHitBox, "cg_drawHitBox", "0", CVAR_ARCHIVE },
 	{ &cg_optimizePrediction, "cg_optimizePrediction", "0", CVAR_ARCHIVE },
 	{ &cg_projectileNudgeSvFps, "cg_projectileNudgeSvFps", "70", CVAR_ARCHIVE},
 	{ &cg_projectileNudge, "cg_projectileNudge", "0", CVAR_ARCHIVE },
 	{ &cg_hideScores, "cg_hideScores", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyBlack, "cg_deadBodyBlack", "1", CVAR_ARCHIVE },
 	{ &cg_spectGlow, "cg_spectGlow", "0", CVAR_ARCHIVE },
+	{ &cg_hitSounds, "cg_hitSounds", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_hitSounds},
 
 	{ &cg_playerModelColors, "cg_playerModelColors", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_playerModelColors},
 	{ &cg_playerRailColors,  "cg_playerRailColors", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_playerRailColors},
@@ -606,7 +617,7 @@ void CG_RegisterCvars(void)
 			//collision
 			while ((*target)->next)
 			{
-				*target = (*target)->next;
+				target = &(*target)->next;
 			}
 			cv->prev = *target;
 			(*target)->next = cv;
@@ -906,6 +917,10 @@ static void CG_RegisterSounds(void)
 	cgs.media.hitLowestSound = trap_S_RegisterSound("sound/feedback/hitlowest.wav", qfalse);
 	cgs.media.hitLowSound = trap_S_RegisterSound("sound/feedback/hitlow.wav", qfalse);
 	cgs.media.hitSound = trap_S_RegisterSound("sound/feedback/hit.wav", qfalse);
+	cgs.media.hitSounds[0] = trap_S_RegisterSound( "sound/feedback/hit25.wav", qfalse );
+	cgs.media.hitSounds[1] = trap_S_RegisterSound( "sound/feedback/hit50.wav", qfalse );
+	cgs.media.hitSounds[2] = trap_S_RegisterSound( "sound/feedback/hit75.wav", qfalse );
+	cgs.media.hitSounds[3] = trap_S_RegisterSound( "sound/feedback/hit100.wav", qfalse );
 	cgs.media.hitHighSound = trap_S_RegisterSound("sound/feedback/hithigh.wav", qfalse);
 
 
@@ -1131,11 +1146,28 @@ static void CG_RegisterGraphics(void)
 	cgs.media.tracerShader = trap_R_RegisterShader("gfx/misc/tracer");
 	cgs.media.selectShader = trap_R_RegisterShader("gfx/2d/select");
 
-	for (i = 0 ; i < NUM_CROSSHAIRS ; i++)
+	// osp crosshairs
+	for (i = 0 ; i < 10 ; i++)
 	{
 		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%c", 'a' + i));
 		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%c2", 'a' + i));
 	}
+	// osp2 crosshairs
+	for ( ; i < NUM_CROSSHAIRS ; i++)
+	{
+		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i",  i));
+		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i_2",  i));
+		if (!cgs.media.crosshairShader[i])
+		{
+			break;
+		}
+		if (!cgs.media.crosshairShader2[i])
+		{
+		  cgs.media.crosshairShader2[i] = cgs.media.crosshairShader[i];
+		}
+	}
+	// save how many crosshair do we have
+	cgs.media.numberOfCrosshairs = i;
 
 	cgs.media.blender180Shader = trap_R_RegisterShader("gfx/2d/blender_180.png");
 
@@ -1570,7 +1602,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		CG_OSPConfigModeSet(atoi(CG_ConfigString(CS_OSP_SERVER_MODE)));
 
 		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT);
-		if (conf)
+		if (conf)//-V547
 		{
 			CG_OSPConfigCustomClientSet(atoi(conf));
 		}
@@ -1580,7 +1612,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		}
 
 		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT2);
-		if (conf)
+		if (conf)//-V547
 		{
 			CG_OSPConfigCustomClient2Set(atoi(conf));
 		}

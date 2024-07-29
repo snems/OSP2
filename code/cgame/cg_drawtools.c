@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // cg_drawtools.c -- helper functions called by cg_draw, cg_scoreboard, cg_info, etc
 #include "cg_local.h"
+#include "../qcommon/qcommon.h"
 
 
 typedef struct OSP_ClientFont_t
@@ -102,16 +103,6 @@ qboolean CG_OSPGetClientFontSize(const vmCvar_t* cvar, int* w, int* h)
 	return qfalse;
 }
 
-/*
-================
-CG_CorrectWide
-
-Adjust wide for wide screens
-================
-*/
-void CG_CorrectWide(float* w)
-{
-}
 
 /*
 ================
@@ -123,10 +114,10 @@ Adjusted for resolution and screen aspect ratio
 void CG_AdjustFrom640(float* x, float* y, float* w, float* h)
 {
 	// scale for screen sizes
-	*x = *x * cgs.screenXScale + cgs.screenXBias;
-	*y = *y * cgs.screenYScale + cgs.screenYBias;
-	*w *= cgs.screenXScale;
-	*h *= cgs.screenYScale;
+	if(x) *x *= cgs.screenXScale_Old;
+	if(y) *y *= cgs.screenYScale_Old;
+	if(w) *w *= cgs.screenXScale_Old;
+	if(h) *h *= cgs.screenYScale_Old;
 }
 void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide)
 {
@@ -138,13 +129,13 @@ void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean corre
 	}
 #endif
 	// scale for screen sizes
-	*x *= cgs.screenXScale_Old;
-	*y *= cgs.screenYScale_Old;
-	*h *= cgs.screenYScale_Old;
+	if(x) *x *= cgs.screenXScale_Old;
+	if(y) *y *= cgs.screenYScale_Old;
+	if(h) *h *= cgs.screenYScale_Old;
 
 	if (!correctWide)
 	{
-		*w *= cgs.screenXScale_Old;
+		if(w) *w *= cgs.screenXScale_Old;
 	}
 	else
 	{
@@ -156,7 +147,7 @@ void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean corre
 			koeff = cgs.screenXScale_Old * (cgs.glconfig.vidHeight * 640.0) / (cgs.glconfig.vidWidth * 480.0);
 		}
 
-		*w *= koeff;
+		if(w) *w *= koeff;
 	}
 }
 
@@ -381,8 +372,213 @@ void CG_DrawSmallStringColor(int x, int y, const char* s, vec4_t color)
 	CG_DrawStringExt(x, y, s, color, qtrue, qfalse, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 0);
 }
 
-// new font renderer
+/*
+ * Text compiler
+ */
+//Cut time related symbols like ^f ^F
+void CG_OSPDrawStringPrepare(const char* from, char* to, int size)
+{
+	int printed = 0;
+	int max = size - 1;
 
+	if (!from || !to)
+	{
+		return;
+	}
+
+	while (*from && printed < max)
+	{
+		if (from[0] == '^' && from[1] != '^')
+		{
+			switch (from[1])
+			{
+				case 'f':
+					from += 2; //skip ^f
+					if ((cg.time & 0x3ff) >= 512)
+					{
+						while (*from && !(from[0] == '^' && (from[1] == 'N' || from[1] == 'F')))
+						{
+							++from;
+						}
+					}
+					break;
+				case 'F':
+					from += 2; //skip ^F
+					if ((cg.time & 0x3ff) < 512)
+					{
+						while (*from && !(from[0] == '^' && (from[1] == 'N' || from[1] == 'f')))
+						{
+							++from;
+						}
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
+		*to = *from;
+		++to;
+		++from;
+		++printed;
+	}
+	*to = 0; //eos
+}
+
+
+text_command_t* CG_CompiledTextCreate(const char* in)
+{
+	int b;
+	text_command_t* commands;
+	text_command_t* result = NULL;
+	char* text;
+	char* dmem;
+	int i = 0;
+	int len;
+	vec4_t back_color;
+	qboolean back_color_was_set = qfalse;
+	float rc, gc, bc;
+	unsigned int color_index;
+
+	if (!in || *in == 0)
+	{
+		return NULL;
+	}
+
+	Vector4Copy(colorWhite, back_color);
+
+	commands = Z_Malloc(sizeof(*commands) * OSP_TEXT_CMD_MAX) ;
+	OSP_MEMORY_CHECK(commands);
+
+	len = strlen(in) + 1;
+	dmem = Z_Malloc(len);
+	OSP_MEMORY_CHECK(dmem);
+	text = dmem;
+
+	CG_OSPDrawStringPrepare(in, text, len);
+
+	while (*text)
+	{
+		if (text[0] == '^' && text[1])
+		{
+			switch (text[1])
+			{
+				case 'F':
+				case 'f':
+					//skip ^F and ^f
+					text += 2;
+					break;
+				case 'B':
+					b = cg.time & 0x7ff;
+					if (b > 1024)
+					{
+						b = ~b & 0x7ff;
+					}
+					commands[i].type = OSP_TEXT_CMD_FADE;
+					commands[i].value.fade =  b / 1463.0f + 0.3f;
+					++i;
+					text += 2;
+					break;
+				case 'b':
+					b = cg.time & 0x7ff;
+					if (b > 1024)
+					{
+						b = ~b & 0x7ff;
+					}
+					commands[i].type = OSP_TEXT_CMD_FADE;
+					commands[i].value.fade = b / 1024.0f;
+					++i;
+					text += 2;
+					break;
+				case 'N':
+				case 'n':
+					//reset fade
+					commands[i].type = OSP_TEXT_CMD_FADE;
+					commands[i].value.fade = 1.0f;
+					++i;
+
+					//reset color
+					commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
+					if (back_color_was_set)
+					{
+						VectorCopy(back_color, commands[i].value.color);
+					}
+					else
+					{
+						VectorCopy(colorWhite, commands[i].value.color);
+					}
+					++i;
+
+					text += 2;
+					break;
+				case 'X':
+				case 'x':
+					if (!CG_Hex16GetColor(&text[2], &rc))
+					{
+						text += 2;
+						break;
+					}
+					if (!CG_Hex16GetColor(&text[4], &gc))
+					{
+						text += 2;
+						break;
+					}
+					if (!CG_Hex16GetColor(&text[6], &bc))
+					{
+						text += 2;
+						break;
+					}
+					back_color[0] = rc;
+					back_color[1] = gc;
+					back_color[2] = bc;
+
+					commands[i].type = OSP_TEXT_CMD_SHADOW_COLOR;
+					VectorCopy(back_color, commands[i].value.color);
+					back_color_was_set = qtrue;
+
+					++i;
+					text += 8;
+					break;
+				default:
+					color_index = (text[1] - 0x30) % 10;
+					VectorCopy(g_color_table[color_index], commands[i].value.color); //-V557
+					commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
+					++i;
+					text += 2;
+					break;
+			}
+		}
+		else
+		{
+			commands[i].type = OSP_TEXT_CMD_CHAR;
+			commands[i].value.character = text[0];
+			++i;
+			++text;
+		}
+	}
+	commands[i++].type = OSP_TEXT_CMD_STOP;
+
+	result = Z_Malloc(sizeof(text_command_t) * i);
+	OSP_MEMORY_CHECK(result);
+
+	memcpy(result, commands, sizeof(text_command_t) * i);
+
+	Z_Free(dmem);
+	Z_Free(commands);
+	return result;
+}
+
+void CG_CompiledTextDestroy(text_command_t* root)
+{
+	if (root)
+	{
+		Z_Free(root);
+	}
+}
+
+/*
+ * New font renderer
+ */
 #define MAX_FONT_SHADERS 4
 
 typedef struct
@@ -396,26 +592,42 @@ typedef struct
 
 typedef struct
 {
+	const char* name;
 	font_metric_t   metrics[256];
 	qhandle_t       shader[ MAX_FONT_SHADERS ];
 	int             shaderThreshold[ MAX_FONT_SHADERS ];
 	int             shaderCount;
 } font_t;
 
-static font_t bigchars;
-static font_t numbers;
-static const font_t* font = &bigchars;
-static const font_metric_t* metrics = &bigchars.metrics[0];
+static font_t fonts[] = {{"id"}, {"idblock"}, {"sansman"}, {"cpma"}};
+static int fonts_num = sizeof(fonts) / sizeof(fonts[0]);
+static const font_t* font = &fonts[0];
+static const font_metric_t* metrics = &fonts[0].metrics[0];
 
 
-void CG_SelectFont(int index)
+void CG_FontSelect(int index)
 {
-	if (index == 0)
-		font = &bigchars;
-	else
-		font = &numbers;
+	if (index < 0 || index >= fonts_num)
+	{
+		CG_Error("Requested nonexistent font number: %d\n", index);
+	}
 
+	font = &fonts[index];
 	metrics = &font->metrics[0];
+}
+
+int CG_FontIndexFromName(const char* name)
+{
+	int index;
+	for (index = 0; index < fonts_num; ++index)
+	{
+		if (Q_stricmp(name, fonts[index].name) == 0)
+		{
+			return index;
+		}
+	}
+	CG_Printf("^1Unknown font %s, using default\n", name);
+	return 0;
 }
 
 
@@ -428,7 +640,7 @@ static qboolean CG_FileExist(const char* file)
 
 	trap_FS_FOpenFile(file, &f, FS_READ);
 	if (f == FS_INVALID_HANDLE)
-		return qfalse;
+		return qfalse;//-V1020
 	else
 	{
 		trap_FS_FCloseFile(f);
@@ -454,8 +666,6 @@ static void CG_LoadFont(font_t* fnt, const char* fontName)
 	float s1, s2;
 	float x0, y0;
 	qboolean swapped;
-
-	memset(fnt, 0, sizeof(*fnt));
 
 	len = trap_FS_FOpenFile(fontName, &f, FS_READ);
 	if (f == FS_INVALID_HANDLE)
@@ -692,8 +902,10 @@ static void CG_LoadFont(font_t* fnt, const char* fontName)
 
 void CG_LoadFonts(void)
 {
-	CG_LoadFont(&bigchars, "gfx/2d/bigchars.cfg");
-	CG_LoadFont(&numbers, "gfx/2d/numbers.cfg");
+	CG_LoadFont(&fonts[0], "gfx/2d/bigchars.cfg");
+	CG_LoadFont(&fonts[1], "gfx/2d/numbers.cfg");
+	CG_LoadFont(&fonts[2], "gfx/2d/sansman.cfg");
+	CG_LoadFont(&fonts[3], "gfx/2d/sansman.cfg"); // use sansman instead of cpma
 }
 
 
@@ -747,6 +959,49 @@ static float DrawStringLength(const char* string, float ax, float aw, float max_
 	return (ax - xx);
 }
 
+static float DrawCompiledStringLength(const text_command_t* cmd, float aw, float max_ax, int proportional)
+{
+	const font_metric_t* fm;
+	float           x_end;
+	float           ax = 0;
+	int i;
+	const text_command_t* curr;
+
+	if (!cmd)
+		return 0.0f;
+
+
+	for (i = 0; i < OSP_TEXT_CMD_MAX; ++i)
+	{
+		curr = &cmd[i];
+
+		if (curr->type == OSP_TEXT_CMD_CHAR)
+		{
+			fm = &metrics[ (unsigned char)curr->value.character ];
+			if (proportional)
+			{
+				ax += fm->space1 * aw;          // add extra space if required by metrics
+				x_end = ax + fm->space2 * aw;   // final position
+			}
+			else
+			{
+				x_end = ax + aw;
+			}
+
+			if (x_end > max_ax)
+				break;
+
+			ax = x_end;
+		}
+		else if (curr->type == OSP_TEXT_CMD_STOP)
+		{
+			break;
+		}
+	}
+
+	return ax;
+}
+
 
 void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags)
 {
@@ -785,9 +1040,9 @@ void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, 
 
 	proportional = (flags & DS_PROPORTIONAL);
 
-	if (flags & (DS_CENTER | DS_RIGHT))
+	if (flags & (DS_HCENTER | DS_HRIGHT))
 	{
-		if (flags & DS_CENTER)
+		if (flags & DS_HCENTER)
 		{
 			ax -= 0.5f * DrawStringLength(string, ax, aw, max_ax, proportional);
 		}
@@ -795,6 +1050,15 @@ void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, 
 		{
 			ax -= DrawStringLength(string, ax, aw, max_ax, proportional);
 		}
+	}
+
+	if (flags & DS_VCENTER)
+	{
+		ay -= ah/2;
+	}
+	else if (flags & DS_VTOP)
+	{
+		ay -= ah;
 	}
 
 	sh = font->shader[0]; // low-res shader by default
@@ -1627,7 +1891,7 @@ qboolean CG_Hex16GetColor(const char* str, float* color)
 	return qtrue;
 }
 
-int CG_OSPDrawString(int x, int y, const char* str, int charWidth, int charHeight, vec4_t const colors, int maxChars, qboolean drawShadow)
+int CG_OSPDrawStringOld(int x, int y, const char* str, int charWidth, int charHeight, vec4_t const colors, int maxChars, qboolean drawShadow)
 {
 	vec4_t lTextColor;
 	float defaultBright;
@@ -1690,7 +1954,7 @@ int CG_OSPDrawString(int x, int y, const char* str, int charWidth, int charHeigh
 					{
 						unsigned int color_index;
 						color_index = (control_char - 0x30) % 10;
-						Vector3Copy(g_color_table[color_index], lTextColor);
+						VectorCopy(g_color_table[color_index], lTextColor);
 						trap_R_SetColor(lTextColor);
 					}
 					break;
@@ -1804,6 +2068,310 @@ int CG_OSPDrawString(int x, int y, const char* str, int charWidth, int charHeigh
 	return next_x - x;
 }
 
+float CG_OSPDrawStringLengthNew(const char* string, float ax, float aw, float max_ax, int proportional)
+{
+	const font_metric_t* fm;
+	float           x_end;
+	const byte*      s;
+	float           xx;
+
+	if (!string)
+		return 0.0f;
+
+	s = (const byte*)string;
+
+	xx = ax;
+
+	while (*s != '\0')
+	{
+
+		if (*s == Q_COLOR_ESCAPE && s[1] != '\0' && s[1] != '^')
+		{
+			switch (s[1])
+			{
+				case 'X':
+				case 'x':
+				{
+					float r, g, b;
+					if (!CG_Hex16GetColor((const char*)&s[2], &r))
+					{
+						break;
+					}
+					if (!CG_Hex16GetColor((const char*)&s[4], &g))
+					{
+						break;
+					}
+					if (!CG_Hex16GetColor((const char*)&s[6], &b))
+					{
+						break;
+					}
+				}
+				s += 8;
+				break;
+				default:
+					s += 2;
+					break;
+			}
+			continue;
+		}
+
+		fm = &metrics[ *s ];
+		if (proportional)
+		{
+			ax += fm->space1 * aw;          // add extra space if required by metrics
+			x_end = ax + fm->space2 * aw;   // final position
+		}
+		else
+		{
+			x_end = ax + aw;
+		}
+
+		if (x_end > max_ax)
+			break;
+
+		ax = x_end;
+		s++;
+	}
+
+	return (ax - xx);
+}
+
+int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, int flags)
+{
+	float           max_ax;
+	text_command_t* text_commands;
+
+	if (!string)
+		return 0;
+
+	text_commands = CG_CompiledTextCreate(string);
+	if (!text_commands)
+	{
+		return 0;
+	}
+
+	if (maxChars <= 0)
+	{
+		max_ax = 9999999.0f;
+	}
+	else
+	{
+		max_ax = charWidth * maxChars;
+	}
+
+	return DrawCompiledStringLength(text_commands, charWidth, max_ax, flags & DS_PROPORTIONAL);
+}
+
+void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags)
+{
+	const font_metric_t* fm;
+	const float*     tc; // texture coordinates for char
+	float           ax, ay, aw, aw1, ah; // absolute positions/dimensions
+	float           scale;
+	float           x_end, xx;
+	float fade = 1.0f;
+	vec4_t          color;
+	float           xx_add, yy_add;
+	float           max_ax;
+	int             i;
+	qhandle_t       sh;
+	int             proportional;
+	text_command_t* text_commands;
+	text_command_t* curr;
+
+	if (!string)
+		return;
+
+
+	text_commands = CG_CompiledTextCreate(string);
+	if (!text_commands)
+	{
+		return;
+	}
+
+	CG_AdjustFrom640(&x, &y, &charWidth, &charHeight);
+
+	ax = x;
+	ay = y;
+
+	aw = charWidth;
+	ah = charHeight;
+
+
+	if (maxChars <= 0)
+	{
+		max_ax = 9999999.0f;
+	}
+	else
+	{
+		max_ax = ax + aw * maxChars;
+	}
+
+	proportional = (flags & DS_PROPORTIONAL);
+
+	if (flags & (DS_HCENTER | DS_HRIGHT))
+	{
+		float tmp = DrawCompiledStringLength(text_commands, aw, max_ax, proportional);
+		if (flags & DS_HCENTER)
+		{
+			ax -= 0.5f * tmp;
+		}
+		else
+		{
+			ax -= tmp;
+		}
+	}
+
+	if (flags & DS_VCENTER)
+	{
+		ay -= ah/2;
+	}
+	else if (flags & DS_VTOP)
+	{
+		ay -= ah;
+	}
+
+	sh = font->shader[0]; // low-res shader by default
+
+	// select hi-res shader if accepted
+	for (i = 1; i < font->shaderCount; i++)
+	{
+		if (ah >= font->shaderThreshold[i])
+		{
+			sh = font->shader[i];
+		}
+	}
+
+	if (flags & DS_SHADOW)
+	{
+		xx = ax;
+
+		// calculate shadow offsets
+		scale = charWidth * 0.020f; // charWidth/15
+		xx_add = scale * cgs.screenXScale;
+		yy_add = scale * cgs.screenYScale;
+
+		VectorCopy(colorBlack, color);
+		color[3] = fade;
+		trap_R_SetColor(color);
+
+		for (i = 0; i < OSP_TEXT_CMD_MAX && text_commands[i].type != OSP_TEXT_CMD_STOP; ++i)
+		{
+			curr = &text_commands[i];
+			switch (curr->type)
+			{
+				case OSP_TEXT_CMD_CHAR:
+					fm = &metrics[ (unsigned char)curr->value.character ];
+					if (proportional)
+					{
+						tc = fm->tc_prop;
+						aw1 = fm->width * aw;
+						ax += fm->space1 * aw;          // add extra space if required by metrics
+						x_end = ax + fm->space2 * aw;   // final position
+					}
+					else
+					{
+						tc = fm->tc_mono;
+						aw1 = aw;
+						x_end = ax + aw;
+					}
+
+					if (x_end > max_ax || ax >= cgs.glconfig.vidWidth)
+						break;
+
+					trap_R_DrawStretchPic(ax + xx_add, ay + yy_add, aw1, ah, tc[0], tc[1], tc[2], tc[3], sh);
+
+					ax = x_end;
+					break;
+				case OSP_TEXT_CMD_SHADOW_COLOR:
+					VectorCopy(curr->value.color, color);
+					color[3] = fade;
+					if (setColor && color[3] > setColor[3])
+					{
+						color[3] = setColor[3];
+					}
+					trap_R_SetColor(color);
+					break;
+				case OSP_TEXT_CMD_FADE:
+					fade = curr->value.fade;
+					color[3] = fade;
+					if (setColor && color[3] > setColor[3])
+					{
+						color[3] = setColor[3];
+					}
+					trap_R_SetColor(color);
+					break;
+				case OSP_TEXT_CMD_STOP:
+				case OSP_TEXT_CMD_TEXT_COLOR:
+					break;
+			}
+		}
+
+		// recover altered parameters
+		ax = xx;
+	}
+
+
+	Vector4Copy(setColor, color);
+	trap_R_SetColor(color);
+
+	for (i = 0; i < OSP_TEXT_CMD_MAX && text_commands[i].type != OSP_TEXT_CMD_STOP; ++i)
+	{
+		curr = &text_commands[i];
+		switch (curr->type)
+		{
+			case OSP_TEXT_CMD_CHAR:
+				fm = &metrics[ (unsigned char)curr->value.character ];
+				if (proportional)
+				{
+					tc = fm->tc_prop;
+					aw1 = fm->width * aw;
+					ax += fm->space1 * aw;          // add extra space if required by metrics
+					x_end = ax + fm->space2 * aw;   // final position
+				}
+				else
+				{
+					tc = fm->tc_mono;
+					aw1 = aw;
+					x_end = ax + aw;
+				}
+
+				if (x_end > max_ax || ax >= cgs.glconfig.vidWidth)
+					break;
+
+				trap_R_DrawStretchPic(ax, ay, aw1, ah, tc[0], tc[1], tc[2], tc[3], sh);
+
+				ax = x_end;
+				break;
+			case OSP_TEXT_CMD_TEXT_COLOR:
+				VectorCopy(curr->value.color, color);
+				color[3] = fade;
+				if (setColor && color[3] > setColor[3])
+				{
+					color[3] = setColor[3];
+				}
+				trap_R_SetColor(color);
+				break;
+			case OSP_TEXT_CMD_FADE:
+				fade = curr->value.fade;
+				color[3] = fade;
+				if (setColor && color[3] > setColor[3])
+				{
+					color[3] = setColor[3];
+				}
+				trap_R_SetColor(color);
+				break;
+			case OSP_TEXT_CMD_SHADOW_COLOR:
+			case OSP_TEXT_CMD_STOP:
+				break;
+		}
+	}
+
+	CG_CompiledTextDestroy(text_commands);
+
+	trap_R_SetColor(NULL);
+}
+
 int CG_OSPDrawStringWithShadow(int x, int y, const char* str, int charWidth, int charHeight, const vec4_t color, int maxChars)
 {
 	int shift_x;
@@ -1827,8 +2395,8 @@ int CG_OSPDrawStringWithShadow(int x, int y, const char* str, int charWidth, int
 	shift_y = charHeight > 12 ? 2 : 1;
 
 
-	CG_OSPDrawString(x + shift_x, y + shift_y, str, charWidth, charHeight, shadow, maxChars, qtrue);
-	return CG_OSPDrawString(x, y, str, charWidth, charHeight, color, maxChars, qfalse);
+	CG_OSPDrawStringOld(x + shift_x, y + shift_y, str, charWidth, charHeight, shadow, maxChars, qtrue);
+	return CG_OSPDrawStringOld(x, y, str, charWidth, charHeight, color, maxChars, qfalse);
 }
 
 

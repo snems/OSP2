@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "cg_local.h"
 #include "../qcommon/qcommon.h"
+#include "cg_superhud.h"
 
 
 /*
@@ -282,11 +283,13 @@ static void CG_ConfigStringModified(void)
 	}
 	else if (num == CS_SCORES1)
 	{
-		Q_sscanf(str, "%i %i", &cgs.scores1, &cgs.osp.osp_scores1);
+		cgs.osp.osp_teamcount1 = -1;
+		Q_sscanf(str, "%i %i", &cgs.scores1, &cgs.osp.osp_teamcount1);
 	}
 	else if (num == CS_SCORES2)
 	{
-		Q_sscanf(str, "%i %i", &cgs.scores2, &cgs.osp.osp_scores2);
+		cgs.osp.osp_teamcount2 = -1;
+		Q_sscanf(str, "%i %i", &cgs.scores2, &cgs.osp.osp_teamcount2);
 	}
 	else if (num == CS_LEVEL_START_TIME)
 	{
@@ -456,10 +459,7 @@ void CG_AddToTeamChat(char* str, int size)
 			location_len = strlen(location_name); //size of message without location
 
 			tmp = Z_Malloc(size);
-			if (!tmp)
-			{
-				OSP_MEMORY_EXCEPTION();
-			}
+			OSP_MEMORY_CHECK(tmp);
 
 			Q_strncpyz(tmp, cloc_end, size);
 			free_left = size - (cloc_begin - str);
@@ -608,7 +608,7 @@ static void CG_MapRestart(void)
 	if (cg.warmup == 0 /* && cgs.gametype == GT_TOURNAMENT */)
 	{
 		trap_S_StartLocalSound(cgs.media.countFightSound, CHAN_ANNOUNCER);
-		CG_CenterPrint("FIGHT!", 120, GIANTCHAR_WIDTH * 2);
+		CG_CenterPrint("^1FIGHT!", 20, GIANTCHAR_WIDTH * 2);
 	}
 	trap_Cvar_Set("cg_thirdPerson", "0");
 }
@@ -971,7 +971,7 @@ void CG_ServerCommand(void)
 		arg = CG_Argv(1);
 		if (!strstr(arg, "Multi-view demo created with"))
 		{
-			CG_CenterPrint(arg, 120, 16);
+			CG_CenterPrint(arg, 120, SMALLCHAR_WIDTH);
 		}
 		return;
 	}
@@ -1000,7 +1000,24 @@ void CG_ServerCommand(void)
 			}
 			Q_strncpyz(text, CG_Argv(1), 1024);
 			CG_RemoveChatEscapeChar(text);
-			CG_Printf("%s\n", text);
+			if (!cg_shud.integer)
+			{
+				CG_Printf("%s\n", text);
+			}
+			else
+			{
+				CG_SHUDEventChat(text);
+				if (!cg_shudChatOnly.integer)
+				{
+					CG_Printf("%s\n", text);
+				}
+				else
+				{
+					//write log anyway
+					CG_PrintLog(text);
+					CG_PrintLog("\n");
+				}
+			}
 		}
 		return;
 	}
@@ -1016,10 +1033,21 @@ void CG_ServerCommand(void)
 			Q_strncpyz(text, CG_Argv(1), 1024);
 			CG_RemoveChatEscapeChar(text);
 
-			CG_AddToTeamChat(text, 1024);
-			if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
+			if (!cg_shud.integer)
 			{
-				CG_Printf("%s\n", text);
+				CG_AddToTeamChat(text, 1024);
+				if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
+				{
+					CG_Printf("%s\n", text);
+				}
+			}
+			else
+			{
+				CG_SHUDEventTeamChat(text);
+				if (!cg_shudChatOnly.integer && (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT))
+				{
+					CG_Printf("%s\n", text);
+				}
 			}
 		}
 		return;

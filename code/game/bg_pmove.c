@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "bg_public.h"
 #include "bg_local.h"
 
-pmove_t*     pm;
+pmove_t*     pm; //-V707
 pml_t       pml;
 
 // movement parameters
@@ -1701,7 +1701,7 @@ static void PM_FinishWeaponChange(void)
 	int     weapon;
 
 	weapon = pm->cmd.weapon;
-	if (weapon < WP_NONE || weapon >= WP_NUM_WEAPONS)
+	if (weapon < WP_NONE || weapon >= WP_NUM_WEAPONS) //-V560
 	{
 		weapon = WP_NONE;
 	}
@@ -1887,7 +1887,7 @@ static void PM_Weapon(void)
 	{
 		default:
 		case WP_GAUNTLET:
-			addTime = 400;
+			addTime = 400; //-V1037
 			break;
 		case WP_LIGHTNING:
 			addTime = 50;
@@ -1896,16 +1896,16 @@ static void PM_Weapon(void)
 			addTime = 1000;
 			break;
 		case WP_MACHINEGUN:
-			addTime = 100;
+			addTime = 100; //-V1037
 			break;
 		case WP_GRENADE_LAUNCHER:
-			addTime = 800;
+			addTime = 800; //-V1037
 			break;
 		case WP_ROCKET_LAUNCHER:
-			addTime = 800;
+			addTime = 800; //-V1037
 			break;
 		case WP_PLASMAGUN:
-			addTime = 100;
+			addTime = 100; //-V1037
 			break;
 		case WP_RAILGUN:
 			addTime = 1500;
@@ -1914,7 +1914,7 @@ static void PM_Weapon(void)
 			addTime = 200;
 			break;
 		case WP_GRAPPLING_HOOK:
-			addTime = 400;
+			addTime = 400; //-V1037
 			break;
 	}
 
@@ -2178,7 +2178,7 @@ void PmoveSingle(pmove_t* pmove)
 	{
 		pm->ps->pm_flags |= PMF_BACKWARDS_RUN;
 	}
-	else if (pm->cmd.forwardmove > 0 || (pm->cmd.forwardmove == 0 && pm->cmd.rightmove))
+	else if (pm->cmd.forwardmove > 0 || (pm->cmd.forwardmove == 0 && pm->cmd.rightmove)) //-V560
 	{
 		pm->ps->pm_flags &= ~PMF_BACKWARDS_RUN;
 	}

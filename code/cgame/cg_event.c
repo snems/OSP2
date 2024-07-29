@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // cg_event.c -- handle entity events at snapshot or playerstate transitions
 
 #include "cg_local.h"
+#include "cg_superhud.h"
 
 //==========================================================================
 
@@ -95,6 +96,46 @@ const char*  CG_PlaceString(int rank)
 
 /*
 =============
+CG_OSPObituaryFragmessage
+=============
+*/
+static void CG_ObituaryFragmessage(const char* msg)
+{
+	if (cg_shud.integer)
+	{
+		CG_SHUDEventFrag(msg);
+	}
+	else
+	{
+		const char* to_print = msg;
+		char buf[256];
+		if (cgs.gametype < GT_TEAM)
+		{
+			to_print = buf;
+			Com_sprintf(buf, 256, "%s\n%s place with %i", msg, CG_PlaceString(cg.snap->ps.persistant[PERS_RANK] + 1), cg.snap->ps.persistant[PERS_SCORE]);
+		}
+		if (cgs.osp.server_mode & OSP_SERVER_MODE_PROMODE)
+		{
+			CG_CenterPrint(to_print, 120, SMALLCHAR_WIDTH);
+		}
+		else
+		{
+			if (cg_enableOSPHUD.integer != 0)
+			{
+				int w;
+				int h;
+				CG_OSPGetClientFontSize(&cf_Fragmsg, &w, &h);
+				CG_CenterPrint(to_print, 120, (w + h) / 2);
+			}
+			else
+			{
+				CG_CenterPrint(to_print, 120, BIGCHAR_WIDTH);
+			}
+		}
+	}
+}
+/*
+=============
 CG_OSPObituaryFreeze
 =============
 */
@@ -140,11 +181,11 @@ void CG_OSPObituaryFreeze(entityState_t* es, char* targetName)
 	}
 	if (actorId == cg.snap->ps.clientNum)
 	{
-		CG_CenterPrint(va("You thawed %s", targetName), 120, 16);
+		CG_ObituaryFragmessage(va("You thawed %s", targetName));
 	}
 	else if (targetId == cg.snap->ps.clientNum)
 	{
-		CG_CenterPrint(va("%s ^7unfroze you", actorName), 120, 16);
+		CG_ObituaryFragmessage(va("%s ^7unfroze you", actorName));
 	}
 	if (actorName[0] && targetName)
 	{
@@ -319,38 +360,12 @@ static void CG_Obituary(entityState_t* ent)
 	}
 	if (attacker == cg.snap->ps.clientNum)
 	{
-		const char* fragmsg;
-
 		if (ch_fragMessage.integer)
 		{
 			Q_strncpyz(&targetName[0], Info_ValueForKey(targetInfo, "n"), sizeof(targetName) - 2);
 			strcat(&targetName[0], "^7");
-			if (cgs.gametype < GT_TEAM)
-			{
-				fragmsg = va("You fragged %s^7\n%s place with %i", targetName, CG_PlaceString(cg.snap->ps.persistant[PERS_RANK] + 1), cg.snap->ps.persistant[PERS_SCORE]);
-			}
-			else
-			{
-				fragmsg = va("You fragged %s", targetName);
-			}
-			if (cgs.osp.server_mode & OSP_SERVER_MODE_PROMODE && ch_fragMessage.integer != 1)
-			{
-				CG_CenterPrint(fragmsg, 120, 8);
-			}
-			else
-			{
-				if (cg_enableOSPHUD.integer != 0)
-				{
-					int w;
-					int h;
-					CG_OSPGetClientFontSize(&cf_Fragmsg, &w, &h);
-					CG_CenterPrint(fragmsg, 120, (w + h) / 2);
-				}
-				else
-				{
-					CG_CenterPrint(fragmsg, 120, 16);
-				}
-			}
+			CG_ObituaryFragmessage(va("You fragged %s", targetName));
+
 		}
 	}
 	// check for double client messages
@@ -405,9 +420,6 @@ static void CG_Obituary(entityState_t* ent)
 				message2 = "'s rocket";
 				break;
 			case MOD_PLASMA:
-				message = "was melted by";
-				message2 = "'s plasmagun";
-				break;
 			case MOD_PLASMA_SPLASH:
 				message = "was melted by";
 				message2 = "'s plasmagun";
@@ -432,6 +444,7 @@ static void CG_Obituary(entityState_t* ent)
 				break;
 		}
 
+		CG_RemoveChatEscapeChar(targetName);
 		CG_Printf("%s %s %s%s\n", targetName, message, attackerName, message2);
 
 		if (cg.demoPlayback)

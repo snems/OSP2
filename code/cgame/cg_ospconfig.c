@@ -41,6 +41,11 @@ qboolean CG_OSPIsGameTypeCA(int gametype)
 	return gametype >= GT_CA ? qtrue : qfalse;
 }
 
+qboolean CG_OSPIsGameTypeFreeze()
+{
+	return cgs.gametype == GT_TEAM && cgs.osp.gameTypeFreeze;
+}
+
 
 
 qboolean CG_OSPIsStatsHidden(qboolean check_gametype, qboolean check_warmup)
@@ -80,29 +85,29 @@ void CG_OSPSetMode(int value)
 {
 #define OSP_SET_MODE_VARIANT(VAL, VAL_VQ3, VAL_CQ3, VAL_PROMODE) (VAL&OSP_SERVER_MODE_PROMODE ? VAL_PROMODE : (VAL&OSP_SERVER_MODE_CQ3 ? VAL_CQ3 : VAL_VQ3))
 
-	modePromodePhysKoeff               = OSP_SET_MODE_VARIANT(value, 0, 0, 100);
-	pm_friction                        = OSP_SET_MODE_VARIANT(value, 6, 6, 6);
-	modePredictionKoeff1               = OSP_SET_MODE_VARIANT(value, 0, 0, 1);
-	modePromode_pm_airaccelerate_1     = OSP_SET_MODE_VARIANT(value, 1.0f, 1.0f, 2.5f);
-	modePredictionKoeff2               = OSP_SET_MODE_VARIANT(value, 0, 0, 150);
-	modePromode_pm_airaccelerate_2     = OSP_SET_MODE_VARIANT(value, 1, 1, 70);
-	modeWishspeedLimit                 = OSP_SET_MODE_VARIANT(value, 400, 400, 30);
-	pm_accelerate                      = OSP_SET_MODE_VARIANT(value, 10, 10, 16);
-	modeSwimScale1                     = OSP_SET_MODE_VARIANT(value, 0.5f, 0.54f, 0.54f);
-	modeSwimScale2                     = OSP_SET_MODE_VARIANT(value, 0.7f, 0.585f, 0.585f);
-	modeWaterFriction                  = OSP_SET_MODE_VARIANT(value, 1.0f, 0.5f, 0.5f);
-	modeWaterAccelerate                = OSP_SET_MODE_VARIANT(value, 4.0f, 5.0f, 5.0f);
-	modeShotgunKoeff                   = OSP_SET_MODE_VARIANT(value, 700, 900, 900);
-	modeShotgunNumberOfPellets         = OSP_SET_MODE_VARIANT(value, 11, 16, 16);
-	modeMaxAmmoShotgun                 = OSP_SET_MODE_VARIANT(value, 200, 100, 100);
-	modeGrenadeTime                    = OSP_SET_MODE_VARIANT(value, 800, 800, 700);
-	modeMaxAmmoGrenade                 = OSP_SET_MODE_VARIANT(value, 200, 100, 100);
-	modeMaxAmmoRocket                  = OSP_SET_MODE_VARIANT(value, 200, 100, 100);
-	modeMaxAmmoRail                    = OSP_SET_MODE_VARIANT(value, 200, 100, 100);
-	modeBeginWeaponChangeTime          = OSP_SET_MODE_VARIANT(value, 200, 200, 0);
-	modeFinishWeaponChangeTime         = OSP_SET_MODE_VARIANT(value, 250, 250, 0);
-	modePMNoAmmoTime                   = OSP_SET_MODE_VARIANT(value, 500, 500, 100);
-	modeUnknown1                       = OSP_SET_MODE_VARIANT(value, 0, 1, 1);
+	modePromodePhysKoeff               = OSP_SET_MODE_VARIANT(value, 0, 0, 100);//-V583
+	pm_friction                        = OSP_SET_MODE_VARIANT(value, 6, 6, 6);//-V583
+	modePredictionKoeff1               = OSP_SET_MODE_VARIANT(value, 0, 0, 1);//-V583
+	modePromode_pm_airaccelerate_1     = OSP_SET_MODE_VARIANT(value, 1.0f, 1.0f, 2.5f);//-V583
+	modePredictionKoeff2               = OSP_SET_MODE_VARIANT(value, 0, 0, 150);//-V583
+	modePromode_pm_airaccelerate_2     = OSP_SET_MODE_VARIANT(value, 1, 1, 70);//-V583
+	modeWishspeedLimit                 = OSP_SET_MODE_VARIANT(value, 400, 400, 30);//-V583
+	pm_accelerate                      = OSP_SET_MODE_VARIANT(value, 10, 10, 16);//-V583
+	modeSwimScale1                     = OSP_SET_MODE_VARIANT(value, 0.5f, 0.54f, 0.54f);//-V583
+	modeSwimScale2                     = OSP_SET_MODE_VARIANT(value, 0.7f, 0.585f, 0.585f);//-V583
+	modeWaterFriction                  = OSP_SET_MODE_VARIANT(value, 1.0f, 0.5f, 0.5f);//-V583
+	modeWaterAccelerate                = OSP_SET_MODE_VARIANT(value, 4.0f, 5.0f, 5.0f);//-V583
+	modeShotgunKoeff                   = OSP_SET_MODE_VARIANT(value, 700, 900, 900);//-V583
+	modeShotgunNumberOfPellets         = OSP_SET_MODE_VARIANT(value, 11, 16, 16);//-V583
+	modeMaxAmmoShotgun                 = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
+	modeGrenadeTime                    = OSP_SET_MODE_VARIANT(value, 800, 800, 700);//-V583
+	modeMaxAmmoGrenade                 = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
+	modeMaxAmmoRocket                  = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
+	modeMaxAmmoRail                    = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
+	modeBeginWeaponChangeTime          = OSP_SET_MODE_VARIANT(value, 200, 200, 0);//-V583
+	modeFinishWeaponChangeTime         = OSP_SET_MODE_VARIANT(value, 250, 250, 0);//-V583
+	modePMNoAmmoTime                   = OSP_SET_MODE_VARIANT(value, 500, 500, 100);//-V583
+	modeUnknown1                       = OSP_SET_MODE_VARIANT(value, 0, 1, 1);//-V583
 	modeHitLevelSounds                 = OSP_SET_MODE_VARIANT(value, qfalse, qtrue, qtrue);
 	modePickupDistance                 = OSP_SET_MODE_VARIANT(value, 36, 66, 66);
 	modeUnknown2                       = value & OSP_SERVER_MODE_PROMODE_OPT1 ? 1 : 0;
@@ -225,10 +230,7 @@ void CG_OSPCvarsRestrictValues(void)
  */
 void CG_OSPConfigPmoveSet(int value)
 {
-	cvarTable_t* cvart;
 	cgs.osp.allow_pmove = value;
-
-	cvart = CG_GetCgCvarByName("pmove_fixed");
 	CG_CvarTouch("pmove_fixed");
 }
 
@@ -287,6 +289,7 @@ void CG_OSPConfigCustomClientSet(int value)
 	CG_CvarTouch("cg_altGrenades");
 	CG_CvarTouch("cg_altLightning");
 	CG_CvarTouch("cg_enableOSPHUD");
+	CG_CvarTouch("cg_shud");
 }
 
 /*
@@ -295,7 +298,7 @@ void CG_OSPConfigCustomClientSet(int value)
 void CG_OSPConfigCustomClient2Set(int value)
 {
 	cgs.osp.custom_client_2 = value;
-	CG_CvarTouch("cg_drawHitBox");
+	CG_CvarTouch("cg_hitSounds");
 }
 
 /*
@@ -337,3 +340,27 @@ void CG_OSPConfigFreezeModeSet(int value)
 	}
 }
 
+qboolean CG_IsSpectator(void)
+{
+	return (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR);
+}
+
+qboolean CG_IsFollowing(void)
+{
+	if (!cg.demoPlayback)
+	{
+		if (!(cg.snap->ps.pm_flags & PMF_FOLLOW))
+		{
+			return qfalse;
+		}
+		else if (cg.snap->ps.pm_type == PM_FREEZE || cg.intermissionStarted || (cg.snap->ps.clientNum == cg.clientNum && CG_OSPIsGameTypeFreeze()))
+		{
+			return qfalse;
+		}
+	}
+	else if (cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR)
+	{
+		return qfalse;
+	}
+	return qtrue;
+}

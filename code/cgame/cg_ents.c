@@ -263,15 +263,12 @@ static void CG_AddSimpleItem(centity_t* cent)
 	{
 		switch (item->giType)
 		{
+			case IT_ARMOR:
 			case IT_WEAPON:
 				ent.radius = 20;
 				ent.origin[2] += 15;
 				break;
 			case IT_AMMO:
-				break;
-			case IT_ARMOR:
-				ent.radius = 20;
-				ent.origin[2] += 15;
 				break;
 			case IT_HEALTH:
 				ent.origin[2] += 10;

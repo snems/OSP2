@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // active (after loading) gameplay
 
 #include "cg_local.h"
+#include "cg_superhud.h"
 
 int drawTeamOverlayModificationCount = -1;
 
@@ -193,7 +194,6 @@ void CG_DrawHead(float x, float y, float w, float h, int clientNum, vec3_t headA
 	{
 		cm = ci->headModel;
 
-
 		if (cm)
 		{
 			// offset the origin y and z to center the head
@@ -212,8 +212,6 @@ void CG_DrawHead(float x, float y, float w, float h, int clientNum, vec3_t headA
 			CG_Draw3DModel(x, y, w, h, ci->headModel, ci->headSkin, origin, headAngles);
 
 		}
-
-
 	}
 	else if (cg_drawIcons.integer)
 	{
@@ -567,7 +565,7 @@ void CG_DrawStatusBar(void)
 		// if we didn't draw a 3D icon, draw a 2D icon for armor
 		if (!cg_draw3dIcons.integer && cg_drawIcons.integer)
 		{
-			CG_DrawPicOld(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_OSP_9]]);
+			CG_DrawPicOld(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
 		}
 
 	}
@@ -734,6 +732,7 @@ void CG_DrawTimer2(void)
 	char*        s;
 	int         mins, seconds, tens;
 	int         msec;
+	int         w;
 
 	msec = cg.time - cgs.levelStartTime;
 
@@ -743,9 +742,11 @@ void CG_DrawTimer2(void)
 	tens = seconds / 10;
 	seconds -= tens * 10;
 
-	s = va("%i:%i%i", mins, tens, seconds);
 
-	CG_DrawString(320, 2, s, colorWhite, BIGCHAR_WIDTH + 3, BIGCHAR_HEIGHT + 3, 16,  DS_SHADOW | DS_CENTER | DS_PROPORTIONAL);
+	s = va("%i:%i%i", mins, tens, seconds);
+	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
+
+	CG_DrawBigString(320 - w / 2, 2, s, 1.0F);
 }
 
 
@@ -1352,17 +1353,14 @@ CG_DrawLowerLeft
 */
 static void CG_DrawLowerLeft(void)
 {
-	float   y;
-
-	y = 480 - ICON_SIZE;
+	float   y = 480 - ICON_SIZE;
 
 	if (cgs.gametype >= GT_TEAM && cg_drawTeamOverlay.integer == 3)
 	{
-		y = CG_DrawTeamOverlay(y, qfalse, qfalse);
+		(void)CG_DrawTeamOverlay(y, qfalse, qfalse);
 	}
 
-
-	y = CG_DrawPickupItem(y);
+	(void)CG_DrawPickupItem(y);
 }
 
 
@@ -1476,7 +1474,7 @@ CG_DrawReward
 void CG_DrawReward(void)
 {
 	float*   color;
-	int     i, count;
+	int     i;
 	float   x, y, w, h;
 	char    buf[32];
 
@@ -1518,7 +1516,7 @@ void CG_DrawReward(void)
 	if (cg.rewardCount[0] > 1)
 	{
 		Com_sprintf(buf, sizeof(buf), "%d", cg.rewardCount[0]);
-		CG_DrawString(x + w / 2.0f, y + h, buf, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 16,  DS_CENTER | DS_PROPORTIONAL);
+		CG_DrawString(x + w / 2.0f, y + h, buf, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 16,  DS_HCENTER | DS_PROPORTIONAL);
 	}
 
 	trap_R_SetColor(NULL);
@@ -1532,18 +1530,6 @@ LAGOMETER
 
 ===============================================================================
 */
-
-#define LAG_SAMPLES     128
-
-
-typedef struct
-{
-	int     frameSamples[LAG_SAMPLES];
-	int     frameCount;
-	int     snapshotFlags[LAG_SAMPLES];
-	int     snapshotSamples[LAG_SAMPLES];
-	int     snapshotCount;
-} lagometer_t;
 
 lagometer_t     lagometer;
 
@@ -1625,10 +1611,6 @@ static float CG_DrawDisconnect(float pos)
 	CG_DrawPicOld(640 - 48, pos, 48, 48, trap_R_RegisterShader("gfx/2d/net.tga"));
 	return pos;
 }
-
-
-#define MAX_LAGOMETER_PING  900
-#define MAX_LAGOMETER_RANGE 300
 
 /*
 ==============
@@ -1867,7 +1849,7 @@ static void CG_DrawCrosshair(void)
 	{
 		ca = 0;
 	}
-	hShader = cgs.media.crosshairShader[ ca % NUM_CROSSHAIRS ];
+	hShader = cgs.media.crosshairShader[ ca % cgs.media.numberOfCrosshairs ];
 
 	trap_R_DrawStretchPic(x + cg.refdef.x + 0.5 * (cg.refdef.width - w),
 	                      y + cg.refdef.y + 0.5 * (cg.refdef.height - h),
@@ -2318,6 +2300,12 @@ static void CG_Draw2D(void)
 
 	if (cg_draw2D.integer == 0)
 	{
+		return;
+	}
+
+	if (cg_shud.integer)
+	{
+		CG_SHUDRoutine();
 		return;
 	}
 

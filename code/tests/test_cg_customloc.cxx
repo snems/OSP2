@@ -2,7 +2,7 @@
 #include "../cgame/cg_local.h"
 
 
-TEST_CASE("Test cg_customloc: parse tinfo", "[API][cg_customloc]")
+TEST_CASE("Test cg_customloc: parse tinfo", "[cgame][cg_customloc]")
 {
   vec3_t loc;
   CG_CustomLocationsSetLocation ("23_-527_-541_198", loc);
