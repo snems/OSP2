@@ -686,6 +686,79 @@ void CG_RemoveChatEscapeChar(char* text)
 	text[l] = '\0';
 }
 
+void CG_StringMakeEscapeCharRAW(const char *in, char* out, int max)
+{
+	int i, l;
+	char command;
+	qboolean fix_color = qfalse;
+
+	l = 0;
+	for (i = 0; in[i] && l < max - 5; ++i)
+	{
+		out[l++] = in[i];
+		if (fix_color)
+		{
+			// small hack. as client responds ^^4 as color anyway, lets make it looks like ^^4^74
+			out[l++] = '^';
+			out[l++] = '7';
+			out[l++] = in[i];
+			fix_color = qfalse;
+		}
+		if (in[i] == '^')
+		{
+			out[l++] = '^';
+			if ((in[i + 1] >= '0' && in[i+1] <= '9') || (in[i + 1] >= 'a' && in[i+1] <= 'z') || (in[i + 1] >= 'A' && in[i+1] <= 'Z'))
+			{
+				fix_color = qtrue;
+			}
+		}
+	}
+	out[l] = '\0';
+}
+
+/*
+=================
+CG_RemoveChatEscapeCharAll
+=================
+*/
+void CG_RemoveChatEscapeCharAll(char* text)
+{
+	int i, l;
+	char command;
+
+	l = 0;
+	for (i = 0; text[i]; i++)
+	{
+		if (text[i] == '\x19')
+			continue;
+
+		if (text[i] != '^')
+		{
+			text[l++] = text[i];
+			continue;
+		}
+
+		command = text[i + 1];
+
+		if (command == 'X' || command == 'x')
+		{
+			float tmp;
+			if (CG_Hex16GetColor(&text[i + 2], &tmp) &&
+			        CG_Hex16GetColor(&text[i + 4], &tmp) &&
+			        CG_Hex16GetColor(&text[i + 6], &tmp))
+			{
+				i += 6;
+			}
+		}
+		else if (command == '^')
+		{
+			text[l++] = '^';
+		}
+		++i;
+	}
+	text[l] = '\0';
+}
+
 static void CG_OSPPrintXStats(void)
 {
 	int i;
