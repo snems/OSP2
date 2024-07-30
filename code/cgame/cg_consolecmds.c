@@ -569,6 +569,19 @@ void CG_ReloadHud_f(void)
 	CG_SHUDLoadConfig();
 }
 
+void CG_PrintPlayerIDs_f(void)
+{
+	int p;
+	CG_Printf("^7| ^1%4s ^7| ^5%32s | ^5%s\n", "XID", "Player name", "Player name raw");
+	CG_Printf("^7------------------------------------------------------------------------------\n");
+	for (p = 0; p < MAX_CLIENTS; ++p)
+	{
+		if (cgs.clientinfo[p].infoValid)
+		{
+			CG_Printf("^7| ^1%4s ^7| %32s | %s\n", cgs.clientinfo[p].xidStr, cgs.clientinfo[p].name_clean, cgs.clientinfo[p].name_codes);
+		}
+	}
+}
 
 typedef struct
 {
@@ -646,6 +659,7 @@ static consoleCommand_t commands[] =
 	{ "decalrotclock", CG_OSPDecalRotClock_f },
 	{ "decalrotcounter", CG_OSPDecalRotCounter_f },
 	{ "reloadHUD", CG_ReloadHud_f },
+	{ "playersid", CG_PrintPlayerIDs_f },
 };
 
 
@@ -745,10 +759,12 @@ void CG_InitConsoleCommands(void)
 	trap_AddCommand("killstats");
 	trap_AddCommand("kill");
 	trap_AddCommand("lock");
+	trap_AddCommand("locations");
 	trap_AddCommand("maplist");
 	trap_AddCommand("mapload");
 	trap_AddCommand("myname");
 	trap_AddCommand("notready");
+	trap_AddCommand("nowin");
 	trap_AddCommand("osp");
 	trap_AddCommand("pause");
 	trap_AddCommand("pickplayer");

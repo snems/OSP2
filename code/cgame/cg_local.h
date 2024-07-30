@@ -335,8 +335,15 @@ typedef struct
 {
 	qboolean        infoValid;
 
+	char            name_original[MAX_QPATH];
+	char            name_clean[MAX_QPATH];
+	char            name_codes[MAX_QPATH*2];
 	char            name[MAX_QPATH];
+	qboolean        nameIsInvisible;
 	team_t          team;
+
+	unsigned short 	xid; //crc32 like in xq3e
+	unsigned char 	xidStr[5];
 
 	int             botSkill;       // 0 = not bot, 1-5 = bot
 
@@ -1409,6 +1416,7 @@ extern vmCvar_t           cg_enemyFrozenColor;
 
 extern vmCvar_t           cg_spectGlow;
 extern vmCvar_t           cg_hitSounds;
+extern vmCvar_t           cg_playersXID;
 
 //
 // cg_main.c
@@ -1823,6 +1831,8 @@ void CG_ParseServerinfo(void);
 void CG_SetConfigValues(void);
 void CG_ShaderStateChanged(void);
 void CG_RemoveChatEscapeChar(char* text);
+void CG_RemoveChatEscapeCharAll(char* text);
+void CG_StringMakeEscapeCharRAW(const char *in, char* out, int max);
 
 //
 // cg_playerstate.c
