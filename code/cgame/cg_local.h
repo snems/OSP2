@@ -2107,6 +2107,8 @@ extern int statsInfo[24];
 
 // OSP Custom client 2
 #define OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO    0x01
+#define OSP_CUSTOM_CLIENT_2_IS_OPTION_ENABLED(BIT) (cgs.osp.custom_client_2 & BIT)
+#define OSP_CUSTOM_CLIENT_2_IS_DMG_INFO_ALLOWED() OSP_CUSTOM_CLIENT_2_IS_OPTION_ENABLED(OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO)
 
 void CG_OSPCvarsRestrictValues(void);
 qboolean CG_OSPIsGameTypeCA(int gametype);

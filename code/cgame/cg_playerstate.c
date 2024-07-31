@@ -360,7 +360,8 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 			damage = atta & 0x00FF;
 		}
 
-		if (cg_hitSounds.integer || cgs.osp.server_mode == OSP_SERVER_MODE_PROMODE || cgs.osp.server_mode == OSP_SERVER_MODE_CQ3)
+		if ((OSP_CUSTOM_CLIENT_2_IS_DMG_INFO_ALLOWED()
+			&& cg_hitSounds.integer) || cgs.osp.server_mode == OSP_SERVER_MODE_PROMODE || cgs.osp.server_mode == OSP_SERVER_MODE_CQ3)
 		{
 			int index;
 			if ( damage > 75 ) index = 3;
