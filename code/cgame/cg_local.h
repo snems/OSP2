@@ -2150,6 +2150,7 @@ void CG_OSPColorFromChar(char c, float* vector);
 void CG_OSPColorFromNumber(int number, float* vector);
 void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size);
 void CG_DynamicMemReport(void);
+const char* CG_LoadLine(const char* ptr, char* out, int outSize);
 
 
 /*
@@ -2174,6 +2175,17 @@ void CG_RebuildPlayerColors(void);
 void CG_PlayerColorsLoadDefault(playerColors_t* colors);
 void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum);
 void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* override, const char* color1, const char* color2);
+//
+// cg_chatfilter.c
+//
+#define CG_CHATFILTER_DEFAULT_FILE "chatfilter"
+qboolean CG_ChatIsMessageAllowed(const char *message);
+void CG_ChatfilterLoadFile(const char *filename);
+void CG_ChatfilterSaveFile(const char *filename);
+void CG_ChatfilterAddName(const char *name);
+void CG_ChatfilterDeleteName(const char *name);
+qboolean CG_ChatfilterIsNameMuted(const char *name);
+void CG_ChatfilterDump(void);
 
 //
 // cg_localevents.c

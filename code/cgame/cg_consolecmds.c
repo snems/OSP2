@@ -583,6 +583,55 @@ void CG_PrintPlayerIDs_f(void)
 	}
 }
 
+
+void CG_Mute_f(void)
+{
+	int p;
+
+	if (trap_Argc() < 2)
+	{
+		CG_ChatfilterDump();
+		CG_Printf("\nusage: %s <player ID>\n", CG_Argv(0));
+		return;
+	}
+
+	p = atoi(CG_Argv(1));
+	if (p < MAX_CLIENTS && cgs.clientinfo[p].infoValid)
+	{
+		CG_ChatfilterAddName(cgs.clientinfo[p].name_original);
+		CG_ChatfilterSaveFile(CG_CHATFILTER_DEFAULT_FILE);
+		CG_Printf("\n^1Player %s is muted\n", cgs.clientinfo[p].name_clean);
+	}
+	else
+	{
+		CG_Printf("\n^1Wrong player ID\n");
+	}
+}
+
+void CG_UnMute_f(void)
+{
+	int p;
+
+	if (trap_Argc() < 2)
+	{
+		CG_ChatfilterDump();
+		CG_Printf("\nusage: %s <player ID>\n", CG_Argv(0));
+		return;
+	}
+
+	p = atoi(CG_Argv(1));
+	if (p < MAX_CLIENTS && cgs.clientinfo[p].infoValid)
+	{
+		CG_ChatfilterDeleteName(cgs.clientinfo[p].name_original);
+		CG_ChatfilterSaveFile(CG_CHATFILTER_DEFAULT_FILE);
+		CG_Printf("\n^2Player %s is unmuted\n", cgs.clientinfo[p].name_clean);
+	}
+	else
+	{
+		CG_Printf("\n^1Wrong player ID\n");
+	}
+}
+
 typedef struct
 {
 	char*    cmd;
@@ -660,6 +709,8 @@ static consoleCommand_t commands[] =
 	{ "decalrotcounter", CG_OSPDecalRotCounter_f },
 	{ "reloadHUD", CG_ReloadHud_f },
 	{ "playersid", CG_PrintPlayerIDs_f },
+	{ "mute", CG_Mute_f },
+	{ "unmute", CG_UnMute_f },
 };
 
 

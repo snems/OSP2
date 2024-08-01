@@ -1794,6 +1794,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		trap_SendConsoleCommand(str);
 	}
 
+	CG_ChatfilterLoadFile(CG_CHATFILTER_DEFAULT_FILE);
 	return 0;
 }
 

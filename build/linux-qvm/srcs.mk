@@ -42,6 +42,7 @@ CG_SRC = \
  cg_superhud_element_team \
  cg_superhud_element_weaponlist \
  l_crc \
+ cg_chatfilter \
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

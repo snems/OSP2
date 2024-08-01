@@ -1066,6 +1066,10 @@ void CG_ServerCommand(void)
 	if (strcmp(cmd, "chat") == 0)
 	{
 		Q_strncpyz(text, CG_Argv(1), 1024);
+		if (!CG_ChatIsMessageAllowed(text))
+		{
+			return;
+		}
 		CG_RemoveChatEscapeChar(text);
 		if (cg_chatEnable.integer & CG_CHAT_COMMMON_ENABLED)
 		{
@@ -1085,6 +1089,10 @@ void CG_ServerCommand(void)
 	if (strcmp(cmd, "tchat") == 0)
 	{
 		Q_strncpyz(text, CG_Argv(1), 1024);
+		if (!CG_ChatIsMessageAllowed(text))
+		{
+			return;
+		}
 		CG_RemoveChatEscapeChar(text);
 		if (cg_chatEnable.integer & CG_CHAT_TEAM_ENABLED)
 		{
