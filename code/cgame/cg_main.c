@@ -160,9 +160,6 @@ vmCvar_t           cg_drawTeamOverlay;
 vmCvar_t           teamoverlay;
 vmCvar_t           cg_stats;
 vmCvar_t           cg_drawFriend;
-vmCvar_t           cg_teamChatsOnly;
-vmCvar_t           cg_teamChatDisable;
-vmCvar_t           cg_chatDisable;
 vmCvar_t           cg_buildScript;
 vmCvar_t           cg_paused;
 vmCvar_t           com_blood;
@@ -198,8 +195,6 @@ vmCvar_t           cg_drawDecals;
 vmCvar_t           cg_drawPing;
 vmCvar_t           cg_enableOSPHUD;
 vmCvar_t           cg_shud;
-vmCvar_t           cg_shudChatOnly;
-vmCvar_t           cg_shudTeamChatOnly;
 vmCvar_t           cg_enableBreath;
 vmCvar_t           cg_enemyColors;
 vmCvar_t           cg_enemyModel;
@@ -258,7 +253,7 @@ vmCvar_t           ch_StatusbarFormat;
 vmCvar_t           ch_statusbarStyle;
 vmCvar_t           ch_teamBackground;
 vmCvar_t           cf_Teamchat;
-vmCvar_t           ch_TeamchatOnly;
+vmCvar_t           ch_TeamchatOnly; 
 vmCvar_t           ch_TeamCrosshairHealth;
 vmCvar_t           cf_TeamCrosshairHealth;
 vmCvar_t           ch_Teamoverlay;
@@ -316,6 +311,9 @@ vmCvar_t           cg_hitSounds;
 
 vmCvar_t           ch_file;
 vmCvar_t           cg_playersXID;
+
+vmCvar_t           cg_chatEnable;
+vmCvar_t           cg_shudChatEnable;
 
 
 static cvarTable_t cvarTable[] =
@@ -399,10 +397,6 @@ static cvarTable_t cvarTable[] =
 	{ &teamoverlay, "teamoverlay", "0", CVAR_USERINFO | CVAR_ROM },
 	{ &cg_stats, "cg_stats", "0",  },
 	{ &cg_drawFriend, "cg_drawFriend", "1", CVAR_ARCHIVE },
-	{ &cg_teamChatsOnly, "cg_teamChatsOnly", "0", CVAR_ARCHIVE },
-	{ &cg_teamChatsOnly, "cg_commonChatDisable", "0", CVAR_ARCHIVE }, //alias for cg_teamChatsOnly
-	{ &cg_teamChatDisable, "cg_teamChatDisable", "0", CVAR_ARCHIVE },
-	{ &cg_chatDisable, "cg_chatDisable", "0", CVAR_ARCHIVE },
 	{ &cg_buildScript, "com_buildScript", "0",  },
 	{ &cg_paused, "cl_paused", "0", CVAR_ROM },
 	{ &com_blood, "com_blood", "1", CVAR_ARCHIVE },
@@ -437,8 +431,6 @@ static cvarTable_t cvarTable[] =
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
 	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "2", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enableOSPHUD},
 	{ &cg_shud, "cg_shud", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_shud},
-	{ &cg_shudChatOnly, "cg_shudChatOnly", "1", CVAR_ARCHIVE },
-	{ &cg_shudTeamChatOnly, "cg_shudTeamChatOnly", "1", CVAR_ARCHIVE },
 	{ &cg_enableBreath, "cg_enableBreath", "1",  CVAR_ARCHIVE},
 	{ &cg_enemyColors, "cg_enemyColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyColors},
 	{ &cg_enemyModel, "cg_enemyModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModel},
@@ -551,6 +543,8 @@ static cvarTable_t cvarTable[] =
 	{ &cg_enemyRailColors,   "cg_enemyRailColors", "",   CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyRailColors},
 	{ &cg_enemyFrozenColor,  "cg_enemyFrozenColor", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyFrozenColor},
 
+	{ &cg_chatEnable, "cg_chatEnable", "3", CVAR_ARCHIVE},
+	{ &cg_shudChatEnable, "cg_shudChatEnable", "3", CVAR_ARCHIVE},
 };
 
 #define CG_VARS_HASH_SIZE 512

@@ -1264,9 +1264,6 @@ extern vmCvar_t           cg_drawTeamOverlay;
 extern vmCvar_t           teamoverlay;
 extern vmCvar_t           cg_stats;
 extern vmCvar_t           cg_drawFriend;
-extern vmCvar_t           cg_teamChatsOnly;
-extern vmCvar_t           cg_teamChatDisable;
-extern vmCvar_t           cg_chatDisable;
 extern vmCvar_t           cg_buildScript;
 extern vmCvar_t           cg_paused;
 extern vmCvar_t           com_blood;
@@ -1302,8 +1299,6 @@ extern vmCvar_t           cg_drawDecals;
 extern vmCvar_t           cg_drawPing;
 extern vmCvar_t           cg_enableOSPHUD;
 extern vmCvar_t           cg_shud;
-extern vmCvar_t           cg_shudChatOnly;
-extern vmCvar_t           cg_shudTeamChatOnly;
 extern vmCvar_t           cg_enableBreath;
 extern vmCvar_t           cg_enemyColors;
 extern vmCvar_t           cg_enemyModel;
@@ -1417,6 +1412,9 @@ extern vmCvar_t           cg_enemyFrozenColor;
 extern vmCvar_t           cg_spectGlow;
 extern vmCvar_t           cg_hitSounds;
 extern vmCvar_t           cg_playersXID;
+
+extern vmCvar_t           cg_chatEnable;
+extern vmCvar_t           cg_shudChatEnable;
 
 //
 // cg_main.c
@@ -1826,6 +1824,8 @@ void CG_OSPWStatsUp_f(void);
 //
 // cg_servercmds.c
 //
+#define CG_CHAT_COMMMON_ENABLED 1
+#define CG_CHAT_TEAM_ENABLED 2
 void CG_ExecuteNewServerCommands(int latestSequence);
 void CG_ParseServerinfo(void);
 void CG_SetConfigValues(void);

@@ -1065,63 +1065,42 @@ void CG_ServerCommand(void)
 //chat
 	if (strcmp(cmd, "chat") == 0)
 	{
-		if (!cg_teamChatsOnly.integer && !cg_chatDisable.integer)
+		Q_strncpyz(text, CG_Argv(1), 1024);
+		CG_RemoveChatEscapeChar(text);
+		if (cg_chatEnable.integer & CG_CHAT_COMMMON_ENABLED)
 		{
 			if (!cg_nochatbeep.integer)
 			{
 				trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
 			}
-			Q_strncpyz(text, CG_Argv(1), 1024);
-			CG_RemoveChatEscapeChar(text);
-			if (!cg_shud.integer)
-			{
-				CG_Printf("%s\n", text);
-			}
-			else
-			{
-				CG_SHUDEventChat(text);
-				if (!cg_shudChatOnly.integer)
-				{
-					CG_Printf("%s\n", text);
-				}
-				else
-				{
-					//write log anyway
-					CG_PrintLog(text);
-					CG_PrintLog("\n");
-				}
-			}
+			CG_Printf("%s\n", text);
+		}
+		if (cg_shudChatEnable.integer & CG_CHAT_COMMMON_ENABLED)
+		{
+			CG_SHUDEventChat(text);
 		}
 		return;
 	}
 //tchat
 	if (strcmp(cmd, "tchat") == 0)
 	{
-		if (!cg_teamChatDisable.integer && !cg_chatDisable.integer)
+		Q_strncpyz(text, CG_Argv(1), 1024);
+		CG_RemoveChatEscapeChar(text);
+		if (cg_chatEnable.integer & CG_CHAT_TEAM_ENABLED)
 		{
 			if (!cg_noTeamChatBeep.integer)
 			{
 				trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
 			}
-			Q_strncpyz(text, CG_Argv(1), 1024);
-			CG_RemoveChatEscapeChar(text);
-
-			if (!cg_shud.integer)
+			CG_AddToTeamChat(text, 1024);
+			if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
 			{
-				CG_AddToTeamChat(text, 1024);
-				if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
-				{
-					CG_Printf("%s\n", text);
-				}
+				CG_Printf("%s\n", text);
 			}
-			else
-			{
-				CG_SHUDEventTeamChat(text);
-				if (!cg_shudChatOnly.integer && (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT))
-				{
-					CG_Printf("%s\n", text);
-				}
-			}
+		}
+		if (cg_shudChatEnable.integer & CG_CHAT_TEAM_ENABLED)
+		{
+			CG_SHUDEventChat(text);
 		}
 		return;
 	}
