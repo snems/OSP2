@@ -13,6 +13,7 @@ typedef struct
 	float h; // height of one weapon
 	float ammoWidth; // width of ammo field
 
+	int ammoMax;
 	int weaponNum;
 	char ammo[WP_NUM_WEAPONS][8];
 	superhudDrawContext_t back[WP_NUM_WEAPONS];
@@ -40,7 +41,8 @@ void* CG_SHUDElementWeaponListCreate(const superhudConfig_t* config)
 	element->h = element->config.rect.value[3];
 
 	CG_SHUDTextMakeContext(&element->tmp_config, &element->ammoCount[0]);
-	element->ammoWidth = CG_OSPDrawStringLenPix("9999", element->ammoCount[0].coord.named.w, element->ammoCount[0].maxchars, element->ammoCount[0].flags);
+
+	element->ammoMax = -1; //force update width
 
   return element;
 }
@@ -50,8 +52,28 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 	int wpi, statWeapons;
 	int x,y,w,h;
 	int total;
+	int ammo_max = 0;
 
 	statWeapons = cg.snap->ps.stats[STAT_WEAPONS];
+
+	//update width
+	for (wpi = WP_MACHINEGUN; wpi < WP_NUM_WEAPONS; ++wpi)
+	{
+		if ((statWeapons & (1 << wpi)) != 0)
+		{
+			if (ammo_max < cg.snap->ps.ammo[wpi])
+			{
+				ammo_max = cg.snap->ps.ammo[wpi];
+			}
+		}
+	}
+
+	if (ammo_max > element->ammoMax)
+	{
+		element->ammoMax = ammo_max;
+		element->ammoWidth = CG_OSPDrawStringLenPix(va(" %d", ammo_max), element->ammoCount[0].coord.named.w, element->ammoCount[0].maxchars, element->ammoCount[0].flags);
+	}
+
 
 	for (wpi = WP_MACHINEGUN, total = 0; wpi < WP_NUM_WEAPONS; ++wpi)
 	{
@@ -75,7 +97,6 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 	h = element->h;
 
 	element->weaponNum = 0;
-
 
 	for (wpi = WP_MACHINEGUN; wpi < WP_NUM_WEAPONS; ++wpi)
 	{
@@ -156,13 +177,14 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 
 			CG_SHUDTextMakeContext(&element->tmp_config, &element->ammoCount[element->weaponNum]);
 			element->ammoCount[element->weaponNum].text = &element->ammo[element->weaponNum][0];
+
 			if (align != SUPERHUD_ALIGNH_RIGHT)
 			{
-				Com_sprintf(&element->ammo[element->weaponNum][0], 5, " %i", cg.snap->ps.ammo[wpi]);
+				Com_sprintf(&element->ammo[element->weaponNum][0], 8, " %i", cg.snap->ps.ammo[wpi]);
 			}
 			else
 			{
-				Com_sprintf(&element->ammo[element->weaponNum][0], 5, "%i ", cg.snap->ps.ammo[wpi]);
+				Com_sprintf(&element->ammo[element->weaponNum][0], 8, "%i ", cg.snap->ps.ammo[wpi]);
 			}
 
 			if (align == SUPERHUD_ALIGNH_CENTER)
@@ -176,6 +198,7 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 			++element->weaponNum;
 		}
 	}
+
 }
 
 void CG_SHUDElementWeaponListRoutine(void* context)
