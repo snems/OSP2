@@ -56,6 +56,7 @@ static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 	lcfg.rect.value[2] = teamOverlay.healthAndArmorLenPix; 
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxHealthArmor);
 	element->ctxHealthArmor.maxchars = teamOverlay.healthAndArmorLenChar;
+	element->ctxHealthArmor.flags |= DS_FORCE_COLOR;
 
 	// setup weapon
 	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.weaponOffsetPix; 
@@ -202,9 +203,18 @@ void CG_SHUDElementTeamRoutine(void* context)
 	CG_SHUDTextPrint(&element->config, &element->ctxName);
 
 	// draw health and armor
-	CG_GetColorForHealth(ci->health, ci->armor, element->ctxHealthArmor.color);
+	CG_GetColorForHealth(ci->health, ci->armor, element->ctxHealthArmor.color, NULL);
 	element->ctxHealthArmor.text = va("%3i/%i", ci->health, ci->armor);
-  CG_SHUDTextPrint(&element->config, &element->ctxHealthArmor);
+
+	CG_FontSelect(element->ctxHealthArmor.fontIndex);
+	CG_OSPDrawString(element->ctxHealthArmor.coord.named.x,
+	                 element->ctxHealthArmor.coord.named.y,
+	                 element->ctxHealthArmor.text,
+	                 element->ctxHealthArmor.color,
+	                 element->ctxHealthArmor.coord.named.w,
+	                 element->ctxHealthArmor.coord.named.h,
+	                 element->ctxHealthArmor.maxchars,
+	                 element->ctxHealthArmor.flags);
 
 	// draw weapon
 	element->ctxWeapon.image = cg_weapons[ci->curWeapon].ammoIcon ?  cg_weapons[ci->curWeapon].ammoIcon : cgs.media.deferShader;

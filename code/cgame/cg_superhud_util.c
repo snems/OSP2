@@ -341,7 +341,6 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 	}
 
 	CG_SHUDConfigPickColor(&config, out->color_top, qtrue);
-	Vector4Copy(out->color_top, out->color_top_origin);
 	if (config.bgcolor.isSet)
 	{
 		Vector4Copy(config.bgcolor.value, out->color_back);
@@ -568,8 +567,6 @@ void CG_SHUDBarPrint(const superhudConfig_t* cfg, superhudBarContext_t* ctx, flo
 {
 	drawBarCoords_t coords;
 
-	CG_SHUDConfigPickColor(cfg, ctx->color_top, qfalse);
-
 	memset(&coords, 0, sizeof(coords));
 
 	switch (ctx->direction)
@@ -600,16 +597,6 @@ void CG_SHUDBarPrint(const superhudConfig_t* cfg, superhudBarContext_t* ctx, flo
 		                      cgs.media.whiteShader);
 	}
 	trap_R_SetColor(ctx->color_top);
-	trap_R_DrawStretchPic(coords.bar1_value[0], coords.bar1_value[1], coords.bar1_value[2], coords.bar1_value[3],
-	                      0, 0, 0, 0,
-	                      cgs.media.whiteShader);
-	if (ctx->two_bars)
-	{
-		trap_R_DrawStretchPic(coords.bar2_value[0], coords.bar2_value[1], coords.bar2_value[2], coords.bar2_value[3],
-		                      0, 0, 0, 0,
-		                      cgs.media.whiteShader);
-	}
-	trap_R_SetColor(ctx->color_top_origin);
 	trap_R_DrawStretchPic(coords.bar1_value[0], coords.bar1_value[1], coords.bar1_value[2], coords.bar1_value[3],
 	                      0, 0, 0, 0,
 	                      cgs.media.whiteShader);

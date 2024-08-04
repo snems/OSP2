@@ -315,6 +315,9 @@ vmCvar_t           cg_playersXID;
 vmCvar_t           cg_chatEnable;
 vmCvar_t           cg_shudChatEnable;
 
+vmCvar_t           cg_healthMid;
+vmCvar_t           cg_healthLow;
+
 
 static cvarTable_t cvarTable[] =
 {
@@ -545,6 +548,8 @@ static cvarTable_t cvarTable[] =
 
 	{ &cg_chatEnable, "cg_chatEnable", "3", CVAR_ARCHIVE},
 	{ &cg_shudChatEnable, "cg_shudChatEnable", "3", CVAR_ARCHIVE},
+	{ &cg_healthMid,   "cg_healthMid", "200",   CVAR_ARCHIVE},
+	{ &cg_healthLow,  "cg_healthLow", "100",  CVAR_ARCHIVE},
 };
 
 #define CG_VARS_HASH_SIZE 512

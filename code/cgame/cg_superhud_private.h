@@ -560,7 +560,6 @@ typedef struct
 	float max; // maximum coord for bar
 	float koeff; //multiplier
 	vec4_t bar[2]; // coord of two bars
-	vec4_t color_top_origin; // color of bar
 	vec4_t color_top; // color of bar
 	vec4_t color_back; // color of background
 	qboolean two_bars; // one or two bars

@@ -1416,6 +1416,9 @@ extern vmCvar_t           cg_playersXID;
 extern vmCvar_t           cg_chatEnable;
 extern vmCvar_t           cg_shudChatEnable;
 
+extern vmCvar_t           cg_healthMid;
+extern vmCvar_t           cg_healthLow;
+
 //
 // cg_main.c
 //
@@ -1566,8 +1569,8 @@ int CG_DrawStrlen(const char* str);
 float*   CG_FadeColor(int startMsec, int totalMsec);
 float* CG_TeamColor(int team);
 void CG_TileClear(void);
-void CG_ColorForHealth(vec4_t hcolor);
-void CG_GetColorForHealth(int health, int armor, vec4_t hcolor);
+void CG_ColorForHealth(vec4_t hcolor, char *color);
+void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char *ccolor);
 
 void UI_DrawProportionalString(int x, int y, const char* str, int style, vec4_t color);
 void CG_DrawRect(float x, float y, float width, float height, float size, const float* color);

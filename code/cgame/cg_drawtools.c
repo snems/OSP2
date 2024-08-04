@@ -1356,7 +1356,7 @@ float* CG_TeamColor(int team)
 CG_GetColorForHealth
 =================
 */
-void CG_GetColorForHealth(int health, int armor, vec4_t hcolor)
+void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char *ccolor)
 {
 	int     count;
 	int     max;
@@ -1365,10 +1365,18 @@ void CG_GetColorForHealth(int health, int armor, vec4_t hcolor)
 	// be sustained at the current health / armor level
 	if (health <= 0)
 	{
-		VectorClear(hcolor);     // black
-		hcolor[3] = 1;
+		if (hcolor)
+		{
+			VectorClear(hcolor);     // black
+			hcolor[3] = 1;
+		}
+		if (ccolor)
+		{
+			*ccolor = COLOR_BLACK;
+		}
 		return;
 	}
+		
 	count = armor;
 	max = health * ARMOR_PROTECTION / (1.0 - ARMOR_PROTECTION);
 	if (max < count)
@@ -1377,33 +1385,43 @@ void CG_GetColorForHealth(int health, int armor, vec4_t hcolor)
 	}
 	health += count;
 
-	// set the color based on health
-	hcolor[0] = 1.0;
-	hcolor[3] = 1.0;
-	if (health >= 100)
+	if (health < cg_healthLow.integer)
 	{
-		hcolor[2] = 1.0;
+		if (hcolor)
+		{
+			VectorCopy(colorRed, hcolor);
+		}
+		if (ccolor)
+		{
+			*ccolor = COLOR_RED;
+		}
 	}
-	else if (health < 66)
+	else if (health > cg_healthMid.integer)
 	{
-		hcolor[2] = 0;
+		if (hcolor)
+		{
+			VectorCopy(colorWhite, hcolor);
+		}
+		if (ccolor)
+		{
+			*ccolor = COLOR_WHITE;
+		}
 	}
 	else
 	{
-		hcolor[2] = (health - 66) / 33.0;
+		if (hcolor)
+		{
+			VectorSet(hcolor, 1, 0.7, 0);
+		}
+		if (ccolor)
+		{
+			*ccolor = COLOR_YELLOW;
+		}
 	}
 
-	if (health > 60)
+	if (hcolor)
 	{
-		hcolor[1] = 1.0;
-	}
-	else if (health < 30)
-	{
-		hcolor[1] = 0;
-	}
-	else
-	{
-		hcolor[1] = (health - 30) / 30.0;
+		hcolor[3] = 1.0;
 	}
 }
 
@@ -1412,11 +1430,11 @@ void CG_GetColorForHealth(int health, int armor, vec4_t hcolor)
 CG_ColorForHealth
 =================
 */
-void CG_ColorForHealth(vec4_t hcolor)
+void CG_ColorForHealth(vec4_t hcolor, char *color)
 {
 
 	CG_GetColorForHealth(cg.snap->ps.stats[STAT_HEALTH],
-	                     cg.snap->ps.stats[STAT_ARMOR], hcolor);
+	                     cg.snap->ps.stats[STAT_ARMOR], hcolor, color);
 }
 
 

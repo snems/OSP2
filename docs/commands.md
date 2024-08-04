@@ -394,6 +394,12 @@
 
 ---
 
+    cg_heathLow, cg_heathMid 
+
+Пороговые уровни, когда будет меняться цвет количества брони/здоровья.
+
+---
+
     ch_fragMessage
     cg_fallKick
     cg_smokegrowth_gl

@@ -549,7 +549,7 @@ void CG_DrawStatusBar(void)
 
 	// stretch the health up when taking damage
 	CG_DrawField(185, 432, 3, value, 32, 48);
-	CG_ColorForHealth(hcolor);
+	CG_ColorForHealth(hcolor, NULL);
 	trap_R_SetColor(hcolor);
 
 
@@ -886,7 +886,7 @@ static float CG_DrawTeamOverlay(float y, qboolean right, qboolean upper)
 				                 TEAM_OVERLAY_MAXLOCATION_WIDTH);
 			}
 
-			CG_GetColorForHealth(ci->health, ci->armor, hcolor);
+			CG_GetColorForHealth(ci->health, ci->armor, hcolor, NULL);
 
 			Com_sprintf(st, sizeof(st), "%3i %3i", ci->health, ci->armor);
 
@@ -1821,7 +1821,7 @@ static void CG_DrawCrosshair(void)
 	{
 		vec4_t      hcolor;
 
-		CG_ColorForHealth(hcolor);
+		CG_ColorForHealth(hcolor, NULL);
 		trap_R_SetColor(hcolor);
 	}
 	else
