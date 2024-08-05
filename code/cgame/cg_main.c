@@ -1156,8 +1156,8 @@ static void CG_RegisterGraphics(void)
 	// osp2 crosshairs
 	for ( ; i < NUM_CROSSHAIRS ; i++)
 	{
-		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i",  i));
-		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i_2",  i));
+		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i",  i));
+		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i_2",  i));
 		if (!cgs.media.crosshairShader[i])
 		{
 			break;
