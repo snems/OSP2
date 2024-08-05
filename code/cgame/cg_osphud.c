@@ -3267,14 +3267,12 @@ float CG_OSPDrawPing(float y)
 		}
 		else
 		{
-			ping = (int)((float)cgs.osp.pingTotalTime / (float)cgs.osp.pingCount);
+			ping = (int)(cgs.osp.pingMs);
 		}
 		if (ping > 999)
 		{
 			ping = 999;
 		}
-		cgs.osp.pingTotalTime = 0;
-		cgs.osp.pingCount = 0;
 		cgs.osp.pingPrintTime = cg.time + 1000;
 		if (cg_drawPing.integer > 1)
 		{

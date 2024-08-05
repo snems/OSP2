@@ -33,7 +33,7 @@ void CG_SHUDElementNGPRoutine(void* context)
 	}
 	else
 	{
-		ping = (int)((float)cgs.osp.pingTotalTime / (float)cgs.osp.pingCount);
+		ping = (int)(cgs.osp.pingMs);
 	}
 
 	CG_SHUDFill(&element->config);

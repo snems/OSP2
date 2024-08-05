@@ -1061,7 +1061,7 @@ typedef struct cgs_osp_s
 	int osp_teamcount2;
 	qhandle_t unknown_variable_1002;
 	qhandle_t pingPrintTime;
-	int pingTotalTime;
+	float pingMs;
 	int pingCount;
 	char pingString[16];
 	qhandle_t pingStringPositionX;
