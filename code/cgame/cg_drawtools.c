@@ -1385,7 +1385,7 @@ void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char *ccolor)
 	}
 	health += count;
 
-	if (health < cg_healthLow.integer)
+	if (health <= cg_healthLow.integer)
 	{
 		if (hcolor)
 		{
