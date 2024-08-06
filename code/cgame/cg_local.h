@@ -1393,7 +1393,6 @@ extern vmCvar_t           cg_lightningSilent;
 extern vmCvar_t           cg_delag;
 extern vmCvar_t           cg_drawHitBox;
 extern vmCvar_t           cg_optimizePrediction;
-extern vmCvar_t           cg_projectileNudgeSvFps;
 extern vmCvar_t           cg_projectileNudge;
 extern vmCvar_t           cg_hideScores;
 

@@ -290,7 +290,6 @@ vmCvar_t           cg_lightningSilent;
 vmCvar_t           cg_delag;
 vmCvar_t           cg_drawHitBox;
 vmCvar_t           cg_optimizePrediction;
-vmCvar_t           cg_projectileNudgeSvFps;
 vmCvar_t           cg_projectileNudge;
 vmCvar_t           cg_hideScores;
 
@@ -528,7 +527,6 @@ static cvarTable_t cvarTable[] =
 	{ &cg_delag, "cg_delag", "1", CVAR_ARCHIVE },
 	{ &cg_drawHitBox, "cg_drawHitBox", "0", CVAR_ARCHIVE },
 	{ &cg_optimizePrediction, "cg_optimizePrediction", "0", CVAR_ARCHIVE },
-	{ &cg_projectileNudgeSvFps, "cg_projectileNudgeSvFps", "70", CVAR_ARCHIVE},
 	{ &cg_projectileNudge, "cg_projectileNudge", "0", CVAR_ARCHIVE },
 	{ &cg_hideScores, "cg_hideScores", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyBlack, "cg_deadBodyBlack", "1", CVAR_ARCHIVE },
