@@ -853,6 +853,7 @@ void CG_NewClientInfo(int clientNum)
 	const char*  v;
 	const qboolean isOurClient = clientNum == cg.clientNum;
 	const qboolean isTeamGame = cgs.gametype >= GT_TEAM;
+	qboolean forceAddXid = qfalse;
 
 
 	ci = &cgs.clientinfo[clientNum];
@@ -911,7 +912,7 @@ void CG_NewClientInfo(int clientNum)
 			{
 				Com_sprintf(newInfo.name, sizeof(newInfo.name), "%s:\'%s^7\'", newInfo.xidStr, newInfo.name_codes);
 			}
-			else if (is_exists)
+			else if (is_exists || (strcmp(newInfo.name_original, "^1NONAME") == 0))
 			{
 				Com_sprintf(newInfo.name, sizeof(newInfo.name), "%s:%s", newInfo.xidStr, newInfo.name_original);
 			}
