@@ -867,7 +867,7 @@ static void CG_CalcEntityLerpPositions(centity_t* cent)
 		else if (cent->currentState.weapon != WP_GRENADE_LAUNCHER)
 		{
 			// extrapolate based on cg_projectileNudge
-			timeshift = cgs.osp.pingMs + serverTick;
+			timeshift = cgs.osp.pingMs/2 + serverTick;
 		}
 	}
 
