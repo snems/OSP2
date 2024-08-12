@@ -1213,8 +1213,8 @@ void CG_SHUDParserInit(void)
 {
 	int i = 0;
 	static qboolean initialized = qfalse;
-	const superHUDConfigElement_t *e;
-	const superHUDConfigElement_t *root;
+	const superHUDConfigElement_t* e;
+	const superHUDConfigElement_t* root;
 
 
 	if (initialized)
@@ -1225,7 +1225,7 @@ void CG_SHUDParserInit(void)
 	CG_SHUDAvailableElementsInit();
 
 	root = CG_SHUDAvailableElementsGet();
-	
+
 	e = root;
 
 	while (e->name)

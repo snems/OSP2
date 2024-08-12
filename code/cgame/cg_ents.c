@@ -856,7 +856,7 @@ static void CG_CalcEntityLerpPositions(centity_t* cent)
 			serverTick = cg.nextSnap->serverTime - cg.snap->serverTime;
 		}
 		// if it's one of ours
-		if ((cent->currentState.otherEntityNum) == cg.clientNum && (cg_projectileNudge.integer&2))
+		if ((cent->currentState.otherEntityNum) == cg.clientNum && (cg_projectileNudge.integer & 2))
 		{
 			// extrapolate one server frame's worth - this will correct for tiny
 			// visual inconsistencies introduced by backward-reconciling all players
@@ -864,7 +864,7 @@ static void CG_CalcEntityLerpPositions(centity_t* cent)
 			timeshift = serverTick;
 		}
 		// if it's not, and it's not a grenade launcher
-		else if ((cent->currentState.weapon != WP_GRENADE_LAUNCHER) && (cg_projectileNudge.integer&1))
+		else if ((cent->currentState.weapon != WP_GRENADE_LAUNCHER) && (cg_projectileNudge.integer & 1))
 		{
 			// extrapolate based on cg_projectileNudge
 			timeshift = cgs.osp.pingMs + serverTick;

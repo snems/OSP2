@@ -21,7 +21,7 @@ static void CG_SHUDRoutenesDestroy(superhudElement_t* shud)
 
 }
 
-qboolean CG_SHUDLoadConfigPrivate(const char *filename)
+qboolean CG_SHUDLoadConfigPrivate(const char* filename)
 {
 	fileHandle_t fileHandle;
 	int rc;
@@ -314,12 +314,12 @@ void CG_SHUDRoutine(void)
 		// check visibility
 		vflags = last->config.visiblity.isSet ? last->config.visiblity.value : last->element.visibility;
 
-		skip = (!(vflags&SE_IM) && is_intermission) || 
-		       ((vflags&SE_TEAM_ONLY) && (!is_team_game)) || 
-			     (!(vflags&SE_DEAD) && is_dead) ||  
-			     (!(vflags&SE_SCORES) && cg.showScores) ||  
-		       (!(vflags&SE_SPECT) && is_spectator)
-		; 
+		skip = (!(vflags & SE_IM) && is_intermission) ||
+		       ((vflags & SE_TEAM_ONLY) && (!is_team_game)) ||
+		       (!(vflags & SE_DEAD) && is_dead) ||
+		       (!(vflags & SE_SCORES) && cg.showScores) ||
+		       (!(vflags & SE_SPECT) && is_spectator)
+		       ;
 
 		if (!skip && last->element.routine)
 		{

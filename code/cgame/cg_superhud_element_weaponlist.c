@@ -44,13 +44,13 @@ void* CG_SHUDElementWeaponListCreate(const superhudConfig_t* config)
 
 	element->ammoMax = -1; //force update width
 
-  return element;
+	return element;
 }
 
 static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, superhudAlignH_t align)
 {
 	int wpi, statWeapons;
-	int x,y,w,h;
+	int x, y, w, h;
 	int total;
 	int ammo_max = 0;
 
@@ -85,8 +85,8 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 
 	if (align == SUPERHUD_ALIGNH_CENTER)
 	{
-		x = element->x - total * (element->w + element->ammoWidth)/ 2;//shift to center
-		y = element->y; 
+		x = element->x - total * (element->w + element->ammoWidth) / 2; //shift to center
+		y = element->y;
 	}
 	else
 	{
@@ -120,11 +120,11 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 
 			element->tmp_config.rect.value[0] = x;
 			element->tmp_config.rect.value[1] = y;
-			element->tmp_config.rect.value[2] = w; 
+			element->tmp_config.rect.value[2] = w;
 			element->tmp_config.rect.value[3] = h;
 			CG_SHUDDrawMakeContext(&element->tmp_config, &element->weaponIcon[element->weaponNum]);
 			element->weaponIcon[element->weaponNum].image = cg_weapons[wpi].weaponIcon;
-			
+
 			//selection and background
 			element->tmp_config.rect.value[0] = x;
 			// For right ammo is left to icon
@@ -133,7 +133,7 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 				element->tmp_config.rect.value[0] -= element->ammoWidth;
 			}
 			element->tmp_config.rect.value[1] = y;
-			element->tmp_config.rect.value[2] = w + element->ammoWidth; 
+			element->tmp_config.rect.value[2] = w + element->ammoWidth;
 			element->tmp_config.rect.value[3] = h;
 			CG_SHUDDrawMakeContext(&element->tmp_config, &element->back[element->weaponNum]);
 			//element will be set to color
@@ -149,7 +149,7 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 					memset(element->back[element->weaponNum].color, 0, sizeof(element->back[element->weaponNum].color));
 				}
 			}
-			
+
 			//ammo
 			// For right ammo is left to icon
 			if (align != SUPERHUD_ALIGNH_RIGHT)
@@ -165,7 +165,7 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 				element->tmp_config.textAlign.isSet = qtrue;
 			}
 			element->tmp_config.rect.value[1] = y;
-			element->tmp_config.rect.value[2] = w; 
+			element->tmp_config.rect.value[2] = w;
 			element->tmp_config.rect.value[3] = h;
 
 			element->tmp_config.alignV.value = SUPERHUD_ALIGNV_CENTER;
@@ -212,8 +212,8 @@ void CG_SHUDElementWeaponListRoutine(void* context)
 	for (i = 0; i < element->weaponNum; ++i)
 	{
 		CG_SHUDFillWithColor(&element->back[i].coord, element->back[i].color);
-    CG_SHUDDrawStretchPicCtx(&element->config, &element->weaponIcon[i]);
-    CG_SHUDTextPrint(&element->config, &element->ammoCount[i]);
+		CG_SHUDDrawStretchPicCtx(&element->config, &element->weaponIcon[i]);
+		CG_SHUDTextPrint(&element->config, &element->ammoCount[i]);
 	}
 }
 

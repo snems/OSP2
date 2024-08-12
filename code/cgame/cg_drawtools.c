@@ -114,10 +114,10 @@ Adjusted for resolution and screen aspect ratio
 void CG_AdjustFrom640(float* x, float* y, float* w, float* h)
 {
 	// scale for screen sizes
-	if(x) *x *= cgs.screenXScale_Old;
-	if(y) *y *= cgs.screenYScale_Old;
-	if(w) *w *= cgs.screenXScale_Old;
-	if(h) *h *= cgs.screenYScale_Old;
+	if (x) *x *= cgs.screenXScale_Old;
+	if (y) *y *= cgs.screenYScale_Old;
+	if (w) *w *= cgs.screenXScale_Old;
+	if (h) *h *= cgs.screenYScale_Old;
 }
 void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean correctWide)
 {
@@ -129,13 +129,13 @@ void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean corre
 	}
 #endif
 	// scale for screen sizes
-	if(x) *x *= cgs.screenXScale_Old;
-	if(y) *y *= cgs.screenYScale_Old;
-	if(h) *h *= cgs.screenYScale_Old;
+	if (x) *x *= cgs.screenXScale_Old;
+	if (y) *y *= cgs.screenYScale_Old;
+	if (h) *h *= cgs.screenYScale_Old;
 
 	if (!correctWide)
 	{
-		if(w) *w *= cgs.screenXScale_Old;
+		if (w) *w *= cgs.screenXScale_Old;
 	}
 	else
 	{
@@ -147,7 +147,7 @@ void CG_AdjustFrom640_Old(float* x, float* y, float* w, float* h, qboolean corre
 			koeff = cgs.screenXScale_Old * (cgs.glconfig.vidHeight * 640.0) / (cgs.glconfig.vidWidth * 480.0);
 		}
 
-		if(w) *w *= koeff;
+		if (w) *w *= koeff;
 	}
 }
 
@@ -977,7 +977,7 @@ static float DrawCompiledStringLength(const text_command_t* cmd, float aw, float
 
 		if (curr->type == OSP_TEXT_CMD_CHAR)
 		{
-			fm = &metrics[ (unsigned char)curr->value.character ];
+			fm = &metrics[(unsigned char)curr->value.character ];
 			if (proportional)
 			{
 				ax += fm->space1 * aw;          // add extra space if required by metrics
@@ -1054,7 +1054,7 @@ void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, 
 
 	if (flags & DS_VCENTER)
 	{
-		ay -= ah/2;
+		ay -= ah / 2;
 	}
 	else if (flags & DS_VTOP)
 	{
@@ -1356,7 +1356,7 @@ float* CG_TeamColor(int team)
 CG_GetColorForHealth
 =================
 */
-void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char *ccolor)
+void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char* ccolor)
 {
 	int     count;
 	int     max;
@@ -1376,7 +1376,7 @@ void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char *ccolor)
 		}
 		return;
 	}
-		
+
 	count = armor;
 	max = health * ARMOR_PROTECTION / (1.0 - ARMOR_PROTECTION);
 	if (max < count)
@@ -1430,7 +1430,7 @@ void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char *ccolor)
 CG_ColorForHealth
 =================
 */
-void CG_ColorForHealth(vec4_t hcolor, char *color)
+void CG_ColorForHealth(vec4_t hcolor, char* color)
 {
 
 	CG_GetColorForHealth(cg.snap->ps.stats[STAT_HEALTH],
@@ -2242,7 +2242,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 
 	if (flags & DS_VCENTER)
 	{
-		ay -= ah/2;
+		ay -= ah / 2;
 	}
 	else if (flags & DS_VTOP)
 	{
@@ -2279,7 +2279,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 			switch (curr->type)
 			{
 				case OSP_TEXT_CMD_CHAR:
-					fm = &metrics[ (unsigned char)curr->value.character ];
+					fm = &metrics[(unsigned char)curr->value.character ];
 					if (proportional)
 					{
 						tc = fm->tc_prop;
@@ -2339,7 +2339,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		switch (curr->type)
 		{
 			case OSP_TEXT_CMD_CHAR:
-				fm = &metrics[ (unsigned char)curr->value.character ];
+				fm = &metrics[(unsigned char)curr->value.character ];
 				if (proportional)
 				{
 					tc = fm->tc_prop;

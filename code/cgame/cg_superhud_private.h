@@ -263,7 +263,7 @@ typedef struct superHUDConfigElement_s
 
 typedef struct superhudElementDictMember_s
 {
-	const superHUDConfigElement_t *element;
+	const superHUDConfigElement_t* element;
 	struct superhudElementDictMember_s* next;
 }
 superhudElementDictMember_t;
@@ -297,12 +297,12 @@ typedef struct
 } superhudConfigParseElement_t;
 
 #define SHUD_ELEMENT_INIT(E, CFG)                     \
-	do{                                                 \
-		E = Z_Malloc(sizeof(*E));                         \
-		OSP_MEMORY_CHECK(E);                              \
-		memset(E, 0, sizeof(*E));                         \
-		memcpy(&E->config, CFG, sizeof(element->config)); \
-	}while(0)
+    do{                                                 \
+        E = Z_Malloc(sizeof(*E));                         \
+        OSP_MEMORY_CHECK(E);                              \
+        memset(E, 0, sizeof(*E));                         \
+        memcpy(&E->config, CFG, sizeof(element->config)); \
+    }while(0)
 
 void CG_SHUDParserInit(void);
 const superHUDConfigElement_t* CG_SHUDFindConfigElementItem(const char* name);
@@ -523,16 +523,16 @@ void CG_SHUDElementWeaponListDestroy(void* context);
  * cg_superhud_util.c
  */
 typedef union
+{
+	struct
 	{
-		struct
-		{
-			float x;
-			float y;
-			float w;
-			float h;
-		}named;
-		vec4_t arr;
-	}superhudCoord_t;
+		float x;
+		float y;
+		float w;
+		float h;
+	} named;
+	vec4_t arr;
+} superhudCoord_t;
 
 typedef struct
 {
@@ -542,7 +542,7 @@ typedef struct
 	vec4_t color;
 	int maxchars;
 	int fontIndex;
-	const char *text;
+	const char* text;
 } superhudTextContext_t;
 
 typedef struct
@@ -599,7 +599,7 @@ typedef struct
 
 void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out, float max);
 void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* out);
-void CG_SHUDDrawStretchPic(superhudCoord_t coord, const superhudCoord_t coordPicture, const float *color, qhandle_t shader);
+void CG_SHUDDrawStretchPic(superhudCoord_t coord, const superhudCoord_t coordPicture, const float* color, qhandle_t shader);
 void CG_SHUDDrawMakeContext(const superhudConfig_t* cfg, superhudDrawContext_t* out);
 
 void CG_SHUDTextPrint(const superhudConfig_t* cfg, superhudTextContext_t* pos);
@@ -609,8 +609,8 @@ qboolean CG_SHUDFill(const superhudConfig_t* cfg);
 
 team_t CG_SHUDGetOurActiveTeam(void);
 qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhudConfig_t* cfg, int startTime);
-void CG_SHUDFillWithColor(const superhudCoord_t* coord, const float *color);
-void CG_SHUDElementCompileTeamOverlayConfig(int fontWidth, shudTeamOverlay_t *configOut);
+void CG_SHUDFillWithColor(const superhudCoord_t* coord, const float* color);
+void CG_SHUDElementCompileTeamOverlayConfig(int fontWidth, shudTeamOverlay_t* configOut);
 
 typedef struct
 {
@@ -652,7 +652,7 @@ typedef struct
 
 superhudGlobalContext_t* CG_SHUDGetContext(void);
 void CG_SHUDAvailableElementsInit(void);
-const superHUDConfigElement_t *CG_SHUDAvailableElementsGet (void);
+const superHUDConfigElement_t* CG_SHUDAvailableElementsGet(void);
 
 
 #ifdef __cplusplus

@@ -48,12 +48,12 @@ void CG_SHUDElementTargetStatusRoutine(void* context)
 		if (ci->team != TEAM_FREE && ci->team == cg.snap->ps.persistant[PERS_TEAM] && ch_TeamCrosshairHealth.integer != 0 && !(cg.snap->ps.pm_flags & PMF_FOLLOW))
 		{
 			char color;
-		  CG_GetColorForHealth(ci->health, ci->armor, NULL, &color);
+			CG_GetColorForHealth(ci->health, ci->armor, NULL, &color);
 			Com_sprintf(s, 1024, "^5[^%c%i/%i^5]", color, ci->health, ci->armor);
-	    CG_SHUDFill(&element->config);
-	    element->ctx.text = s;
+			CG_SHUDFill(&element->config);
+			element->ctx.text = s;
 			CG_SHUDTextPrint(&element->config, &element->ctx);
-	    element->ctx.text = NULL;
+			element->ctx.text = NULL;
 		}
 	}
 }

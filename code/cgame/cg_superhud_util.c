@@ -10,11 +10,11 @@ typedef struct
 } drawBarCoords_t;
 
 
-static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float *color, qboolean alphaOverride)
+static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float* color, qboolean alphaOverride)
 {
 	clientInfo_t* ci;
-	const superhudColor_t *in = &config->color.value;
-	const float *target;
+	const superhudColor_t* in = &config->color.value;
+	const float* target;
 
 	if (!config->color.isSet)
 	{
@@ -38,13 +38,13 @@ static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float *color,
 			ci = &cgs.clientinfo[ cg.clientNum ];
 			if (ci->rt == TEAM_RED)
 			{
-			  target = colorRed;
-			  break;
+				target = colorRed;
+				break;
 			}
 			else if (ci->rt == TEAM_BLUE)
 			{
-			  target = colorBlue;
-			  break;
+				target = colorBlue;
+				break;
 			}
 			target = colorRed;
 			break;
@@ -52,13 +52,13 @@ static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float *color,
 			ci = &cgs.clientinfo[ cg.clientNum ];
 			if (ci->rt == TEAM_RED)
 			{
-			  target = colorBlue;
-			  break;
+				target = colorBlue;
+				break;
 			}
 			else if (ci->rt == TEAM_BLUE)
 			{
-			  target = colorRed;
-			  break;
+				target = colorRed;
+				break;
 			}
 			target = colorBlue;
 			break;
@@ -115,7 +115,7 @@ static void CG_SHUDConfigDefaultsCheck(superhudConfig_t* config)
 	}
 }
 
-static void CG_SHUDTextMakeAdjustCoords(const superhudConfig_t* in, float *out_x, float *out_y)
+static void CG_SHUDTextMakeAdjustCoords(const superhudConfig_t* in, float* out_x, float* out_y)
 {
 	superhudAlignH_t h;
 	superhudAlignV_t v;
@@ -145,32 +145,32 @@ static void CG_SHUDTextMakeAdjustCoords(const superhudConfig_t* in, float *out_x
 
 	switch (h)
 	{
-    case SUPERHUD_ALIGNH_LEFT:
-    	//allready x
+		case SUPERHUD_ALIGNH_LEFT:
+			//allready x
 			*out_x = in->rect.value[0];
-    	break;
-    case SUPERHUD_ALIGNH_CENTER:
-    	// x + width/2
+			break;
+		case SUPERHUD_ALIGNH_CENTER:
+			// x + width/2
 			*out_x = in->rect.value[0] + in->rect.value[2] / 2.0f;
 			break;
-    case SUPERHUD_ALIGNH_RIGHT:
-    	// x + width
+		case SUPERHUD_ALIGNH_RIGHT:
+			// x + width
 			*out_x = in->rect.value[0] + in->rect.value[2];
-      break;
-  }
+			break;
+	}
 
-	switch (v) 
+	switch (v)
 	{
-    case SUPERHUD_ALIGNV_TOP:
+		case SUPERHUD_ALIGNV_TOP:
 			*out_y = in->rect.value[1];
-      break;
-    case SUPERHUD_ALIGNV_CENTER:
-			*out_y = in->rect.value[1] + in->rect.value[3]/2.0f;
-      break;
-    case SUPERHUD_ALIGNV_BOTTOM:
+			break;
+		case SUPERHUD_ALIGNV_CENTER:
+			*out_y = in->rect.value[1] + in->rect.value[3] / 2.0f;
+			break;
+		case SUPERHUD_ALIGNV_BOTTOM:
 			*out_y = in->rect.value[1] + in->rect.value[3];
-      break;
-  }
+			break;
+	}
 
 }
 
@@ -184,7 +184,7 @@ void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* o
 
 	CG_SHUDTextMakeAdjustCoords(in, &out->coord.named.x, &out->coord.named.y);
 
-  switch (config.textAlign.value)
+	switch (config.textAlign.value)
 	{
 		default:
 		case SUPERHUD_ALIGNH_LEFT:
@@ -203,7 +203,7 @@ void CG_SHUDTextMakeContext(const superhudConfig_t* in, superhudTextContext_t* o
 
 	if (config.alignV.isSet)
 	{
-  	switch (config.alignV.value)
+		switch (config.alignV.value)
 		{
 			default:
 			case SUPERHUD_ALIGNV_TOP:
@@ -368,10 +368,10 @@ qboolean CG_SHUDIsTimeOut(const superhudConfig_t* cfg, int startTime)
 	return qtrue;
 }
 
- /*
- 	*  Затухание
- 	*  возвращает qfalse если элемент потух
- 	*/
+/*
+   *  Затухание
+   *  возвращает qfalse если элемент потух
+   */
 qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhudConfig_t* cfg, int startTime)
 {
 	int time = 0;
@@ -380,7 +380,7 @@ qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhud
 
 	if (!CG_SHUDIsTimeOut(cfg, startTime))
 	{
-		return qtrue;	
+		return qtrue;
 	}
 
 	if (cfg->time.isSet)
@@ -403,8 +403,8 @@ qboolean CG_SHUDGetFadeColor(const vec4_t from_color, vec4_t out, const superhud
 		if (fadetime > 0 && fadetime < fadedelay)
 		{
 			vec4_t tmpfade;
-			float k = (float)fadetime/fadedelay;
-			Vector4Copy(cfg->fade.value , tmpfade);
+			float k = (float)fadetime / fadedelay;
+			Vector4Copy(cfg->fade.value, tmpfade);
 			Vector4Subtract(tmpfade, from_color, tmpfade);
 			Vector4MA(from_color, k, tmpfade, out);
 			return qtrue;
@@ -637,28 +637,28 @@ team_t CG_SHUDGetOurActiveTeam(void)
 	return our_team;
 }
 
-void CG_SHUDFillWithColor(const superhudCoord_t* coord, const float *color)
+void CG_SHUDFillWithColor(const superhudCoord_t* coord, const float* color)
 {
-	float x,y,w,h;
-	
+	float x, y, w, h;
+
 	x = coord->named.x;
 	y = coord->named.y;
 	w = coord->named.w;
 	h = coord->named.h;
 	CG_AdjustFrom640(&x, &y, &w, &h);
-  trap_R_SetColor(color);
-  trap_R_DrawStretchPic(x, y, w, h, 0, 0, 0, 0, cgs.media.whiteShader);
-  trap_R_SetColor(NULL);
+	trap_R_SetColor(color);
+	trap_R_DrawStretchPic(x, y, w, h, 0, 0, 0, 0, cgs.media.whiteShader);
+	trap_R_SetColor(NULL);
 }
 
 qboolean CG_SHUDFill(const superhudConfig_t* cfg)
 {
-	float x,y,w,h;
+	float x, y, w, h;
 	if (!cfg->fill.isSet || !cfg->rect.isSet)
 	{
 		return qfalse;
 	}
-	
+
 	x = cfg->rect.value[0];
 	y = cfg->rect.value[1];
 	w = cfg->rect.value[2];
@@ -692,43 +692,43 @@ qboolean CG_SHUDFill(const superhudConfig_t* cfg)
 }
 
 
-void CG_SHUDElementCompileTeamOverlayConfig(int fontWidth, shudTeamOverlay_t *configOut)
+void CG_SHUDElementCompileTeamOverlayConfig(int fontWidth, shudTeamOverlay_t* configOut)
 {
-  configOut->powerupOffsetChar = 0;
+	configOut->powerupOffsetChar = 0;
 	configOut->powerupOffsetPix = configOut->powerupOffsetChar * fontWidth;
-  configOut->powerupLenChar = 1;
+	configOut->powerupLenChar = 1;
 	configOut->powerupLenPix = configOut->powerupLenChar * fontWidth;
 
-  configOut->nameOffsetChar = 1;
+	configOut->nameOffsetChar = 1;
 	configOut->nameOffsetPix = configOut->nameOffsetChar * fontWidth;
-  configOut->nameLenChar = 12;
+	configOut->nameLenChar = 12;
 	configOut->nameLenPix = configOut->nameLenChar * fontWidth;
 
-  configOut->healthAndArmorOffsetChar = 14;
+	configOut->healthAndArmorOffsetChar = 14;
 	configOut->healthAndArmorOffsetPix = configOut->healthAndArmorOffsetChar * fontWidth;
-  configOut->healthAndArmorLenChar = 7; // 200/200
+	configOut->healthAndArmorLenChar = 7; // 200/200
 	configOut->healthAndArmorLenPix = configOut->healthAndArmorLenChar * fontWidth;
 
-  configOut->weaponOffsetChar = 21;
+	configOut->weaponOffsetChar = 21;
 	configOut->weaponOffsetPix = configOut->weaponOffsetChar * fontWidth;
-  configOut->weaponLenChar = 1;
+	configOut->weaponLenChar = 1;
 	configOut->weaponLenPix = configOut->weaponLenChar * fontWidth;
 
-  configOut->locationOffsetChar = 23;
+	configOut->locationOffsetChar = 23;
 	configOut->locationOffsetPix = configOut->locationOffsetChar * fontWidth;
-  configOut->locationLenChar = cg_MaxlocationWidth.integer;
+	configOut->locationLenChar = cg_MaxlocationWidth.integer;
 	configOut->locationLenPix = configOut->locationLenChar * fontWidth;
 
-  configOut->overlayWidthChar = configOut->locationOffsetChar + cg_MaxlocationWidth.integer;
+	configOut->overlayWidthChar = configOut->locationOffsetChar + cg_MaxlocationWidth.integer;
 	configOut->overlayWidthPix = configOut->overlayWidthChar * fontWidth;
 }
 
 //
 // trap_R_DrawStretchPic Wrapper
 //
-// float x       X coord of result image 
-// float y       Y coord of result image 
-// float w       Width of result image 
+// float x       X coord of result image
+// float y       Y coord of result image
+// float w       Width of result image
 // float h       Height of result image
 // float s1      X coord in the shader (0.0f...1.0f)
 // float t1      Y coord in the shader (0.0f...1.0f)
@@ -737,20 +737,20 @@ void CG_SHUDElementCompileTeamOverlayConfig(int fontWidth, shudTeamOverlay_t *co
 // float *color  Use this color
 // qhandle_t shader Shader
 //
-void CG_SHUDDrawStretchPic(superhudCoord_t coord, const superhudCoord_t coordPicture, const float *color, qhandle_t shader)
+void CG_SHUDDrawStretchPic(superhudCoord_t coord, const superhudCoord_t coordPicture, const float* color, qhandle_t shader)
 {
 	if (!shader) return;
 
 	trap_R_SetColor(color);
 	CG_AdjustFrom640(&coord.named.x, &coord.named.y, &coord.named.w, &coord.named.h);
-	trap_R_DrawStretchPic(coord.named.x, 
-											  coord.named.y, 
-											  coord.named.w, 
-											  coord.named.h, 
-											  coordPicture.named.x, 
-											  coordPicture.named.y, 
-											  coordPicture.named.w, 
-											  coordPicture.named.h, 
+	trap_R_DrawStretchPic(coord.named.x,
+	                      coord.named.y,
+	                      coord.named.w,
+	                      coord.named.h,
+	                      coordPicture.named.x,
+	                      coordPicture.named.y,
+	                      coordPicture.named.w,
+	                      coordPicture.named.h,
 	                      shader);
 	trap_R_SetColor(NULL);
 }

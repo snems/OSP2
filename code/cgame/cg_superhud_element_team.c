@@ -41,31 +41,31 @@ static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 	memcpy(&lcfg, &element->config, sizeof(element->config));
 
 	// setup powerup
-	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.powerupOffsetPix; 
-	lcfg.rect.value[2] = teamOverlay.powerupLenPix; 
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.powerupOffsetPix;
+	lcfg.rect.value[2] = teamOverlay.powerupLenPix;
 	CG_SHUDDrawMakeContext(&lcfg, &element->ctxPowerup);
 
 	// setup name
-	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.nameOffsetPix; 
-	lcfg.rect.value[2] = teamOverlay.nameLenPix; 
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.nameOffsetPix;
+	lcfg.rect.value[2] = teamOverlay.nameLenPix;
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxName);
 	element->ctxName.maxchars = teamOverlay.nameLenChar;
 
 	// setup health and armor
-	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.healthAndArmorOffsetPix; 
-	lcfg.rect.value[2] = teamOverlay.healthAndArmorLenPix; 
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.healthAndArmorOffsetPix;
+	lcfg.rect.value[2] = teamOverlay.healthAndArmorLenPix;
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxHealthArmor);
 	element->ctxHealthArmor.maxchars = teamOverlay.healthAndArmorLenChar;
 	element->ctxHealthArmor.flags |= DS_FORCE_COLOR;
 
 	// setup weapon
-	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.weaponOffsetPix; 
-	lcfg.rect.value[2] = teamOverlay.weaponLenPix; 
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.weaponOffsetPix;
+	lcfg.rect.value[2] = teamOverlay.weaponLenPix;
 	CG_SHUDDrawMakeContext(&lcfg, &element->ctxWeapon);
 
 	// setup location
-	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.locationOffsetPix; 
-	lcfg.rect.value[2] = teamOverlay.locationLenPix; 
+	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.locationOffsetPix;
+	lcfg.rect.value[2] = teamOverlay.locationLenPix;
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxLocation);
 	element->ctxLocation.maxchars = teamOverlay.locationLenChar;
 
@@ -198,7 +198,7 @@ void CG_SHUDElementTeamRoutine(void* context)
 	//get player
 	ci = &cgs.clientinfo[sortedTeamPlayers[index]];
 
-	// draw name	
+	// draw name
 	element->ctxName.text = ci->name;
 	CG_SHUDTextPrint(&element->config, &element->ctxName);
 
@@ -268,7 +268,7 @@ void CG_SHUDElementTeamRoutine(void* context)
 			element->ctxLocation.text = "unknown";
 		}
 
-  	CG_SHUDTextPrint(&element->config, &element->ctxLocation);
+		CG_SHUDTextPrint(&element->config, &element->ctxLocation);
 	}
 }
 

@@ -357,7 +357,7 @@ void CG_OSPClientVersion_f(void)
 #define CG_YES_NO_STR(VAL) ((VAL) ? "^2Yes" : "^1No")
 void CG_OSPClientConfig_f(void)
 {
-	const char *physics = "VQ3";
+	const char* physics = "VQ3";
 
 	if (cgs.osp.server_mode & 1)
 	{

@@ -62,21 +62,21 @@ void CG_SHUDElementTeamCountRoutine(void* context)
 
 	if (team == TEAM_RED)
 	{
-		count	= element->enemy ? cgs.osp.osp_teamcount2 : cgs.osp.osp_teamcount1;
+		count   = element->enemy ? cgs.osp.osp_teamcount2 : cgs.osp.osp_teamcount1;
 	}
 	else if (team == TEAM_BLUE)
 	{
-		count	= element->enemy ? cgs.osp.osp_teamcount1 : cgs.osp.osp_teamcount2;
+		count   = element->enemy ? cgs.osp.osp_teamcount1 : cgs.osp.osp_teamcount2;
 	}
 	else
 	{
 		return;
 	}
 
-	if ( count >= 0)
+	if (count >= 0)
 	{
-	  CG_SHUDFill(&element->config);
-	  element->ctx.text = va(element->config.text.value, count); 
+		CG_SHUDFill(&element->config);
+		element->ctx.text = va(element->config.text.value, count);
 		CG_SHUDTextPrint(&element->config, &element->ctx);
 	}
 

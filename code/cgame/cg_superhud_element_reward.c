@@ -15,7 +15,7 @@ typedef struct
 	{
 		superhudDrawContext_t d;
 		superhudTextContext_t t;
-	}ctx;
+	} ctx;
 	shudRewardType_t type;
 } shudElementStatusbarRewards;
 
@@ -60,8 +60,8 @@ void CG_SHUDElementRewardRoutine(void* context)
 	shudElementStatusbarRewards* element = (shudElementStatusbarRewards*)context;
 
 	int     i;
-	float   *color_origin;
-	float   *color;
+	float*   color_origin;
+	float*   color;
 
 	if (!cg_drawRewards.integer)
 	{

@@ -74,7 +74,7 @@ void CG_FreeMarkPoly(markPoly_t* le)
 		return;
 	}
 
-	if (!le->prevMark) 
+	if (!le->prevMark)
 	{
 		CG_Error("CG_FreeMarPoly: no previous mark");
 		return;

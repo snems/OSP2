@@ -3,26 +3,26 @@
 
 typedef struct chatFilterTableNode_s
 {
-  char *name;
-  struct chatFilterTableNode_s *next;
-  struct chatFilterTableNode_s *prev;
+	char* name;
+	struct chatFilterTableNode_s* next;
+	struct chatFilterTableNode_s* prev;
 } chatFilterTableNode_t;
 
 #define CG_CHATFILTER_MAX 128
 
 static chatFilterTableNode_t filterNames[CG_CHATFILTER_MAX];
 
-static chatFilterTableNode_t* CG_ChatfilterFindName(const char *name)
+static chatFilterTableNode_t* CG_ChatfilterFindName(const char* name)
 {
 	unsigned long hash;
-	chatFilterTableNode_t *target;
-	const char *splitter;
+	chatFilterTableNode_t* target;
+	const char* splitter;
 	int len;
 	qboolean isNotFound = qfalse;
 
 	hash = Com_GenerateHashValue(name, CG_CHATFILTER_MAX);
 
-  target = &filterNames[hash];
+	target = &filterNames[hash];
 
 	while (target && (isNotFound = Q_stricmp(name, target->name)))
 	{
@@ -30,7 +30,7 @@ static chatFilterTableNode_t* CG_ChatfilterFindName(const char *name)
 	}
 	if (!isNotFound)
 	{
-	  return target; //found 
+		return target; //found
 	}
 
 	return NULL; //not found
@@ -46,28 +46,28 @@ void CG_ChatfilterDump(void)
 	{
 		if (cgs.clientinfo[p].infoValid)
 		{
-			CG_Printf("^7| ^1%2d ^7|  %s  ^7| %32s | %s\n", p, 
-						CG_ChatfilterIsNameMuted(cgs.clientinfo[p].name_original) ? "^1Yes" : "^2No ",
-						 cgs.clientinfo[p].name_clean, cgs.clientinfo[p].name_codes);
+			CG_Printf("^7| ^1%2d ^7|  %s  ^7| %32s | %s\n", p,
+			          CG_ChatfilterIsNameMuted(cgs.clientinfo[p].name_original) ? "^1Yes" : "^2No ",
+			          cgs.clientinfo[p].name_clean, cgs.clientinfo[p].name_codes);
 		}
 	}
 }
 
-qboolean CG_ChatfilterIsNameMuted(const char *name)
+qboolean CG_ChatfilterIsNameMuted(const char* name)
 {
 	return CG_ChatfilterFindName(name) != NULL;
 }
 
-void CG_ChatfilterDeleteName(const char *name)
+void CG_ChatfilterDeleteName(const char* name)
 {
 	unsigned long hash;
-	chatFilterTableNode_t *target;
-	const char *splitter;
+	chatFilterTableNode_t* target;
+	const char* splitter;
 	qboolean isNotFound = qfalse;
 
 	hash = Com_GenerateHashValue(name, CG_CHATFILTER_MAX);
 
-  target = &filterNames[hash];
+	target = &filterNames[hash];
 
 	while (target && (isNotFound = Q_stricmp(name, target->name)))
 	{
@@ -101,31 +101,31 @@ void CG_ChatfilterDeleteName(const char *name)
 	}
 }
 
-void CG_ChatfilterAddName(const char *name)
+void CG_ChatfilterAddName(const char* name)
 {
 	unsigned long hash;
-	chatFilterTableNode_t *target;
+	chatFilterTableNode_t* target;
 	int len = strlen(name);
 
-  if( CG_ChatfilterFindName(name) )
-  {
-    return;
-  }
+	if (CG_ChatfilterFindName(name))
+	{
+		return;
+	}
 
 	hash = Com_GenerateHashValue(name, CG_CHATFILTER_MAX);
 
-  target = &filterNames[hash];
+	target = &filterNames[hash];
 
 	while (target->name)
 	{
-	  if (!target->next)
-	  {
-	    target->next = Z_Malloc(sizeof(chatFilterTableNode_t));
-	    OSP_MEMORY_CHECK(target->next);
-	    memset(target->next, 0, sizeof(chatFilterTableNode_t));
-	  }
-	  target->next->prev = target;
-	  target = target->next;
+		if (!target->next)
+		{
+			target->next = Z_Malloc(sizeof(chatFilterTableNode_t));
+			OSP_MEMORY_CHECK(target->next);
+			memset(target->next, 0, sizeof(chatFilterTableNode_t));
+		}
+		target->next->prev = target;
+		target = target->next;
 	}
 
 	target->name = Z_Malloc(len + 1);
@@ -134,11 +134,11 @@ void CG_ChatfilterAddName(const char *name)
 	Q_strncpyz(target->name, name, len + 1);
 }
 
-qboolean CG_ChatIsMessageAllowed(const char *message)
+qboolean CG_ChatIsMessageAllowed(const char* message)
 {
 	unsigned long hash;
-	const chatFilterTableNode_t *target;
-	const char *splitter;
+	const chatFilterTableNode_t* target;
+	const char* splitter;
 	char name[MAX_QPATH];
 	int len;
 	qboolean isNotFound = qfalse;
@@ -151,23 +151,23 @@ qboolean CG_ChatIsMessageAllowed(const char *message)
 	if (len <= 0) return qtrue; // something strange, ignore
 	if (len >= MAX_QPATH) return qtrue;
 	//
-  memcpy(name, message, len);
-  name[len] = 0;
+	memcpy(name, message, len);
+	name[len] = 0;
 
-  target = CG_ChatfilterFindName(name);
+	target = CG_ChatfilterFindName(name);
 
 	return target == NULL; //not found
 }
 
-void CG_ChatfilterLoadFile(const char *filename)
+void CG_ChatfilterLoadFile(const char* filename)
 {
-  int rc;
+	int rc;
 	char path[MAX_QPATH];
 	fileHandle_t filterFileHandle;
-	char *fileContent;
-	const char *ptr;
-  char name[MAX_QPATH];
-  int namesCounter = 0;
+	char* fileContent;
+	const char* ptr;
+	char name[MAX_QPATH];
+	int namesCounter = 0;
 
 	Com_sprintf(path, MAX_QPATH, "%s.txt", filename);
 
@@ -191,9 +191,9 @@ void CG_ChatfilterLoadFile(const char *filename)
 		ptr = CG_LoadLine(ptr, &name[0], sizeof(name));
 		if (name[0])
 		{
-		  //add name
-      CG_ChatfilterAddName(name);
-      ++namesCounter;
+			//add name
+			CG_ChatfilterAddName(name);
+			++namesCounter;
 		}
 	}
 	while (*ptr);
@@ -204,13 +204,13 @@ void CG_ChatfilterLoadFile(const char *filename)
 }
 
 
-void CG_ChatfilterSaveFile(const char *filename)
+void CG_ChatfilterSaveFile(const char* filename)
 {
-  int rc;
+	int rc;
 	char path[MAX_QPATH];
 	fileHandle_t filterFileHandle;
-  int i;
-  chatFilterTableNode_t *ptr;
+	int i;
+	chatFilterTableNode_t* ptr;
 
 	Com_sprintf(path, MAX_QPATH, "%s.txt", filename);
 
@@ -222,18 +222,18 @@ void CG_ChatfilterSaveFile(const char *filename)
 	}
 
 
-  for (i = 0; i < CG_CHATFILTER_MAX; ++i)
-  {
-    ptr = &filterNames[i];
+	for (i = 0; i < CG_CHATFILTER_MAX; ++i)
+	{
+		ptr = &filterNames[i];
 
-    while(ptr->name)
-    {
+		while (ptr->name)
+		{
 			trap_FS_Write(ptr->name, strlen(ptr->name), filterFileHandle);
 			trap_FS_Write("\n", 1, filterFileHandle);
-      if (ptr->next == NULL) break;
-      ptr = ptr->next;
-    }
-  }
+			if (ptr->next == NULL) break;
+			ptr = ptr->next;
+		}
+	}
 
 	trap_FS_FCloseFile(filterFileHandle);
 }

@@ -796,13 +796,13 @@ static qboolean CG_PlayerNameIsInvisible(clientInfo_t* ci)
 }
 
 #define NUM_TO_HEX_CHAR(III) (((III&0x0f) < 10) ? ('0' + (III&0x0f)) : ('a' + ((III&0x0f) - 10)))
-static void CG_PlayerXIDCalc(const char *cmd, clientInfo_t* ci)
+static void CG_PlayerXIDCalc(const char* cmd, clientInfo_t* ci)
 {
-	const char *data_c1;
-	const char *data_c2;
-	const char *data_c3;
-	const char *data_c4;
-	char *skin;
+	const char* data_c1;
+	const char* data_c2;
+	const char* data_c3;
+	const char* data_c4;
+	char* skin;
 	unsigned short sign = 0;
 	char tmp[MAX_QPATH];
 

@@ -47,10 +47,10 @@ void CG_SHUDElementTargetNameRoutine(void* context)
 	if ((ci->team == cg.snap->ps.persistant[PERS_TEAM]) || cg_drawCrosshairNames.integer != 2 || (cgs.osp.gameTypeFreeze && ci->team == cgs.clientinfo[cg.snap->ps.clientNum].team))
 	{
 		Com_sprintf(s, 1024, "%s", ci->name);
-	  CG_SHUDFill(&element->config);
-	  element->ctx.text = s;
+		CG_SHUDFill(&element->config);
+		element->ctx.text = s;
 		CG_SHUDTextPrint(&element->config, &element->ctx);
-	  element->ctx.text = NULL;
+		element->ctx.text = NULL;
 	}
 }
 

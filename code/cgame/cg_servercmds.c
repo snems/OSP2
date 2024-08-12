@@ -686,7 +686,7 @@ void CG_RemoveChatEscapeChar(char* text)
 	text[l] = '\0';
 }
 
-void CG_StringMakeEscapeCharRAW(const char *in, char* out, int max)
+void CG_StringMakeEscapeCharRAW(const char* in, char* out, int max)
 {
 	int i, l;
 	char command;
@@ -707,7 +707,7 @@ void CG_StringMakeEscapeCharRAW(const char *in, char* out, int max)
 		if (in[i] == '^')
 		{
 			out[l++] = '^';
-			if ((in[i + 1] >= '0' && in[i+1] <= '9') || (in[i + 1] >= 'a' && in[i+1] <= 'z') || (in[i + 1] >= 'A' && in[i+1] <= 'Z'))
+			if ((in[i + 1] >= '0' && in[i + 1] <= '9') || (in[i + 1] >= 'a' && in[i + 1] <= 'z') || (in[i + 1] >= 'A' && in[i + 1] <= 'Z'))
 			{
 				fix_color = qtrue;
 			}

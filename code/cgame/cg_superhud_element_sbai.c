@@ -24,7 +24,7 @@ void CG_SHUDElementSBAIRoutine(void* context)
 
 	if (cg.snap->ps.stats[STAT_ARMOR])
 	{
-	  unsigned int index = cg.snap->ps.stats[STAT_OSP_8];
+		unsigned int index = cg.snap->ps.stats[STAT_OSP_8];
 		shudElementStatusbarArmorIcon* element = (shudElementStatusbarArmorIcon*)context;
 		if (index > 2) index = 0;
 		element->ctx.image = cgs.media.armorIcon[index];

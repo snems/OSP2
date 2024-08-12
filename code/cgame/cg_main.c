@@ -253,7 +253,7 @@ vmCvar_t           ch_StatusbarFormat;
 vmCvar_t           ch_statusbarStyle;
 vmCvar_t           ch_teamBackground;
 vmCvar_t           cf_Teamchat;
-vmCvar_t           ch_TeamchatOnly; 
+vmCvar_t           ch_TeamchatOnly;
 vmCvar_t           ch_TeamCrosshairHealth;
 vmCvar_t           cf_TeamCrosshairHealth;
 vmCvar_t           ch_Teamoverlay;
@@ -916,10 +916,10 @@ static void CG_RegisterSounds(void)
 	cgs.media.hitLowestSound = trap_S_RegisterSound("sound/feedback/hitlowest.wav", qfalse);
 	cgs.media.hitLowSound = trap_S_RegisterSound("sound/feedback/hitlow.wav", qfalse);
 	cgs.media.hitSound = trap_S_RegisterSound("sound/feedback/hit.wav", qfalse);
-	cgs.media.hitSounds[0] = trap_S_RegisterSound( "sound/feedback/hit25.wav", qfalse );
-	cgs.media.hitSounds[1] = trap_S_RegisterSound( "sound/feedback/hit50.wav", qfalse );
-	cgs.media.hitSounds[2] = trap_S_RegisterSound( "sound/feedback/hit75.wav", qfalse );
-	cgs.media.hitSounds[3] = trap_S_RegisterSound( "sound/feedback/hit100.wav", qfalse );
+	cgs.media.hitSounds[0] = trap_S_RegisterSound("sound/feedback/hit25.wav", qfalse);
+	cgs.media.hitSounds[1] = trap_S_RegisterSound("sound/feedback/hit50.wav", qfalse);
+	cgs.media.hitSounds[2] = trap_S_RegisterSound("sound/feedback/hit75.wav", qfalse);
+	cgs.media.hitSounds[3] = trap_S_RegisterSound("sound/feedback/hit100.wav", qfalse);
 	cgs.media.hitHighSound = trap_S_RegisterSound("sound/feedback/hithigh.wav", qfalse);
 
 
@@ -1152,7 +1152,7 @@ static void CG_RegisterGraphics(void)
 		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%c2", 'a' + i));
 	}
 	// osp2 crosshairs
-	for ( ; i < NUM_CROSSHAIRS ; i++)
+	for (; i < NUM_CROSSHAIRS ; i++)
 	{
 		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i",  i));
 		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i_2",  i));
@@ -1162,7 +1162,7 @@ static void CG_RegisterGraphics(void)
 		}
 		if (!cgs.media.crosshairShader2[i])
 		{
-		  cgs.media.crosshairShader2[i] = cgs.media.crosshairShader[i];
+			cgs.media.crosshairShader2[i] = cgs.media.crosshairShader[i];
 		}
 	}
 	// save how many crosshair do we have
