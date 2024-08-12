@@ -2060,7 +2060,7 @@ int CG_NewParticleArea(int num);
 
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
-#define OSP_VERSION "0.04"
+#define OSP_VERSION "0.04-test.015"
 
 
 //
