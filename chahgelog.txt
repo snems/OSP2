@@ -26,4 +26,10 @@
            cg_oldRail ring
            crosshairs from xq3e
            multilevel hitsound
+2024-08-12 v0.04
+           XID from xq3e
+           local mute/unmute players
+           auto cg_projectileNudge
+           colored health&armor for SuperHUD
+           minor bug fixes
 

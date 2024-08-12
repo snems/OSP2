@@ -820,7 +820,6 @@ CG_CalcEntityLerpPositions
 static void CG_CalcEntityLerpPositions(centity_t* cent)
 {
 	int timeshift = 0;
-	int pNudge = cg_projectileNudge.integer;
 
 	// if this player does not want to see extrapolated players
 	if (!cg_smoothClients.integer)
@@ -848,28 +847,27 @@ static void CG_CalcEntityLerpPositions(centity_t* cent)
 		return;
 	}
 
-	if (pNudge < 0) pNudge = 0;
-	if (pNudge > 1000) pNudge = 1000;
-
 	// if it's a missile but not a grappling hook
-	if (cent->currentState.eType == ET_MISSILE && cent->currentState.weapon != WP_GRAPPLING_HOOK && pNudge)
+	if (cent->currentState.eType == ET_MISSILE && cent->currentState.weapon != WP_GRAPPLING_HOOK && cg_projectileNudge.integer)
 	{
-		int pFps = cg_projectileNudgeSvFps.integer;
-		if (pFps < 1) pFps = 1;
-		if (pFps > 1000) pFps = 1000;
+		int serverTick = 0;
+		if (cg.nextSnap && cg.snap)
+		{
+			serverTick = cg.nextSnap->serverTime - cg.snap->serverTime;
+		}
 		// if it's one of ours
-		if (cent->currentState.otherEntityNum == cg.clientNum)
+		if ((cent->currentState.otherEntityNum) == cg.clientNum && (cg_projectileNudge.integer & 2))
 		{
 			// extrapolate one server frame's worth - this will correct for tiny
 			// visual inconsistencies introduced by backward-reconciling all players
 			// one server frame before running projectiles
-			timeshift = 1000 / pFps;
+			timeshift = serverTick;
 		}
 		// if it's not, and it's not a grenade launcher
-		else if (cent->currentState.weapon != WP_GRENADE_LAUNCHER)
+		else if ((cent->currentState.weapon != WP_GRENADE_LAUNCHER) && (cg_projectileNudge.integer & 1))
 		{
 			// extrapolate based on cg_projectileNudge
-			timeshift = pNudge + 1000 / pFps;
+			timeshift = cgs.osp.pingMs + serverTick;
 		}
 	}
 

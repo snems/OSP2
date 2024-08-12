@@ -335,8 +335,15 @@ typedef struct
 {
 	qboolean        infoValid;
 
+	char            name_original[MAX_QPATH];
+	char            name_clean[MAX_QPATH];
+	char            name_codes[MAX_QPATH * 2];
 	char            name[MAX_QPATH];
+	qboolean        nameIsInvisible;
 	team_t          team;
+
+	unsigned short  xid; //crc32 like in xq3e
+	unsigned char   xidStr[5];
 
 	int             botSkill;       // 0 = not bot, 1-5 = bot
 
@@ -1054,7 +1061,7 @@ typedef struct cgs_osp_s
 	int osp_teamcount2;
 	qhandle_t unknown_variable_1002;
 	qhandle_t pingPrintTime;
-	int pingTotalTime;
+	float pingMs;
 	int pingCount;
 	char pingString[16];
 	qhandle_t pingStringPositionX;
@@ -1257,9 +1264,6 @@ extern vmCvar_t           cg_drawTeamOverlay;
 extern vmCvar_t           teamoverlay;
 extern vmCvar_t           cg_stats;
 extern vmCvar_t           cg_drawFriend;
-extern vmCvar_t           cg_teamChatsOnly;
-extern vmCvar_t           cg_teamChatDisable;
-extern vmCvar_t           cg_chatDisable;
 extern vmCvar_t           cg_buildScript;
 extern vmCvar_t           cg_paused;
 extern vmCvar_t           com_blood;
@@ -1295,8 +1299,6 @@ extern vmCvar_t           cg_drawDecals;
 extern vmCvar_t           cg_drawPing;
 extern vmCvar_t           cg_enableOSPHUD;
 extern vmCvar_t           cg_shud;
-extern vmCvar_t           cg_shudChatOnly;
-extern vmCvar_t           cg_shudTeamChatOnly;
 extern vmCvar_t           cg_enableBreath;
 extern vmCvar_t           cg_enemyColors;
 extern vmCvar_t           cg_enemyModel;
@@ -1391,7 +1393,6 @@ extern vmCvar_t           cg_lightningSilent;
 extern vmCvar_t           cg_delag;
 extern vmCvar_t           cg_drawHitBox;
 extern vmCvar_t           cg_optimizePrediction;
-extern vmCvar_t           cg_projectileNudgeSvFps;
 extern vmCvar_t           cg_projectileNudge;
 extern vmCvar_t           cg_hideScores;
 
@@ -1409,6 +1410,13 @@ extern vmCvar_t           cg_enemyFrozenColor;
 
 extern vmCvar_t           cg_spectGlow;
 extern vmCvar_t           cg_hitSounds;
+extern vmCvar_t           cg_playersXID;
+
+extern vmCvar_t           cg_chatEnable;
+extern vmCvar_t           cg_shudChatEnable;
+
+extern vmCvar_t           cg_healthMid;
+extern vmCvar_t           cg_healthLow;
 
 //
 // cg_main.c
@@ -1560,8 +1568,8 @@ int CG_DrawStrlen(const char* str);
 float*   CG_FadeColor(int startMsec, int totalMsec);
 float* CG_TeamColor(int team);
 void CG_TileClear(void);
-void CG_ColorForHealth(vec4_t hcolor);
-void CG_GetColorForHealth(int health, int armor, vec4_t hcolor);
+void CG_ColorForHealth(vec4_t hcolor, char* color);
+void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char* ccolor);
 
 void UI_DrawProportionalString(int x, int y, const char* str, int style, vec4_t color);
 void CG_DrawRect(float x, float y, float width, float height, float size, const float* color);
@@ -1818,11 +1826,15 @@ void CG_OSPWStatsUp_f(void);
 //
 // cg_servercmds.c
 //
+#define CG_CHAT_COMMMON_ENABLED 1
+#define CG_CHAT_TEAM_ENABLED 2
 void CG_ExecuteNewServerCommands(int latestSequence);
 void CG_ParseServerinfo(void);
 void CG_SetConfigValues(void);
 void CG_ShaderStateChanged(void);
 void CG_RemoveChatEscapeChar(char* text);
+void CG_RemoveChatEscapeCharAll(char* text);
+void CG_StringMakeEscapeCharRAW(const char* in, char* out, int max);
 
 //
 // cg_playerstate.c
@@ -2048,7 +2060,7 @@ int CG_NewParticleArea(int num);
 
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
-#define OSP_VERSION "0.03"
+#define OSP_VERSION "0.04"
 
 
 //
@@ -2097,6 +2109,8 @@ extern int statsInfo[24];
 
 // OSP Custom client 2
 #define OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO    0x01
+#define OSP_CUSTOM_CLIENT_2_IS_OPTION_ENABLED(BIT) (cgs.osp.custom_client_2 & BIT)
+#define OSP_CUSTOM_CLIENT_2_IS_DMG_INFO_ALLOWED() OSP_CUSTOM_CLIENT_2_IS_OPTION_ENABLED(OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO)
 
 void CG_OSPCvarsRestrictValues(void);
 qboolean CG_OSPIsGameTypeCA(int gametype);
@@ -2138,6 +2152,7 @@ void CG_OSPColorFromChar(char c, float* vector);
 void CG_OSPColorFromNumber(int number, float* vector);
 void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size);
 void CG_DynamicMemReport(void);
+const char* CG_LoadLine(const char* ptr, char* out, int outSize);
 
 
 /*
@@ -2162,6 +2177,17 @@ void CG_RebuildPlayerColors(void);
 void CG_PlayerColorsLoadDefault(playerColors_t* colors);
 void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum);
 void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* override, const char* color1, const char* color2);
+//
+// cg_chatfilter.c
+//
+#define CG_CHATFILTER_DEFAULT_FILE "chatfilter"
+qboolean CG_ChatIsMessageAllowed(const char* message);
+void CG_ChatfilterLoadFile(const char* filename);
+void CG_ChatfilterSaveFile(const char* filename);
+void CG_ChatfilterAddName(const char* name);
+void CG_ChatfilterDeleteName(const char* name);
+qboolean CG_ChatfilterIsNameMuted(const char* name);
+void CG_ChatfilterDump(void);
 
 //
 // cg_localevents.c

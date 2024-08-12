@@ -357,7 +357,7 @@ void CG_OSPClientVersion_f(void)
 #define CG_YES_NO_STR(VAL) ((VAL) ? "^2Yes" : "^1No")
 void CG_OSPClientConfig_f(void)
 {
-	const char *physics = "VQ3";
+	const char* physics = "VQ3";
 
 	if (cgs.osp.server_mode & 1)
 	{
@@ -569,6 +569,68 @@ void CG_ReloadHud_f(void)
 	CG_SHUDLoadConfig();
 }
 
+void CG_PrintPlayerIDs_f(void)
+{
+	int p;
+	CG_Printf("^7| ^1%4s ^7| ^5%32s | ^5%s\n", "XID", "Player name", "Player name raw");
+	CG_Printf("^7------------------------------------------------------------------------------\n");
+	for (p = 0; p < MAX_CLIENTS; ++p)
+	{
+		if (cgs.clientinfo[p].infoValid)
+		{
+			CG_Printf("^7| ^1%4s ^7| %32s | %s\n", cgs.clientinfo[p].xidStr, cgs.clientinfo[p].name_clean, cgs.clientinfo[p].name_codes);
+		}
+	}
+}
+
+
+void CG_Mute_f(void)
+{
+	int p;
+
+	if (trap_Argc() < 2)
+	{
+		CG_ChatfilterDump();
+		CG_Printf("\nusage: %s <player ID>\n", CG_Argv(0));
+		return;
+	}
+
+	p = atoi(CG_Argv(1));
+	if (p < MAX_CLIENTS && cgs.clientinfo[p].infoValid)
+	{
+		CG_ChatfilterAddName(cgs.clientinfo[p].name_original);
+		CG_ChatfilterSaveFile(CG_CHATFILTER_DEFAULT_FILE);
+		CG_Printf("\n^1Player %s is muted\n", cgs.clientinfo[p].name_clean);
+	}
+	else
+	{
+		CG_Printf("\n^1Wrong player ID\n");
+	}
+}
+
+void CG_UnMute_f(void)
+{
+	int p;
+
+	if (trap_Argc() < 2)
+	{
+		CG_ChatfilterDump();
+		CG_Printf("\nusage: %s <player ID>\n", CG_Argv(0));
+		return;
+	}
+
+	p = atoi(CG_Argv(1));
+	if (p < MAX_CLIENTS && cgs.clientinfo[p].infoValid)
+	{
+		CG_ChatfilterDeleteName(cgs.clientinfo[p].name_original);
+		CG_ChatfilterSaveFile(CG_CHATFILTER_DEFAULT_FILE);
+		CG_Printf("\n^2Player %s is unmuted\n", cgs.clientinfo[p].name_clean);
+	}
+	else
+	{
+		CG_Printf("\n^1Wrong player ID\n");
+	}
+}
 
 typedef struct
 {
@@ -646,6 +708,9 @@ static consoleCommand_t commands[] =
 	{ "decalrotclock", CG_OSPDecalRotClock_f },
 	{ "decalrotcounter", CG_OSPDecalRotCounter_f },
 	{ "reloadHUD", CG_ReloadHud_f },
+	{ "playersid", CG_PrintPlayerIDs_f },
+	{ "mute", CG_Mute_f },
+	{ "unmute", CG_UnMute_f },
 };
 
 
@@ -745,10 +810,12 @@ void CG_InitConsoleCommands(void)
 	trap_AddCommand("killstats");
 	trap_AddCommand("kill");
 	trap_AddCommand("lock");
+	trap_AddCommand("locations");
 	trap_AddCommand("maplist");
 	trap_AddCommand("mapload");
 	trap_AddCommand("myname");
 	trap_AddCommand("notready");
+	trap_AddCommand("nowin");
 	trap_AddCommand("osp");
 	trap_AddCommand("pause");
 	trap_AddCommand("pickplayer");

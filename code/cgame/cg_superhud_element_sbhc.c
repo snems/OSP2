@@ -30,6 +30,7 @@ void* CG_SHUDElementSBHCCreate(const superhudConfig_t* config)
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 	element->ctx.maxchars = 6;
+	element->ctx.flags |= DS_FORCE_COLOR;
 
 	return element;
 }
@@ -41,8 +42,19 @@ void CG_SHUDElementSBHCRoutine(void* context)
 
 	element->ctx.text = va(element->config.text.value, hp > 0 ? hp : 0);
 
+
 	CG_SHUDFill(&element->config);
-	CG_SHUDTextPrint(&element->config, &element->ctx);
+
+	CG_ColorForHealth(element->ctx.color, NULL);
+	CG_FontSelect(element->ctx.fontIndex);
+	CG_OSPDrawString(element->ctx.coord.named.x,
+	                 element->ctx.coord.named.y,
+	                 element->ctx.text,
+	                 element->ctx.color,
+	                 element->ctx.coord.named.w,
+	                 element->ctx.coord.named.h,
+	                 element->ctx.maxchars,
+	                 element->ctx.flags);
 }
 
 void CG_SHUDElementSBHCDestroy(void* context)

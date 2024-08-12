@@ -216,4 +216,48 @@ void CG_DynamicMemReport(void)
 	Com_Printf("freeSmallest   = %d \n", stats.freeSmallest);
 	Com_Printf("freeLargest    = %d \n", stats.freeLargest);
 }
+/*
+   *  Copy line to out with max size outSize
+   *  return pointer to next line
+   *
+   */
+const char* CG_LoadLine(const char* ptr, char* out, int outSize)
+{
+	const char* result;
+	int size;
+	if (!ptr)
+	{
+		return ptr;
+	}
+
+	result = strchr(ptr, 0x0d);
+	if (!result)
+	{
+		result = strchr(ptr, 0x0a);
+		if (!result)
+		{
+			result = strchr(ptr, 0);
+		}
+	}
+	if (!result)
+	{
+		return result;
+	}
+	size = result - ptr;
+
+	if (size >= outSize)
+	{
+		size = outSize - 1;
+	}
+	memcpy(out, ptr, size);
+	out[size] = 0;
+
+	while (*result == 0x0a || *result == 0x0d)
+	{
+		++result;
+	}
+
+	return result;
+}
+
 

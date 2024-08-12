@@ -30,6 +30,7 @@ void* CG_SHUDElementSBACCreate(const superhudConfig_t* config)
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 	element->ctx.maxchars = 6;
+	element->ctx.flags |= DS_FORCE_COLOR;
 
 	return element;
 }
@@ -39,7 +40,13 @@ void CG_SHUDElementSBACRoutine(void* context)
 	shudElementStatusbarHealthCount* element = (shudElementStatusbarHealthCount*)context;
 	int ap = cg.snap->ps.stats[STAT_ARMOR];
 
+	if (ap <= 0) return;
+
 	element->ctx.text = va(element->config.text.value, ap > 0 ? ap : 0);
+
+	element->config.color.isSet = qtrue;
+	element->config.color.value.type = SUPERHUD_COLOR_RGBA;
+	CG_ColorForHealth(element->config.color.value.rgba, NULL);
 
 	CG_SHUDFill(&element->config);
 	CG_SHUDTextPrint(&element->config, &element->ctx);

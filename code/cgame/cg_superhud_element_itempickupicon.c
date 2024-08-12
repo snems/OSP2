@@ -34,7 +34,7 @@ void CG_SHUDElementItemPickupIconRoutine(void* context)
 		element->ctx.image = cg_items[cg.itemPickup].icon;
 		CG_SHUDFill(&element->config);
 		CG_RegisterItemVisuals(cg.itemPickup);
-	  CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
+		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
 	}
 }
 

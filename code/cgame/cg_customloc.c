@@ -13,45 +13,6 @@ static customLocation_t customLocationEntry[OSP_CUSTOM_LOCATIONS_MAX];
 static int numberOfCustomLocations;
 qboolean customLocationsEnabled = qfalse;
 
-static const char* CG_CustomLocations_LoadLine(const char* ptr, char* out, int outSize)
-{
-	const char* result;
-	int size;
-	if (!ptr)
-	{
-		return ptr;
-	}
-
-	result = strchr(ptr, 0x0d);
-	if (!result)
-	{
-		result = strchr(ptr, 0x0a);
-		if (!result)
-		{
-			result = strchr(ptr, 0);
-		}
-	}
-	if (!result)
-	{
-		return result;
-	}
-	size = result - ptr;
-
-	if (size >= outSize)
-	{
-		size = outSize - 1;
-	}
-	memcpy(out, ptr, size);
-	out[size] = 0;
-
-	while (*result == 0x0a || *result == 0x0d)
-	{
-		++result;
-	}
-
-	return result;
-}
-
 void CG_CustomLocationsLoad(void)
 {
 	const char* ptr;
@@ -99,7 +60,7 @@ void CG_CustomLocationsLoad(void)
 	ptr = fileContent;
 	do
 	{
-		ptr = CG_CustomLocations_LoadLine(ptr, &line[0], 1024);
+		ptr = CG_LoadLine(ptr, &line[0], 1024);
 
 		if (line[0])
 		{

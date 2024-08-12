@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // cg_players.c -- handle the media and animation for player entities
 #include "cg_local.h"
+#include "../qcommon/l_crc.h"
 
 char*    cg_customSoundNames[MAX_CUSTOM_SOUNDS] =
 {
@@ -776,6 +777,73 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 	}
 }
 
+/*
+ * Check is name invisible
+ */
+static qboolean CG_PlayerNameIsInvisible(clientInfo_t* ci)
+{
+	int i;
+	int len = strlen(ci->name_clean);
+	if (len == 0) return qfalse;
+	for (i = 0; i < len; ++i)
+	{
+		if (ci->name_clean[i] != ' ')
+		{
+			return qfalse;
+		}
+	}
+	return qtrue;
+}
+
+#define NUM_TO_HEX_CHAR(III) (((III&0x0f) < 10) ? ('0' + (III&0x0f)) : ('a' + ((III&0x0f) - 10)))
+static void CG_PlayerXIDCalc(const char* cmd, clientInfo_t* ci)
+{
+	const char* data_c1;
+	const char* data_c2;
+	const char* data_c3;
+	const char* data_c4;
+	char* skin;
+	unsigned short sign = 0;
+	char tmp[MAX_QPATH];
+
+	CRC_Init(&sign);
+
+	data_c1 = Info_ValueForKey(cmd, "c1");
+	CRC_ContinueProcessString(&sign, data_c1, strlen(data_c1));
+
+	data_c2 = Info_ValueForKey(cmd, "c2");
+	CRC_ContinueProcessString(&sign, data_c2, strlen(data_c2));
+
+	data_c3 = Info_ValueForKey(cmd, "model");
+	Q_strncpyz(tmp, data_c3, MAX_QPATH);
+
+	skin = strchr(tmp, '/');
+	if (skin)
+	{
+		*skin = '\0';
+	}
+
+	CRC_ContinueProcessString(&sign, tmp, strlen(tmp));
+
+	data_c4 = Info_ValueForKey(cmd, "hmodel");
+	Q_strncpyz(tmp, data_c4, MAX_QPATH);
+
+	skin = strchr(tmp, '/');
+	if (skin)
+	{
+		*skin = '\0';
+	}
+
+	CRC_ContinueProcessString(&sign, tmp, strlen(tmp));
+
+	ci->xid = sign;
+
+	ci->xidStr[0] = NUM_TO_HEX_CHAR((ci->xid >> 12) & 0x0f);
+	ci->xidStr[1] = NUM_TO_HEX_CHAR((ci->xid >> 8) & 0x0f);
+	ci->xidStr[2] = NUM_TO_HEX_CHAR((ci->xid >> 4) & 0x0f);
+	ci->xidStr[3] = NUM_TO_HEX_CHAR(ci->xid & 0x0f);
+	ci->xidStr[4] = 0;
+}
 
 void CG_NewClientInfo(int clientNum)
 {
@@ -785,6 +853,7 @@ void CG_NewClientInfo(int clientNum)
 	const char*  v;
 	const qboolean isOurClient = clientNum == cg.clientNum;
 	const qboolean isTeamGame = cgs.gametype >= GT_TEAM;
+	qboolean forceAddXid = qfalse;
 
 
 	ci = &cgs.clientinfo[clientNum];
@@ -802,9 +871,65 @@ void CG_NewClientInfo(int clientNum)
 
 	CG_PlayerColorsLoadDefault(&newInfo.colors);
 
+	CG_PlayerXIDCalc(configstring, &newInfo);
+
 	// isolate the player's name
 	v = Info_ValueForKey(configstring, "n");
-	Q_strncpyz(newInfo.name, v, sizeof(newInfo.name));
+	Q_strncpyz(newInfo.name_original, v, sizeof(newInfo.name));
+	Q_strncpyz(newInfo.name_clean, v, sizeof(newInfo.name));
+	CG_RemoveChatEscapeCharAll(newInfo.name_clean);
+	newInfo.nameIsInvisible = CG_PlayerNameIsInvisible(&newInfo);
+
+	CG_StringMakeEscapeCharRAW(newInfo.name_original, newInfo.name_codes, sizeof(newInfo.name_codes));
+
+	if (cg_playersXID.integer)
+	{
+		if (cg_playersXID.integer == 2)
+		{
+			int p;
+			qboolean is_exists = qfalse;
+			// check, is player with this name is exitst
+			for (p = 0; p < MAX_CLIENTS; ++p)
+			{
+				if (p == clientNum)
+				{
+					continue;
+				}
+				//ugly linear search
+				if (cgs.clientinfo[p].infoValid && !cgs.clientinfo[p].nameIsInvisible && strcmp(newInfo.name_clean, cgs.clientinfo[p].name_clean) == 0)
+				{
+					is_exists = qtrue;
+					// okay, it exits. check is another client have xid in the name and append it if not
+					if (strcmp(cgs.clientinfo[p].name_original, cgs.clientinfo[p].name) == 0)
+					{
+						Com_sprintf(cgs.clientinfo[p].name, sizeof(ci->name), "%s:%s", cgs.clientinfo[p].xidStr, cgs.clientinfo[p].name_original);
+					}
+					break;
+				}
+			}
+
+			if (newInfo.nameIsInvisible)
+			{
+				Com_sprintf(newInfo.name, sizeof(newInfo.name), "%s:\'%s^7\'", newInfo.xidStr, newInfo.name_codes);
+			}
+			else if (is_exists || (strcmp(newInfo.name_original, "^1NONAME") == 0))
+			{
+				Com_sprintf(newInfo.name, sizeof(newInfo.name), "%s:%s", newInfo.xidStr, newInfo.name_original);
+			}
+			else
+			{
+				Q_strncpyz(newInfo.name, newInfo.name_original, sizeof(newInfo.name));
+			}
+		}
+		else
+		{
+			Com_sprintf(newInfo.name, sizeof(newInfo.name), "%s:%s", newInfo.xidStr, newInfo.name_original);
+		}
+	}
+	else
+	{
+		Q_strncpyz(newInfo.name, newInfo.name_original, sizeof(newInfo.name));
+	}
 
 	// bot skill
 	v = Info_ValueForKey(configstring, "skill");

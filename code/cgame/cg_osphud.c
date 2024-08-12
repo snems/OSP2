@@ -232,7 +232,7 @@ void CG_OSPDrawCrosshair(void)
 	}
 	if (cg_crosshairHealth.integer != 0)
 	{
-		CG_ColorForHealth(hcolor);
+		CG_ColorForHealth(hcolor, NULL);
 		trap_R_SetColor(hcolor);
 	}
 	else
@@ -486,7 +486,7 @@ static float CG_OSPDrawStatusBar(float arg)
 
 	// stretch the health up when taking damage
 	CG_OSPDrawStatusBarString((((320 - ((12 * fontW) / 2)) + offsetW) + (5 * fontW)), (int)arg, 3, fontW, fontH, value);
-	CG_ColorForHealth(hcolor);
+	CG_ColorForHealth(hcolor, NULL);
 	trap_R_SetColor(hcolor);
 
 	//
@@ -805,7 +805,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 	}
 
 	CG_DrawField(185, 432, 3, health, 32, 48);
-	CG_ColorForHealth(color);
+	CG_ColorForHealth(color, NULL);
 	trap_R_SetColor(color);
 
 	armor = ps->stats[STAT_ARMOR];
@@ -1898,7 +1898,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 		}
 
 		CG_DrawField(354 - w_tmp, 476 - h, 3, health, w, h);
-		CG_ColorForHealth(colorForHealth);
+		CG_ColorForHealth(colorForHealth, NULL);
 		trap_R_SetColor(colorForHealth);
 	}
 	//--
@@ -2337,7 +2337,7 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 
 			if (teamOverlay.healthOffsetChar || teamOverlay.armorOffsetChar)
 			{
-				CG_GetColorForHealth(ci->health, ci->armor, healthColor);
+				CG_GetColorForHealth(ci->health, ci->armor, healthColor, NULL);
 			}
 
 			if (teamOverlay.healthOffsetChar)
@@ -3267,14 +3267,12 @@ float CG_OSPDrawPing(float y)
 		}
 		else
 		{
-			ping = (int)((float)cgs.osp.pingTotalTime / (float)cgs.osp.pingCount);
+			ping = (int)(cgs.osp.pingMs);
 		}
 		if (ping > 999)
 		{
 			ping = 999;
 		}
-		cgs.osp.pingTotalTime = 0;
-		cgs.osp.pingCount = 0;
 		cgs.osp.pingPrintTime = cg.time + 1000;
 		if (cg_drawPing.integer > 1)
 		{
@@ -4013,7 +4011,7 @@ static void CG_OSPDrawCrosshairNames(void)
 				vec4_t color2;
 
 				CG_OSPGetClientFontSize(&cf_TeamCrosshairHealth, &w2, &h2);
-				CG_GetColorForHealth(ci->health, ci->armor, color2);
+				CG_GetColorForHealth(ci->health, ci->armor, color2, NULL);
 				Com_sprintf(str2, 64, "%i/%i", ci->health, ci->armor);
 				len2 = CG_DrawStrlen(str2);
 				color2[3] = color[3];
@@ -4063,7 +4061,7 @@ static void CG_OSPDrawCrosshairNames(void)
 					x_health = 0;
 				}
 				CG_OSPDrawStringOld(x_name, y, ci->name, w, h, color, 0, 0);
-				CG_GetColorForHealth(ci->health, ci->armor, color2);
+				CG_GetColorForHealth(ci->health, ci->armor, color2, NULL);
 				color2[3] = 0.5f * color[3];
 				CG_OSPDrawStringOld(x_health, y + h, str2, w2, h2, color2, 0, 0);
 			}

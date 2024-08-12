@@ -34,7 +34,7 @@ void CG_SHUDElementDecorRoutine(void* context)
 
 	if (!CG_SHUDFill(&element->config) && element->ctx.image)
 	{
-	  CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
+		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
 	}
 }
 

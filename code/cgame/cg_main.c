@@ -160,9 +160,6 @@ vmCvar_t           cg_drawTeamOverlay;
 vmCvar_t           teamoverlay;
 vmCvar_t           cg_stats;
 vmCvar_t           cg_drawFriend;
-vmCvar_t           cg_teamChatsOnly;
-vmCvar_t           cg_teamChatDisable;
-vmCvar_t           cg_chatDisable;
 vmCvar_t           cg_buildScript;
 vmCvar_t           cg_paused;
 vmCvar_t           com_blood;
@@ -198,8 +195,6 @@ vmCvar_t           cg_drawDecals;
 vmCvar_t           cg_drawPing;
 vmCvar_t           cg_enableOSPHUD;
 vmCvar_t           cg_shud;
-vmCvar_t           cg_shudChatOnly;
-vmCvar_t           cg_shudTeamChatOnly;
 vmCvar_t           cg_enableBreath;
 vmCvar_t           cg_enemyColors;
 vmCvar_t           cg_enemyModel;
@@ -295,7 +290,6 @@ vmCvar_t           cg_lightningSilent;
 vmCvar_t           cg_delag;
 vmCvar_t           cg_drawHitBox;
 vmCvar_t           cg_optimizePrediction;
-vmCvar_t           cg_projectileNudgeSvFps;
 vmCvar_t           cg_projectileNudge;
 vmCvar_t           cg_hideScores;
 
@@ -315,6 +309,13 @@ vmCvar_t           cg_spectGlow;
 vmCvar_t           cg_hitSounds;
 
 vmCvar_t           ch_file;
+vmCvar_t           cg_playersXID;
+
+vmCvar_t           cg_chatEnable;
+vmCvar_t           cg_shudChatEnable;
+
+vmCvar_t           cg_healthMid;
+vmCvar_t           cg_healthLow;
 
 
 static cvarTable_t cvarTable[] =
@@ -398,10 +399,6 @@ static cvarTable_t cvarTable[] =
 	{ &teamoverlay, "teamoverlay", "0", CVAR_USERINFO | CVAR_ROM },
 	{ &cg_stats, "cg_stats", "0",  },
 	{ &cg_drawFriend, "cg_drawFriend", "1", CVAR_ARCHIVE },
-	{ &cg_teamChatsOnly, "cg_teamChatsOnly", "0", CVAR_ARCHIVE },
-	{ &cg_teamChatsOnly, "cg_commonChatDisable", "0", CVAR_ARCHIVE }, //alias for cg_teamChatsOnly
-	{ &cg_teamChatDisable, "cg_teamChatDisable", "0", CVAR_ARCHIVE },
-	{ &cg_chatDisable, "cg_chatDisable", "0", CVAR_ARCHIVE },
 	{ &cg_buildScript, "com_buildScript", "0",  },
 	{ &cg_paused, "cl_paused", "0", CVAR_ROM },
 	{ &com_blood, "com_blood", "1", CVAR_ARCHIVE },
@@ -436,8 +433,6 @@ static cvarTable_t cvarTable[] =
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
 	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "2", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enableOSPHUD},
 	{ &cg_shud, "cg_shud", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_shud},
-	{ &cg_shudChatOnly, "cg_shudChatOnly", "1", CVAR_ARCHIVE },
-	{ &cg_shudTeamChatOnly, "cg_shudTeamChatOnly", "1", CVAR_ARCHIVE },
 	{ &cg_enableBreath, "cg_enableBreath", "1",  CVAR_ARCHIVE},
 	{ &cg_enemyColors, "cg_enemyColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyColors},
 	{ &cg_enemyModel, "cg_enemyModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModel},
@@ -532,12 +527,12 @@ static cvarTable_t cvarTable[] =
 	{ &cg_delag, "cg_delag", "1", CVAR_ARCHIVE },
 	{ &cg_drawHitBox, "cg_drawHitBox", "0", CVAR_ARCHIVE },
 	{ &cg_optimizePrediction, "cg_optimizePrediction", "0", CVAR_ARCHIVE },
-	{ &cg_projectileNudgeSvFps, "cg_projectileNudgeSvFps", "70", CVAR_ARCHIVE},
 	{ &cg_projectileNudge, "cg_projectileNudge", "0", CVAR_ARCHIVE },
 	{ &cg_hideScores, "cg_hideScores", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyBlack, "cg_deadBodyBlack", "1", CVAR_ARCHIVE },
 	{ &cg_spectGlow, "cg_spectGlow", "0", CVAR_ARCHIVE },
-	{ &cg_hitSounds, "cg_hitSounds", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_hitSounds},
+	{ &cg_hitSounds, "cg_hitSounds", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_hitSounds},
+	{ &cg_playersXID, "cg_playersXID", "0", CVAR_ARCHIVE},
 
 	{ &cg_playerModelColors, "cg_playerModelColors", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_playerModelColors},
 	{ &cg_playerRailColors,  "cg_playerRailColors", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_playerRailColors},
@@ -549,6 +544,10 @@ static cvarTable_t cvarTable[] =
 	{ &cg_enemyRailColors,   "cg_enemyRailColors", "",   CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyRailColors},
 	{ &cg_enemyFrozenColor,  "cg_enemyFrozenColor", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyFrozenColor},
 
+	{ &cg_chatEnable, "cg_chatEnable", "3", CVAR_ARCHIVE},
+	{ &cg_shudChatEnable, "cg_shudChatEnable", "3", CVAR_ARCHIVE},
+	{ &cg_healthMid,   "cg_healthMid", "200",   CVAR_ARCHIVE},
+	{ &cg_healthLow,  "cg_healthLow", "100",  CVAR_ARCHIVE},
 };
 
 #define CG_VARS_HASH_SIZE 512
@@ -917,10 +916,10 @@ static void CG_RegisterSounds(void)
 	cgs.media.hitLowestSound = trap_S_RegisterSound("sound/feedback/hitlowest.wav", qfalse);
 	cgs.media.hitLowSound = trap_S_RegisterSound("sound/feedback/hitlow.wav", qfalse);
 	cgs.media.hitSound = trap_S_RegisterSound("sound/feedback/hit.wav", qfalse);
-	cgs.media.hitSounds[0] = trap_S_RegisterSound( "sound/feedback/hit25.wav", qfalse );
-	cgs.media.hitSounds[1] = trap_S_RegisterSound( "sound/feedback/hit50.wav", qfalse );
-	cgs.media.hitSounds[2] = trap_S_RegisterSound( "sound/feedback/hit75.wav", qfalse );
-	cgs.media.hitSounds[3] = trap_S_RegisterSound( "sound/feedback/hit100.wav", qfalse );
+	cgs.media.hitSounds[0] = trap_S_RegisterSound("sound/feedback/hit25.wav", qfalse);
+	cgs.media.hitSounds[1] = trap_S_RegisterSound("sound/feedback/hit50.wav", qfalse);
+	cgs.media.hitSounds[2] = trap_S_RegisterSound("sound/feedback/hit75.wav", qfalse);
+	cgs.media.hitSounds[3] = trap_S_RegisterSound("sound/feedback/hit100.wav", qfalse);
 	cgs.media.hitHighSound = trap_S_RegisterSound("sound/feedback/hithigh.wav", qfalse);
 
 
@@ -1153,17 +1152,17 @@ static void CG_RegisterGraphics(void)
 		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%c2", 'a' + i));
 	}
 	// osp2 crosshairs
-	for ( ; i < NUM_CROSSHAIRS ; i++)
+	for (; i < NUM_CROSSHAIRS ; i++)
 	{
-		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i",  i));
-		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i_2",  i));
+		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i",  i));
+		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i_2",  i));
 		if (!cgs.media.crosshairShader[i])
 		{
 			break;
 		}
 		if (!cgs.media.crosshairShader2[i])
 		{
-		  cgs.media.crosshairShader2[i] = cgs.media.crosshairShader[i];
+			cgs.media.crosshairShader2[i] = cgs.media.crosshairShader[i];
 		}
 	}
 	// save how many crosshair do we have
@@ -1798,6 +1797,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		trap_SendConsoleCommand(str);
 	}
 
+	CG_ChatfilterLoadFile(CG_CHATFILTER_DEFAULT_FILE);
 	return 0;
 }
 

@@ -347,7 +347,7 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 	}
 	//hits > 0 here
 	{
-	  const int atta = ps->persistant[PERS_ATTACKEE_ARMOR];
+		const int atta = ps->persistant[PERS_ATTACKEE_ARMOR];
 		const qboolean is_osp = atta == 0;
 		int damage;
 
@@ -360,18 +360,19 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 			damage = atta & 0x00FF;
 		}
 
-		if (cg_hitSounds.integer || cgs.osp.server_mode == OSP_SERVER_MODE_PROMODE || cgs.osp.server_mode == OSP_SERVER_MODE_CQ3)
+		if ((OSP_CUSTOM_CLIENT_2_IS_DMG_INFO_ALLOWED()
+		        && cg_hitSounds.integer) || cgs.osp.server_mode == OSP_SERVER_MODE_PROMODE || cgs.osp.server_mode == OSP_SERVER_MODE_CQ3)
 		{
 			int index;
-			if ( damage > 75 ) index = 3;
-			else if ( damage > 50 ) index = 2;
-			else if ( damage > 25 ) index = 1;
+			if (damage > 75) index = 3;
+			else if (damage > 50) index = 2;
+			else if (damage > 25) index = 1;
 			else index = 0;
 
-			if ( cg_hitSounds.integer > 1 ) // reversed: higher damage - higher tone
+			if (cg_hitSounds.integer > 1)   // reversed: higher damage - higher tone
 				index = 3 - index;
 
-			trap_S_StartLocalSound( cgs.media.hitSounds[ index ], CHAN_LOCAL_SOUND );
+			trap_S_StartLocalSound(cgs.media.hitSounds[ index ], CHAN_LOCAL_SOUND);
 		}
 		else
 		{

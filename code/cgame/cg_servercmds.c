@@ -686,6 +686,79 @@ void CG_RemoveChatEscapeChar(char* text)
 	text[l] = '\0';
 }
 
+void CG_StringMakeEscapeCharRAW(const char* in, char* out, int max)
+{
+	int i, l;
+	char command;
+	qboolean fix_color = qfalse;
+
+	l = 0;
+	for (i = 0; in[i] && l < max - 5; ++i)
+	{
+		out[l++] = in[i];
+		if (fix_color)
+		{
+			// small hack. as client responds ^^4 as color anyway, lets make it looks like ^^4^74
+			out[l++] = '^';
+			out[l++] = '7';
+			out[l++] = in[i];
+			fix_color = qfalse;
+		}
+		if (in[i] == '^')
+		{
+			out[l++] = '^';
+			if ((in[i + 1] >= '0' && in[i + 1] <= '9') || (in[i + 1] >= 'a' && in[i + 1] <= 'z') || (in[i + 1] >= 'A' && in[i + 1] <= 'Z'))
+			{
+				fix_color = qtrue;
+			}
+		}
+	}
+	out[l] = '\0';
+}
+
+/*
+=================
+CG_RemoveChatEscapeCharAll
+=================
+*/
+void CG_RemoveChatEscapeCharAll(char* text)
+{
+	int i, l;
+	char command;
+
+	l = 0;
+	for (i = 0; text[i]; i++)
+	{
+		if (text[i] == '\x19')
+			continue;
+
+		if (text[i] != '^')
+		{
+			text[l++] = text[i];
+			continue;
+		}
+
+		command = text[i + 1];
+
+		if (command == 'X' || command == 'x')
+		{
+			float tmp;
+			if (CG_Hex16GetColor(&text[i + 2], &tmp) &&
+			        CG_Hex16GetColor(&text[i + 4], &tmp) &&
+			        CG_Hex16GetColor(&text[i + 6], &tmp))
+			{
+				i += 6;
+			}
+		}
+		else if (command == '^')
+		{
+			text[l++] = '^';
+		}
+		++i;
+	}
+	text[l] = '\0';
+}
+
 static void CG_OSPPrintXStats(void)
 {
 	int i;
@@ -992,63 +1065,50 @@ void CG_ServerCommand(void)
 //chat
 	if (strcmp(cmd, "chat") == 0)
 	{
-		if (!cg_teamChatsOnly.integer && !cg_chatDisable.integer)
+		Q_strncpyz(text, CG_Argv(1), 1024);
+		if (!CG_ChatIsMessageAllowed(text))
+		{
+			return;
+		}
+		CG_RemoveChatEscapeChar(text);
+		if (cg_chatEnable.integer & CG_CHAT_COMMMON_ENABLED)
 		{
 			if (!cg_nochatbeep.integer)
 			{
 				trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
 			}
-			Q_strncpyz(text, CG_Argv(1), 1024);
-			CG_RemoveChatEscapeChar(text);
-			if (!cg_shud.integer)
-			{
-				CG_Printf("%s\n", text);
-			}
-			else
-			{
-				CG_SHUDEventChat(text);
-				if (!cg_shudChatOnly.integer)
-				{
-					CG_Printf("%s\n", text);
-				}
-				else
-				{
-					//write log anyway
-					CG_PrintLog(text);
-					CG_PrintLog("\n");
-				}
-			}
+			CG_Printf("%s\n", text);
+		}
+		if (cg_shudChatEnable.integer & CG_CHAT_COMMMON_ENABLED)
+		{
+			CG_SHUDEventChat(text);
 		}
 		return;
 	}
 //tchat
 	if (strcmp(cmd, "tchat") == 0)
 	{
-		if (!cg_teamChatDisable.integer && !cg_chatDisable.integer)
+		Q_strncpyz(text, CG_Argv(1), 1024);
+		if (!CG_ChatIsMessageAllowed(text))
+		{
+			return;
+		}
+		CG_RemoveChatEscapeChar(text);
+		if (cg_chatEnable.integer & CG_CHAT_TEAM_ENABLED)
 		{
 			if (!cg_noTeamChatBeep.integer)
 			{
 				trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
 			}
-			Q_strncpyz(text, CG_Argv(1), 1024);
-			CG_RemoveChatEscapeChar(text);
-
-			if (!cg_shud.integer)
+			CG_AddToTeamChat(text, 1024);
+			if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
 			{
-				CG_AddToTeamChat(text, 1024);
-				if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
-				{
-					CG_Printf("%s\n", text);
-				}
+				CG_Printf("%s\n", text);
 			}
-			else
-			{
-				CG_SHUDEventTeamChat(text);
-				if (!cg_shudChatOnly.integer && (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT))
-				{
-					CG_Printf("%s\n", text);
-				}
-			}
+		}
+		if (cg_shudChatEnable.integer & CG_CHAT_TEAM_ENABLED)
+		{
+			CG_SHUDEventChat(text);
 		}
 		return;
 	}

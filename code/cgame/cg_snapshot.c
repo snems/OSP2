@@ -325,8 +325,18 @@ static snapshot_t* CG_ReadNextSnapshot(void)
 			//continue;
 		}
 
-		++cgs.osp.pingCount;
-		cgs.osp.pingTotalTime += dest->ping;
+		if (cgs.osp.pingCount > 0)
+		{
+			cgs.osp.pingMs *= cgs.osp.pingCount - 1;
+		}
+		if (cgs.osp.pingCount < 50)
+		{
+			++cgs.osp.pingCount;
+		}
+		cgs.osp.pingMs += dest->ping;
+
+		cgs.osp.pingMs /= cgs.osp.pingCount;
+
 
 		// if it succeeded, return
 		if (r)

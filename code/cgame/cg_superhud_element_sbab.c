@@ -24,18 +24,9 @@ void CG_SHUDElementSBABRoutine(void* context)
 	shudElementStatusbarArmorBar* element = (shudElementStatusbarArmorBar*)context;
 	float ap = cg.snap->ps.stats[STAT_ARMOR];
 
-	element->ctx.color_top[3] = 1.0f;
-
-	if (ap > 100)
-	{
-		VectorCopy(colorWhite, element->ctx.color_top);
-	}
-	else
-	{
-		VectorSet(element->ctx.color_top, 1.0f, 0.7f, 0.0f);
-	}
 
 	CG_SHUDFill(&element->config);
+	CG_ColorForHealth(element->ctx.color_top, NULL);
 	CG_SHUDBarPrint(&element->config, &element->ctx, ap);
 }
 
