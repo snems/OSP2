@@ -2223,10 +2223,6 @@ void CG_LocalEventCvarChanged_cg_teamModel(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_handicap(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_s_ambient(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_pmove_fixed(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_altplasma(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_altlightning(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_altgrenades(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_enableOSPHUD(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_hitSounds(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_playerModelColors(cvarTable_t* cvart);

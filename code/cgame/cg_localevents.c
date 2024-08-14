@@ -221,42 +221,6 @@ void CG_LocalEventCvarChanged_pmove_fixed(cvarTable_t* cvart)
 	}
 }
 
-void CG_LocalEventCvarChanged_cg_altplasma(cvarTable_t* cvart)
-{
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG) && cg_altPlasma.integer)
-	{
-		CG_Printf("^3Alternate PG graphics have been disabled on this server.\n");
-		trap_Cvar_Set("cg_altPlasma", "0");
-	}
-}
-
-void CG_LocalEventCvarChanged_cg_altlightning(cvarTable_t* cvart)
-{
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG) && cg_altLightning.integer)
-	{
-		CG_Printf("^3Alternate LG graphics have been disabled on this server.\n");
-		trap_Cvar_Set("cg_altLightning", "0");
-	}
-}
-
-void CG_LocalEventCvarChanged_cg_altgrenades(cvarTable_t* cvart)
-{
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG) && cg_altGrenades.integer)
-	{
-		CG_Printf("^3Alternate GL graphics have been disabled on this server.\n");
-		trap_Cvar_Set("cg_altGrenades", "0");
-	}
-}
-
-void CG_LocalEventCvarChanged_cg_enableOSPHUD(cvarTable_t* cvart)
-{
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_OSP_HUD_FLAG) && cg_enableOSPHUD.integer)
-	{
-		CG_Printf("^3The OSP-based HUD has been disabled on this server.\n");
-		trap_Cvar_Set("cg_enableOSPHUD", "0");
-	}
-}
-
 void CG_LocalEventCvarChanged_cg_hitSounds(cvarTable_t* cvart)
 {
 	if (!(cgs.osp.custom_client_2 & OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO) && cg_hitSounds.integer)
@@ -336,11 +300,6 @@ void CG_LocalEventCvarChanged_ch_file(cvarTable_t* cvart)
 
 void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart)
 {
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_OSP_HUD_FLAG) && cg_shud.integer)
-	{
-		CG_Printf("^3The SuperHUD has been disabled on this server.\n");
-		trap_Cvar_Set("cg_shud", "0");
-	}
 	if (cvart->vmCvar->integer && ch_file.string[0])
 	{
 		CG_SHUDLoadConfig();
