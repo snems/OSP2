@@ -479,7 +479,7 @@ void CG_DrawStatusBar(void)
 		origin[2] = -10;
 		angles[YAW] = (cg.time & 2047) * 360 / 2048.0;
 		CG_Draw3DModel(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432.0, ICON_SIZE, ICON_SIZE,
-		               cgs.media.armorModel[ps->stats[STAT_OSP_9]], 0, origin, angles);
+		               cgs.media.armorModel[ps->stats[STAT_OSP_10]], 0, origin, angles);
 	}
 	//
 	// ammo
@@ -565,7 +565,7 @@ void CG_DrawStatusBar(void)
 		// if we didn't draw a 3D icon, draw a 2D icon for armor
 		if (!cg_draw3dIcons.integer && cg_drawIcons.integer)
 		{
-			CG_DrawPicOld(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
+			CG_DrawPicOld(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]]);
 		}
 
 	}

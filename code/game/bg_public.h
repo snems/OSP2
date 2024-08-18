@@ -243,11 +243,11 @@ typedef enum
 	STAT_ARMOR,
 	STAT_DEAD_YAW,                  // look this direction when dead (FIXME: get rid of?)
 	STAT_CLIENTS_READY,             // bit mask of clients wishing to exit the intermission (FIXME: configstring?)
-	STAT_MAX_HEALTH,                    // health / armor limit, changable by handicap
-	STAT_OSP_6,
-	STAT_OSP_7,
+	STAT_MAX_HEALTH,                // health / armor limit, changable by handicap
+	STAT_OSP_PHYS,
 	STAT_OSP_8,
-	STAT_OSP_9    //aromor: red/green/yellow
+	STAT_ARMOR_TYPE,                //aromor: red/green/yellow
+	STAT_OSP_10    
 } statIndex_t;
 
 

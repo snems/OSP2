@@ -77,6 +77,35 @@ extern  float   pm_flightfriction;
 
 extern  int     c_pmove;
 
+extern int modePromodePhysKoeff; //1870ec
+extern float modePromode_pm_airaccelerate_1; //3450
+extern int modePredictionKoeff2;   //3454
+extern float modePromode_pm_airaccelerate_2; //3458
+extern float modeWishspeedLimit; //345c
+extern int modePredictionKoeff1;   //3460
+extern float modeWaterFriction;      //3464
+extern float modeSwimScale1;         //3468
+extern float modeSwimScale2;         //346c
+extern float modeWaterAccelerate;    //3470
+extern float modeShotgunKoeff;    //3494
+extern int modeShotgunNumberOfPellets;    //3498
+extern float modeUnused8;    //349c
+extern int modeMaxAmmoShotgun;    //34a0
+extern int modeGrenadeTime;    //34a4
+extern int modeMaxAmmoGrenade;    //34a8
+extern int modeMaxAmmoRocket;     //34b0
+extern int modeMaxAmmoRail;       //34c0
+extern int modeBeginWeaponChangeTime;    //34d0
+extern int modeFinishWeaponChangeTime;    //34d4
+extern int modePMNoAmmoTime;    //34d8
+extern int modeUnknown1;    //34e4
+extern int modeHitLevelSounds;    //3514
+extern int modePickupDistance;    //20e8
+extern int modeUnknown2;    //3528
+extern int modeUnknown3;    //352c
+extern int modeUnknown4;    //3530
+extern int modeShotgunPromode;    //3514
+
 void PM_ClipVelocity(vec3_t in, vec3_t normal, vec3_t out, float overbounce);
 void PM_AddTouchEnt(int entityNum);
 void PM_AddEvent(int newEvent);

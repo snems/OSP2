@@ -447,6 +447,16 @@ static qboolean PM_CheckJump(void)
 
 	pm->ps->groundEntityNum = ENTITYNUM_NONE;
 	pm->ps->velocity[2] = JUMP_VELOCITY;
+
+	if (modePromodePhysKoeff != 0)
+	{
+		if (pm->ps->origin[2] > 0)
+		{
+			pm->ps->velocity[2] += modePromodePhysKoeff;
+			pm->ps->stats[STAT_OSP_10] = 1;
+		}
+		pm->ps->stats[STAT_OSP_PHYS] = 400;
+	}
 	PM_AddEvent(EV_JUMP);
 
 	if (pm->cmd.forwardmove >= 0)

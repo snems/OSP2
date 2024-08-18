@@ -501,7 +501,7 @@ static float CG_OSPDrawStatusBar(float arg)
 
 		if (cgs.osp.server_mode & OSP_SERVER_MODE_PROMODE)
 		{
-			CG_DrawPicOld((float)((((320 - (12 * fontW / (float)2) + offsetW) + 9 * fontW) + 3 * fontW) + 3), 452, 24, 24, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
+			CG_DrawPicOld((float)((((320 - (12 * fontW / (float)2) + offsetW) + 9 * fontW) + 3 * fontW) + 3), 452, 24, 24, cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]]);
 		}
 	}
 
@@ -749,7 +749,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 
 	if (ps->stats[STAT_ARMOR])
 	{
-		model = cgs.media.armorModel[ps->stats[STAT_OSP_8]];
+		model = cgs.media.armorModel[ps->stats[STAT_ARMOR_TYPE]];
 		pos[0] = 90.0f;
 		pos[1] = 0;
 		pos[2] = -10.0f;
@@ -816,7 +816,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 		trap_R_SetColor(NULL);
 		if (!cg_draw3dIcons.integer && cg_drawIcons.integer)
 		{
-			CG_DrawPicOld(470.0f, 432.0f, 48.0f, 48.0f, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
+			CG_DrawPicOld(470.0f, 432.0f, 48.0f, 48.0f, cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]]);
 		}
 	}
 }
@@ -979,7 +979,7 @@ static void CG_OSPDrawCPMStatusbarBars(void)
 		colorIndex = 0;
 	}
 
-	icon = cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]];
+	icon = cgs.media.armorIcon[cg.snap->ps.stats[STAT_ARMOR_TYPE]];
 
 	CG_OSPDrawCPMStatusbarsBar(armor, icon, 432, 0, CPMStatusBarsColors[colorIndex]);
 	CG_FillRect(320.0f, 432.0f, 1.0f, 32.0f, CPMStatusBarsColors[3]);
@@ -1113,7 +1113,7 @@ static void CG_OSPDrawCPMStatusbar3(void)
 		armorColorIndex = 0;
 	}
 
-	iconArmor = cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]];
+	iconArmor = cgs.media.armorIcon[cg.snap->ps.stats[STAT_ARMOR_TYPE]];
 
 	CG_OSPDrawCPMStatusbar3Bars(health, armor, iconModel, iconArmor, 225, 432, CPMStatusBar3Colors[healthColorIndex], CPMStatusBar3Colors[armorColorIndex]);
 
@@ -1291,7 +1291,7 @@ static void CG_OSPDrawCPMStatusbar4(void)
 		colorIndex = 0;
 	}
 
-	icon = cgs.media.armorIcon[ps->stats[STAT_OSP_8]];
+	icon = cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]];
 
 	CG_OSPDrawCPMStatusbar4Bars(62, 470, value, icon, CPMStatusBar4Colors[colorIndex]);
 
@@ -1467,7 +1467,7 @@ static void CG_OSPDrawCPMStatusbar5(void)
 		colorIndex = 0;
 	}
 
-	icon = cgs.media.armorIcon[ps->stats[STAT_OSP_8]];
+	icon = cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]];
 	if (ch_graphs.integer == 0)
 	{
 		y = 350;
@@ -1943,7 +1943,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 		if ((cgs.osp.server_mode & 0x2) != 0)
 		{
 			qhandle_t icon;
-			icon = cgs.media.armorIcon[ps->stats[STAT_OSP_8]];
+			icon = cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]];
 			if (icon)
 			{
 				CG_DrawPicOld((float)(((486 - w_tmp) + (3 * w)) + 3), 452.0f, 24.0f, 24.0f, icon);
@@ -3579,7 +3579,7 @@ static float CG_OSPDrawHealthArmor67(float x, float y)
 	y += 28.0f;
 	if (cg_drawIcons.integer)
 	{
-		CG_DrawPicOld(x + 4.0f, y, 24.0f, 24.0f, cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]]);
+		CG_DrawPicOld(x + 4.0f, y, 24.0f, 24.0f, cgs.media.armorIcon[cg.snap->ps.stats[STAT_ARMOR_TYPE]]);
 	}
 
 	armor = cg.snap->ps.stats[STAT_ARMOR];

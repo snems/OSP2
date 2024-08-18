@@ -2,35 +2,6 @@
 #include "../game/bg_local.h"
 
 
-int modePromodePhysKoeff; //1870ec
-float modePromode_pm_airaccelerate_1; //3450
-int modePredictionKoeff2;   //3454
-float modePromode_pm_airaccelerate_2; //3458
-float modeWishspeedLimit; //345c
-int modePredictionKoeff1;   //3460
-float modeWaterFriction;      //3464
-float modeSwimScale1;         //3468
-float modeSwimScale2;         //346c
-float modeWaterAccelerate;    //3470
-float modeShotgunKoeff;    //3494
-int modeShotgunNumberOfPellets;    //3498
-float modeUnused8;    //349c
-int modeMaxAmmoShotgun;    //34a0
-int modeGrenadeTime;    //34a4
-int modeMaxAmmoGrenade;    //34a8
-int modeMaxAmmoRocket;     //34b0
-int modeMaxAmmoRail;       //34c0
-int modeBeginWeaponChangeTime;    //34d0
-int modeFinishWeaponChangeTime;    //34d4
-int modePMNoAmmoTime;    //34d8
-int modeUnknown1;    //34e4
-qboolean modeHitLevelSounds;    //3514
-int modePickupDistance;    //20e8
-//
-int modeUnknown2;    //3528
-int modeUnknown3;    //352c
-int modeUnknown4;    //3530
-int modeShotgunPromode;    //3514
 
 
 extern qboolean localClient;
