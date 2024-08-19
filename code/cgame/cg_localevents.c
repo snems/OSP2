@@ -68,19 +68,6 @@ void CG_LocalEventCvarChanged_cl_timenudge(cvarTable_t* cvart)
 	}
 }
 
-void CG_LocalEventCvarChanged_com_maxfps(cvarTable_t* cvart)
-{
-	if (cgs.osp.serverConfigMinimumMaxpackets > 0 || com_maxfps.integer > 0)
-	{
-		if (cgs.osp.serverConfigMinimumMaxpackets > com_maxfps.integer)
-		{
-			CG_Printf("^3Server-imposed minimum maxfps set to %d.  Adjusting...\n", cgs.osp.serverConfigMinimumMaxpackets);
-			trap_Cvar_Set("com_maxfps", va("%d", cgs.osp.serverConfigMinimumMaxpackets));
-		}
-	}
-	CG_OSPCvarsRestrictValues();
-}
-
 void CG_LocalEventCvarChanged_ch_recordMessage(cvarTable_t* cvart)
 {
 	if (cg.snap)

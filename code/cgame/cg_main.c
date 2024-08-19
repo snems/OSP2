@@ -518,7 +518,7 @@ static cvarTable_t cvarTable[] =
 	{ &r_znear, "r_znear", "4",  0, CG_LocalEventCvarChanged_r_znear},
 	{ &handicap, "handicap", "100", 0, CG_LocalEventCvarChanged_handicap},
 	{ &m_pitch, "m_pitch", "0.022", CVAR_ARCHIVE },
-	{ &com_maxfps, "com_maxfps", "125", CVAR_ARCHIVE, CG_LocalEventCvarChanged_com_maxfps},
+	{ &com_maxfps, "com_maxfps", "125", CVAR_ARCHIVE },
 	{ &cg_gun_frame, "", "0", CVAR_ARCHIVE },
 	{ &cg_noLeadSounds, "cg_noLeadSounds", "0", CVAR_ARCHIVE },
 	{ &cg_fragSound, "cg_fragSound", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_fragSound},

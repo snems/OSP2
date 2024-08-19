@@ -154,15 +154,6 @@ void CG_OSPCvarsRestrictValues(void)
 		changed = qtrue;
 	}
 
-
-	if ((cgs.osp.custom_client & OSP_CUSTOM_CLIENT_MAXFPS_FLAG) == 0)
-	{
-		if (com_maxfps.integer > 250 || com_maxfps.integer <= 0)
-		{
-			trap_Cvar_Set("com_maxfps", "125");
-		}
-	}
-
 	if (r_shownormals.integer != 0)
 	{
 		trap_Cvar_Set("r_shownormals", "0");

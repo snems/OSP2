@@ -2195,7 +2195,6 @@ void CG_ChatfilterDump(void);
 void CG_LocalEventCvarChanged_cg_drawTeamOverlay(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cl_maxpackets(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cl_timenudge(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_com_maxfps(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_recordMessage(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_followpowerup(cvarTable_t* cvart);
@@ -2209,7 +2208,6 @@ void CG_LocalEventCvarChanged_r_lodCurveError(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_r_subdivisions(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_r_znear(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_trueLightning(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_com_maxfps(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_r_shownormals(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_r_showtris(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_shadows(cvarTable_t* cvart);
