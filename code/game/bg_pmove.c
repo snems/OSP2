@@ -690,6 +690,41 @@ static void PM_FlyMove(void)
 	PM_StepSlideMove(qfalse);
 }
 
+/*
+===================
+PM_AirMove
+
+===================
+*/
+static void PM_AirControl(const pmove_t *pm, vec3_t wishdir, float wishvel)
+{
+	if ((pm->ps->movementDir != 0 && pm->ps->movementDir != 4) || (wishvel != 0))
+	{
+		playerState_t* ps = pm->ps;
+		float orig_vel_z = ps->velocity[2];
+		float speed; 
+		float k2; 
+		float k3; 
+		ps->velocity[2] = 0;
+
+		speed = VectorNormalize(ps->velocity);
+
+		k2 = DotProduct(ps->velocity, wishdir);
+
+		k3 = 32.0f * modePredictionKoeff2 * k2 * k2 * pml.frametime;
+
+		if (k3 > 0)
+		{
+			pm->ps->velocity[0] *= speed + wishdir[0]*k3;
+			pm->ps->velocity[1] *= speed + wishdir[1]*k3;
+			VectorNormalize(ps->velocity);
+		}
+
+		pm->ps->velocity[0] *= speed;
+		pm->ps->velocity[1] *= speed;
+		pm->ps->velocity[2] *= orig_vel_z;
+	}
+}
 
 /*
 ===================
@@ -737,6 +772,10 @@ static void PM_AirMove(void)
 	// not on ground, so little effect on velocity
 	PM_Accelerate(wishdir, wishspeed, modePromode_pm_airaccelerate_2);
 
+	if (modePredictionKoeff2)
+	{
+		PM_AirControl(pm, wishdir, wishspeed);
+	}
 
 	// we may have a ground plane that is very steep, even
 	// though we don't have a groundentity
