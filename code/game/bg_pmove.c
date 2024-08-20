@@ -446,7 +446,15 @@ static qboolean PM_CheckJump(void)
 	pm->ps->pm_flags |= PMF_JUMP_HELD;
 
 	pm->ps->groundEntityNum = ENTITYNUM_NONE;
-	pm->ps->velocity[2] = JUMP_VELOCITY;
+
+	if (modePredictionKoeff1 != 0 && pm->ps->velocity[2] > 0)
+	{
+		pm->ps->velocity[2] += JUMP_VELOCITY;
+	}
+	else
+	{
+		pm->ps->velocity[2] = JUMP_VELOCITY;
+	}
 
 	if (modePromodePhysKoeff != 0)
 	{
