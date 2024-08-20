@@ -735,7 +735,8 @@ static void PM_AirMove(void)
 	wishspeed *= scale;
 
 	// not on ground, so little effect on velocity
-	PM_Accelerate(wishdir, wishspeed, pm_airaccelerate);
+	PM_Accelerate(wishdir, wishspeed, modePromode_pm_airaccelerate_2);
+
 
 	// we may have a ground plane that is very steep, even
 	// though we don't have a groundentity
