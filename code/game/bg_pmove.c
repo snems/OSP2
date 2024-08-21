@@ -622,9 +622,19 @@ static void PM_WaterMove(void)
 	VectorCopy(wishvel, wishdir);
 	wishspeed = VectorNormalize(wishdir);
 
-	if (wishspeed > pm->ps->speed * pm_swimScale)
+	if (pm->waterlevel == 1)
 	{
-		wishspeed = pm->ps->speed * pm_swimScale;
+		if (wishspeed > pm->ps->speed * modeSwimScale2)
+		{
+			wishspeed = pm->ps->speed * modeSwimScale2;
+		}
+	}
+	else
+	{
+		if (wishspeed > pm->ps->speed * modeSwimScale1)
+		{
+			wishspeed = pm->ps->speed * modeSwimScale1;
+		}
 	}
 
 	PM_Accelerate(wishdir, wishspeed, pm_wateraccelerate);
@@ -932,7 +942,16 @@ static void PM_WalkMove(void)
 		float   waterScale;
 
 		waterScale = pm->waterlevel / 3.0;
-		waterScale = 1.0 - (1.0 - pm_swimScale) * waterScale;
+
+		if (pm->waterlevel == 1)
+		{
+			waterScale = 1.0f - (1.0f - modeSwimScale2) * waterScale;
+		}
+		else
+		{
+			waterScale = 1.0f - (1.0f - modeSwimScale1) * waterScale;
+		}
+
 		if (wishspeed > pm->ps->speed * waterScale)
 		{
 			wishspeed = pm->ps->speed * waterScale;
