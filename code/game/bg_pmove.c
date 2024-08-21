@@ -741,6 +741,7 @@ static void PM_AirMove(void)
 	float       wishspeed;
 	float       scale;
 	usercmd_t   cmd;
+	float 		  accel;
 
 	PM_Friction();
 
@@ -769,8 +770,25 @@ static void PM_AirMove(void)
 	wishspeed = VectorNormalize(wishdir);
 	wishspeed *= scale;
 
+	if (DotProduct(pm->ps->velocity, wishvel) < 0)
+	{
+		accel = modePromode_pm_airaccelerate_1;
+	}
+	else
+	{
+		accel = pm_airaccelerate;
+	}
+
+	if (pm->ps->movementDir == 2 || pm->ps->movementDir == 6)
+	{
+		if (wishspeed > modeWishspeedLimit)
+		{
+			wishspeed = modeWishspeedLimit;
+		}
+		accel = modePromode_pm_airaccelerate_2;
+	}
 	// not on ground, so little effect on velocity
-	PM_Accelerate(wishdir, wishspeed, modePromode_pm_airaccelerate_2);
+	PM_Accelerate(wishdir, wishspeed, accel);
 
 	if (modePredictionKoeff2)
 	{
