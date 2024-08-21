@@ -241,7 +241,7 @@ static void PM_Friction(void)
 	// apply flying friction
 	if (pm->ps->powerups[PW_FLIGHT])
 	{
-		drop += speed * pm_flightfriction * pml.frametime;
+		drop += speed * pm_accelerate * pml.frametime;
 	}
 
 	if (pm->ps->pm_type == PM_SPECTATOR)
