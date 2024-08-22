@@ -85,7 +85,6 @@ extern float modeWishspeedLimit; //345c
 extern int modePredictionKoeff1;   //3460
 extern float modeSwimScale1;         //3468
 extern float modeSwimScale2;         //346c
-extern float modeWaterAccelerate;    //3470
 extern float modeShotgunKoeff;    //3494
 extern int modeShotgunNumberOfPellets;    //3498
 extern float modeUnused8;    //349c
