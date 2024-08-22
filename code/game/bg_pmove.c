@@ -1994,7 +1994,7 @@ static void PM_Weapon(void)
 			addTime = 100; //-V1037
 			break;
 		case WP_GRENADE_LAUNCHER:
-			addTime = 800; //-V1037
+			addTime = modeGrenadeTime; //-V1037
 			break;
 		case WP_ROCKET_LAUNCHER:
 			addTime = 800; //-V1037

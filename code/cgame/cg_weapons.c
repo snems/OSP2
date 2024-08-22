@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // cg_weapons.c -- events and effects dealing with weapons
 #include "cg_local.h"
+#include "../game/bg_local.h"
 
 static void CG_GrenadeTrail(centity_t* ent, const weaponInfo_t* wi);
 
@@ -1939,7 +1940,7 @@ static qboolean CG_IsDoubleShoot(weapon_t weap)
 			addTime = 90; //-V1037
 			break;
 		case WP_GRENADE_LAUNCHER:
-			addTime = 700; //-V1037
+			addTime = modeGrenadeTime-100; //-V1037
 			break;
 		case WP_ROCKET_LAUNCHER:
 			addTime = 700; //-V1037
