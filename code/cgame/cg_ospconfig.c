@@ -70,11 +70,13 @@ void CG_OSPSetMode(int value)
 	pm_wateraccelerate                 = OSP_SET_MODE_VARIANT(value, 4.0f, 5.0f, 5.0f);//-V583
 	modeShotgunKoeff                   = OSP_SET_MODE_VARIANT(value, 700, 900, 900);//-V583
 	modeShotgunNumberOfPellets         = OSP_SET_MODE_VARIANT(value, 11, 16, 16);//-V583
+																																							 //
 	modeMaxAmmoShotgun                 = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
-	modeGrenadeTime                    = OSP_SET_MODE_VARIANT(value, 800, 800, 700);//-V583
 	modeMaxAmmoGrenade                 = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
 	modeMaxAmmoRocket                  = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
 	modeMaxAmmoRail                    = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
+																																									//
+	modeGrenadeTime                    = OSP_SET_MODE_VARIANT(value, 800, 800, 700);//-V583
 	modeBeginWeaponChangeTime          = OSP_SET_MODE_VARIANT(value, 200, 200, 0);//-V583
 	modeFinishWeaponChangeTime         = OSP_SET_MODE_VARIANT(value, 250, 250, 0);//-V583
 	modePMNoAmmoTime                   = OSP_SET_MODE_VARIANT(value, 500, 500, 100);//-V583

@@ -34,7 +34,6 @@ float modeWishspeedLimit; //345c
 int modePredictionKoeff1;   //3460
 float modeSwimScale1;         //3468
 float modeSwimScale2;         //346c
-float modeWaterAccelerate;    //3470
 float modeShotgunKoeff;    //3494
 int modeShotgunNumberOfPellets;    //3498
 float modeUnused8;    //349c

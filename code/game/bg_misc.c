@@ -865,6 +865,36 @@ qboolean    BG_PlayerTouchesItem(playerState_t* ps, entityState_t* item, int atT
 	return qtrue;
 }
 
+extern int modeMaxAmmoShotgun;    //34a0
+extern int modeMaxAmmoGrenade;    //34a8
+extern int modeMaxAmmoRocket;     //34b0
+extern int modeMaxAmmoRail;       //34c0
+
+static qboolean BG_CanAmmoBeGrabbed(weapon_t ammoType, const playerState_t* ps) 
+{
+	int ammoMax;
+
+	switch (ammoType) 
+	{
+		case WP_SHOTGUN:
+			ammoMax = modeMaxAmmoShotgun;
+			break;
+		case WP_GRENADE_LAUNCHER:
+			ammoMax = modeMaxAmmoGrenade;
+			break;
+		case WP_ROCKET_LAUNCHER:
+			ammoMax = modeMaxAmmoRocket;
+			break;
+		case WP_RAILGUN:
+			ammoMax = modeMaxAmmoRail;
+			break;
+		default:
+			ammoMax = 200;
+			break;
+	}
+
+	return ps->ammo[ammoType] < ammoMax;
+}
 
 
 /*
@@ -892,11 +922,7 @@ qboolean BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playe
 			return qtrue;   // weapons are always picked up
 
 		case IT_AMMO:
-			if (ps->ammo[ item->giTag ] >= 200)
-			{
-				return qfalse;      // can't hold any more
-			}
-			return qtrue;
+			return BG_CanAmmoBeGrabbed(item->giTag, ps);
 
 		case IT_ARMOR:
 			if (ps->stats[STAT_ARMOR] >= ps->stats[STAT_MAX_HEALTH] * 2)
