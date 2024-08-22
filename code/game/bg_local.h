@@ -83,7 +83,6 @@ extern int modePredictionKoeff2;   //3454
 extern float modePromode_pm_airaccelerate_2; //3458
 extern float modeWishspeedLimit; //345c
 extern int modePredictionKoeff1;   //3460
-extern float modeWaterFriction;      //3464
 extern float modeSwimScale1;         //3468
 extern float modeSwimScale2;         //346c
 extern float modeWaterAccelerate;    //3470

@@ -32,7 +32,6 @@ int modePredictionKoeff2;   //3454
 float modePromode_pm_airaccelerate_2; //3458
 float modeWishspeedLimit; //345c
 int modePredictionKoeff1;   //3460
-float modeWaterFriction;      //3464
 float modeSwimScale1;         //3468
 float modeSwimScale2;         //346c
 float modeWaterAccelerate;    //3470
