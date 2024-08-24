@@ -28,6 +28,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../qcommon/q_shared.h"
 #include "bg_public.h"
 
+extern int modePickupDistance;    //20e8
+extern int modeMaxAmmoShotgun;    //34a0
+extern int modeMaxAmmoGrenade;    //34a8
+extern int modeMaxAmmoRocket;     //34b0
+extern int modeMaxAmmoRail;       //34c0
+
 /*QUAKED item_***** ( 0 0 0 ) (-16 -16 -16) (16 16 16) suspended
 DO NOT USE THIS CLASS, IT JUST HOLDS GENERAL INFORMATION.
 The suspended flag will allow items to hang in the air, otherwise they are dropped to the next surface.
@@ -856,7 +862,7 @@ qboolean    BG_PlayerTouchesItem(playerState_t* ps, entityState_t* item, int atT
 	        || ps->origin[0] - origin[0] < -50
 	        || ps->origin[1] - origin[1] > 36
 	        || ps->origin[1] - origin[1] < -36
-	        || ps->origin[2] - origin[2] > 36
+	        || ps->origin[2] - origin[2] > modePickupDistance
 	        || ps->origin[2] - origin[2] < -36)
 	{
 		return qfalse;
@@ -864,11 +870,6 @@ qboolean    BG_PlayerTouchesItem(playerState_t* ps, entityState_t* item, int atT
 
 	return qtrue;
 }
-
-extern int modeMaxAmmoShotgun;    //34a0
-extern int modeMaxAmmoGrenade;    //34a8
-extern int modeMaxAmmoRocket;     //34b0
-extern int modeMaxAmmoRail;       //34c0
 
 static qboolean BG_CanAmmoBeGrabbed(weapon_t ammoType, const playerState_t* ps) 
 {
