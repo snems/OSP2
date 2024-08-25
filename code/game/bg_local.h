@@ -96,7 +96,7 @@ extern int modeMaxAmmoRail;       //34c0
 extern int modeBeginWeaponChangeTime;    //34d0
 extern int modeFinishWeaponChangeTime;    //34d4
 extern int modePMNoAmmoTime;    //34d8
-extern int modeUnknown1;    //34e4
+extern int pm_armorPromode;    //34e4
 extern int modeHitLevelSounds;    //3514
 extern int modePickupDistance;    //20e8
 extern int modeUnknown2;    //3528

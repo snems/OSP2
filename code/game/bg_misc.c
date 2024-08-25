@@ -33,6 +33,7 @@ extern int modeMaxAmmoShotgun;    //34a0
 extern int modeMaxAmmoGrenade;    //34a8
 extern int modeMaxAmmoRocket;     //34b0
 extern int modeMaxAmmoRail;       //34c0
+extern int pm_armorPromode;    //34e4
 
 /*QUAKED item_***** ( 0 0 0 ) (-16 -16 -16) (16 16 16) suspended
 DO NOT USE THIS CLASS, IT JUST HOLDS GENERAL INFORMATION.
@@ -871,6 +872,71 @@ qboolean    BG_PlayerTouchesItem(playerState_t* ps, entityState_t* item, int atT
 	return qtrue;
 }
 
+static qboolean BG_CanArmorBeGrabbed(gitem_t *item, const playerState_t* ps) 
+{
+	float armor; 
+	int armorMax;
+	armorType_t armorTypeItem;
+	armorType_t armorTypePlayer = ps->stats[STAT_ARMOR_TYPE];
+	static float armorKoeff[3] = { 0.5f ,0.66f ,0.75f };
+
+	if (pm_armorPromode == 0)
+	{
+		if (ps->stats[STAT_ARMOR] < ps->stats[STAT_MAX_HEALTH])
+		{
+			return qtrue;
+		}
+		else
+		{
+			return qfalse;
+		}
+	}
+
+	switch(item->quantity)
+	{
+		case 5:
+			armorTypeItem = armorTypePlayer;                                            		/* Address : 0x1b7b0 Type : Interium */
+			break;
+		case 50:
+			armorTypeItem = ARMOR_YELLOW;
+			break;
+		case 100:
+			armorTypeItem = ARMOR_RED;
+			break;
+		default:
+			// unknown armor type
+			return qfalse;
+			break;
+	}
+
+	switch(armorTypeItem)
+	{
+    case ARMOR_GREEN:
+			armorMax = 100;                                            						/* Address : 0x1b79b Type : Interium */
+      break;
+    case ARMOR_YELLOW:
+			armorMax = 150;                                            						/* Address : 0x1b79b Type : Interium */
+      break;
+    case ARMOR_RED:
+			armorMax = 200;                                            						/* Address : 0x1b79b Type : Interium */
+			break;
+		default:
+			// unknown armor type
+			return qfalse;
+			break;
+  }
+
+
+	if (armorTypeItem == armorTypePlayer)
+	{
+		return (ps->stats[STAT_ARMOR] < armorMax);
+	}
+
+	armor = (armorKoeff[armorTypeItem]/armorKoeff[armorTypePlayer])*armorMax;
+
+	return (ps->stats[STAT_ARMOR] < armor);
+}
+
 static qboolean BG_CanAmmoBeGrabbed(weapon_t ammoType, const playerState_t* ps) 
 {
 	int ammoMax;
@@ -906,7 +972,7 @@ Returns false if the item should not be picked up.
 This needs to be the same for client side prediction and server use.
 ================
 */
-qboolean BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playerState_t* ps)
+qboolean BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playerState_t* ps, qboolean disableArmorCheck)
 {
 	gitem_t* item;
 
@@ -926,9 +992,13 @@ qboolean BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playe
 			return BG_CanAmmoBeGrabbed(item->giTag, ps);
 
 		case IT_ARMOR:
-			if (ps->stats[STAT_ARMOR] >= ps->stats[STAT_MAX_HEALTH] * 2)
+			if (!disableArmorCheck)
 			{
-				return qfalse;
+				BG_CanArmorBeGrabbed(item, ps);
+				if (ps->stats[STAT_ARMOR] >= ps->stats[STAT_MAX_HEALTH] * 2)
+				{
+					return qfalse;
+				}
 			}
 			return qtrue;
 

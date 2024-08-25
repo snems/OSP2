@@ -45,7 +45,7 @@ int modeMaxAmmoRail;       //34c0
 int modeBeginWeaponChangeTime;    //34d0
 int modeFinishWeaponChangeTime;    //34d4
 int modePMNoAmmoTime;    //34d8
-int modeUnknown1;    //34e4
+int pm_armorPromode;
 int modeHitLevelSounds;    //3514
 int modePickupDistance;    //20e8
 //

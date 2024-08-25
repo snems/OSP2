@@ -233,6 +233,13 @@ void Pmove(pmove_t* pmove);
 //===================================================================================
 
 
+typedef enum
+{
+	ARMOR_GREEN=0,
+	ARMOR_YELLOW=1,
+	ARMOR_RED=2,
+}armorType_t;
+
 // player_state->stats[] indexes
 // NOTE: may not have more than 16
 typedef enum
@@ -688,7 +695,7 @@ gitem_t* BG_FindItemForPowerup(powerup_t pw);
 gitem_t* BG_FindItemForHoldable(holdable_t pw);
 #define ITEM_INDEX(x) ((x)-bg_itemlist)
 
-qboolean    BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playerState_t* ps);
+qboolean    BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playerState_t* ps, qboolean disableArmorCheck);
 
 
 // g_dmflags->integer flags
