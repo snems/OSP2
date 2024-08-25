@@ -254,7 +254,8 @@ typedef enum
 	STAT_OSP_PHYS,
 	STAT_OSP_8,
 	STAT_ARMOR_TYPE,                //aromor: red/green/yellow
-	STAT_OSP_10    
+	STAT_OSP_10,   
+	STAT_WEAPON_DELAY,   
 } statIndex_t;
 
 

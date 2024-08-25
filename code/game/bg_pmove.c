@@ -1890,6 +1890,14 @@ static void PM_Weapon(void)
 		pm->ps->pm_flags &= ~PMF_USE_ITEM_HELD;
 	}
 
+	if (pm->ps->stats[STAT_OSP_10] > 0)
+	{
+		pm->ps->stats[STAT_OSP_10] -= pml.msec;
+	}
+	if (pm->ps->stats[STAT_WEAPON_DELAY] > 0)
+	{
+		pm->ps->stats[STAT_WEAPON_DELAY] -= pml.msec;
+	}
 
 	// make weapon function
 	if (pm->ps->weaponTime > 0)
@@ -2003,7 +2011,14 @@ static void PM_Weapon(void)
 			addTime = 100; //-V1037
 			break;
 		case WP_RAILGUN:
-			addTime = 1500;
+			if (modeUnknown2)
+			{
+				addTime = 1000;
+			}
+			else
+			{
+				addTime = 1500;
+			}
 			break;
 		case WP_BFG:
 			addTime = 200;
@@ -2013,9 +2028,19 @@ static void PM_Weapon(void)
 			break;
 	}
 
+	if (modeUnknown2)
+	{
+		pm->ps->stats[STAT_WEAPON_DELAY] = modeUnknown4;
+	}
+	else
+	{
+		pm->ps->stats[STAT_WEAPON_DELAY] = modeUnknown3;
+	}
+
 	if (pm->ps->powerups[PW_HASTE])
 	{
-		addTime /= 1.3;
+		addTime /= 1.3f;
+		pm->ps->stats[STAT_WEAPON_DELAY] /= 1.3f;
 	}
 
 	pm->ps->weaponTime += addTime;
