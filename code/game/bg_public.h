@@ -252,7 +252,7 @@ typedef enum
 	STAT_CLIENTS_READY,             // bit mask of clients wishing to exit the intermission (FIXME: configstring?)
 	STAT_MAX_HEALTH,                // health / armor limit, changable by handicap
 	STAT_OSP_PHYS,
-	STAT_OSP_8,
+	STAT_RAIL_DELAY,
 	STAT_ARMOR_TYPE,                //aromor: red/green/yellow
 	STAT_OSP_10,   
 	STAT_WEAPON_DELAY,   

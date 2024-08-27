@@ -306,7 +306,7 @@ void PM_StepSlideMove(qboolean gravity)
 	VectorSet(up, 0, 0, 1);
 	// never step up when you still have up velocity
 	if ((pm->ps->velocity[2] > 0 && (trace.fraction == 1.0 || DotProduct(trace.plane.normal, up) < 0.7)) || 
-			(pm->ps->stats[STAT_OSP_PHYS] && (pm->ps->velocity[2] > (modePromodePhysKoeff + 270))) )
+			(pm->ps->stats[STAT_OSP_PHYS] <= 0 && (pm->ps->velocity[2] > (modePromodePhysKoeff + 270))) )
 	{
 		return;
 	}
@@ -343,7 +343,14 @@ void PM_StepSlideMove(qboolean gravity)
 	}
 	if (trace.fraction < 1.0)
 	{
-		PM_ClipVelocity(pm->ps->velocity, trace.plane.normal, pm->ps->velocity, OVERCLIP);
+		if (pm->ps->stats[STAT_OSP_10])
+		{
+			PM_ClipVelocityOSP(pm->ps->velocity, trace.plane.normal, pm->ps->velocity, OVERCLIP);
+		}
+		else
+		{
+			PM_ClipVelocity(pm->ps->velocity, trace.plane.normal, pm->ps->velocity, OVERCLIP);
+		}
 	}
 
 #if 0

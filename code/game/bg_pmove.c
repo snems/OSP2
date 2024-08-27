@@ -184,6 +184,30 @@ void PM_ClipVelocity(vec3_t in, vec3_t normal, vec3_t out, float overbounce)
 	}
 }
 
+void PM_ClipVelocityOSP(vec3_t in, vec3_t normal, vec3_t out, float overbounce)
+{
+	float   backoff;
+	float   change;
+	int     i;
+
+	backoff = DotProduct(in, normal);
+
+	if (backoff < 0)
+	{
+		backoff *= overbounce;
+	}
+	else
+	{
+		backoff /= overbounce;
+	}
+
+	for (i = 0 ; i < 2 ; i++)
+	{
+		change = normal[i] * backoff;
+		out[i] = in[i] - change;
+	}
+}
+
 
 /*
 ==================
@@ -458,7 +482,7 @@ static qboolean PM_CheckJump(void)
 
 	if (modePromodePhysKoeff != 0)
 	{
-		if (pm->ps->origin[2] > 0)
+		if (pm->ps->stats[STAT_OSP_PHYS] > 0)
 		{
 			pm->ps->velocity[2] += modePromodePhysKoeff;
 			pm->ps->stats[STAT_OSP_10] = 1;
@@ -708,7 +732,11 @@ PM_AirMove
 */
 static void PM_AirControl(const pmove_t *pm, vec3_t wishdir, float wishvel)
 {
-	if ((pm->ps->movementDir != 0 && pm->ps->movementDir != 4) || (wishvel != 0))
+	if ((pm->ps->movementDir != 0 && pm->ps->movementDir != 4) || wishvel == 0)
+	{
+		return;
+	}
+
 	{
 		playerState_t* ps = pm->ps;
 		float orig_vel_z = ps->velocity[2];
@@ -725,8 +753,8 @@ static void PM_AirControl(const pmove_t *pm, vec3_t wishdir, float wishvel)
 
 		if (k3 > 0)
 		{
-			pm->ps->velocity[0] *= speed + wishdir[0]*k3;
-			pm->ps->velocity[1] *= speed + wishdir[1]*k3;
+			pm->ps->velocity[0] = pm->ps->velocity[0] * speed + wishdir[0]*k3;
+			pm->ps->velocity[1] = pm->ps->velocity[1] * speed + wishdir[1]*k3;
 			VectorNormalize(ps->velocity);
 		}
 
@@ -749,6 +777,7 @@ static void PM_AirMove(void)
 	float       fmove, smove;
 	vec3_t      wishdir;
 	float       wishspeed;
+	float       wishspeedOrig;
 	float       scale;
 	usercmd_t   cmd;
 	float 		  accel;
@@ -779,6 +808,7 @@ static void PM_AirMove(void)
 	VectorCopy(wishvel, wishdir);
 	wishspeed = VectorNormalize(wishdir);
 	wishspeed *= scale;
+	wishspeedOrig = wishspeed;
 
 	if (DotProduct(pm->ps->velocity, wishvel) < 0)
 	{
@@ -802,7 +832,7 @@ static void PM_AirMove(void)
 
 	if (modePredictionKoeff2)
 	{
-		PM_AirControl(pm, wishdir, wishspeed);
+		PM_AirControl(pm, wishdir, wishspeedOrig);
 	}
 
 	// we may have a ground plane that is very steep, even
@@ -1890,9 +1920,9 @@ static void PM_Weapon(void)
 		pm->ps->pm_flags &= ~PMF_USE_ITEM_HELD;
 	}
 
-	if (pm->ps->stats[STAT_OSP_10] > 0)
+	if (pm->ps->stats[STAT_RAIL_DELAY] > 0)
 	{
-		pm->ps->stats[STAT_OSP_10] -= pml.msec;
+		pm->ps->stats[STAT_RAIL_DELAY] -= pml.msec;
 	}
 	if (pm->ps->stats[STAT_WEAPON_DELAY] > 0)
 	{
@@ -2019,6 +2049,7 @@ static void PM_Weapon(void)
 			{
 				addTime = 1500;
 			}
+			pm->ps->stats[STAT_RAIL_DELAY] = 1500;
 			break;
 		case WP_BFG:
 			addTime = 200;
@@ -2041,6 +2072,7 @@ static void PM_Weapon(void)
 	{
 		addTime /= 1.3f;
 		pm->ps->stats[STAT_WEAPON_DELAY] /= 1.3f;
+		pm->ps->stats[STAT_RAIL_DELAY] /= 1.3;
 	}
 
 	pm->ps->weaponTime += addTime;
@@ -2356,6 +2388,15 @@ void PmoveSingle(pmove_t* pmove)
 	}
 
 	PM_DropTimers();
+
+	if (pm->ps->stats[STAT_OSP_PHYS] > 0)
+	{
+		pm->ps->stats[STAT_OSP_PHYS] -= pml.msec;
+	}
+	else if (pm->ps->stats[STAT_OSP_10])
+	{
+		pm->ps->stats[STAT_OSP_10] = 0;
+	}
 
 	if (pm->ps->powerups[PW_FLIGHT])
 	{
