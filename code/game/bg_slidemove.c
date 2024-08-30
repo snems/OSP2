@@ -299,18 +299,20 @@ void PM_StepSlideMove(qboolean gravity)
 	{
 		return;     // we got exactly where we wanted to go first try
 	}
+	if (pm->ps->pm_flags & PMF_GRAPPLE_PULL)
+	{
+		return;
+	}
 
 	VectorCopy(start_o, down);
 	down[2] -= STEPSIZE;
 	pm->trace(&trace, start_o, pm->mins, pm->maxs, down, pm->ps->clientNum, pm->tracemask);
 	VectorSet(up, 0, 0, 1);
 	// never step up when you still have up velocity
-	if ((pm->ps->velocity[2] > 0 && (trace.fraction == 1.0 || DotProduct(trace.plane.normal, up) < 0.7)) || 
-			(pm->ps->stats[STAT_OSP_PHYS] <= 0 && (pm->ps->velocity[2] > (modePromodePhysKoeff + 270))) )
+	if (pm->ps->velocity[2] > 0 && (trace.fraction == 1.0 || DotProduct(trace.plane.normal, up) < 0.7) && ((pm->ps->velocity[2] > (modePromodePhysKoeff + 270)) || pm->ps->stats[STAT_OSP_PHYS] <= 0))
 	{
 		return;
 	}
-
 
 	VectorCopy(start_o, up);
 	up[2] += STEPSIZE;

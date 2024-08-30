@@ -2377,7 +2377,8 @@ void PmoveSingle(pmove_t* pmove)
 	// set groundentity
 	PM_GroundTrace();
 
-	if (pml.groundPlane)
+	// remove overbounce
+	if (qfalse && pml.groundPlane)
 	{
 		PM_OneSidedClipVelocity(pm->ps->velocity, pml.groundTrace.plane.normal, pm->ps->velocity, OVERCLIP);
 	}
