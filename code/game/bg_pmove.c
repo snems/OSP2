@@ -2271,6 +2271,11 @@ void PmoveSingle(pmove_t* pmove)
 		pm->ps->eFlags &= ~EF_FIRING;
 	}
 
+	if (pm->ps->weaponstate == WEAPON_DROPPING)
+	{
+		pm->ps->eFlags &= ~EF_FIRING;
+	}
+
 	// clear the respawned flag if attack and use are cleared
 	if (pm->ps->stats[STAT_HEALTH] > 0 &&
 	        !(pm->cmd.buttons & (BUTTON_ATTACK | BUTTON_USE_HOLDABLE)))
@@ -2359,8 +2364,19 @@ void PmoveSingle(pmove_t* pmove)
 
 	if (pm->ps->pm_type == PM_FREEZE)
 	{
+		if (pm->ps->pm_flags & PMF_FOLLOW)
+		{
+			pm->cmd.forwardmove = 0;
+			pm->cmd.rightmove = 0;
+			pm->cmd.upmove = 0;
+			VectorSet(pm->ps->velocity, 0, 0, 0);
+			PM_CheckDuck();
+			PM_FlyMove();
+			PM_DropTimers();
+		}
 		return;     // no movement at all
 	}
+
 
 	if (pm->ps->pm_type == PM_INTERMISSION || pm->ps->pm_type == PM_SPINTERMISSION)
 	{
@@ -2468,6 +2484,7 @@ void Pmove(pmove_t* pmove)
 
 	if (finalTime < pmove->ps->commandTime)
 	{
+		PM_CheckDuck();
 		return; // should not happen
 	}
 
