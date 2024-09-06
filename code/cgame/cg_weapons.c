@@ -1949,7 +1949,7 @@ static qboolean CG_IsDoubleShoot(weapon_t weap)
 			addTime = 90; //-V1037
 			break;
 		case WP_RAILGUN:
-			addTime = 1300;
+			addTime = 200; //rg reload time is not static, so set lower value
 			break;
 		case WP_BFG:
 			addTime = 180;

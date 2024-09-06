@@ -320,7 +320,7 @@ vmCvar_t           cg_healthLow;
 
 static cvarTable_t cvarTable[] =
 {
-	{ &osp_client, "osp_client", "1008", CVAR_USERINFO },
+	{ &osp_client, "osp_client", "1008_OSP2_"OSP_VERSION, CVAR_USERINFO | CVAR_ROM },
 	{ &osp_hidden, "osp_print_issues", "0", CVAR_ARCHIVE },
 	{ &osp_debug, "osp_debug", "0", CVAR_ARCHIVE },
 	{ &cg_autoswitch, "cg_autoswitch", "1", CVAR_ARCHIVE },
