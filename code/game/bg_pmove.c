@@ -732,7 +732,7 @@ PM_AirMove
 */
 static void PM_AirControl(const pmove_t *pm, vec3_t wishdir, float wishvel)
 {
-	if ((pm->ps->movementDir != 0 && pm->ps->movementDir != 4) || wishvel == 0)
+	if (wishvel == 0 || (pm->ps->movementDir != 0 && pm->ps->movementDir != 4))
 	{
 		return;
 	}
@@ -749,10 +749,9 @@ static void PM_AirControl(const pmove_t *pm, vec3_t wishdir, float wishvel)
 
 		k2 = DotProduct(ps->velocity, wishdir);
 
-		k3 = 32.0f * modePredictionKoeff2 * k2 * k2 * pml.frametime;
-
-		if (k3 > 0)
+		if (k2 > 0)
 		{
+			k3 = 32.0f * modePredictionKoeff2 * k2 * k2 * pml.frametime;
 			pm->ps->velocity[0] = pm->ps->velocity[0] * speed + wishdir[0]*k3;
 			pm->ps->velocity[1] = pm->ps->velocity[1] * speed + wishdir[1]*k3;
 			VectorNormalize(ps->velocity);
@@ -2160,6 +2159,11 @@ void PM_UpdateViewAngles(playerState_t* ps, const usercmd_t* cmd)
 	if (ps->pm_type != PM_SPECTATOR && ps->stats[STAT_HEALTH] <= 0)
 	{
 		return;     // no view changes at all
+	}
+
+	if ((pm->ps->pm_type == PM_SPECTATOR) || (pm->ps->pm_flags & PMF_FOLLOW))
+	{
+		return;
 	}
 
 	// circularly clamp the angles with deltas
