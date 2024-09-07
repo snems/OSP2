@@ -74,8 +74,10 @@ static qboolean CG_SHUDScoresGetOWN(int* scores)
 			*scores = cgs.clientinfo[cg.snap->ps.clientNum].score;
 			return *scores != SCORE_NOT_PRESENT;
 		case TEAM_RED:
-		case TEAM_BLUE:
 			*scores = cgs.scores1;
+			return *scores != SCORE_NOT_PRESENT;
+		case TEAM_BLUE:
+			*scores = cgs.scores2;
 			return *scores != SCORE_NOT_PRESENT;
 		case TEAM_SPECTATOR:
 		case TEAM_4:
@@ -102,8 +104,10 @@ static qboolean CG_SHUDScoresGetNME(int* scores)
 			}
 			return *scores != SCORE_NOT_PRESENT;
 		case TEAM_RED:
-		case TEAM_BLUE:
 			*scores = cgs.scores2;
+			return *scores != SCORE_NOT_PRESENT;
+		case TEAM_BLUE:
+			*scores = cgs.scores1;
 			return *scores != SCORE_NOT_PRESENT;
 		case TEAM_SPECTATOR:
 		case TEAM_4:
