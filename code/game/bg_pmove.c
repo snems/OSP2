@@ -2161,7 +2161,7 @@ void PM_UpdateViewAngles(playerState_t* ps, const usercmd_t* cmd)
 		return;     // no view changes at all
 	}
 
-	if ((pm->ps->pm_type == PM_SPECTATOR) || (pm->ps->pm_flags & PMF_FOLLOW))
+	if ((pm->ps->pm_type != PM_SPECTATOR) && (pm->ps->pm_flags & PMF_FOLLOW))
 	{
 		return;
 	}
