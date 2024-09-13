@@ -739,7 +739,7 @@ static void PM_AirControl(const pmove_t *pm, vec3_t wishdir, float wishvel)
 
 	{
 		playerState_t* ps = pm->ps;
-		float orig_vel_z = ps->velocity[2];
+		float zspeed = ps->velocity[2];
 		float speed; 
 		float k2; 
 		float k3; 
@@ -759,7 +759,7 @@ static void PM_AirControl(const pmove_t *pm, vec3_t wishdir, float wishvel)
 
 		pm->ps->velocity[0] *= speed;
 		pm->ps->velocity[1] *= speed;
-		pm->ps->velocity[2] *= orig_vel_z;
+		pm->ps->velocity[2] = zspeed;
 	}
 }
 
