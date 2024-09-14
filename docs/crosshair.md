@@ -39,7 +39,7 @@
 # Новые команды для прицела
 ---
 
-    cg_crosshairDecor 0..N
+    cg_crosshairDecor 0..26
 
 Рисует декор вокруг прицела.
 
@@ -60,7 +60,7 @@
 
 ---
 
-    cg_crosshairAction 0..? cg_crosshairDecorAction 0..N
+    cg_crosshairAction 0..3 cg_crosshairDecorAction 0..3
 
 
 `0` отключено
