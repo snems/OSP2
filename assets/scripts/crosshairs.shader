@@ -302,6 +302,7 @@ gfx/2d/crosshair_15
        rgbGen vertex
     }
 }
+
 gfx/2d/crosshair_15_r45
 {
     nopicmip
