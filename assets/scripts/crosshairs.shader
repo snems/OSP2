@@ -299,6 +299,8 @@ gfx/2d/crosshair_15
     {
        clampmap gfx/2d/crosshair_15.tga
        blendFunc blend
+       //tcMod transform 0.707 0.707 -0.707 0.707 0.5 0
+       //tcMod transform 0.707 0.707 -0.707 0.707 0.707 0
        rgbGen vertex
     }
 }
@@ -309,7 +311,8 @@ gfx/2d/crosshair_15_r45
     {
        clampmap gfx/2d/crosshair_15.tga
        blendFunc blend
-       tcMod rotate2 45
+       //tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0 0
        rgbGen vertex
     }
 }
