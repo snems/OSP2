@@ -317,6 +317,12 @@ vmCvar_t           cg_shudChatEnable;
 vmCvar_t           cg_healthMid;
 vmCvar_t           cg_healthLow;
 
+vmCvar_t           cg_healthLow;
+
+vmCvar_t           cg_crosshairDecor;
+vmCvar_t           cg_crosshair45;
+vmCvar_t           cg_crosshairDecor45;
+
 
 static cvarTable_t cvarTable[] =
 {
@@ -548,6 +554,10 @@ static cvarTable_t cvarTable[] =
 	{ &cg_shudChatEnable, "cg_shudChatEnable", "3", CVAR_ARCHIVE},
 	{ &cg_healthMid,   "cg_healthMid", "200",   CVAR_ARCHIVE},
 	{ &cg_healthLow,  "cg_healthLow", "100",  CVAR_ARCHIVE},
+
+	{ &cg_crosshairDecor,  "cg_crosshairDecor", "0",  CVAR_ARCHIVE},
+	{ &cg_crosshair45,  "cg_crosshair45", "0",  CVAR_ARCHIVE},
+	{ &cg_crosshairDecor45,  "cg_crosshairDecor45", "0",  CVAR_ARCHIVE},
 };
 
 #define CG_VARS_HASH_SIZE 512

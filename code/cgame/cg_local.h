@@ -1421,6 +1421,10 @@ extern vmCvar_t           cg_shudChatEnable;
 extern vmCvar_t           cg_healthMid;
 extern vmCvar_t           cg_healthLow;
 
+extern vmCvar_t           cg_crosshairDecor;
+extern vmCvar_t           cg_crosshair45;
+extern vmCvar_t           cg_crosshairDecor45;
+
 //
 // cg_main.c
 //

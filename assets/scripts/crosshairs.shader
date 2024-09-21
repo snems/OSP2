@@ -14,7 +14,7 @@ gfx/2d/crosshair1_r45
     {
        clampmap gfx/2d/crosshair1.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -35,7 +35,7 @@ gfx/2d/crosshair2_r45
     {
        clampmap gfx/2d/crosshair2.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -56,7 +56,7 @@ gfx/2d/crosshair3_r45
     {
        clampmap gfx/2d/crosshair3.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -77,7 +77,7 @@ gfx/2d/crosshair4_r45
     {
        clampmap gfx/2d/crosshair4.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -98,7 +98,7 @@ gfx/2d/crosshair5_r45
     {
        clampmap gfx/2d/crosshair5.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -119,7 +119,7 @@ gfx/2d/crosshair6_r45
     {
        clampmap gfx/2d/crosshair6.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -140,7 +140,7 @@ gfx/2d/crosshair7_r45
     {
        clampmap gfx/2d/crosshair7.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -161,7 +161,7 @@ gfx/2d/crosshair8_r45
     {
        clampmap gfx/2d/crosshair8.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -182,7 +182,7 @@ gfx/2d/crosshair9_r45
     {
        clampmap gfx/2d/crosshair9.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -203,7 +203,7 @@ gfx/2d/crosshair_10_r45
     {
        clampmap gfx/2d/crosshair_10.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -224,7 +224,7 @@ gfx/2d/crosshair_11_r45
     {
        clampmap gfx/2d/crosshair_11.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -245,7 +245,7 @@ gfx/2d/crosshair_12_r45
     {
        clampmap gfx/2d/crosshair_12.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -266,7 +266,7 @@ gfx/2d/crosshair_13_r45
     {
        clampmap gfx/2d/crosshair_13.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -287,7 +287,7 @@ gfx/2d/crosshair_14_r45
     {
        clampmap gfx/2d/crosshair_14.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -299,20 +299,16 @@ gfx/2d/crosshair_15
     {
        clampmap gfx/2d/crosshair_15.tga
        blendFunc blend
-       //tcMod transform 0.707 0.707 -0.707 0.707 0.5 0
-       //tcMod transform 0.707 0.707 -0.707 0.707 0.707 0
        rgbGen vertex
     }
 }
-
 gfx/2d/crosshair_15_r45
 {
     nopicmip
     {
        clampmap gfx/2d/crosshair_15.tga
        blendFunc blend
-       //tcMod rotate2 45
-       tcMod transform 0.707 0.707 -0.707 0.707 0 0
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -333,7 +329,7 @@ gfx/2d/crosshair_16_r45
     {
        clampmap gfx/2d/crosshair_16.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -354,7 +350,7 @@ gfx/2d/crosshair_17_r45
     {
        clampmap gfx/2d/crosshair_17.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -375,7 +371,7 @@ gfx/2d/crosshair_18_r45
     {
        clampmap gfx/2d/crosshair_18.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -396,7 +392,7 @@ gfx/2d/crosshair_19_r45
     {
        clampmap gfx/2d/crosshair_19.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -417,7 +413,7 @@ gfx/2d/crosshair_20_r45
     {
        clampmap gfx/2d/crosshair_20.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -438,7 +434,7 @@ gfx/2d/crosshair_21_r45
     {
        clampmap gfx/2d/crosshair_21.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -459,7 +455,7 @@ gfx/2d/crosshair_22_r45
     {
        clampmap gfx/2d/crosshair_22.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -480,7 +476,7 @@ gfx/2d/crosshair_23_r45
     {
        clampmap gfx/2d/crosshair_23.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -501,7 +497,7 @@ gfx/2d/crosshair_24_r45
     {
        clampmap gfx/2d/crosshair_24.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -522,7 +518,7 @@ gfx/2d/crosshair_25_r45
     {
        clampmap gfx/2d/crosshair_25.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -543,7 +539,7 @@ gfx/2d/crosshair_26_r45
     {
        clampmap gfx/2d/crosshair_26.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -564,7 +560,7 @@ gfx/2d/crosshair_27_r45
     {
        clampmap gfx/2d/crosshair_27.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -585,7 +581,7 @@ gfx/2d/crosshair_28_r45
     {
        clampmap gfx/2d/crosshair_28.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -606,7 +602,7 @@ gfx/2d/crosshair_29_r45
     {
        clampmap gfx/2d/crosshair_29.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -627,7 +623,7 @@ gfx/2d/crosshair_30_r45
     {
        clampmap gfx/2d/crosshair_30.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -648,7 +644,7 @@ gfx/2d/crosshair_31_r45
     {
        clampmap gfx/2d/crosshair_31.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -669,7 +665,7 @@ gfx/2d/crosshair_32_r45
     {
        clampmap gfx/2d/crosshair_32.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -690,7 +686,7 @@ gfx/2d/crosshair_33_r45
     {
        clampmap gfx/2d/crosshair_33.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -711,7 +707,7 @@ gfx/2d/crosshair_34_r45
     {
        clampmap gfx/2d/crosshair_34.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -732,7 +728,7 @@ gfx/2d/crosshair_35_r45
     {
        clampmap gfx/2d/crosshair_35.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -753,7 +749,7 @@ gfx/2d/crosshair_36_r45
     {
        clampmap gfx/2d/crosshair_36.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -774,7 +770,7 @@ gfx/2d/crosshair_37_r45
     {
        clampmap gfx/2d/crosshair_37.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -795,7 +791,7 @@ gfx/2d/crosshair_38_r45
     {
        clampmap gfx/2d/crosshair_38.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -816,7 +812,7 @@ gfx/2d/crosshair_39_r45
     {
        clampmap gfx/2d/crosshair_39.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -837,7 +833,7 @@ gfx/2d/crosshair_40_r45
     {
        clampmap gfx/2d/crosshair_40.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -858,7 +854,7 @@ gfx/2d/crosshair_41_r45
     {
        clampmap gfx/2d/crosshair_41.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -879,7 +875,7 @@ gfx/2d/crosshair_42_r45
     {
        clampmap gfx/2d/crosshair_42.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -900,7 +896,7 @@ gfx/2d/crosshair_43_r45
     {
        clampmap gfx/2d/crosshair_43.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -921,7 +917,7 @@ gfx/2d/crosshair_44_r45
     {
        clampmap gfx/2d/crosshair_44.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -942,7 +938,7 @@ gfx/2d/crosshair_45_r45
     {
        clampmap gfx/2d/crosshair_45.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -963,7 +959,7 @@ gfx/2d/crosshair_46_r45
     {
        clampmap gfx/2d/crosshair_46.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -984,7 +980,7 @@ gfx/2d/crosshair_47_r45
     {
        clampmap gfx/2d/crosshair_47.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1005,7 +1001,7 @@ gfx/2d/crosshair_48_r45
     {
        clampmap gfx/2d/crosshair_48.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1026,7 +1022,7 @@ gfx/2d/crosshair_49_r45
     {
        clampmap gfx/2d/crosshair_49.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1047,7 +1043,7 @@ gfx/2d/crosshair_50_r45
     {
        clampmap gfx/2d/crosshair_50.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1068,7 +1064,7 @@ gfx/2d/crosshair_51_r45
     {
        clampmap gfx/2d/crosshair_51.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1089,7 +1085,7 @@ gfx/2d/crosshair_52_r45
     {
        clampmap gfx/2d/crosshair_52.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1110,7 +1106,7 @@ gfx/2d/crosshair_53_r45
     {
        clampmap gfx/2d/crosshair_53.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1131,7 +1127,7 @@ gfx/2d/crosshair_54_r45
     {
        clampmap gfx/2d/crosshair_54.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1152,7 +1148,7 @@ gfx/2d/crosshair_55_r45
     {
        clampmap gfx/2d/crosshair_55.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1173,7 +1169,7 @@ gfx/2d/crosshair_56_r45
     {
        clampmap gfx/2d/crosshair_56.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1194,7 +1190,7 @@ gfx/2d/crosshair_57_r45
     {
        clampmap gfx/2d/crosshair_57.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1215,7 +1211,7 @@ gfx/2d/crosshair_58_r45
     {
        clampmap gfx/2d/crosshair_58.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1236,7 +1232,7 @@ gfx/2d/crosshair_59_r45
     {
        clampmap gfx/2d/crosshair_59.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1257,7 +1253,7 @@ gfx/2d/crosshair_60_r45
     {
        clampmap gfx/2d/crosshair_60.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1278,7 +1274,7 @@ gfx/2d/crosshair_61_r45
     {
        clampmap gfx/2d/crosshair_61.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1299,7 +1295,7 @@ gfx/2d/crosshair_62_r45
     {
        clampmap gfx/2d/crosshair_62.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1320,7 +1316,7 @@ gfx/2d/crosshair_63_r45
     {
        clampmap gfx/2d/crosshair_63.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1341,7 +1337,7 @@ gfx/2d/crosshair_64_r45
     {
        clampmap gfx/2d/crosshair_64.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1362,7 +1358,7 @@ gfx/2d/crosshair_65_r45
     {
        clampmap gfx/2d/crosshair_65.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1383,7 +1379,7 @@ gfx/2d/crosshair_66_r45
     {
        clampmap gfx/2d/crosshair_66.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1404,7 +1400,7 @@ gfx/2d/crosshair_67_r45
     {
        clampmap gfx/2d/crosshair_67.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1425,7 +1421,7 @@ gfx/2d/crosshair_68_r45
     {
        clampmap gfx/2d/crosshair_68.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1446,7 +1442,7 @@ gfx/2d/crosshair_69_r45
     {
        clampmap gfx/2d/crosshair_69.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1467,7 +1463,7 @@ gfx/2d/crosshair_70_r45
     {
        clampmap gfx/2d/crosshair_70.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1488,7 +1484,7 @@ gfx/2d/crosshair_71_r45
     {
        clampmap gfx/2d/crosshair_71.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1509,7 +1505,7 @@ gfx/2d/crosshair_72_r45
     {
        clampmap gfx/2d/crosshair_72.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1530,7 +1526,7 @@ gfx/2d/crosshair_73_r45
     {
        clampmap gfx/2d/crosshair_73.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1551,7 +1547,7 @@ gfx/2d/decor_1_r45
     {
        clampmap gfx/2d/decor_1.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1572,7 +1568,7 @@ gfx/2d/decor_2_r45
     {
        clampmap gfx/2d/decor_2.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1593,7 +1589,7 @@ gfx/2d/decor_3_r45
     {
        clampmap gfx/2d/decor_3.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1614,7 +1610,7 @@ gfx/2d/decor_4_r45
     {
        clampmap gfx/2d/decor_4.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1635,7 +1631,7 @@ gfx/2d/decor_5_r45
     {
        clampmap gfx/2d/decor_5.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1656,7 +1652,7 @@ gfx/2d/decor_6_r45
     {
        clampmap gfx/2d/decor_6.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1677,7 +1673,7 @@ gfx/2d/decor_7_r45
     {
        clampmap gfx/2d/decor_7.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1698,7 +1694,7 @@ gfx/2d/decor_8_r45
     {
        clampmap gfx/2d/decor_8.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1719,7 +1715,7 @@ gfx/2d/decor_9_r45
     {
        clampmap gfx/2d/decor_9.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1740,7 +1736,7 @@ gfx/2d/decor_10_r45
     {
        clampmap gfx/2d/decor_10.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1761,7 +1757,7 @@ gfx/2d/decor_11_r45
     {
        clampmap gfx/2d/decor_11.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1782,7 +1778,7 @@ gfx/2d/decor_12_r45
     {
        clampmap gfx/2d/decor_12.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1803,7 +1799,7 @@ gfx/2d/decor_13_r45
     {
        clampmap gfx/2d/decor_13.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1824,7 +1820,7 @@ gfx/2d/decor_14_r45
     {
        clampmap gfx/2d/decor_14.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1845,7 +1841,7 @@ gfx/2d/decor_15_r45
     {
        clampmap gfx/2d/decor_15.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1866,7 +1862,7 @@ gfx/2d/decor_16_r45
     {
        clampmap gfx/2d/decor_16.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1887,7 +1883,7 @@ gfx/2d/decor_17_r45
     {
        clampmap gfx/2d/decor_17.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1908,7 +1904,7 @@ gfx/2d/decor_18_r45
     {
        clampmap gfx/2d/decor_18.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1929,7 +1925,7 @@ gfx/2d/decor_19_r45
     {
        clampmap gfx/2d/decor_19.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1950,7 +1946,7 @@ gfx/2d/decor_20_r45
     {
        clampmap gfx/2d/decor_20.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1971,7 +1967,7 @@ gfx/2d/decor_21_r45
     {
        clampmap gfx/2d/decor_21.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -1992,7 +1988,7 @@ gfx/2d/decor_22_r45
     {
        clampmap gfx/2d/decor_22.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -2013,7 +2009,7 @@ gfx/2d/decor_23_r45
     {
        clampmap gfx/2d/decor_23.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -2034,7 +2030,7 @@ gfx/2d/decor_24_r45
     {
        clampmap gfx/2d/decor_24.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -2055,7 +2051,7 @@ gfx/2d/decor_25_r45
     {
        clampmap gfx/2d/decor_25.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
@@ -2076,7 +2072,7 @@ gfx/2d/decor_26_r45
     {
        clampmap gfx/2d/decor_26.tga
        blendFunc blend
-       tcMod rotate2 45
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex
     }
 }
