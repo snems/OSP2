@@ -1788,75 +1788,6 @@ CROSSHAIR
 ================================================================================
 */
 
-/*
-=================
-CG_DrawCrosshair
-=================
-*/
-static void CG_DrawCrosshair(void)
-{
-	float       w, h;
-	qhandle_t   hShader;
-	float       f;
-	float       x, y;
-	int         ca;
-
-	if (!cg_drawCrosshair.integer)
-	{
-		return;
-	}
-
-	if (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR)
-	{
-		return;
-	}
-
-	if (cg.renderingThirdPerson)
-	{
-		return;
-	}
-
-	// set color based on health
-	if (cg_crosshairHealth.integer)
-	{
-		vec4_t      hcolor;
-
-		CG_ColorForHealth(hcolor, NULL);
-		trap_R_SetColor(hcolor);
-	}
-	else
-	{
-		trap_R_SetColor(NULL);
-	}
-
-	w = h = cg_crosshairSize.value;
-
-	// pulse the size of the crosshair when picking up items
-	f = cg.time - cg.itemPickupBlendTime;
-	if (f > 0 && f < ITEM_BLOB_TIME)
-	{
-		f /= ITEM_BLOB_TIME;
-		w *= (1 + f);
-		h *= (1 + f);
-	}
-
-	x = cg_crosshairX.integer;
-	y = cg_crosshairY.integer;
-	CG_AdjustFrom640_Old(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
-
-	ca = cg_drawCrosshair.integer;
-	if (ca < 0)
-	{
-		ca = 0;
-	}
-	hShader = cgs.media.crosshairShader[ ca % cgs.media.numberOfCrosshairs ];
-
-	trap_R_DrawStretchPic(x + cg.refdef.x + 0.5 * (cg.refdef.width - w),
-	                      y + cg.refdef.y + 0.5 * (cg.refdef.height - h),
-	                      w, h, 0, 0, 1, 1, hShader);
-}
-
-
 
 /*
 =================
@@ -2334,7 +2265,7 @@ static void CG_Draw2D(void)
 		{
 			CG_DrawStatusBar();
 			CG_DrawAmmoWarning();
-			CG_OSPDrawCrosshair();
+			CG_DrawCrosshair();
 			CG_DrawCrosshairNames();
 			CG_DrawWeaponSelect();
 			CG_DrawHoldableItem();

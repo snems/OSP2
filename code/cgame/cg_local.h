@@ -770,9 +770,10 @@ typedef struct
 	qhandle_t   tracerShader;
 	qhandle_t   crosshairShader[NUM_CROSSHAIRS];
 	qhandle_t   crosshairShader45[NUM_CROSSHAIRS];
-	qhandle_t   crosshairDecor[NUM_CROSSHAIRS];
-	qhandle_t   crosshairDecor45[NUM_CROSSHAIRS];
+	qhandle_t   crosshairDecorShader[NUM_CROSSHAIRS];
+	qhandle_t   crosshairDecorShader45[NUM_CROSSHAIRS];
 	int         numberOfCrosshairs;
+	int         numberOfCrosshairDecors;
 	qhandle_t   lagometerShader;
 	qhandle_t   backTileShader;
 	qhandle_t   noammoShader;
@@ -1076,6 +1077,7 @@ typedef struct cgs_osp_s
 	playerColorsOverride_t teamColorsOverride;
 	playerColors_t enemyColors;
 	playerColorsOverride_t enemyColorsOverride;
+	int lastHitTime;
 } cgs_osp_t;
 
 
@@ -1424,6 +1426,15 @@ extern vmCvar_t           cg_healthLow;
 extern vmCvar_t           cg_crosshairDecor;
 extern vmCvar_t           cg_crosshair45;
 extern vmCvar_t           cg_crosshairDecor45;
+extern vmCvar_t           cg_crosshairOpaque;
+extern vmCvar_t           cg_crosshairDecorOpaque;
+
+extern vmCvar_t           cg_crosshairAction;
+extern vmCvar_t           cg_crosshairActionColor;
+extern vmCvar_t           cg_crosshairActionTime;
+extern vmCvar_t           cg_crosshairDecorAction;
+extern vmCvar_t           cg_crosshairDecorActionColor;
+extern vmCvar_t           cg_crosshairDecorActionTime;
 
 //
 // cg_main.c
@@ -2146,8 +2157,12 @@ qboolean CG_IsFollowing(void);
 //
 extern int teamOverlayWidth;
 void CG_OSPHUDRoutine(void);
-void CG_OSPDrawCrosshair(void);
 float CG_OSPDrawPing(float y);
+
+//
+//cg_osphud.c
+//
+void CG_DrawCrosshair(void);
 
 //
 // cg_osputil.c

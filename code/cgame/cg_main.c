@@ -104,23 +104,7 @@ vmCvar_t           cg_draw3dIcons;
 vmCvar_t           cg_drawIcons;
 vmCvar_t           cg_drawAmmoWarning;
 vmCvar_t           cg_drawAttacker;
-vmCvar_t           cg_drawCrosshair;
-vmCvar_t           cg_drawCrosshairGauntlet;
-vmCvar_t           cg_drawCrosshairMachinegun;
-vmCvar_t           cg_drawCrosshairShotgun;
-vmCvar_t           cg_drawCrosshairGrenadeLauncher;
-vmCvar_t           cg_drawCrosshairRocketLauncher;
-vmCvar_t           cg_drawCrosshairLightning;
-vmCvar_t           cg_drawCrosshairRailgun;
-vmCvar_t           cg_drawCrosshairPlasmagun;
-vmCvar_t           cg_drawCrosshairBFG;
-vmCvar_t           cg_drawCrosshairNames;
 vmCvar_t           cg_drawRewards;
-vmCvar_t           cg_crosshairSize;
-vmCvar_t           cg_crosshairAspectRatioFix;
-vmCvar_t           cg_crosshairHealth;
-vmCvar_t           cg_crosshairX;
-vmCvar_t           cg_crosshairY;
 vmCvar_t           cg_brassTime;
 vmCvar_t           cg_simpleItems;
 vmCvar_t           cg_addMarks;
@@ -185,7 +169,6 @@ vmCvar_t           cg_altPlasma;
 vmCvar_t           cg_ammoCheck;
 vmCvar_t           cg_autoAction;
 vmCvar_t           cg_clientLog;
-vmCvar_t           cg_crosshairPulse;
 vmCvar_t           cg_customLoc;
 vmCvar_t           cg_damageDraw;
 vmCvar_t           cg_damageKick;
@@ -228,10 +211,6 @@ vmCvar_t           cg_trueLightning;
 vmCvar_t           cg_useScreenShotJPEG;
 vmCvar_t           ch_3waveFont;
 vmCvar_t           ch_ColorLocations;
-vmCvar_t           ch_CrosshairColor;
-vmCvar_t           cf_CrosshairNames;
-vmCvar_t           ch_CrosshairNamesLeft;
-vmCvar_t           ch_crosshairTeamInfo;
 vmCvar_t           ch_drawHealthMeters;
 vmCvar_t           ch_drawFlagNames;
 vmCvar_t           ch_drawPickup;
@@ -254,8 +233,6 @@ vmCvar_t           ch_statusbarStyle;
 vmCvar_t           ch_teamBackground;
 vmCvar_t           cf_Teamchat;
 vmCvar_t           ch_TeamchatOnly;
-vmCvar_t           ch_TeamCrosshairHealth;
-vmCvar_t           cf_TeamCrosshairHealth;
 vmCvar_t           ch_Teamoverlay;
 vmCvar_t           cf_Teamoverlay;
 vmCvar_t           cf_Vote;
@@ -319,9 +296,42 @@ vmCvar_t           cg_healthLow;
 
 vmCvar_t           cg_healthLow;
 
+vmCvar_t           cg_drawCrosshair;
+vmCvar_t           cg_drawCrosshairGauntlet;
+vmCvar_t           cg_drawCrosshairMachinegun;
+vmCvar_t           cg_drawCrosshairShotgun;
+vmCvar_t           cg_drawCrosshairGrenadeLauncher;
+vmCvar_t           cg_drawCrosshairRocketLauncher;
+vmCvar_t           cg_drawCrosshairLightning;
+vmCvar_t           cg_drawCrosshairRailgun;
+vmCvar_t           cg_drawCrosshairPlasmagun;
+vmCvar_t           cg_drawCrosshairBFG;
+vmCvar_t           cg_drawCrosshairNames;
+
+vmCvar_t           cg_crosshairSize;
+vmCvar_t           cg_crosshairAspectRatioFix;
+vmCvar_t           cg_crosshairHealth;
+vmCvar_t           cg_crosshairX;
+vmCvar_t           cg_crosshairY;
+vmCvar_t           ch_CrosshairColor;
+vmCvar_t           cg_crosshairPulse;
+vmCvar_t           cf_CrosshairNames;
+vmCvar_t           ch_CrosshairNamesLeft;
+vmCvar_t           ch_crosshairTeamInfo;
+vmCvar_t           ch_TeamCrosshairHealth;
+vmCvar_t           cf_TeamCrosshairHealth;
 vmCvar_t           cg_crosshairDecor;
 vmCvar_t           cg_crosshair45;
 vmCvar_t           cg_crosshairDecor45;
+vmCvar_t           cg_crosshairOpaque;
+vmCvar_t           cg_crosshairDecorOpaque;
+
+vmCvar_t           cg_crosshairAction;
+vmCvar_t           cg_crosshairActionColor;
+vmCvar_t           cg_crosshairActionTime;
+vmCvar_t           cg_crosshairDecorAction;
+vmCvar_t           cg_crosshairDecorActionColor;
+vmCvar_t           cg_crosshairDecorActionTime;
 
 
 static cvarTable_t cvarTable[] =
@@ -558,6 +568,16 @@ static cvarTable_t cvarTable[] =
 	{ &cg_crosshairDecor,  "cg_crosshairDecor", "0",  CVAR_ARCHIVE},
 	{ &cg_crosshair45,  "cg_crosshair45", "0",  CVAR_ARCHIVE},
 	{ &cg_crosshairDecor45,  "cg_crosshairDecor45", "0",  CVAR_ARCHIVE},
+	{ &cg_crosshairDecorOpaque,  "cg_crosshairDecorOpaque", "1",  CVAR_ARCHIVE},
+	{ &cg_crosshairOpaque,  "cg_crosshairOpaque", "1",  CVAR_ARCHIVE},
+
+	{ &cg_crosshairAction,  "cg_crosshairAction", "0",  CVAR_ARCHIVE},
+	{ &cg_crosshairActionColor,  "cg_crosshairActionColor", "blue",  CVAR_ARCHIVE},
+	{ &cg_crosshairActionTime,  "cg_crosshairActionTime", "400",  CVAR_ARCHIVE},
+
+	{ &cg_crosshairDecorAction,  "cg_crosshairDecorAction", "2",  CVAR_ARCHIVE},
+	{ &cg_crosshairDecorActionColor,  "cg_crosshairDecorActionColor", "red",  CVAR_ARCHIVE},
+	{ &cg_crosshairDecorActionTime,  "cg_crosshairDecorActionTime", "400",  CVAR_ARCHIVE},
 };
 
 #define CG_VARS_HASH_SIZE 512
@@ -1169,12 +1189,15 @@ static void CG_RegisterGraphics(void)
 	}
 	// save how many crosshair do we have
 	cgs.media.numberOfCrosshairs = i;
+
 	// decors
 	for (i = 1; i <= NUM_DECORS ; i++)
 	{
-		cgs.media.crosshairDecor[i] = trap_R_RegisterShader(va("gfx/2d/decor_%i",  i));
-		cgs.media.crosshairDecor45[i] = trap_R_RegisterShaderNoMip(va("gfx/2d/decor_%i_r45",  i));
+		cgs.media.crosshairDecorShader[i] = trap_R_RegisterShader(va("gfx/2d/decor_%i",  i));
+		cgs.media.crosshairDecorShader45[i] = trap_R_RegisterShaderNoMip(va("gfx/2d/decor_%i_r45",  i));
 	}
+	// save how many decors do we have
+	cgs.media.numberOfCrosshairDecors = i;
 
 
 	cgs.media.blender180Shader = trap_R_RegisterShader("gfx/2d/blender_180.png");
