@@ -145,7 +145,7 @@ qboolean CG_ChatIsMessageAllowed(const char* message)
 	qboolean isNotFound = qfalse;
 
 	//check, is it tell command
-	if (start[0] == 25 && start[1] == '[')
+	if (start[0] == 25 && (start[1] == '(' || start[1] == '[' ))
 	{
 		start += 2;
 	}
