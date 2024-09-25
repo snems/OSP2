@@ -1158,8 +1158,8 @@ static void CG_RegisterGraphics(void)
 	// osp crosshairs
 	for (i = 0 ; i < 10 ; i++)
 	{
-		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%c", 'a' + i));
-		cgs.media.crosshairShader45[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%c_r45", 'a' + i));
+		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i", i));
+		cgs.media.crosshairShader45[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i_r45", i));
 	}
 	// osp2 crosshairs
 	for (; i <= NUM_CROSSHAIRS ; i++)
@@ -1167,6 +1167,8 @@ static void CG_RegisterGraphics(void)
 		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i",  i));
 		cgs.media.crosshairShader45[i] = trap_R_RegisterShaderNoMip(va("gfx/2d/crosshair_%i_r45",  i));
 	}
+	// save how many crosshair do we have
+	cgs.media.numberOfCrosshairs = i;
 	// decors
 	for (i = 1; i <= NUM_DECORS ; i++)
 	{
@@ -1174,8 +1176,6 @@ static void CG_RegisterGraphics(void)
 		cgs.media.crosshairDecor45[i] = trap_R_RegisterShaderNoMip(va("gfx/2d/decor_%i_r45",  i));
 	}
 
-	// save how many crosshair do we have
-	cgs.media.numberOfCrosshairs = i;
 
 	cgs.media.blender180Shader = trap_R_RegisterShader("gfx/2d/blender_180.png");
 
