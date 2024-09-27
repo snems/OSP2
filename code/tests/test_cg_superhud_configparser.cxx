@@ -3,6 +3,18 @@
 #include "../cgame/cg_superhud_private.h"
 #include "../qcommon/qcommon.h"
 
+namespace
+{
+  bool initialized = false;
+  void shud_test_init()
+  {
+    if (initialized) return;
+    Com_InitZoneMemory();
+    CG_SHUDParserInit();
+    initialized = true;
+  }
+
+}
 
 
 TEST_CASE("Test SuperHUD: test split config to lines", "[cgame][CG_SHUDConfigFileSplitToLines]")
@@ -13,7 +25,7 @@ TEST_CASE("Test SuperHUD: test split config to lines", "[cgame][CG_SHUDConfigFil
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
+  shud_test_init();
 
   result = CG_SHUDFileInfoInit(&info, config0);
   CHECK(result == qfalse);
@@ -68,8 +80,7 @@ TEST_CASE("Test SuperHUD: test split config to lines", "[cgame][CG_SHUDConfigFil
 
 TEST_CASE("Test SuperHUD: find element in dictonary", "[cgame][cg_superhud_configparser]")
 {
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
   auto result = CG_SHUDFindConfigElementItem("fragmessage");
 
   REQUIRE(result);
@@ -89,8 +100,7 @@ TEST_CASE("Test SuperHUD: get element from config", "[cgame][cg_superhud_configp
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   // no elements
   result = CG_SHUDFileInfoInit(&info, config0);
@@ -164,8 +174,7 @@ TEST_CASE("Test SuperHUD: get command from config", "[cgame][cg_superhud_configp
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   // default element
   result = CG_SHUDFileInfoInit(&info, config1);
@@ -234,8 +243,7 @@ TEST_CASE("Test SuperHUD: parse COLOR command", "[cgame][cg_superhud_configparse
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   SECTION("TEI")
   {
@@ -381,8 +389,7 @@ TEST_CASE("Test SuperHUD: parse ALIGNH command", "[cgame][cg_superhud_configpars
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -489,8 +496,7 @@ TEST_CASE("Test SuperHUD: parse ALIGNV command", "[cgame][cg_superhud_configpars
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -596,8 +602,7 @@ TEST_CASE("Test SuperHUD: parse ANGLES command", "[cgame][cg_superhud_configpars
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -708,8 +713,7 @@ TEST_CASE("Test SuperHUD: parse BGCOLOR command", "[cgame][cg_superhud_configpar
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -774,8 +778,7 @@ TEST_CASE("Test SuperHUD: parse DIRECTION command", "[cgame][cg_superhud_configp
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -901,8 +904,7 @@ TEST_CASE("Test SuperHUD: parse DOUBLEBAR command", "[cgame][cg_superhud_configp
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   superhudConfig_t config{}; 
 
@@ -935,8 +937,7 @@ TEST_CASE("Test SuperHUD: parse FADE command", "[cgame][cg_superhud_configparser
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1001,8 +1002,7 @@ TEST_CASE("Test SuperHUD: parse FADEDELAY command", "[cgame][cg_superhud_configp
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1059,8 +1059,7 @@ TEST_CASE("Test SuperHUD: parse FILL command", "[cgame][cg_superhud_configparser
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   superhudConfig_t config{}; 
 
@@ -1094,8 +1093,7 @@ TEST_CASE("Test SuperHUD: parse FONT command", "[cgame][cg_superhud_configparser
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1177,8 +1175,7 @@ TEST_CASE("Test SuperHUD: parse FONTSIZE command", "[cgame][cg_superhud_configpa
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1262,8 +1259,7 @@ TEST_CASE("Test SuperHUD: parse IMAGE command", "[cgame][cg_superhud_configparse
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1344,8 +1340,7 @@ TEST_CASE("Test SuperHUD: parse IMAGETC command", "[cgame][cg_superhud_configpar
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1411,8 +1406,7 @@ TEST_CASE("Test SuperHUD: parse ITTEAM command", "[cgame][cg_superhud_configpars
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1584,8 +1578,7 @@ TEST_CASE("Test SuperHUD: parse MARGINS command", "[cgame][cg_superhud_configpar
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1647,8 +1640,7 @@ TEST_CASE("Test SuperHUD: parse MODEL command", "[cgame][cg_superhud_configparse
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1728,8 +1720,7 @@ TEST_CASE("Test SuperHUD: parse MONOSPACE command", "[cgame][cg_superhud_configp
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   superhudConfig_t config{}; 
 
@@ -1762,8 +1753,7 @@ TEST_CASE("Test SuperHUD: parse OFFSET command", "[cgame][cg_superhud_configpars
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1824,8 +1814,7 @@ TEST_CASE("Test SuperHUD: parse TEXT command", "[cgame][cg_superhud_configparser
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -1909,8 +1898,7 @@ TEST_CASE("Test SuperHUD: parse TEXTALIGN command", "[cgame][cg_superhud_configp
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -2014,8 +2002,7 @@ TEST_CASE("Test SuperHUD: parse TEXTOFFSET command", "[cgame][cg_superhud_config
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -2074,8 +2061,7 @@ TEST_CASE("Test SuperHUD: parse TEXTSTYLE command", "[cgame][cg_superhud_configp
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -2133,8 +2119,7 @@ TEST_CASE("Test SuperHUD: parse TIME command", "[cgame][cg_superhud_configparser
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -2192,8 +2177,7 @@ TEST_CASE("Test SuperHUD: parse VISFLAGS command", "[cgame][cg_superhud_configpa
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   // Tests disbled as I don't know what visflags is
   //
@@ -2254,8 +2238,7 @@ TEST_CASE("Test SuperHUD: parse HLSIZE command", "[cgame][cg_superhud_configpars
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
@@ -2313,8 +2296,7 @@ TEST_CASE("Test SuperHUD: parse HLCOLOR command", "[cgame][cg_superhud_configpar
   qboolean result;
   configFileInfo_t info{};
 
-  Com_InitZoneMemory();
-  CG_SHUDParserInit();
+  shud_test_init();
 
   {
     superhudConfig_t config{}; 
