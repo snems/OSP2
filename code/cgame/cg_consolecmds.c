@@ -227,7 +227,7 @@ void CG_OSPAddStr_f(void)
 	trap_Cvar_VariableStringBuffer(new_value, new_value, 256);
 
 	Q_strcat(var_value, 256, new_value);
-	trap_Cvar_Set(var_name, var_value);
+	trap_SendConsoleCommand(va("%s %s;", var_name, var_value));
 }
 
 void CG_OSPVStrDown_f(void)
