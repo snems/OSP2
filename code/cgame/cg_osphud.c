@@ -1,12 +1,5 @@
 #include "cg_local.h"
 
-
-struct crosshairColors_s
-{
-	const char* name;
-	float* color;
-};
-
 #define OSPHUD_TEAMOVERLAY_STR_SIZE 128
 typedef struct
 {
@@ -21,21 +14,6 @@ typedef struct
 	int nameLenChar;
 	char str[OSPHUD_TEAMOVERLAY_STR_SIZE];
 } teamOverlay_t;
-
-struct crosshairColors_s crosshairColors[11] =
-{
-	{"white",   colorWhite},
-	{"black",   colorBlack},
-	{"red",     colorRed},
-	{"green",   colorGreen},
-	{"blue",    colorBlue},
-	{"yellow",  colorYellow},
-	{"magenta", colorMagenta},
-	{"cyan",    colorCyan},
-	{"white",   colorWhite},
-	{"grey",    colorDkGrey},
-	{NULL,      NULL},
-};
 
 teamOverlay_t teamOverlay;
 int teamOverlayWidth = 0;

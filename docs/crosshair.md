@@ -14,14 +14,14 @@
 
 ## HEX 
 
-24 bit:
+12 bit:
 
     RGB
     #RGB
     xRGB
     0xRGB
 
-48 bit:
+24 bit:
 
     RRGGBBB
     #RRGGBB

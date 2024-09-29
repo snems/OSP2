@@ -2175,6 +2175,7 @@ void CG_OSPColorFromNumber(int number, float* vector);
 void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size);
 void CG_DynamicMemReport(void);
 const char* CG_LoadLine(const char* ptr, char* out, int outSize);
+qboolean CG_ParseColorStr(const char *str, vec4_t out);
 
 
 /*
