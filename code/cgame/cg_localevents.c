@@ -293,4 +293,32 @@ void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart)
 	}
 }
 
+static void CG_LocalEventCvarParseColor(cvarTable_t* cvart, vec4_t color)
+{
+	if (!CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		Com_Printf("^1Color is wrong, default value used\n");
+		CG_ParseColorStr(cvart->defaultString, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairColor(cvarTable_t* cvart)
+{
+	CG_LocalEventCvarParseColor(cvart, cgs.osp.crosshair.color);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairActionColor(cvarTable_t* cvart)
+{
+	CG_LocalEventCvarParseColor(cvart, cgs.osp.crosshair.actionColor);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairDecorColor(cvarTable_t* cvart)
+{
+	CG_LocalEventCvarParseColor(cvart, cgs.osp.crosshair.decorColor);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionColor(cvarTable_t* cvart)
+{
+	CG_LocalEventCvarParseColor(cvart, cgs.osp.crosshair.decorActionColor);
+}
 

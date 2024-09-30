@@ -19,7 +19,7 @@ static void CG_DrawCrosshairSpeed (void)
 		                    0);
 }
 
-static qhandle_t CG_GetCrosshairShader(void)
+static qhandle_t CG_CrosshairGetShader(void)
 {
 	qhandle_t shader;
 	int crosshair;
@@ -68,7 +68,7 @@ static qhandle_t CG_GetCrosshairShader(void)
 		return 0;
 	}
 
-	shader = cg_crosshair45.integer ? cgs.media.crosshairShader45[crosshair % cgs.media.numberOfCrosshairs] : cgs.media.crosshairShader[crosshair % cgs.media.numberOfCrosshairs];
+	shader = ch_crosshair45.integer ? cgs.media.crosshairShader45[crosshair % cgs.media.numberOfCrosshairs] : cgs.media.crosshairShader[crosshair % cgs.media.numberOfCrosshairs];
 
   return shader;
 }
@@ -76,80 +76,13 @@ static qhandle_t CG_GetCrosshairShader(void)
 static qhandle_t CG_GetCrosshairDecorShader(void)
 {
   qhandle_t shader;
-  int decor = cg_crosshairDecor.integer;
-	shader = cg_crosshairDecor45.integer ? cgs.media.crosshairDecorShader45[decor % cgs.media.numberOfCrosshairDecors] : cgs.media.crosshairDecorShader[decor % cgs.media.numberOfCrosshairDecors];
+  int decor = ch_crosshairDecor.integer;
+	shader = ch_crosshairDecor45.integer ? cgs.media.crosshairDecorShader45[decor % cgs.media.numberOfCrosshairDecors] : cgs.media.crosshairDecorShader[decor % cgs.media.numberOfCrosshairDecors];
 
   return shader;
 }
 
-static void CG_GetCrosshairSize(float *w, float *h)
-{
-	*h = cg_crosshairSize.value;
-	*w = cg_crosshairSize.value;
-	if (cg_crosshairPulse.integer != 0)
-	{
-		int time;
-		time = (float)(cg.time - cg.itemPickupBlendTime);
-		if ((time > 0) && (time < 200.0f))
-		{
-			float tmp;
-			tmp = (float)time;
-			tmp /= 200.0f;
-			tmp += 1.0f;
-			*w *= tmp;
-			*h *= tmp;
-		}
-	}
-}
-
-static void CG_GetCrosshairDecorSize(float *w, float *h)
-{
-  CG_GetCrosshairSize(w, h);
-}
-
-static float CG_GetCrosshairOpaque(void)
-{
-  float value;
-
-  value = Com_Clamp(0, 1, cg_crosshairOpaque.value);
-
-  return value;
-}
-
-static float CG_GetCrosshairDecorOpaque(void)
-{
-  float value;
-
-  value = Com_Clamp(0, 1, cg_crosshairDecorOpaque.value);
-
-  return value;
-}
-
-static void CG_GetCrosshairColor(vec4_t hcolor)
-{
-	if (cg_crosshairHealth.integer != 0)
-	{
-		CG_ColorForHealth(hcolor, NULL);
-	}
-	else
-	{
-	  //todo это надо заменить на новый декодер цвета
-		if (ch_CrosshairColor.integer > 0)
-		{
-			hcolor[0] = ch_CrosshairColor.integer & 1 ? 1.0f : 0;
-			hcolor[1] = ch_CrosshairColor.integer & 2 ? 1.0f : 0;
-			hcolor[2] = ch_CrosshairColor.integer & 4 ? 1.0f : 0;
-			hcolor[3] = 1.0f;
-		}
-		else 
-		{
-		  VectorCopy(colorRed, hcolor);
-		}
-	}
-	hcolor[3] = CG_GetCrosshairOpaque();
-}
-
-static float CG_CrosshairGetHitPulse(float visible_opaque, float period)
+static float CG_CrosshairGetHitVisibilty(float visible_opaque, float period)
 {
 	int time = (float)(cg.time - cgs.osp.lastHitTime);
 	Com_Clamp(200, 1000, period);
@@ -162,15 +95,124 @@ static float CG_CrosshairGetHitPulse(float visible_opaque, float period)
 	return 0.0f;
 }
 
-static void CG_GetCrosshairDecorColor(vec4_t hcolor)
+static float CG_CrosshairGetPulseScaler(float pulseTime, int eventTime)
 {
-  CG_GetCrosshairColor(hcolor);
-  hcolor[3] = CG_GetCrosshairDecorOpaque();
+	int time;
+	float result = 1.0f;
+	float tmp = 0.0f;
+	time = (float)(cg.time - eventTime);
+	if ((time > 0) && (time < pulseTime))
+	{
+		tmp = (float)time;
+		tmp /= pulseTime;
+	}
+	return result + tmp;
+}
 
-  if (cg_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_SHOW)
+
+static void CG_CrosshairGetSize(float *w, float *h)
+{
+	*h = cg_crosshairSize.value;
+	*w = cg_crosshairSize.value;
+	if (cg_crosshairPulse.integer != 0)
+	{
+		float k = CG_CrosshairGetPulseScaler(200.0f, cg.itemPickupBlendTime);
+		*w *= k;
+		*h *= k;
+	}
+	else if (ch_crosshairAction.integer & CG_CROSSHAIR_DECOR_PULSE)
+	{
+		float k = CG_CrosshairGetPulseScaler(ch_crosshairActionTime.integer, cgs.osp.lastHitTime);
+		*w *= k;
+		*h *= k;
+	}
+}
+
+static void CG_CrosshairDecorGetSize(float *w, float *h)
+{
+	*h = cg_crosshairSize.value;
+	*w = cg_crosshairSize.value;
+
+	if (ch_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_PULSE)
+	{
+		float k = CG_CrosshairGetPulseScaler(ch_crosshairActionTime.integer, cgs.osp.lastHitTime);
+		*w *= k;
+		*h *= k;
+	}
+}
+
+static float CG_CrosshairGetOpaque(void)
+{
+  float value;
+
+  value = Com_Clamp(0, 1, ch_crosshairOpaque.value);
+  if (ch_crosshairAction.integer & CG_CROSSHAIR_DECOR_SHOW)
   {
-    hcolor[3] = CG_CrosshairGetHitPulse(hcolor[3], cg_crosshairDecorActionTime.value);
+    value = CG_CrosshairGetHitVisibilty(value, ch_crosshairActionTime.value);
   }
+
+  return value;
+}
+
+static float CG_CrosshairDecorGetOpaque(void)
+{
+  float value;
+
+  value = Com_Clamp(0, 1, ch_crosshairDecorOpaque.value);
+  if (ch_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_SHOW)
+  {
+    value = CG_CrosshairGetHitVisibilty(value, ch_crosshairDecorActionTime.value);
+  }
+
+  return value;
+}
+
+static void CG_CrosshairGetHitColor(const vec4_t base_color, const vec4_t hit_color, float period, vec4_t result)
+{
+	int time = (float)(cg.time - cgs.osp.lastHitTime);
+	Com_Clamp(200, 1000, period);
+	if ((time > 0) && (time < period))
+	{
+		VectorCopy(hit_color, result);
+	}
+	else
+	{
+		VectorCopy(base_color, result);
+	}
+}
+
+static void CG_CrosshairGetColor(vec4_t hcolor)
+{
+	if (cg_crosshairHealth.integer != 0)
+	{
+		CG_ColorForHealth(hcolor, NULL);
+	}
+	else if (ch_crosshairAction.integer & CG_CROSSHAIR_DECOR_COLOR)
+  {
+		CG_CrosshairGetHitColor(cgs.osp.crosshair.color, cgs.osp.crosshair.actionColor, ch_crosshairActionTime.integer, hcolor);
+  }
+	else
+  {
+		VectorCopy(cgs.osp.crosshair.color, hcolor);
+  }
+
+	hcolor[3] = CG_CrosshairGetOpaque();
+}
+
+
+static void CG_CrosshairDecorGetColor(vec4_t hcolor)
+{
+  if (ch_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_COLOR)
+  {
+		CG_CrosshairGetHitColor(cgs.osp.crosshair.decorColor, cgs.osp.crosshair.decorActionColor, ch_crosshairDecorActionTime.integer, hcolor);
+  }
+  else
+  {
+		VectorCopy(cgs.osp.crosshair.decorColor, hcolor);
+  }
+
+  hcolor[3] = CG_CrosshairDecorGetOpaque();
+
 }
 
 void CG_DrawCrosshair(void)
@@ -204,10 +246,10 @@ void CG_DrawCrosshair(void)
 
 
 	//Draw decor
-	if (cg_crosshairDecor.integer && (decorShader = CG_GetCrosshairDecorShader()))
+	if (ch_crosshairDecor.integer && (decorShader = CG_GetCrosshairDecorShader()))
 	{
-	  CG_GetCrosshairDecorColor(decorColor);
-	  CG_GetCrosshairDecorSize(&w, &h);
+	  CG_CrosshairDecorGetColor(decorColor);
+	  CG_CrosshairDecorGetSize(&w, &h);
 	  x = (float)cg_crosshairX.integer;
 	  y = (float)cg_crosshairY.integer;
 	  CG_AdjustFrom640_Old(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
@@ -228,10 +270,10 @@ void CG_DrawCrosshair(void)
 
 
   //Draw crosshair
-	if (cg_drawCrosshair.integer && (crosshairShader = CG_GetCrosshairShader()))
+	if (cg_drawCrosshair.integer && (crosshairShader = CG_CrosshairGetShader()))
 	{
-	  CG_GetCrosshairColor(crosshairColor);
-	  CG_GetCrosshairSize(&w, &h);
+	  CG_CrosshairGetColor(crosshairColor);
+	  CG_CrosshairGetSize(&w, &h);
 
 	  x = (float)cg_crosshairX.integer;
 	  y = (float)cg_crosshairY.integer;

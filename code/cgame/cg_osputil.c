@@ -373,7 +373,7 @@ qboolean CG_ParseColorStr(const char *str, vec4_t out)
 		colorsArray = &crosshairColors[0];
 		while(colorsArray->name)
 		{
-			if (stricmp(in, colorsArray->name) == 0)
+			if (Q_stricmp(in, colorsArray->name) == 0)
 			{
 				break;
 			}

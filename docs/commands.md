@@ -387,6 +387,66 @@
 
 ---
 
+    ch_crosshairDecor 0..26
+
+Рисует декор вокруг прицела.
+
+`0` отключено
+
+`1..N` номер декора
+
+---
+
+    ch_crosshairColor <color> ch_crosshairDecorColor <color>
+
+Цвет прицела или декора.
+
+---
+
+    ch_crosshairRotate45 0/1 ch_crosshairDecorRotate45 0/1
+
+Поворачивает прицел или декор на 45 градусов.
+
+`0` отключено
+
+`1` включено
+
+---
+
+    ch_crosshairAction 0..7 ch_crosshairDecorAction 0..7
+
+
+Добавляет эффекты к декору или прицелу. Битовая маска, эффекты можно совмещать.
+
+`0` отключено
+
+`1` Пульсирует при попадании по цели. Не работает если включен `cg_crosshairPulse`.
+
+`2` Невидим, но появляется при попадании по цели
+
+`4` Меняет цвет при попадании по цели. Не работает если включен `cg_crosshairHealth`.
+
+
+---
+
+    ch_crosshairActionColor <color> ch_crosshairDecorActionColor <color>
+
+Цвет действия прицела или декора при action 4.
+
+---
+
+    ch_crosshairActionTime 100-1000 ch_crosshairDecorActionTime 100-1000
+
+Время действия прицела или декора при action 1,2.
+
+---
+
+    ch_crosshairOpaque 0..1 ch_crosshairDecorOpaque 0..1
+
+Прозрачность прицела или декора.
+
+---
+
     ch_fragMessage
     cg_fallKick
     cg_smokegrowth_gl

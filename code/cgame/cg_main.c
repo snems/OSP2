@@ -320,18 +320,19 @@ vmCvar_t           ch_CrosshairNamesLeft;
 vmCvar_t           ch_crosshairTeamInfo;
 vmCvar_t           ch_TeamCrosshairHealth;
 vmCvar_t           cf_TeamCrosshairHealth;
-vmCvar_t           cg_crosshairDecor;
-vmCvar_t           cg_crosshair45;
-vmCvar_t           cg_crosshairDecor45;
-vmCvar_t           cg_crosshairOpaque;
-vmCvar_t           cg_crosshairDecorOpaque;
+vmCvar_t           ch_crosshairDecor;
+vmCvar_t           ch_crosshairDecorColor;
+vmCvar_t           ch_crosshair45;
+vmCvar_t           ch_crosshairDecor45;
+vmCvar_t           ch_crosshairOpaque;
+vmCvar_t           ch_crosshairDecorOpaque;
 
-vmCvar_t           cg_crosshairAction;
-vmCvar_t           cg_crosshairActionColor;
-vmCvar_t           cg_crosshairActionTime;
-vmCvar_t           cg_crosshairDecorAction;
-vmCvar_t           cg_crosshairDecorActionColor;
-vmCvar_t           cg_crosshairDecorActionTime;
+vmCvar_t           ch_crosshairAction;
+vmCvar_t           ch_crosshairActionColor;
+vmCvar_t           ch_crosshairActionTime;
+vmCvar_t           ch_crosshairDecorAction;
+vmCvar_t           ch_crosshairDecorActionColor;
+vmCvar_t           ch_crosshairDecorActionTime;
 
 
 static cvarTable_t cvarTable[] =
@@ -482,7 +483,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_useScreenShotJPEG, "cg_useScreenShotJPEG", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_useScreenShotJPEG},
 	{ &ch_3waveFont, "ch_3waveFont", "0", CVAR_ARCHIVE },
 	{ &ch_ColorLocations, "ch_ColorLocations", "1", CVAR_ARCHIVE },
-	{ &ch_CrosshairColor, "ch_CrosshairColor", "White", CVAR_ARCHIVE },
+	{ &ch_CrosshairColor, "ch_crosshairColor", "White", CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairColor},
 	{ &cf_CrosshairNames, "cf_CrosshairNames", "12x12", CVAR_ARCHIVE },
 	{ &ch_CrosshairNamesLeft, "ch_CrosshairNamesLeft", "0", CVAR_ARCHIVE },
 	{ &ch_crosshairTeamInfo, "ch_crosshairTeamInfo", "1", CVAR_ARCHIVE },
@@ -565,19 +566,20 @@ static cvarTable_t cvarTable[] =
 	{ &cg_healthMid,   "cg_healthMid", "200",   CVAR_ARCHIVE},
 	{ &cg_healthLow,  "cg_healthLow", "100",  CVAR_ARCHIVE},
 
-	{ &cg_crosshairDecor,  "cg_crosshairDecor", "0",  CVAR_ARCHIVE},
-	{ &cg_crosshair45,  "cg_crosshair45", "0",  CVAR_ARCHIVE},
-	{ &cg_crosshairDecor45,  "cg_crosshairDecor45", "0",  CVAR_ARCHIVE},
-	{ &cg_crosshairDecorOpaque,  "cg_crosshairDecorOpaque", "1",  CVAR_ARCHIVE},
-	{ &cg_crosshairOpaque,  "cg_crosshairOpaque", "1",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecor,  "ch_crosshairDecor", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorColor,  "ch_crosshairDecorColor", "magenta",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorColor},
+	{ &ch_crosshair45,  "ch_crosshair45", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecor45,  "ch_crosshairDecor45", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorOpaque,  "ch_crosshairDecorOpaque", "1",  CVAR_ARCHIVE},
+	{ &ch_crosshairOpaque,  "ch_crosshairOpaque", "1",  CVAR_ARCHIVE},
 
-	{ &cg_crosshairAction,  "cg_crosshairAction", "0",  CVAR_ARCHIVE},
-	{ &cg_crosshairActionColor,  "cg_crosshairActionColor", "blue",  CVAR_ARCHIVE},
-	{ &cg_crosshairActionTime,  "cg_crosshairActionTime", "400",  CVAR_ARCHIVE},
+	{ &ch_crosshairAction,  "ch_crosshairAction", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairActionColor,  "ch_crosshairActionColor", "blue",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairActionColor},
+	{ &ch_crosshairActionTime,  "ch_crosshairActionTime", "400",  CVAR_ARCHIVE},
 
-	{ &cg_crosshairDecorAction,  "cg_crosshairDecorAction", "2",  CVAR_ARCHIVE},
-	{ &cg_crosshairDecorActionColor,  "cg_crosshairDecorActionColor", "red",  CVAR_ARCHIVE},
-	{ &cg_crosshairDecorActionTime,  "cg_crosshairDecorActionTime", "400",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorAction,  "ch_crosshairDecorAction", "2",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorActionColor,  "ch_crosshairDecorActionColor", "red",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionColor},
+	{ &ch_crosshairDecorActionTime,  "ch_crosshairDecorActionTime", "400",  CVAR_ARCHIVE},
 };
 
 #define CG_VARS_HASH_SIZE 512
@@ -1553,6 +1555,12 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	cgs.media.charsetPropB        = trap_R_RegisterShaderNoMip("menu/art/font2_prop.tga");
 
 	CG_RegisterCvars();
+
+	//init variables
+	CG_CvarTouch("ch_crosshairColor");
+	CG_CvarTouch("ch_crosshairActionColor");
+	CG_CvarTouch("ch_crosshairDecorColor");
+	CG_CvarTouch("ch_crosshairDecorActionColor");
 
 	CG_InitConsoleCommands();
 

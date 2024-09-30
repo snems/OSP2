@@ -1078,6 +1078,13 @@ typedef struct cgs_osp_s
 	playerColors_t enemyColors;
 	playerColorsOverride_t enemyColorsOverride;
 	int lastHitTime;
+	struct 
+	{
+		vec4_t color;
+		vec4_t actionColor;
+		vec4_t decorColor;
+		vec4_t decorActionColor;
+	} crosshair;
 } cgs_osp_t;
 
 
@@ -1337,7 +1344,7 @@ extern vmCvar_t           cg_trueLightning;
 extern vmCvar_t           cg_useScreenShotJPEG;
 extern vmCvar_t           ch_3waveFont;
 extern vmCvar_t           ch_ColorLocations;
-extern vmCvar_t           ch_CrosshairColor;
+extern vmCvar_t           cg_CrosshairColor;
 extern vmCvar_t           cf_CrosshairNames;
 extern vmCvar_t           ch_CrosshairNamesLeft;
 extern vmCvar_t           ch_crosshairTeamInfo;
@@ -1423,18 +1430,18 @@ extern vmCvar_t           cg_shudChatEnable;
 extern vmCvar_t           cg_healthMid;
 extern vmCvar_t           cg_healthLow;
 
-extern vmCvar_t           cg_crosshairDecor;
-extern vmCvar_t           cg_crosshair45;
-extern vmCvar_t           cg_crosshairDecor45;
-extern vmCvar_t           cg_crosshairOpaque;
-extern vmCvar_t           cg_crosshairDecorOpaque;
+extern vmCvar_t           ch_crosshairDecor;
+extern vmCvar_t           ch_crosshair45;
+extern vmCvar_t           ch_crosshairDecor45;
+extern vmCvar_t           ch_crosshairOpaque;
+extern vmCvar_t           ch_crosshairDecorOpaque;
 
-extern vmCvar_t           cg_crosshairAction;
-extern vmCvar_t           cg_crosshairActionColor;
-extern vmCvar_t           cg_crosshairActionTime;
-extern vmCvar_t           cg_crosshairDecorAction;
-extern vmCvar_t           cg_crosshairDecorActionColor;
-extern vmCvar_t           cg_crosshairDecorActionTime;
+extern vmCvar_t           ch_crosshairAction;
+extern vmCvar_t           ch_crosshairActionColor;
+extern vmCvar_t           ch_crosshairActionTime;
+extern vmCvar_t           ch_crosshairDecorAction;
+extern vmCvar_t           ch_crosshairDecorActionColor;
+extern vmCvar_t           ch_crosshairDecorActionTime;
 
 //
 // cg_main.c
@@ -2260,6 +2267,11 @@ void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_ch_file(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart);
+
+void CG_LocalEventCvarChanged_ch_crosshairColor(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairActionColor(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorColor(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionColor(cvarTable_t* cvart);
 
 
 #ifdef __cplusplus
