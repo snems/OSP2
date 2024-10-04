@@ -1807,6 +1807,15 @@ void CG_ScanForCrosshairEntity(void)
 	         cg.snap->ps.clientNum, CONTENTS_SOLID | CONTENTS_BODY);
 	if (trace.entityNum >= MAX_CLIENTS)
 	{
+		if (cgs.osp.gameTypeFreeze && trace.entityNum < MAX_GENTITIES)
+		{
+			centity_t *centp = &cg_entities[trace.entityNum];
+			if (centp->currentState.powerups & (1 << PW_BATTLESUIT))
+			{
+				cg.crosshairClientNum = centp->currentState.otherEntityNum;
+				cg.crosshairClientTime = cg.time;
+			}
+		}
 		return;
 	}
 
