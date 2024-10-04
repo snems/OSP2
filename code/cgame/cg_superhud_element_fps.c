@@ -27,7 +27,8 @@ void* CG_SHUDElementFPSCreate(const superhudConfig_t* config)
 void CG_SHUDElementFPSRoutine(void* context)
 {
 	shudElementFPS_t* element = (shudElementFPS_t*)context;
-	int     fps_val;
+	float     fps_val;
+	int     fps_val_int;
 	int     t;
 
 	// don't use serverTime, because that will be drifting to
@@ -50,8 +51,13 @@ void CG_SHUDElementFPSRoutine(void* context)
 	}
 
 	fps_val = 1000.0f / element->timeAverage;
+	fps_val_int = (int)fps_val;
+	if (fps_val - (float)fps_val_int > 0.5f)
+	{
+		++fps_val_int;
+	}
 
-	element->ctx.text = va("%ifps", fps_val);
+	element->ctx.text = va("%ifps", fps_val_int);
 
 	CG_SHUDFill(&element->config);
 
