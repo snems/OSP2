@@ -95,7 +95,7 @@ static float CG_CrosshairGetHitVisibilty(float visible_opaque, float period)
 	return 0.0f;
 }
 
-static float CG_CrosshairGetPulseScaler(float pulseTime, int eventTime)
+static float CG_CrosshairGetPulseScaler(float pulseTime, float scale, int eventTime)
 {
 	int time;
 	float result = 1.0f;
@@ -105,8 +105,9 @@ static float CG_CrosshairGetPulseScaler(float pulseTime, int eventTime)
 	{
 		tmp = (float)time;
 		tmp /= pulseTime;
+		result += tmp * (scale - 1.0f);
 	}
-	return result + tmp;
+	return result;
 }
 
 
@@ -116,13 +117,16 @@ static void CG_CrosshairGetSize(float *w, float *h)
 	*w = cg_crosshairSize.value;
 	if (cg_crosshairPulse.integer != 0)
 	{
-		float k = CG_CrosshairGetPulseScaler(200.0f, cg.itemPickupBlendTime);
+		float k;
+		k = CG_CrosshairGetPulseScaler(200.0f, 2.0f, cg.itemPickupBlendTime);
 		*w *= k;
 		*h *= k;
 	}
 	else if (ch_crosshairAction.integer & CG_CROSSHAIR_DECOR_PULSE)
 	{
-		float k = CG_CrosshairGetPulseScaler(ch_crosshairActionTime.integer, cgs.osp.lastHitTime);
+		float k;
+		Com_Clamp(0.1f, 10.0f, ch_crosshairActionScale.value);
+		k = CG_CrosshairGetPulseScaler(ch_crosshairActionTime.integer, ch_crosshairActionScale.value, cgs.osp.lastHitTime);
 		*w *= k;
 		*h *= k;
 	}
@@ -130,12 +134,14 @@ static void CG_CrosshairGetSize(float *w, float *h)
 
 static void CG_CrosshairDecorGetSize(float *w, float *h)
 {
-	*h = cg_crosshairSize.value;
-	*w = cg_crosshairSize.value;
+	*h = ch_crosshairDecorSize.value;
+	*w = ch_crosshairDecorSize.value;
 
 	if (ch_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_PULSE)
 	{
-		float k = CG_CrosshairGetPulseScaler(ch_crosshairActionTime.integer, cgs.osp.lastHitTime);
+		float k;
+		Com_Clamp(0.1f, 10.0f, ch_crosshairDecorActionScale.value);
+		k = CG_CrosshairGetPulseScaler(ch_crosshairDecorActionTime.integer, ch_crosshairDecorActionScale.value, cgs.osp.lastHitTime);
 		*w *= k;
 		*h *= k;
 	}
@@ -145,7 +151,8 @@ static float CG_CrosshairGetOpaque(void)
 {
   float value;
 
-  value = Com_Clamp(0, 1, ch_crosshairOpaque.value);
+  ch_crosshairOpaque.value = Com_Clamp(0, 1, ch_crosshairOpaque.value);
+  value = 1.0f - ch_crosshairOpaque.value; 
   if (ch_crosshairAction.integer & CG_CROSSHAIR_DECOR_SHOW)
   {
     value = CG_CrosshairGetHitVisibilty(value, ch_crosshairActionTime.value);
@@ -158,7 +165,8 @@ static float CG_CrosshairDecorGetOpaque(void)
 {
   float value;
 
-  value = Com_Clamp(0, 1, ch_crosshairDecorOpaque.value);
+  ch_crosshairDecorOpaque.value = Com_Clamp(0, 1, ch_crosshairDecorOpaque.value);
+  value = 1.0f - ch_crosshairDecorOpaque.value; 
   if (ch_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_SHOW)
   {
     value = CG_CrosshairGetHitVisibilty(value, ch_crosshairDecorActionTime.value);

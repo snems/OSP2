@@ -1438,9 +1438,12 @@ extern vmCvar_t           ch_crosshairDecorOpaque;
 
 extern vmCvar_t           ch_crosshairAction;
 extern vmCvar_t           ch_crosshairActionColor;
+extern vmCvar_t           ch_crosshairActionScale;
 extern vmCvar_t           ch_crosshairActionTime;
+extern vmCvar_t           ch_crosshairDecorSize;
 extern vmCvar_t           ch_crosshairDecorAction;
 extern vmCvar_t           ch_crosshairDecorActionColor;
+extern vmCvar_t           ch_crosshairDecorActionScale;
 extern vmCvar_t           ch_crosshairDecorActionTime;
 
 //

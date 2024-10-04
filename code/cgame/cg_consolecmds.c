@@ -90,7 +90,7 @@ static void CG_NextCrosshair_f(void)
 
 /*
 =================
-CG_NextCrosshair_f
+CG_PrefCrosshair_f
 
 Keybinding command
 =================
@@ -102,6 +102,41 @@ static void CG_PrevCrosshair_f(void)
 	if (curr >= 0)
 	{
 		trap_Cvar_Set("cg_drawCrosshair", va("%i", curr));
+	}
+}
+
+/*
+=================
+CG_NextCrosshairDecor_f
+
+Keybinding command
+=================
+*/
+static void CG_NextCrosshairDecor_f(void)
+{
+	int curr = ch_crosshairDecor.integer + 1;
+
+	if (curr < cgs.media.numberOfCrosshairDecors)
+	{
+		trap_Cvar_Set("ch_crosshairDecor", va("%i", curr));
+	}
+
+}
+
+/*
+=================
+CG_PrefCrosshairDecor_f
+
+Keybinding command
+=================
+*/
+static void CG_PrevCrosshairDecor_f(void)
+{
+	int curr = ch_crosshairDecor.integer - 1;
+
+	if (curr >= 0)
+	{
+		trap_Cvar_Set("ch_crosshairDecor", va("%i", curr));
 	}
 }
 
@@ -674,6 +709,8 @@ static consoleCommand_t commands[] =
 	{ "weapprev", CG_PrevWeapon_f },
 	{ "crossnext", CG_NextCrosshair_f },
 	{ "crossprev", CG_PrevCrosshair_f },
+	{ "crossdecornext", CG_NextCrosshairDecor_f },
+	{ "crossdecorprev", CG_PrevCrosshairDecor_f },
 	{ "weapon", CG_Weapon_f },
 	{ "tell_target", CG_TellTarget_f },
 	{ "tell_attacker", CG_TellAttacker_f },

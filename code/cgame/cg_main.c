@@ -323,14 +323,17 @@ vmCvar_t           cf_TeamCrosshairHealth;
 vmCvar_t           ch_crosshairDecor;
 vmCvar_t           ch_crosshairDecorColor;
 vmCvar_t           ch_crosshair45;
+vmCvar_t           ch_crosshairDecorSize;
 vmCvar_t           ch_crosshairDecor45;
 vmCvar_t           ch_crosshairOpaque;
 vmCvar_t           ch_crosshairDecorOpaque;
 
 vmCvar_t           ch_crosshairAction;
 vmCvar_t           ch_crosshairActionColor;
+vmCvar_t           ch_crosshairActionScale;
 vmCvar_t           ch_crosshairActionTime;
 vmCvar_t           ch_crosshairDecorAction;
+vmCvar_t           ch_crosshairDecorActionScale;
 vmCvar_t           ch_crosshairDecorActionColor;
 vmCvar_t           ch_crosshairDecorActionTime;
 
@@ -567,18 +570,21 @@ static cvarTable_t cvarTable[] =
 	{ &cg_healthLow,  "cg_healthLow", "100",  CVAR_ARCHIVE},
 
 	{ &ch_crosshairDecor,  "ch_crosshairDecor", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorSize,  "ch_crosshairDecorSize", "24",  CVAR_ARCHIVE},
 	{ &ch_crosshairDecorColor,  "ch_crosshairDecorColor", "magenta",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorColor},
 	{ &ch_crosshair45,  "ch_crosshair45", "0",  CVAR_ARCHIVE},
 	{ &ch_crosshairDecor45,  "ch_crosshairDecor45", "0",  CVAR_ARCHIVE},
-	{ &ch_crosshairDecorOpaque,  "ch_crosshairDecorOpaque", "1",  CVAR_ARCHIVE},
-	{ &ch_crosshairOpaque,  "ch_crosshairOpaque", "1",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorOpaque,  "ch_crosshairDecorOpaque", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairOpaque,  "ch_crosshairOpaque", "0",  CVAR_ARCHIVE},
 
 	{ &ch_crosshairAction,  "ch_crosshairAction", "0",  CVAR_ARCHIVE},
 	{ &ch_crosshairActionColor,  "ch_crosshairActionColor", "blue",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairActionColor},
+	{ &ch_crosshairActionScale,  "ch_crosshairDecorActionScale", "2.0",  CVAR_ARCHIVE },
 	{ &ch_crosshairActionTime,  "ch_crosshairActionTime", "400",  CVAR_ARCHIVE},
 
 	{ &ch_crosshairDecorAction,  "ch_crosshairDecorAction", "2",  CVAR_ARCHIVE},
 	{ &ch_crosshairDecorActionColor,  "ch_crosshairDecorActionColor", "red",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionColor},
+	{ &ch_crosshairDecorActionScale,  "ch_crosshairDecorActionScale", "2.0",  CVAR_ARCHIVE },
 	{ &ch_crosshairDecorActionTime,  "ch_crosshairDecorActionTime", "400",  CVAR_ARCHIVE},
 };
 

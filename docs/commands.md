@@ -263,8 +263,10 @@
 
     crossnext
     crossprev
+    crossdecornext
+    crossdecorprev
 
-Переключает прицел на следующий или предыдущий вариант.
+Переключает прицел или декор на следующий или предыдущий вариант.
 
 ---
 
@@ -397,6 +399,12 @@
 
 ---
 
+    ch_crosshairDecorSize 0..N
+
+Размер декора.
+
+---
+
     ch_crosshairColor <color> ch_crosshairDecorColor <color>
 
 Цвет прицела или декора.
@@ -432,6 +440,12 @@
     ch_crosshairActionColor <color> ch_crosshairDecorActionColor <color>
 
 Цвет действия прицела или декора при action 4.
+
+---
+
+    ch_crosshairActionScale 0.1-10 ch_crosshairDecorActionScale 0.1-10
+
+Коэффициент увеличения прицела или декора при action 1.
 
 ---
 
