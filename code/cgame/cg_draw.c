@@ -2225,6 +2225,192 @@ void CG_DrawWarmup(void)
 	}
 }
 
+void CG_DrawWarmupNew(void)
+{
+	int sec = cg.warmup;
+
+	if (sec == 0)
+	{
+		return;
+	}
+	else if (sec < 0)
+	{
+	  CG_OSPDrawString(SCREEN_WIDTH/2.0f, 24,
+	                   cgs.gametype != GT_TOURNAMENT ? "^BWaiting for Players" : "^BWaiting for Opponent",
+	                   colorRed,
+	                   14, 14,
+	                   32, DS_HCENTER|DS_PROPORTIONAL);
+		cg.warmupCount = 0;
+	}
+	else // warmup > 0
+	{
+		if (cgs.gametype == GT_TOURNAMENT)
+		{
+			const char* player1Name = NULL;
+			const char* player2Name = NULL;
+			int i;
+
+			for (i = 0; i < cgs.maxclients; ++i)
+			{
+				if (cgs.clientinfo[i].name[0] && cgs.clientinfo[i].team == TEAM_FREE)
+				{
+					if (!player1Name)
+					{
+						player1Name = cgs.clientinfo[i].name;
+					}
+					else
+					{
+						player2Name = cgs.clientinfo[i].name;
+						break;
+					}
+				}
+			}
+			if (player1Name && player2Name)
+			{
+				int len;
+				int width;
+				const char* text;
+				text = va("%s^7 vs %s", player1Name, player2Name);
+
+				len = CG_DrawStrlen(text);
+
+				if (len > 20)
+				{
+					width = SCREEN_WIDTH / len;
+				}
+				else
+				{
+					width = 32;
+				}
+
+	  		CG_OSPDrawString(SCREEN_WIDTH/2.0f, 20,
+	  		                 text,
+	  		                 colorWhite,
+	  		                 width, width*1.5f,
+	  		                 128, DS_HCENTER|DS_PROPORTIONAL);
+			}
+		}
+		else
+		{
+			const char* text;
+			int len;
+			int width;
+
+			if (cgs.osp.clanBaseTeamDM)
+			{
+				text = "ClanBase TeamDM";
+			}
+			else if (cgs.gametype == GT_FFA)
+			{
+				text = "Free for all";
+			}
+			else if (cgs.gametype == GT_TEAM)
+			{
+				if (cgs.osp.gameTypeFreeze == 0)
+				{
+					text = "Team Deathmatch";
+				}
+				else if (cgs.osp.gameTypeFreeze == 2)
+				{
+
+					text = "FreezeTag TDM (Vanilla)";
+				}
+				else
+				{
+					text = "FreezeTag TDM";
+				}
+			}
+			else if (cgs.gametype == GT_CTF)
+			{
+				text = "Capture the Flag";
+			}
+			else if (cgs.gametype == GT_CA)
+			{
+				text = "Clan Arena";
+			}
+			else
+			{
+				text = "";
+			}
+
+			len = CG_DrawStrlen(text);
+			if (len > 0x14)
+			{
+				width = SCREEN_WIDTH / len;
+			}
+			else
+			{
+				width = 32;
+			}
+	  	CG_OSPDrawString(SCREEN_WIDTH/2.0f, 25,
+	  	                 text,
+	  	                 colorLtGrey,
+	  	                 width, width*1.1f,
+	  	                 128, DS_HCENTER|DS_PROPORTIONAL);
+		}
+
+		if (cg.showScores == 0)
+		{
+			int cw;
+			float* color = colorWhite;
+			const char* s;
+			int w;
+
+			sec = (sec - cg.time) / 1000;
+			if (sec < 0)
+			{
+				cg.warmup = 0;
+				sec = 0;
+			}
+			s = va("Starts in: %i", sec + 1);
+			if (sec != cg.warmupCount)
+			{
+				cg.warmupCount = sec;
+				switch (sec)
+				{
+					case 0:
+						trap_S_StartLocalSound(cgs.media.count1Sound, CHAN_ANNOUNCER);
+						break;
+					case 1:
+						trap_S_StartLocalSound(cgs.media.count2Sound, CHAN_ANNOUNCER);
+						break;
+					case 2:
+						trap_S_StartLocalSound(cgs.media.count3Sound, CHAN_ANNOUNCER);
+						break;
+					default:
+						break;
+				}
+			}
+
+			switch (cg.warmupCount)
+			{
+				case 0:
+					cw = 28;
+					color = colorLtGrey;
+					break;
+				case 1:
+					cw = 24;
+					color = colorYellow;
+					break;
+				case 2:
+					cw = 20;
+					color = colorWhite;
+					break;
+				default:
+					cw = 16;
+					break;
+			}
+
+			w = CG_DrawStrlen(s);
+	  	CG_OSPDrawString(SCREEN_WIDTH/2.0f, 70,
+	  	                 s,
+	  	                 color,
+	  	                 cw, cw*1.5f,
+	  	                 128, DS_HCENTER|DS_PROPORTIONAL);
+		}
+	}
+}
+
 /*
 =================
 CG_Draw2D
@@ -2246,6 +2432,7 @@ static void CG_Draw2D(void)
 	if (cg_shud.integer)
 	{
 		CG_SHUDRoutine();
+		CG_DrawWarmupNew();
 		return;
 	}
 
