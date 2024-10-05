@@ -383,7 +383,7 @@
 
 ---
 
-    cg_heathLow, cg_heathMid 
+    cg_healthLow, cg_healthMid 
 
 Пороговые уровни, когда будет меняться цвет количества брони/здоровья.
 
