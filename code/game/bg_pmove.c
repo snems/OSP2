@@ -1247,7 +1247,10 @@ static void PM_CrashLand(void)
 		}
 		else
 		{
-			PM_AddEvent(PM_FootstepForSurface());
+			if (pm->noFootsteps == 0)
+			{
+				PM_AddEvent(PM_FootstepForSurface());
+			}
 		}
 	}
 
