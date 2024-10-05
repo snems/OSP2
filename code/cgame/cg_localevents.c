@@ -352,3 +352,8 @@ void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart)
 	cvart->vmCvar->value = Com_Clamp(50, 1000, cvart->vmCvar->value);
 }
 
+void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
+}
+

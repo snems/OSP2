@@ -171,6 +171,8 @@ vmCvar_t           cg_autoAction;
 vmCvar_t           cg_clientLog;
 vmCvar_t           cg_customLoc;
 vmCvar_t           cg_damageDraw;
+vmCvar_t           cg_damageIndicatorScale;
+vmCvar_t           cg_damageIndicatorOpaque;
 vmCvar_t           cg_damageKick;
 vmCvar_t           cg_deadBodyFilter;
 vmCvar_t           cg_deadBodyBlack;
@@ -447,6 +449,8 @@ static cvarTable_t cvarTable[] =
 	{ &cg_crosshairPulse, "cg_crosshairPulse", "1", CVAR_ARCHIVE },
 	{ &cg_customLoc, "cg_customLoc", "0", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_damageDraw, "cg_damageDraw", "1", CVAR_ARCHIVE },
+	{ &cg_damageIndicatorScale, "cg_damageIndicatorScale", "1.0", CVAR_ARCHIVE},
+	{ &cg_damageIndicatorOpaque, "cg_damageIndicatorOpaque", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_damageIndicatorOpaque},
 	{ &cg_damageKick, "cg_damageKick", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyFilter, "cg_deadBodyFilter", "0", CVAR_ARCHIVE },
 	{ &cg_drawDecals, "cg_drawDecals", "1", CVAR_ARCHIVE | CVAR_LATCH },
@@ -1118,6 +1122,7 @@ static void CG_RegisterGraphics(void)
 	cgs.media.botSkillShaders[4] = trap_R_RegisterShader("menu/art/skill5.tga");
 
 	cgs.media.viewBloodShader = trap_R_RegisterShader("viewBloodBlend");
+	cgs.media.damageIndicatorCenter = trap_R_RegisterShaderNoMip("damageIndicator2");
 
 	cgs.media.deferShader = trap_R_RegisterShaderNoMip("gfx/2d/defer.tga");
 
@@ -1574,6 +1579,8 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	CG_CvarTouch("ch_crosshairActionTime");
 	CG_CvarTouch("ch_crosshairDecorActionScale");
 	CG_CvarTouch("ch_crosshairDecorActionTime");
+
+	CG_CvarTouch("cg_damageIndicatorOpaque");
 
 	CG_InitConsoleCommands();
 

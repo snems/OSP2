@@ -767,6 +767,7 @@ typedef struct
 
 	qhandle_t   selectShader;
 	qhandle_t   viewBloodShader;
+	qhandle_t   damageIndicatorCenter;
 	qhandle_t   tracerShader;
 	qhandle_t   crosshairShader[NUM_CROSSHAIRS];
 	qhandle_t   crosshairShader45[NUM_CROSSHAIRS];
@@ -1304,6 +1305,8 @@ extern vmCvar_t           cg_clientLog;
 extern vmCvar_t           cg_crosshairPulse;
 extern vmCvar_t           cg_customLoc;
 extern vmCvar_t           cg_damageDraw;
+extern vmCvar_t           cg_damageIndicatorScale;
+extern vmCvar_t           cg_damageIndicatorOpaque;
 extern vmCvar_t           cg_damageKick;
 extern vmCvar_t           cg_deadBodyFilter;
 extern vmCvar_t           cg_deadBodyBlack;
@@ -2281,7 +2284,7 @@ void CG_LocalEventCvarChanged_ch_crosshairActionScale(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairDecorActionScale(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart);
-
+void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart);
 
 #ifdef __cplusplus
 }

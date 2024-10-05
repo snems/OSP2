@@ -461,6 +461,31 @@
 
 ---
 
+    cg_damageDraw 0..2 
+
+Анимация при получении урона
+
+`0` отключено
+
+`1` кровь. 
+
+`2` указатель.
+
+---
+
+    cg_damageIndicatorOpaque 0..1 
+
+Прозрачность указателя при `cg_damageDraw 2`
+
+---
+
+    cg_damageIndicatorScale 0..1 
+
+Размер указателя при `cg_damageDraw 2`
+
+
+---
+
     ch_fragMessage
     cg_fallKick
     cg_smokegrowth_gl
