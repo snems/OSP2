@@ -1913,7 +1913,7 @@ static qboolean CG_IsDoubleShoot(weapon_t weap)
 		weaponTime -= delta;
 		lastTime = cg.time;
 	}
-	
+
 	if (weaponTime < 0)
 	{
 		weaponTime = 0;
@@ -1940,7 +1940,7 @@ static qboolean CG_IsDoubleShoot(weapon_t weap)
 			addTime = 90; //-V1037
 			break;
 		case WP_GRENADE_LAUNCHER:
-			addTime = modeGrenadeTime-100; //-V1037
+			addTime = modeGrenadeTime - 100; //-V1037
 			break;
 		case WP_ROCKET_LAUNCHER:
 			addTime = 700; //-V1037
@@ -1966,7 +1966,7 @@ static qboolean CG_IsDoubleShoot(weapon_t weap)
 
 	weaponTime += addTime;
 	lastTime = cg.time;
-	
+
 	return qfalse;
 }
 
@@ -1996,7 +1996,7 @@ void CG_FireWeapon(centity_t* cent)
 
 
 	weap = &cg_weapons[ ent->weapon ];
-	
+
 	if (cent->currentState.number == cg.predictedPlayerState.clientNum && CG_IsDoubleShoot(ent->weapon))
 	{
 		return;

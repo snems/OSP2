@@ -81,7 +81,7 @@ void CG_OSPSetMode(int value)
 	modeShotgunPromode                 = OSP_SET_MODE_VARIANT(value, 0, 2, 1);
 	modeHitLevelSounds                 = OSP_SET_MODE_VARIANT(value, qfalse, qtrue, qtrue);
 	modePickupDistance                 = OSP_SET_MODE_VARIANT(value, 36, 66, 66);
-																																									//
+	//
 	pm_armorPromode                       = OSP_SET_MODE_VARIANT(value, 0, 1, 1);//-V583
 	modeUnknown2                       = value & OSP_SERVER_MODE_PROMODE_OPT1 ? 1 : 0;
 	modeUnknown3                       = value & OSP_SERVER_MODE_PROMODE_OPT2 ? 200 : 0;

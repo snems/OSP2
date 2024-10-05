@@ -54,9 +54,9 @@ void CG_SHUDElementTargetNameRoutine(void* context)
 		{
 			hide = ci->team != cg.snap->ps.persistant[PERS_TEAM];
 		}
-		
+
 	}
-	
+
 	if (!hide)
 	{
 		Com_sprintf(s, 1024, "%s", ci->name);

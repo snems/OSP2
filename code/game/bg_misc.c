@@ -872,13 +872,13 @@ qboolean    BG_PlayerTouchesItem(playerState_t* ps, entityState_t* item, int atT
 	return qtrue;
 }
 
-static qboolean BG_CanArmorBeGrabbed(gitem_t *item, const playerState_t* ps) 
+static qboolean BG_CanArmorBeGrabbed(gitem_t* item, const playerState_t* ps)
 {
-	float armor; 
+	float armor;
 	int armorMax;
 	armorType_t armorTypeItem;
 	armorType_t armorTypePlayer = ps->stats[STAT_ARMOR_TYPE];
-	static float armorKoeff[3] = { 0.5f ,0.66f ,0.75f };
+	static float armorKoeff[3] = { 0.5f, 0.66f, 0.75f };
 
 	if (pm_armorPromode == 0)
 	{
@@ -892,10 +892,10 @@ static qboolean BG_CanArmorBeGrabbed(gitem_t *item, const playerState_t* ps)
 		}
 	}
 
-	switch(item->quantity)
+	switch (item->quantity)
 	{
 		case 5:
-			armorTypeItem = armorTypePlayer;                                            		/* Address : 0x1b7b0 Type : Interium */
+			armorTypeItem = armorTypePlayer;                                                    /* Address : 0x1b7b0 Type : Interium */
 			break;
 		case 50:
 			armorTypeItem = ARMOR_YELLOW;
@@ -909,22 +909,22 @@ static qboolean BG_CanArmorBeGrabbed(gitem_t *item, const playerState_t* ps)
 			break;
 	}
 
-	switch(armorTypeItem)
+	switch (armorTypeItem)
 	{
-    case ARMOR_GREEN:
-			armorMax = 100;                                            						/* Address : 0x1b79b Type : Interium */
-      break;
-    case ARMOR_YELLOW:
-			armorMax = 150;                                            						/* Address : 0x1b79b Type : Interium */
-      break;
-    case ARMOR_RED:
-			armorMax = 200;                                            						/* Address : 0x1b79b Type : Interium */
+		case ARMOR_GREEN:
+			armorMax = 100;                                                                 /* Address : 0x1b79b Type : Interium */
+			break;
+		case ARMOR_YELLOW:
+			armorMax = 150;                                                                 /* Address : 0x1b79b Type : Interium */
+			break;
+		case ARMOR_RED:
+			armorMax = 200;                                                                 /* Address : 0x1b79b Type : Interium */
 			break;
 		default:
 			// unknown armor type
 			return qfalse;
 			break;
-  }
+	}
 
 
 	if (armorTypeItem == armorTypePlayer)
@@ -932,16 +932,16 @@ static qboolean BG_CanArmorBeGrabbed(gitem_t *item, const playerState_t* ps)
 		return (ps->stats[STAT_ARMOR] < armorMax);
 	}
 
-	armor = (armorKoeff[armorTypeItem]/armorKoeff[armorTypePlayer])*armorMax;
+	armor = (armorKoeff[armorTypeItem] / armorKoeff[armorTypePlayer]) * armorMax;
 
 	return (ps->stats[STAT_ARMOR] < armor);
 }
 
-static qboolean BG_CanAmmoBeGrabbed(weapon_t ammoType, const playerState_t* ps) 
+static qboolean BG_CanAmmoBeGrabbed(weapon_t ammoType, const playerState_t* ps)
 {
 	int ammoMax;
 
-	switch (ammoType) 
+	switch (ammoType)
 	{
 		case WP_SHOTGUN:
 			ammoMax = modeMaxAmmoShotgun;

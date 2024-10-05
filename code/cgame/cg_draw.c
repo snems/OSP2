@@ -1809,7 +1809,7 @@ void CG_ScanForCrosshairEntity(void)
 	{
 		if (cgs.osp.gameTypeFreeze && trace.entityNum < MAX_GENTITIES)
 		{
-			centity_t *centp = &cg_entities[trace.entityNum];
+			centity_t* centp = &cg_entities[trace.entityNum];
 			if (centp->currentState.powerups & (1 << PW_BATTLESUIT))
 			{
 				cg.crosshairClientNum = centp->currentState.otherEntityNum;
@@ -2235,11 +2235,11 @@ void CG_DrawWarmupNew(void)
 	}
 	else if (sec < 0)
 	{
-	  CG_OSPDrawString(SCREEN_WIDTH/2.0f, 24,
-	                   cgs.gametype != GT_TOURNAMENT ? "^BWaiting for Players" : "^BWaiting for Opponent",
-	                   colorRed,
-	                   14, 14,
-	                   32, DS_HCENTER|DS_PROPORTIONAL);
+		CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 24,
+		                 cgs.gametype != GT_TOURNAMENT ? "^BWaiting for Players" : "^BWaiting for Opponent",
+		                 colorRed,
+		                 14, 14,
+		                 32, DS_HCENTER | DS_PROPORTIONAL);
 		cg.warmupCount = 0;
 	}
 	else // warmup > 0
@@ -2283,11 +2283,11 @@ void CG_DrawWarmupNew(void)
 					width = 32;
 				}
 
-	  		CG_OSPDrawString(SCREEN_WIDTH/2.0f, 20,
-	  		                 text,
-	  		                 colorWhite,
-	  		                 width, width*1.5f,
-	  		                 128, DS_HCENTER|DS_PROPORTIONAL);
+				CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 20,
+				                 text,
+				                 colorWhite,
+				                 width, width * 1.5f,
+				                 128, DS_HCENTER | DS_PROPORTIONAL);
 			}
 		}
 		else
@@ -2342,11 +2342,11 @@ void CG_DrawWarmupNew(void)
 			{
 				width = 32;
 			}
-	  	CG_OSPDrawString(SCREEN_WIDTH/2.0f, 25,
-	  	                 text,
-	  	                 colorLtGrey,
-	  	                 width, width*1.1f,
-	  	                 128, DS_HCENTER|DS_PROPORTIONAL);
+			CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 25,
+			                 text,
+			                 colorLtGrey,
+			                 width, width * 1.1f,
+			                 128, DS_HCENTER | DS_PROPORTIONAL);
 		}
 
 		if (cg.showScores == 0)
@@ -2402,11 +2402,11 @@ void CG_DrawWarmupNew(void)
 			}
 
 			w = CG_DrawStrlen(s);
-	  	CG_OSPDrawString(SCREEN_WIDTH/2.0f, 70,
-	  	                 s,
-	  	                 color,
-	  	                 cw, cw*1.5f,
-	  	                 128, DS_HCENTER|DS_PROPORTIONAL);
+			CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 70,
+			                 s,
+			                 color,
+			                 cw, cw * 1.5f,
+			                 128, DS_HCENTER | DS_PROPORTIONAL);
 		}
 	}
 }

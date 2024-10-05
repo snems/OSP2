@@ -1078,7 +1078,7 @@ typedef struct cgs_osp_s
 	playerColors_t enemyColors;
 	playerColorsOverride_t enemyColorsOverride;
 	int lastHitTime;
-	struct 
+	struct
 	{
 		vec4_t color;
 		vec4_t actionColor;
@@ -2185,7 +2185,7 @@ void CG_OSPColorFromNumber(int number, float* vector);
 void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size);
 void CG_DynamicMemReport(void);
 const char* CG_LoadLine(const char* ptr, char* out, int outSize);
-qboolean CG_ParseColorStr(const char *str, vec4_t out);
+qboolean CG_ParseColorStr(const char* str, vec4_t out);
 
 
 /*
