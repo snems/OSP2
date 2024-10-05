@@ -85,7 +85,6 @@ static qhandle_t CG_GetCrosshairDecorShader(void)
 static float CG_CrosshairGetHitVisibilty(float visible_opaque, float period)
 {
 	int time = (float)(cg.time - cgs.osp.lastHitTime);
-	Com_Clamp(200, 1000, period);
 	if ((time > 0) && (time < period))
 	{
 		float result = visible_opaque;
@@ -125,7 +124,6 @@ static void CG_CrosshairGetSize(float* w, float* h)
 	else if (ch_crosshairAction.integer & CG_CROSSHAIR_DECOR_PULSE)
 	{
 		float k;
-		Com_Clamp(0.1f, 10.0f, ch_crosshairActionScale.value);
 		k = CG_CrosshairGetPulseScaler(ch_crosshairActionTime.integer, ch_crosshairActionScale.value, cgs.osp.lastHitTime);
 		*w *= k;
 		*h *= k;
@@ -140,7 +138,6 @@ static void CG_CrosshairDecorGetSize(float* w, float* h)
 	if (ch_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_PULSE)
 	{
 		float k;
-		Com_Clamp(0.1f, 10.0f, ch_crosshairDecorActionScale.value);
 		k = CG_CrosshairGetPulseScaler(ch_crosshairDecorActionTime.integer, ch_crosshairDecorActionScale.value, cgs.osp.lastHitTime);
 		*w *= k;
 		*h *= k;
@@ -151,7 +148,6 @@ static float CG_CrosshairGetOpaque(void)
 {
 	float value;
 
-	ch_crosshairOpaque.value = Com_Clamp(0, 1, ch_crosshairOpaque.value);
 	value = 1.0f - ch_crosshairOpaque.value;
 	if (ch_crosshairAction.integer & CG_CROSSHAIR_DECOR_SHOW)
 	{
@@ -165,7 +161,6 @@ static float CG_CrosshairDecorGetOpaque(void)
 {
 	float value;
 
-	ch_crosshairDecorOpaque.value = Com_Clamp(0, 1, ch_crosshairDecorOpaque.value);
 	value = 1.0f - ch_crosshairDecorOpaque.value;
 	if (ch_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_SHOW)
 	{
@@ -178,7 +173,6 @@ static float CG_CrosshairDecorGetOpaque(void)
 static void CG_CrosshairGetHitColor(const vec4_t base_color, const vec4_t hit_color, float period, vec4_t result)
 {
 	int time = (float)(cg.time - cgs.osp.lastHitTime);
-	Com_Clamp(200, 1000, period);
 	if ((time > 0) && (time < period))
 	{
 		VectorCopy(hit_color, result);

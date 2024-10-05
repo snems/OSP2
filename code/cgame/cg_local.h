@@ -2275,6 +2275,12 @@ void CG_LocalEventCvarChanged_ch_crosshairColor(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairActionColor(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairDecorColor(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairDecorActionColor(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorOpaque(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairOpaque(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairActionScale(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionScale(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart);
 
 
 #ifdef __cplusplus

@@ -449,7 +449,7 @@
 
 ---
 
-    ch_crosshairActionTime 100-1000 ch_crosshairDecorActionTime 100-1000
+    ch_crosshairActionTime 50-1000 ch_crosshairDecorActionTime 50-1000
 
 Время действия прицела или декора при action 1,2.
 

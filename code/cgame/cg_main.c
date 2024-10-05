@@ -574,18 +574,18 @@ static cvarTable_t cvarTable[] =
 	{ &ch_crosshairDecorColor,  "ch_crosshairDecorColor", "magenta",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorColor},
 	{ &ch_crosshair45,  "ch_crosshair45", "0",  CVAR_ARCHIVE},
 	{ &ch_crosshairDecor45,  "ch_crosshairDecor45", "0",  CVAR_ARCHIVE},
-	{ &ch_crosshairDecorOpaque,  "ch_crosshairDecorOpaque", "0",  CVAR_ARCHIVE},
-	{ &ch_crosshairOpaque,  "ch_crosshairOpaque", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorOpaque,  "ch_crosshairDecorOpaque", "0",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorOpaque},
+	{ &ch_crosshairOpaque,  "ch_crosshairOpaque", "0",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairOpaque},
 
 	{ &ch_crosshairAction,  "ch_crosshairAction", "0",  CVAR_ARCHIVE},
 	{ &ch_crosshairActionColor,  "ch_crosshairActionColor", "blue",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairActionColor},
-	{ &ch_crosshairActionScale,  "ch_crosshairDecorActionScale", "2.0",  CVAR_ARCHIVE },
-	{ &ch_crosshairActionTime,  "ch_crosshairActionTime", "400",  CVAR_ARCHIVE},
+	{ &ch_crosshairActionScale,  "ch_crosshairActionScale", "2.0",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairActionScale },
+	{ &ch_crosshairActionTime,  "ch_crosshairActionTime", "400",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairActionTime},
 
 	{ &ch_crosshairDecorAction,  "ch_crosshairDecorAction", "2",  CVAR_ARCHIVE},
 	{ &ch_crosshairDecorActionColor,  "ch_crosshairDecorActionColor", "red",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionColor},
-	{ &ch_crosshairDecorActionScale,  "ch_crosshairDecorActionScale", "2.0",  CVAR_ARCHIVE },
-	{ &ch_crosshairDecorActionTime,  "ch_crosshairDecorActionTime", "400",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorActionScale,  "ch_crosshairDecorActionScale", "2.0",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionScale},
+	{ &ch_crosshairDecorActionTime,  "ch_crosshairDecorActionTime", "400",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionTime},
 };
 
 #define CG_VARS_HASH_SIZE 512
@@ -1567,6 +1567,13 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	CG_CvarTouch("ch_crosshairActionColor");
 	CG_CvarTouch("ch_crosshairDecorColor");
 	CG_CvarTouch("ch_crosshairDecorActionColor");
+
+	CG_CvarTouch("ch_crosshairDecorOpaque");
+	CG_CvarTouch("ch_crosshairOpaque");
+	CG_CvarTouch("ch_crosshairActionScale");
+	CG_CvarTouch("ch_crosshairActionTime");
+	CG_CvarTouch("ch_crosshairDecorActionScale");
+	CG_CvarTouch("ch_crosshairDecorActionTime");
 
 	CG_InitConsoleCommands();
 

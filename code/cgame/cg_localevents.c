@@ -322,3 +322,33 @@ void CG_LocalEventCvarChanged_ch_crosshairDecorActionColor(cvarTable_t* cvart)
 	CG_LocalEventCvarParseColor(cvart, cgs.osp.crosshair.decorActionColor);
 }
 
+void CG_LocalEventCvarChanged_ch_crosshairDecorOpaque(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairOpaque(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairActionScale(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0.1, 10, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionScale(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0.1, 10, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(50, 1000, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(50, 1000, cvart->vmCvar->value);
+}
+
