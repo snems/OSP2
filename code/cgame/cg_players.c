@@ -1746,7 +1746,7 @@ CG_PlayerFloatSprite
 Float a sprite over the player's head
 ===============
 */
-static void CG_PlayerFloatSprite(centity_t* cent, qhandle_t shader)
+static void CG_PlayerFloatSprite(centity_t* cent, qhandle_t shader, vec4_t color)
 {
 	int             rf;
 	refEntity_t     ent;
@@ -1767,9 +1767,18 @@ static void CG_PlayerFloatSprite(centity_t* cent, qhandle_t shader)
 	ent.customShader = shader;
 	ent.radius = 10;
 	ent.renderfx = rf;
-	ent.shaderRGBA[0] = 255;
-	ent.shaderRGBA[1] = 255;
-	ent.shaderRGBA[2] = 255;
+	if (color)
+	{
+		ent.shaderRGBA[0] = color[0] * 255;
+		ent.shaderRGBA[1] = color[1] * 255;
+		ent.shaderRGBA[2] = color[2] * 255;
+	}
+	else
+	{
+		ent.shaderRGBA[0] = 255;
+		ent.shaderRGBA[1] = 255;
+		ent.shaderRGBA[2] = 255;
+	}
 	ent.shaderRGBA[3] = 255;
 	trap_R_AddRefEntityToScene(&ent);
 }
@@ -1789,49 +1798,49 @@ static void CG_PlayerSprites(centity_t* cent)
 
 	if (cent->currentState.eFlags & EF_CONNECTION)
 	{
-		CG_PlayerFloatSprite(cent, cgs.media.connectionShader);
+		CG_PlayerFloatSprite(cent, cgs.media.connectionShader, NULL);
 		return;
 	}
 
 	if (cent->currentState.eFlags & EF_TALK)
 	{
-		CG_PlayerFloatSprite(cent, cgs.media.balloonShader);
+		CG_PlayerFloatSprite(cent, cgs.media.balloonShader, NULL);
 		return;
 	}
 
 	if (cent->currentState.eFlags & EF_AWARD_IMPRESSIVE)
 	{
-		CG_PlayerFloatSprite(cent, cgs.media.medalImpressive);
+		CG_PlayerFloatSprite(cent, cgs.media.medalImpressive, NULL);
 		return;
 	}
 
 	if (cent->currentState.eFlags & EF_AWARD_EXCELLENT)
 	{
-		CG_PlayerFloatSprite(cent, cgs.media.medalExcellent);
+		CG_PlayerFloatSprite(cent, cgs.media.medalExcellent, NULL);
 		return;
 	}
 
 	if (cent->currentState.eFlags & EF_AWARD_GAUNTLET)
 	{
-		CG_PlayerFloatSprite(cent, cgs.media.medalGauntlet);
+		CG_PlayerFloatSprite(cent, cgs.media.medalGauntlet, NULL);
 		return;
 	}
 
 	if (cent->currentState.eFlags & EF_AWARD_DEFEND)
 	{
-		CG_PlayerFloatSprite(cent, cgs.media.medalDefend);
+		CG_PlayerFloatSprite(cent, cgs.media.medalDefend, NULL);
 		return;
 	}
 
 	if (cent->currentState.eFlags & EF_AWARD_ASSIST)
 	{
-		CG_PlayerFloatSprite(cent, cgs.media.medalAssist);
+		CG_PlayerFloatSprite(cent, cgs.media.medalAssist, NULL);
 		return;
 	}
 
 	if (cent->currentState.eFlags & EF_AWARD_CAP)
 	{
-		CG_PlayerFloatSprite(cent, cgs.media.medalCapture);
+		CG_PlayerFloatSprite(cent, cgs.media.medalCapture, NULL);
 		return;
 	}
 
@@ -1843,11 +1852,13 @@ static void CG_PlayerSprites(centity_t* cent)
 		{
 			if (cgs.osp.gameTypeFreeze && cent->currentState.powerups & (1 << PW_BATTLESUIT) && cent->currentState.weapon == WP_NONE)
 			{
-				CG_PlayerFloatSprite(cent, cgs.media.frozenFoeTagShader);
+				CG_PlayerFloatSprite(cent, cgs.media.frozenFoeTagShader, NULL);
 			}
 			else
 			{
-				CG_PlayerFloatSprite(cent, cgs.media.friendShader);
+				vec4_t color;
+				CG_GetColorForHealth(cl->health, cl->armor, color, NULL);
+				CG_PlayerFloatSprite(cent, cgs.media.friendShader, color);
 			}
 			return;
 		}
