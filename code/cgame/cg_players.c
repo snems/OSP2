@@ -645,13 +645,15 @@ static void CG_ForceNewClientInfo(clientInfo_t* old, clientInfo_t* new)
 
 static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qboolean isTeamGame, const char* config)
 {
+	char modelName[MAX_QPATH];
 	const char* resultModelString = "keel/pm";
 	const char* cfgModelString = Info_ValueForKey(config, "model");
 
 	// сначала решим какую строку модели использовать
 	if (isOurClient)
 	{
-		resultModelString = cfgModelString;
+	  trap_Cvar_VariableStringBuffer("model", modelName, sizeof(modelName));
+		resultModelString = modelName;
 	}
 	else
 	{
@@ -740,7 +742,7 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 		if (isOurClient)
 		{
 			// our player only pm or default
-			if (!isPmSkin)
+			if (qfalse && !isPmSkin)
 			{
 				nameSkin = "default";
 			}
