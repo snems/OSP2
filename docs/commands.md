@@ -268,17 +268,6 @@
 
 Переключает прицел или декор на следующий или предыдущий вариант.
 
----
-
-    cg_commonChatDisable 0/1
-
-То же самое что cg_teamChatsOnly.
-
----
-
-    cg_teamChatDisable 0/1
-
-Отключает прием сообщений от игроков команды.
 
 ---
 
@@ -321,7 +310,7 @@
 
 ---
 
-    cg_shudChatDisable 0..3
+    cg_shudChatEnable 0..3
 
 Отключает сообщения в суперхуде.
 
@@ -504,8 +493,6 @@
     decal*
     cg_defferPlayers
     cg_teamChatsOnly
-    cg_commonChatDisable
-    cg_teamChatDisable
     cg_chatDisable
 
 Не работает и восстанавливать не планируется.
