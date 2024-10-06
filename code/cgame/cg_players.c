@@ -2315,6 +2315,7 @@ void CG_Player(centity_t* cent)
 	int             renderfx;
 	qboolean        shadow;
 	float           shadowPlane;
+	qboolean        paintItBlack;
 
 	if (cg.clientNum == cent->currentState.clientNum && global_viewlistFirstOption)
 	{
@@ -2375,7 +2376,12 @@ void CG_Player(centity_t* cent)
 		renderfx |= RF_SHADOW_PLANE;
 	}
 	renderfx |= RF_LIGHTING_ORIGIN;         // use the same origin for all
-	//
+																					//
+	paintItBlack = cg_deadBodyBlack.integer && (
+			cent->currentState.eFlags & EF_DEAD || //dead
+		  (cgs.osp.gameTypeFreeze && (cent->currentState.weapon == WP_NONE) && (cent->currentState.powerups & (1 << PW_BATTLESUIT)))// or frozen
+			);
+	
 	//
 	// add the legs
 	//
@@ -2426,7 +2432,7 @@ void CG_Player(centity_t* cent)
 		legs.shaderRGBA[3] = 0xff;
 	}
 
-	if (cent->currentState.eFlags & EF_DEAD && cg_deadBodyBlack.integer)
+	if (paintItBlack)
 	{
 		legs.shaderRGBA[0] = legs.shaderRGBA[1] = legs.shaderRGBA[2] = 220 - (55 * cg_deadBodyBlack.integer);
 	}
@@ -2480,7 +2486,7 @@ void CG_Player(centity_t* cent)
 		torso.shaderRGBA[3] = 0xff;
 	}
 
-	if (cent->currentState.eFlags & EF_DEAD && cg_deadBodyBlack.integer)
+	if (paintItBlack)
 	{
 		torso.shaderRGBA[0] = torso.shaderRGBA[1] = torso.shaderRGBA[2] = 220 - (55 * cg_deadBodyBlack.integer);
 	}
@@ -2534,7 +2540,7 @@ void CG_Player(centity_t* cent)
 		head.shaderRGBA[3] = 0xff;
 	}
 
-	if (cent->currentState.eFlags & EF_DEAD && cg_deadBodyBlack.integer)
+	if (paintItBlack)
 	{
 		head.shaderRGBA[0] = head.shaderRGBA[1] = head.shaderRGBA[2] = 220 - (55 * cg_deadBodyBlack.integer);
 	}

@@ -1858,7 +1858,7 @@ void CG_DrawCrosshairNames(void)
 	if ((cg_drawCrosshairNames.integer == 2) &&
 	        ((cg.snap->ps.persistant[PERS_TEAM] == TEAM_FREE) ||
 	         (cg.snap->ps.persistant[PERS_TEAM] == cgs.clientinfo[cg.crosshairClientNum].team) ||
-	         (cgs.osp.gameTypeFreeze == GT_FFA) ||
+	         cgs.osp.gameTypeFreeze ||
 	         (cgs.clientinfo[cg.snap->ps.clientNum].team != cgs.clientinfo[cg.crosshairClientNum].team)))
 	{
 		return;

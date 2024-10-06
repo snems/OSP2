@@ -667,6 +667,8 @@ void CG_UnMute_f(void)
 	}
 }
 
+void CG_Stub_f(void) { }
+
 typedef struct
 {
 	char*    cmd;
@@ -703,6 +705,8 @@ static consoleCommand_t commands[] =
 	{ "-wstats", CG_OSPWStatsUp_f },
 	{ "+zoom", CG_ZoomDown_f },
 	{ "-zoom", CG_ZoomUp_f },
+	{ "+zoomtoggle", CG_ZoomToggle_f},
+	{ "-zoomtoggle", CG_Stub_f },
 	{ "sizeup", CG_SizeUp_f },
 	{ "sizedown", CG_SizeDown_f },
 	{ "weapnext", CG_NextWeapon_f },

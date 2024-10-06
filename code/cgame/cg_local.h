@@ -1506,6 +1506,7 @@ void CG_TestModelNextSkin_f(void);
 void CG_TestModelPrevSkin_f(void);
 void CG_ZoomDown_f(void);
 void CG_ZoomUp_f(void);
+void CG_ZoomToggle_f(void);
 void CG_AddBufferedSound(sfxHandle_t sfx);
 
 void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoPlayback);

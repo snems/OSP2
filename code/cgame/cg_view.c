@@ -506,6 +506,19 @@ void CG_ZoomUp_f(void)
 	cg.zoomTime = cg.time;
 }
 
+void CG_ZoomToggle_f(void)
+{
+	if (cg.zoomed)
+	{
+		cg.zoomed = qfalse;
+		cg.zoomTime = cg.time;
+	}
+	else
+	{
+		cg.zoomed = qtrue;
+		cg.zoomTime = cg.time;
+	}
+}
 
 /*
 ====================
