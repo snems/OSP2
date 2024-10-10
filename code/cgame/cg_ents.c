@@ -848,7 +848,7 @@ static void CG_CalcEntityLerpPositions(centity_t* cent)
 	}
 
 	// if it's a missile but not a grappling hook
-	if (cent->currentState.eType == ET_MISSILE && cent->currentState.weapon != WP_GRAPPLING_HOOK && cg_projectileNudge.integer)
+	if (cent->currentState.eType == ET_MISSILE && cent->currentState.weapon != WP_GRAPPLING_HOOK && cg_projectileNudge.integer && cgs.clientinfo[cg.clientNum].team != TEAM_SPECTATOR && !cg.demoPlayback)
 	{
 		int serverTick = 0;
 		if (cg.nextSnap && cg.snap)

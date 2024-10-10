@@ -37,10 +37,19 @@ void* CG_SHUDElementSBAmCCreate(const superhudConfig_t* config)
 void CG_SHUDElementSBAmCRoutine(void* context)
 {
 	shudElementStatusbarAmmoCount* element = (shudElementStatusbarAmmoCount*)context;
-	int wp = cg.weaponSelect;
-	int ammo = cg.predictedPlayerState.ammo[wp];
+	int wp;
+	int ammo;
+
+	if (!cg.snap)
+	{
+		return;
+	}
+
+	wp = cg.snap->ps.weapon;
 
 	if (wp == WP_NONE || wp == WP_GAUNTLET) return;
+
+	ammo = cg.snap->ps.ammo[wp];
 
 	element->ctx.text = va(element->config.text.value, ammo > 0 ? ammo : 0);
 

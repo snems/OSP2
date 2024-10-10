@@ -90,7 +90,7 @@ static void CG_NextCrosshair_f(void)
 
 /*
 =================
-CG_NextCrosshair_f
+CG_PrefCrosshair_f
 
 Keybinding command
 =================
@@ -102,6 +102,41 @@ static void CG_PrevCrosshair_f(void)
 	if (curr >= 0)
 	{
 		trap_Cvar_Set("cg_drawCrosshair", va("%i", curr));
+	}
+}
+
+/*
+=================
+CG_NextCrosshairDecor_f
+
+Keybinding command
+=================
+*/
+static void CG_NextCrosshairDecor_f(void)
+{
+	int curr = ch_crosshairDecor.integer + 1;
+
+	if (curr < cgs.media.numberOfCrosshairDecors)
+	{
+		trap_Cvar_Set("ch_crosshairDecor", va("%i", curr));
+	}
+
+}
+
+/*
+=================
+CG_PrefCrosshairDecor_f
+
+Keybinding command
+=================
+*/
+static void CG_PrevCrosshairDecor_f(void)
+{
+	int curr = ch_crosshairDecor.integer - 1;
+
+	if (curr >= 0)
+	{
+		trap_Cvar_Set("ch_crosshairDecor", va("%i", curr));
 	}
 }
 
@@ -227,7 +262,7 @@ void CG_OSPAddStr_f(void)
 	trap_Cvar_VariableStringBuffer(new_value, new_value, 256);
 
 	Q_strcat(var_value, 256, new_value);
-	trap_Cvar_Set(var_name, var_value);
+	trap_SendConsoleCommand(va("%s %s;", var_name, var_value));
 }
 
 void CG_OSPVStrDown_f(void)
@@ -632,6 +667,8 @@ void CG_UnMute_f(void)
 	}
 }
 
+void CG_Stub_f(void) { }
+
 typedef struct
 {
 	char*    cmd;
@@ -668,12 +705,16 @@ static consoleCommand_t commands[] =
 	{ "-wstats", CG_OSPWStatsUp_f },
 	{ "+zoom", CG_ZoomDown_f },
 	{ "-zoom", CG_ZoomUp_f },
+	{ "+zoomtoggle", CG_ZoomToggle_f},
+	{ "-zoomtoggle", CG_Stub_f },
 	{ "sizeup", CG_SizeUp_f },
 	{ "sizedown", CG_SizeDown_f },
 	{ "weapnext", CG_NextWeapon_f },
 	{ "weapprev", CG_PrevWeapon_f },
 	{ "crossnext", CG_NextCrosshair_f },
 	{ "crossprev", CG_PrevCrosshair_f },
+	{ "crossdecornext", CG_NextCrosshairDecor_f },
+	{ "crossdecorprev", CG_PrevCrosshairDecor_f },
 	{ "weapon", CG_Weapon_f },
 	{ "tell_target", CG_TellTarget_f },
 	{ "tell_attacker", CG_TellAttacker_f },

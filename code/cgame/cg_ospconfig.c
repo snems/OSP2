@@ -2,35 +2,6 @@
 #include "../game/bg_local.h"
 
 
-int modePromodePhysKoeff; //1870ec
-float modePromode_pm_airaccelerate_1; //3450
-int modePredictionKoeff2;   //3454
-float modePromode_pm_airaccelerate_2; //3458
-float modeWishspeedLimit; //345c
-int modePredictionKoeff1;   //3460
-float modeWaterFriction;      //3464
-float modeSwimScale1;         //3468
-float modeSwimScale2;         //346c
-float modeWaterAccelerate;    //3470
-float modeShotgunKoeff;    //3494
-int modeShotgunNumberOfPellets;    //3498
-float modeUnused8;    //349c
-int modeMaxAmmoShotgun;    //34a0
-int modeGrenadeTime;    //34a4
-int modeMaxAmmoGrenade;    //34a8
-int modeMaxAmmoRocket;     //34b0
-int modeMaxAmmoRail;       //34c0
-int modeBeginWeaponChangeTime;    //34d0
-int modeFinishWeaponChangeTime;    //34d4
-int modePMNoAmmoTime;    //34d8
-int modeUnknown1;    //34e4
-qboolean modeHitLevelSounds;    //3514
-int modePickupDistance;    //20e8
-//
-int modeUnknown2;    //3528
-int modeUnknown3;    //352c
-int modeUnknown4;    //3530
-int modeShotgunPromode;    //3514
 
 
 extern qboolean localClient;
@@ -95,25 +66,26 @@ void CG_OSPSetMode(int value)
 	pm_accelerate                      = OSP_SET_MODE_VARIANT(value, 10, 10, 16);//-V583
 	modeSwimScale1                     = OSP_SET_MODE_VARIANT(value, 0.5f, 0.54f, 0.54f);//-V583
 	modeSwimScale2                     = OSP_SET_MODE_VARIANT(value, 0.7f, 0.585f, 0.585f);//-V583
-	modeWaterFriction                  = OSP_SET_MODE_VARIANT(value, 1.0f, 0.5f, 0.5f);//-V583
-	modeWaterAccelerate                = OSP_SET_MODE_VARIANT(value, 4.0f, 5.0f, 5.0f);//-V583
+	pm_waterfriction                   = OSP_SET_MODE_VARIANT(value, 1.0f, 0.5f, 0.5f);//-V583
+	pm_wateraccelerate                 = OSP_SET_MODE_VARIANT(value, 4.0f, 5.0f, 5.0f);//-V583
 	modeShotgunKoeff                   = OSP_SET_MODE_VARIANT(value, 700, 900, 900);//-V583
 	modeShotgunNumberOfPellets         = OSP_SET_MODE_VARIANT(value, 11, 16, 16);//-V583
 	modeMaxAmmoShotgun                 = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
-	modeGrenadeTime                    = OSP_SET_MODE_VARIANT(value, 800, 800, 700);//-V583
 	modeMaxAmmoGrenade                 = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
 	modeMaxAmmoRocket                  = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
 	modeMaxAmmoRail                    = OSP_SET_MODE_VARIANT(value, 200, 100, 100);//-V583
+	modeGrenadeTime                    = OSP_SET_MODE_VARIANT(value, 800, 800, 700);//-V583
 	modeBeginWeaponChangeTime          = OSP_SET_MODE_VARIANT(value, 200, 200, 0);//-V583
 	modeFinishWeaponChangeTime         = OSP_SET_MODE_VARIANT(value, 250, 250, 0);//-V583
 	modePMNoAmmoTime                   = OSP_SET_MODE_VARIANT(value, 500, 500, 100);//-V583
-	modeUnknown1                       = OSP_SET_MODE_VARIANT(value, 0, 1, 1);//-V583
+	modeShotgunPromode                 = OSP_SET_MODE_VARIANT(value, 0, 2, 1);
 	modeHitLevelSounds                 = OSP_SET_MODE_VARIANT(value, qfalse, qtrue, qtrue);
 	modePickupDistance                 = OSP_SET_MODE_VARIANT(value, 36, 66, 66);
+	//
+	pm_armorPromode                       = OSP_SET_MODE_VARIANT(value, 0, 1, 1);//-V583
 	modeUnknown2                       = value & OSP_SERVER_MODE_PROMODE_OPT1 ? 1 : 0;
 	modeUnknown3                       = value & OSP_SERVER_MODE_PROMODE_OPT2 ? 200 : 0;
 	modeUnknown4                       = value & OSP_SERVER_MODE_PROMODE_OPT2 ? 100 : 0;
-	modeShotgunPromode                 = OSP_SET_MODE_VARIANT(value, 0, 2, 1);
 }
 
 
@@ -181,15 +153,6 @@ void CG_OSPCvarsRestrictValues(void)
 	{
 		trap_Cvar_Set("r_znear", "4");
 		changed = qtrue;
-	}
-
-
-	if ((cgs.osp.custom_client & OSP_CUSTOM_CLIENT_MAXFPS_FLAG) == 0)
-	{
-		if (com_maxfps.integer > 250 || com_maxfps.integer <= 0)
-		{
-			trap_Cvar_Set("com_maxfps", "125");
-		}
 	}
 
 	if (r_shownormals.integer != 0)
@@ -285,10 +248,6 @@ void CG_OSPConfigClanBaseTDMSet(qboolean value)
 void CG_OSPConfigCustomClientSet(int value)
 {
 	cgs.osp.custom_client = value;
-	CG_CvarTouch("cg_altPlasma");
-	CG_CvarTouch("cg_altGrenades");
-	CG_CvarTouch("cg_altLightning");
-	CG_CvarTouch("cg_enableOSPHUD");
 	CG_CvarTouch("cg_shud");
 }
 

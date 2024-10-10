@@ -104,23 +104,7 @@ vmCvar_t           cg_draw3dIcons;
 vmCvar_t           cg_drawIcons;
 vmCvar_t           cg_drawAmmoWarning;
 vmCvar_t           cg_drawAttacker;
-vmCvar_t           cg_drawCrosshair;
-vmCvar_t           cg_drawCrosshairGauntlet;
-vmCvar_t           cg_drawCrosshairMachinegun;
-vmCvar_t           cg_drawCrosshairShotgun;
-vmCvar_t           cg_drawCrosshairGrenadeLauncher;
-vmCvar_t           cg_drawCrosshairRocketLauncher;
-vmCvar_t           cg_drawCrosshairLightning;
-vmCvar_t           cg_drawCrosshairRailgun;
-vmCvar_t           cg_drawCrosshairPlasmagun;
-vmCvar_t           cg_drawCrosshairBFG;
-vmCvar_t           cg_drawCrosshairNames;
 vmCvar_t           cg_drawRewards;
-vmCvar_t           cg_crosshairSize;
-vmCvar_t           cg_crosshairAspectRatioFix;
-vmCvar_t           cg_crosshairHealth;
-vmCvar_t           cg_crosshairX;
-vmCvar_t           cg_crosshairY;
 vmCvar_t           cg_brassTime;
 vmCvar_t           cg_simpleItems;
 vmCvar_t           cg_addMarks;
@@ -185,9 +169,10 @@ vmCvar_t           cg_altPlasma;
 vmCvar_t           cg_ammoCheck;
 vmCvar_t           cg_autoAction;
 vmCvar_t           cg_clientLog;
-vmCvar_t           cg_crosshairPulse;
 vmCvar_t           cg_customLoc;
 vmCvar_t           cg_damageDraw;
+vmCvar_t           cg_damageIndicatorScale;
+vmCvar_t           cg_damageIndicatorOpaque;
 vmCvar_t           cg_damageKick;
 vmCvar_t           cg_deadBodyFilter;
 vmCvar_t           cg_deadBodyBlack;
@@ -228,10 +213,6 @@ vmCvar_t           cg_trueLightning;
 vmCvar_t           cg_useScreenShotJPEG;
 vmCvar_t           ch_3waveFont;
 vmCvar_t           ch_ColorLocations;
-vmCvar_t           ch_CrosshairColor;
-vmCvar_t           cf_CrosshairNames;
-vmCvar_t           ch_CrosshairNamesLeft;
-vmCvar_t           ch_crosshairTeamInfo;
 vmCvar_t           ch_drawHealthMeters;
 vmCvar_t           ch_drawFlagNames;
 vmCvar_t           ch_drawPickup;
@@ -254,8 +235,6 @@ vmCvar_t           ch_statusbarStyle;
 vmCvar_t           ch_teamBackground;
 vmCvar_t           cf_Teamchat;
 vmCvar_t           ch_TeamchatOnly;
-vmCvar_t           ch_TeamCrosshairHealth;
-vmCvar_t           cf_TeamCrosshairHealth;
 vmCvar_t           ch_Teamoverlay;
 vmCvar_t           cf_Teamoverlay;
 vmCvar_t           cf_Vote;
@@ -317,13 +296,56 @@ vmCvar_t           cg_shudChatEnable;
 vmCvar_t           cg_healthMid;
 vmCvar_t           cg_healthLow;
 
+vmCvar_t           cg_healthLow;
+
+vmCvar_t           cg_drawCrosshair;
+vmCvar_t           cg_drawCrosshairGauntlet;
+vmCvar_t           cg_drawCrosshairMachinegun;
+vmCvar_t           cg_drawCrosshairShotgun;
+vmCvar_t           cg_drawCrosshairGrenadeLauncher;
+vmCvar_t           cg_drawCrosshairRocketLauncher;
+vmCvar_t           cg_drawCrosshairLightning;
+vmCvar_t           cg_drawCrosshairRailgun;
+vmCvar_t           cg_drawCrosshairPlasmagun;
+vmCvar_t           cg_drawCrosshairBFG;
+vmCvar_t           cg_drawCrosshairNames;
+
+vmCvar_t           cg_crosshairSize;
+vmCvar_t           cg_crosshairAspectRatioFix;
+vmCvar_t           cg_crosshairHealth;
+vmCvar_t           cg_crosshairX;
+vmCvar_t           cg_crosshairY;
+vmCvar_t           ch_CrosshairColor;
+vmCvar_t           cg_crosshairPulse;
+vmCvar_t           cf_CrosshairNames;
+vmCvar_t           ch_CrosshairNamesLeft;
+vmCvar_t           ch_crosshairTeamInfo;
+vmCvar_t           ch_TeamCrosshairHealth;
+vmCvar_t           cf_TeamCrosshairHealth;
+vmCvar_t           ch_crosshairDecor;
+vmCvar_t           ch_crosshairDecorColor;
+vmCvar_t           ch_crosshair45;
+vmCvar_t           ch_crosshairDecorSize;
+vmCvar_t           ch_crosshairDecor45;
+vmCvar_t           ch_crosshairOpaque;
+vmCvar_t           ch_crosshairDecorOpaque;
+
+vmCvar_t           ch_crosshairAction;
+vmCvar_t           ch_crosshairActionColor;
+vmCvar_t           ch_crosshairActionScale;
+vmCvar_t           ch_crosshairActionTime;
+vmCvar_t           ch_crosshairDecorAction;
+vmCvar_t           ch_crosshairDecorActionScale;
+vmCvar_t           ch_crosshairDecorActionColor;
+vmCvar_t           ch_crosshairDecorActionTime;
+
 
 static cvarTable_t cvarTable[] =
 {
-	{ &osp_client, "osp_client", "1008", CVAR_USERINFO },
+	{ &osp_client, "osp_client", "1008_OSP2_"OSP_VERSION, CVAR_USERINFO | CVAR_ROM },
 	{ &osp_hidden, "osp_print_issues", "0", CVAR_ARCHIVE },
 	{ &osp_debug, "osp_debug", "0", CVAR_ARCHIVE },
-	{ &cg_autoswitch, "cg_autoswitch", "1", CVAR_ARCHIVE },
+	{ &cg_autoswitch, "cg_autoswitch", "0", CVAR_ARCHIVE },
 	{ &cg_drawGun, "cg_drawGun", "1", CVAR_ARCHIVE },
 	{ &cg_zoomFov, "cg_zoomfov", "22.5", CVAR_ARCHIVE },
 	{ &cg_zoomTime,  "cg_zoomTime", "150",  CVAR_ARCHIVE, NULL},
@@ -343,7 +365,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_drawIcons, "cg_drawIcons", "1", CVAR_ARCHIVE },
 	{ &cg_drawAmmoWarning, "cg_drawAmmoWarning", "1", CVAR_ARCHIVE },
 	{ &cg_drawAttacker, "cg_drawAttacker", "1", CVAR_ARCHIVE },
-	{ &cg_drawCrosshair, "cg_drawCrosshair", "4", CVAR_ARCHIVE },
+	{ &cg_drawCrosshair, "cg_drawCrosshair", "10", CVAR_ARCHIVE },
 	{ &cg_drawCrosshairGauntlet, "cg_drawCrosshairGauntlet", "-1", CVAR_ARCHIVE },
 	{ &cg_drawCrosshairMachinegun, "cg_drawCrosshairMachinegun", "-1", CVAR_ARCHIVE },
 	{ &cg_drawCrosshairShotgun, "cg_drawCrosshairShotgun", "-1", CVAR_ARCHIVE },
@@ -357,7 +379,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_drawRewards, "cg_drawRewards", "1", CVAR_ARCHIVE },
 	{ &cg_crosshairSize, "cg_crosshairSize", "24", CVAR_ARCHIVE },
 	{ &cg_crosshairAspectRatioFix, "cg_crosshairAspectRatioFix", "1", CVAR_ARCHIVE },
-	{ &cg_crosshairHealth, "cg_crosshairHealth", "1", CVAR_ARCHIVE },
+	{ &cg_crosshairHealth, "cg_crosshairHealth", "0", CVAR_ARCHIVE },
 	{ &cg_crosshairX, "cg_crosshairX", "0", CVAR_ARCHIVE },
 	{ &cg_crosshairY, "cg_crosshairY", "0", CVAR_ARCHIVE },
 	{ &cg_brassTime, "cg_brassTime", "2500", CVAR_ARCHIVE },
@@ -365,9 +387,9 @@ static cvarTable_t cvarTable[] =
 	{ &cg_addMarks, "cg_marks", "1", CVAR_ARCHIVE },
 	{ &cg_lagometer, "cg_lagometer", "1", CVAR_ARCHIVE },
 	{ &cg_railTrailTime, "cg_railTrailTime", "400", CVAR_ARCHIVE },
-	{ &cg_gun_x, "cg_gunX", "0", CVAR_CHEAT },
-	{ &cg_gun_y, "cg_gunY", "0", CVAR_CHEAT },
-	{ &cg_gun_z, "cg_gunZ", "0", CVAR_CHEAT },
+	{ &cg_gun_x, "cg_gunX", "0", CVAR_ARCHIVE },
+	{ &cg_gun_y, "cg_gunY", "0", CVAR_ARCHIVE },
+	{ &cg_gun_z, "cg_gunZ", "0", CVAR_ARCHIVE },
 	{ &cg_centertime, "cg_centertime", "3", CVAR_CHEAT },
 	{ &cg_runpitch, "cg_runpitch", "0.000", CVAR_ARCHIVE },
 	{ &cg_runroll, "cg_runroll", "0.000", CVAR_ARCHIVE },
@@ -418,20 +440,22 @@ static cvarTable_t cvarTable[] =
 	{ &cg_oldRail, "cg_oldRail", "1", CVAR_ARCHIVE },
 	{ &cg_oldRocket, "cg_oldRocket", "1", CVAR_ARCHIVE },
 	{ &cg_oldPlasma, "cg_oldPlasma", "1", CVAR_ARCHIVE },
-	{ &cg_altGrenades, "cg_altGrenades", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_altgrenades},
-	{ &cg_altLightning, "cg_altLightning", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_altlightning},
-	{ &cg_altPlasma, "cg_altPlasma", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_altplasma},
+	{ &cg_altGrenades, "cg_altGrenades", "0", CVAR_ARCHIVE},
+	{ &cg_altLightning, "cg_altLightning", "0", CVAR_ARCHIVE},
+	{ &cg_altPlasma, "cg_altPlasma", "0", CVAR_ARCHIVE},
 	{ &cg_ammoCheck, "cg_ammoCheck", "0", CVAR_ARCHIVE },
 	{ &cg_autoAction, "cg_autoAction", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_autoAction},
 	{ &cg_clientLog, "cg_clientLog", "0", CVAR_ARCHIVE },
-	{ &cg_crosshairPulse, "cg_crosshairPulse", "1", CVAR_ARCHIVE },
+	{ &cg_crosshairPulse, "cg_crosshairPulse", "0", CVAR_ARCHIVE },
 	{ &cg_customLoc, "cg_customLoc", "0", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_damageDraw, "cg_damageDraw", "1", CVAR_ARCHIVE },
+	{ &cg_damageIndicatorScale, "cg_damageIndicatorScale", "1.0", CVAR_ARCHIVE},
+	{ &cg_damageIndicatorOpaque, "cg_damageIndicatorOpaque", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_damageIndicatorOpaque},
 	{ &cg_damageKick, "cg_damageKick", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyFilter, "cg_deadBodyFilter", "0", CVAR_ARCHIVE },
 	{ &cg_drawDecals, "cg_drawDecals", "1", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
-	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "2", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enableOSPHUD},
+	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "1", CVAR_ARCHIVE },
 	{ &cg_shud, "cg_shud", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_shud},
 	{ &cg_enableBreath, "cg_enableBreath", "1",  CVAR_ARCHIVE},
 	{ &cg_enemyColors, "cg_enemyColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyColors},
@@ -466,7 +490,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_useScreenShotJPEG, "cg_useScreenShotJPEG", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_useScreenShotJPEG},
 	{ &ch_3waveFont, "ch_3waveFont", "0", CVAR_ARCHIVE },
 	{ &ch_ColorLocations, "ch_ColorLocations", "1", CVAR_ARCHIVE },
-	{ &ch_CrosshairColor, "ch_CrosshairColor", "White", CVAR_ARCHIVE },
+	{ &ch_CrosshairColor, "ch_crosshairColor", "White", CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairColor},
 	{ &cf_CrosshairNames, "cf_CrosshairNames", "12x12", CVAR_ARCHIVE },
 	{ &ch_CrosshairNamesLeft, "ch_CrosshairNamesLeft", "0", CVAR_ARCHIVE },
 	{ &ch_crosshairTeamInfo, "ch_crosshairTeamInfo", "1", CVAR_ARCHIVE },
@@ -518,7 +542,7 @@ static cvarTable_t cvarTable[] =
 	{ &r_znear, "r_znear", "4",  0, CG_LocalEventCvarChanged_r_znear},
 	{ &handicap, "handicap", "100", 0, CG_LocalEventCvarChanged_handicap},
 	{ &m_pitch, "m_pitch", "0.022", CVAR_ARCHIVE },
-	{ &com_maxfps, "com_maxfps", "125", CVAR_ARCHIVE, CG_LocalEventCvarChanged_com_maxfps},
+	{ &com_maxfps, "com_maxfps", "125", CVAR_ARCHIVE },
 	{ &cg_gun_frame, "", "0", CVAR_ARCHIVE },
 	{ &cg_noLeadSounds, "cg_noLeadSounds", "0", CVAR_ARCHIVE },
 	{ &cg_fragSound, "cg_fragSound", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_fragSound},
@@ -548,6 +572,24 @@ static cvarTable_t cvarTable[] =
 	{ &cg_shudChatEnable, "cg_shudChatEnable", "3", CVAR_ARCHIVE},
 	{ &cg_healthMid,   "cg_healthMid", "200",   CVAR_ARCHIVE},
 	{ &cg_healthLow,  "cg_healthLow", "100",  CVAR_ARCHIVE},
+
+	{ &ch_crosshairDecor,  "ch_crosshairDecor", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorSize,  "ch_crosshairDecorSize", "24",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorColor,  "ch_crosshairDecorColor", "white",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorColor},
+	{ &ch_crosshair45,  "ch_crosshair45", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecor45,  "ch_crosshairDecor45", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorOpaque,  "ch_crosshairDecorOpaque", "0",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorOpaque},
+	{ &ch_crosshairOpaque,  "ch_crosshairOpaque", "0",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairOpaque},
+
+	{ &ch_crosshairAction,  "ch_crosshairAction", "0",  CVAR_ARCHIVE},
+	{ &ch_crosshairActionColor,  "ch_crosshairActionColor", "red",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairActionColor},
+	{ &ch_crosshairActionScale,  "ch_crosshairActionScale", "2.0",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairActionScale },
+	{ &ch_crosshairActionTime,  "ch_crosshairActionTime", "400",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairActionTime},
+
+	{ &ch_crosshairDecorAction,  "ch_crosshairDecorAction", "4",  CVAR_ARCHIVE},
+	{ &ch_crosshairDecorActionColor,  "ch_crosshairDecorActionColor", "red",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionColor},
+	{ &ch_crosshairDecorActionScale,  "ch_crosshairDecorActionScale", "2.0",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionScale},
+	{ &ch_crosshairDecorActionTime,  "ch_crosshairDecorActionTime", "400",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionTime},
 };
 
 #define CG_VARS_HASH_SIZE 512
@@ -1080,6 +1122,7 @@ static void CG_RegisterGraphics(void)
 	cgs.media.botSkillShaders[4] = trap_R_RegisterShader("menu/art/skill5.tga");
 
 	cgs.media.viewBloodShader = trap_R_RegisterShader("viewBloodBlend");
+	cgs.media.damageIndicatorCenter = trap_R_RegisterShaderNoMip("damageIndicator2");
 
 	cgs.media.deferShader = trap_R_RegisterShaderNoMip("gfx/2d/defer.tga");
 
@@ -1148,25 +1191,27 @@ static void CG_RegisterGraphics(void)
 	// osp crosshairs
 	for (i = 0 ; i < 10 ; i++)
 	{
-		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%c", 'a' + i));
-		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%c2", 'a' + i));
+		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i", i));
+		cgs.media.crosshairShader45[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i_r45", i));
 	}
 	// osp2 crosshairs
-	for (; i < NUM_CROSSHAIRS ; i++)
+	for (; i <= NUM_CROSSHAIRS ; i++)
 	{
 		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i",  i));
-		cgs.media.crosshairShader2[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i_2",  i));
-		if (!cgs.media.crosshairShader[i])
-		{
-			break;
-		}
-		if (!cgs.media.crosshairShader2[i])
-		{
-			cgs.media.crosshairShader2[i] = cgs.media.crosshairShader[i];
-		}
+		cgs.media.crosshairShader45[i] = trap_R_RegisterShaderNoMip(va("gfx/2d/crosshair_%i_r45",  i));
 	}
 	// save how many crosshair do we have
 	cgs.media.numberOfCrosshairs = i;
+
+	// decors
+	for (i = 1; i <= NUM_DECORS ; i++)
+	{
+		cgs.media.crosshairDecorShader[i] = trap_R_RegisterShader(va("gfx/2d/decor_%i",  i));
+		cgs.media.crosshairDecorShader45[i] = trap_R_RegisterShaderNoMip(va("gfx/2d/decor_%i_r45",  i));
+	}
+	// save how many decors do we have
+	cgs.media.numberOfCrosshairDecors = i;
+
 
 	cgs.media.blender180Shader = trap_R_RegisterShader("gfx/2d/blender_180.png");
 
@@ -1521,6 +1566,21 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	cgs.media.charsetPropB        = trap_R_RegisterShaderNoMip("menu/art/font2_prop.tga");
 
 	CG_RegisterCvars();
+
+	//init variables
+	CG_CvarTouch("ch_crosshairColor");
+	CG_CvarTouch("ch_crosshairActionColor");
+	CG_CvarTouch("ch_crosshairDecorColor");
+	CG_CvarTouch("ch_crosshairDecorActionColor");
+
+	CG_CvarTouch("ch_crosshairDecorOpaque");
+	CG_CvarTouch("ch_crosshairOpaque");
+	CG_CvarTouch("ch_crosshairActionScale");
+	CG_CvarTouch("ch_crosshairActionTime");
+	CG_CvarTouch("ch_crosshairDecorActionScale");
+	CG_CvarTouch("ch_crosshairDecorActionTime");
+
+	CG_CvarTouch("cg_damageIndicatorOpaque");
 
 	CG_InitConsoleCommands();
 

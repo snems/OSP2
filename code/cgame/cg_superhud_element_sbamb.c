@@ -32,11 +32,21 @@ void* CG_SHUDElementSBAmBCreate(const superhudConfig_t* config)
 void CG_SHUDElementSBAmBRoutine(void* context)
 {
 	shudElementStatusbarAmmoBar* element = (shudElementStatusbarAmmoBar*)context;
-	int wp = cg.weaponSelect;
-	int ammo = cg.predictedPlayerState.ammo[wp];
-	qboolean ammoOverflow = ammo > element->maxammo[wp];
+	int wp;
+	int ammo;
+	qboolean ammoOverflow;
+
+	if (!cg.snap)
+	{
+		return;
+	}
+
+	wp = cg.snap->ps.weapon;
 
 	if (wp == WP_NONE || wp == WP_GAUNTLET) return;
+
+	ammoOverflow = ammo > element->maxammo[wp];
+	ammo = cg.snap->ps.ammo[wp];
 
 	if (wp != element->last_weapon || ammoOverflow)
 	{

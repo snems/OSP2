@@ -184,6 +184,30 @@ void PM_ClipVelocity(vec3_t in, vec3_t normal, vec3_t out, float overbounce)
 	}
 }
 
+void PM_ClipVelocityOSP(vec3_t in, vec3_t normal, vec3_t out, float overbounce)
+{
+	float   backoff;
+	float   change;
+	int     i;
+
+	backoff = DotProduct(in, normal);
+
+	if (backoff < 0)
+	{
+		backoff *= overbounce;
+	}
+	else
+	{
+		backoff /= overbounce;
+	}
+
+	for (i = 0 ; i < 2 ; i++)
+	{
+		change = normal[i] * backoff;
+		out[i] = in[i] - change;
+	}
+}
+
 
 /*
 ==================
@@ -241,7 +265,7 @@ static void PM_Friction(void)
 	// apply flying friction
 	if (pm->ps->powerups[PW_FLIGHT])
 	{
-		drop += speed * pm_flightfriction * pml.frametime;
+		drop += speed * pm_accelerate * pml.frametime;
 	}
 
 	if (pm->ps->pm_type == PM_SPECTATOR)
@@ -446,7 +470,25 @@ static qboolean PM_CheckJump(void)
 	pm->ps->pm_flags |= PMF_JUMP_HELD;
 
 	pm->ps->groundEntityNum = ENTITYNUM_NONE;
-	pm->ps->velocity[2] = JUMP_VELOCITY;
+
+	if (modePredictionKoeff1 != 0 && pm->ps->velocity[2] > 0)
+	{
+		pm->ps->velocity[2] += JUMP_VELOCITY;
+	}
+	else
+	{
+		pm->ps->velocity[2] = JUMP_VELOCITY;
+	}
+
+	if (modePromodePhysKoeff != 0)
+	{
+		if (pm->ps->stats[STAT_OSP_PHYS] > 0)
+		{
+			pm->ps->velocity[2] += modePromodePhysKoeff;
+			pm->ps->stats[STAT_OSP_10] = 1;
+		}
+		pm->ps->stats[STAT_OSP_PHYS] = 400;
+	}
 	PM_AddEvent(EV_JUMP);
 
 	if (pm->cmd.forwardmove >= 0)
@@ -604,9 +646,19 @@ static void PM_WaterMove(void)
 	VectorCopy(wishvel, wishdir);
 	wishspeed = VectorNormalize(wishdir);
 
-	if (wishspeed > pm->ps->speed * pm_swimScale)
+	if (pm->waterlevel == 1)
 	{
-		wishspeed = pm->ps->speed * pm_swimScale;
+		if (wishspeed > pm->ps->speed * modeSwimScale2)
+		{
+			wishspeed = pm->ps->speed * modeSwimScale2;
+		}
+	}
+	else
+	{
+		if (wishspeed > pm->ps->speed * modeSwimScale1)
+		{
+			wishspeed = pm->ps->speed * modeSwimScale1;
+		}
 	}
 
 	PM_Accelerate(wishdir, wishspeed, pm_wateraccelerate);
@@ -672,6 +724,44 @@ static void PM_FlyMove(void)
 	PM_StepSlideMove(qfalse);
 }
 
+/*
+===================
+PM_AirMove
+
+===================
+*/
+static void PM_AirControl(const pmove_t* pm, vec3_t wishdir, float wishvel)
+{
+	if (wishvel == 0 || (pm->ps->movementDir != 0 && pm->ps->movementDir != 4))
+	{
+		return;
+	}
+
+	{
+		playerState_t* ps = pm->ps;
+		float zspeed = ps->velocity[2];
+		float speed;
+		float k2;
+		float k3;
+		ps->velocity[2] = 0;
+
+		speed = VectorNormalize(ps->velocity);
+
+		k2 = DotProduct(ps->velocity, wishdir);
+
+		if (k2 > 0)
+		{
+			k3 = 32.0f * modePredictionKoeff2 * k2 * k2 * pml.frametime;
+			pm->ps->velocity[0] = pm->ps->velocity[0] * speed + wishdir[0] * k3;
+			pm->ps->velocity[1] = pm->ps->velocity[1] * speed + wishdir[1] * k3;
+			VectorNormalize(ps->velocity);
+		}
+
+		pm->ps->velocity[0] *= speed;
+		pm->ps->velocity[1] *= speed;
+		pm->ps->velocity[2] = zspeed;
+	}
+}
 
 /*
 ===================
@@ -686,8 +776,10 @@ static void PM_AirMove(void)
 	float       fmove, smove;
 	vec3_t      wishdir;
 	float       wishspeed;
+	float       wishspeedOrig;
 	float       scale;
 	usercmd_t   cmd;
+	float         accel;
 
 	PM_Friction();
 
@@ -715,9 +807,32 @@ static void PM_AirMove(void)
 	VectorCopy(wishvel, wishdir);
 	wishspeed = VectorNormalize(wishdir);
 	wishspeed *= scale;
+	wishspeedOrig = wishspeed;
 
+	if (DotProduct(pm->ps->velocity, wishvel) < 0)
+	{
+		accel = modePromode_pm_airaccelerate_1;
+	}
+	else
+	{
+		accel = pm_airaccelerate;
+	}
+
+	if (pm->ps->movementDir == 2 || pm->ps->movementDir == 6)
+	{
+		if (wishspeed > modeWishspeedLimit)
+		{
+			wishspeed = modeWishspeedLimit;
+		}
+		accel = modePromode_pm_airaccelerate_2;
+	}
 	// not on ground, so little effect on velocity
-	PM_Accelerate(wishdir, wishspeed, pm_airaccelerate);
+	PM_Accelerate(wishdir, wishspeed, accel);
+
+	if (modePredictionKoeff2)
+	{
+		PM_AirControl(pm, wishdir, wishspeedOrig);
+	}
 
 	// we may have a ground plane that is very steep, even
 	// though we don't have a groundentity
@@ -856,7 +971,16 @@ static void PM_WalkMove(void)
 		float   waterScale;
 
 		waterScale = pm->waterlevel / 3.0;
-		waterScale = 1.0 - (1.0 - pm_swimScale) * waterScale;
+
+		if (pm->waterlevel == 1)
+		{
+			waterScale = 1.0f - (1.0f - modeSwimScale2) * waterScale;
+		}
+		else
+		{
+			waterScale = 1.0f - (1.0f - modeSwimScale1) * waterScale;
+		}
+
 		if (wishspeed > pm->ps->speed * waterScale)
 		{
 			wishspeed = pm->ps->speed * waterScale;
@@ -1123,7 +1247,10 @@ static void PM_CrashLand(void)
 		}
 		else
 		{
-			PM_AddEvent(PM_FootstepForSurface());
+			if (pm->noFootsteps == 0)
+			{
+				PM_AddEvent(PM_FootstepForSurface());
+			}
 		}
 	}
 
@@ -1686,7 +1813,7 @@ static void PM_BeginWeaponChange(int weapon)
 
 	PM_AddEvent(EV_CHANGE_WEAPON);
 	pm->ps->weaponstate = WEAPON_DROPPING;
-	pm->ps->weaponTime += 200;
+	pm->ps->weaponTime += modeBeginWeaponChangeTime;
 	PM_StartTorsoAnim(TORSO_DROP);
 }
 
@@ -1713,7 +1840,7 @@ static void PM_FinishWeaponChange(void)
 
 	pm->ps->weapon = weapon;
 	pm->ps->weaponstate = WEAPON_RAISING;
-	pm->ps->weaponTime += 250;
+	pm->ps->weaponTime += modeFinishWeaponChangeTime;
 	PM_StartTorsoAnim(TORSO_RAISE);
 }
 
@@ -1795,6 +1922,14 @@ static void PM_Weapon(void)
 		pm->ps->pm_flags &= ~PMF_USE_ITEM_HELD;
 	}
 
+	if (pm->ps->stats[STAT_RAIL_DELAY] > 0)
+	{
+		pm->ps->stats[STAT_RAIL_DELAY] -= pml.msec;
+	}
+	if (pm->ps->stats[STAT_WEAPON_DELAY] > 0)
+	{
+		pm->ps->stats[STAT_WEAPON_DELAY] -= pml.msec;
+	}
 
 	// make weapon function
 	if (pm->ps->weaponTime > 0)
@@ -1870,7 +2005,7 @@ static void PM_Weapon(void)
 	if (! pm->ps->ammo[ pm->ps->weapon ])
 	{
 		PM_AddEvent(EV_NOAMMO);
-		pm->ps->weaponTime += 500;
+		pm->ps->weaponTime += modePMNoAmmoTime;
 		return;
 	}
 
@@ -1899,7 +2034,7 @@ static void PM_Weapon(void)
 			addTime = 100; //-V1037
 			break;
 		case WP_GRENADE_LAUNCHER:
-			addTime = 800; //-V1037
+			addTime = modeGrenadeTime; //-V1037
 			break;
 		case WP_ROCKET_LAUNCHER:
 			addTime = 800; //-V1037
@@ -1908,7 +2043,15 @@ static void PM_Weapon(void)
 			addTime = 100; //-V1037
 			break;
 		case WP_RAILGUN:
-			addTime = 1500;
+			if (modeUnknown2)
+			{
+				addTime = 1000;
+			}
+			else
+			{
+				addTime = 1500;
+			}
+			pm->ps->stats[STAT_RAIL_DELAY] = 1500;
 			break;
 		case WP_BFG:
 			addTime = 200;
@@ -1918,9 +2061,20 @@ static void PM_Weapon(void)
 			break;
 	}
 
+	if (modeUnknown2)
+	{
+		pm->ps->stats[STAT_WEAPON_DELAY] = modeUnknown4;
+	}
+	else
+	{
+		pm->ps->stats[STAT_WEAPON_DELAY] = modeUnknown3;
+	}
+
 	if (pm->ps->powerups[PW_HASTE])
 	{
-		addTime /= 1.3;
+		addTime /= 1.3f;
+		pm->ps->stats[STAT_WEAPON_DELAY] /= 1.3f;
+		pm->ps->stats[STAT_RAIL_DELAY] /= 1.3;
 	}
 
 	pm->ps->weaponTime += addTime;
@@ -2008,6 +2162,11 @@ void PM_UpdateViewAngles(playerState_t* ps, const usercmd_t* cmd)
 	if (ps->pm_type != PM_SPECTATOR && ps->stats[STAT_HEALTH] <= 0)
 	{
 		return;     // no view changes at all
+	}
+
+	if ((pm->ps->pm_type != PM_SPECTATOR) && (pm->ps->pm_flags & PMF_FOLLOW))
+	{
+		return;
 	}
 
 	// circularly clamp the angles with deltas
@@ -2119,6 +2278,11 @@ void PmoveSingle(pmove_t* pmove)
 		pm->ps->eFlags &= ~EF_FIRING;
 	}
 
+	if (pm->ps->weaponstate == WEAPON_DROPPING)
+	{
+		pm->ps->eFlags &= ~EF_FIRING;
+	}
+
 	// clear the respawned flag if attack and use are cleared
 	if (pm->ps->stats[STAT_HEALTH] > 0 &&
 	        !(pm->cmd.buttons & (BUTTON_ATTACK | BUTTON_USE_HOLDABLE)))
@@ -2207,8 +2371,19 @@ void PmoveSingle(pmove_t* pmove)
 
 	if (pm->ps->pm_type == PM_FREEZE)
 	{
+		if (pm->ps->pm_flags & PMF_FOLLOW)
+		{
+			pm->cmd.forwardmove = 0;
+			pm->cmd.rightmove = 0;
+			pm->cmd.upmove = 0;
+			VectorSet(pm->ps->velocity, 0, 0, 0);
+			PM_CheckDuck();
+			PM_FlyMove();
+			PM_DropTimers();
+		}
 		return;     // no movement at all
 	}
+
 
 	if (pm->ps->pm_type == PM_INTERMISSION || pm->ps->pm_type == PM_SPINTERMISSION)
 	{
@@ -2225,6 +2400,7 @@ void PmoveSingle(pmove_t* pmove)
 	// set groundentity
 	PM_GroundTrace();
 
+	// remove overbounce
 	if (pml.groundPlane)
 	{
 		PM_OneSidedClipVelocity(pm->ps->velocity, pml.groundTrace.plane.normal, pm->ps->velocity, OVERCLIP);
@@ -2236,6 +2412,15 @@ void PmoveSingle(pmove_t* pmove)
 	}
 
 	PM_DropTimers();
+
+	if (pm->ps->stats[STAT_OSP_PHYS] > 0)
+	{
+		pm->ps->stats[STAT_OSP_PHYS] -= pml.msec;
+	}
+	else if (pm->ps->stats[STAT_OSP_10])
+	{
+		pm->ps->stats[STAT_OSP_10] = 0;
+	}
 
 	if (pm->ps->powerups[PW_FLIGHT])
 	{
@@ -2306,6 +2491,7 @@ void Pmove(pmove_t* pmove)
 
 	if (finalTime < pmove->ps->commandTime)
 	{
+		PM_CheckDuck();
 		return; // should not happen
 	}
 

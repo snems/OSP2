@@ -27,7 +27,14 @@ void* CG_SHUDElementSBAmICreate(const superhudConfig_t* config)
 void CG_SHUDElementSBAmIRoutine(void* context)
 {
 	shudElementStatusbarAmmoIcon* element = (shudElementStatusbarAmmoIcon*)context;
-	int wp = cg.weaponSelect;
+	int wp;
+
+	if (!cg.snap)
+	{
+		return;
+	}
+
+	wp = cg.snap->ps.weapon;
 
 	if (wp == WP_NONE) return;
 

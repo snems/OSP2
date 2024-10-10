@@ -68,19 +68,6 @@ void CG_LocalEventCvarChanged_cl_timenudge(cvarTable_t* cvart)
 	}
 }
 
-void CG_LocalEventCvarChanged_com_maxfps(cvarTable_t* cvart)
-{
-	if (cgs.osp.serverConfigMinimumMaxpackets > 0 || com_maxfps.integer > 0)
-	{
-		if (cgs.osp.serverConfigMinimumMaxpackets > com_maxfps.integer)
-		{
-			CG_Printf("^3Server-imposed minimum maxfps set to %d.  Adjusting...\n", cgs.osp.serverConfigMinimumMaxpackets);
-			trap_Cvar_Set("com_maxfps", va("%d", cgs.osp.serverConfigMinimumMaxpackets));
-		}
-	}
-	CG_OSPCvarsRestrictValues();
-}
-
 void CG_LocalEventCvarChanged_ch_recordMessage(cvarTable_t* cvart)
 {
 	if (cg.snap)
@@ -221,42 +208,6 @@ void CG_LocalEventCvarChanged_pmove_fixed(cvarTable_t* cvart)
 	}
 }
 
-void CG_LocalEventCvarChanged_cg_altplasma(cvarTable_t* cvart)
-{
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG) && cg_altPlasma.integer)
-	{
-		CG_Printf("^3Alternate PG graphics have been disabled on this server.\n");
-		trap_Cvar_Set("cg_altPlasma", "0");
-	}
-}
-
-void CG_LocalEventCvarChanged_cg_altlightning(cvarTable_t* cvart)
-{
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG) && cg_altLightning.integer)
-	{
-		CG_Printf("^3Alternate LG graphics have been disabled on this server.\n");
-		trap_Cvar_Set("cg_altLightning", "0");
-	}
-}
-
-void CG_LocalEventCvarChanged_cg_altgrenades(cvarTable_t* cvart)
-{
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG) && cg_altGrenades.integer)
-	{
-		CG_Printf("^3Alternate GL graphics have been disabled on this server.\n");
-		trap_Cvar_Set("cg_altGrenades", "0");
-	}
-}
-
-void CG_LocalEventCvarChanged_cg_enableOSPHUD(cvarTable_t* cvart)
-{
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_OSP_HUD_FLAG) && cg_enableOSPHUD.integer)
-	{
-		CG_Printf("^3The OSP-based HUD has been disabled on this server.\n");
-		trap_Cvar_Set("cg_enableOSPHUD", "0");
-	}
-}
-
 void CG_LocalEventCvarChanged_cg_hitSounds(cvarTable_t* cvart)
 {
 	if (!(cgs.osp.custom_client_2 & OSP_CUSTOM_CLIENT_2_ENABLE_DMG_INFO) && cg_hitSounds.integer)
@@ -336,15 +287,73 @@ void CG_LocalEventCvarChanged_ch_file(cvarTable_t* cvart)
 
 void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart)
 {
-	if (!(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_OSP_HUD_FLAG) && cg_shud.integer)
-	{
-		CG_Printf("^3The SuperHUD has been disabled on this server.\n");
-		trap_Cvar_Set("cg_shud", "0");
-	}
 	if (cvart->vmCvar->integer && ch_file.string[0])
 	{
 		CG_SHUDLoadConfig();
 	}
 }
 
+static void CG_LocalEventCvarParseColor(cvarTable_t* cvart, vec4_t color)
+{
+	if (!CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		Com_Printf("^1Color is wrong, default value used\n");
+		CG_ParseColorStr(cvart->defaultString, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairColor(cvarTable_t* cvart)
+{
+	CG_LocalEventCvarParseColor(cvart, cgs.osp.crosshair.color);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairActionColor(cvarTable_t* cvart)
+{
+	CG_LocalEventCvarParseColor(cvart, cgs.osp.crosshair.actionColor);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairDecorColor(cvarTable_t* cvart)
+{
+	CG_LocalEventCvarParseColor(cvart, cgs.osp.crosshair.decorColor);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionColor(cvarTable_t* cvart)
+{
+	CG_LocalEventCvarParseColor(cvart, cgs.osp.crosshair.decorActionColor);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairDecorOpaque(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairOpaque(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairActionScale(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0.1, 10, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionScale(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0.1, 10, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(50, 1000, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(50, 1000, cvart->vmCvar->value);
+}
+
+void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart)
+{
+	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
+}
 

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // cg_weapons.c -- events and effects dealing with weapons
 #include "cg_local.h"
+#include "../game/bg_local.h"
 
 static void CG_GrenadeTrail(centity_t* ent, const weaponInfo_t* wi);
 
@@ -1900,6 +1901,75 @@ WEAPON EVENTS
 ===================================================================================================
 */
 
+static qboolean CG_IsDoubleShoot(weapon_t weap)
+{
+	static int weaponTime = 0;
+	static int lastTime = 0;
+	int addTime = 0;
+
+	if (weaponTime > 0)
+	{
+		int delta = cg.time - lastTime;
+		weaponTime -= delta;
+		lastTime = cg.time;
+	}
+
+	if (weaponTime < 0)
+	{
+		weaponTime = 0;
+	}
+
+	if (weaponTime > 0)
+	{
+		return qtrue;
+	}
+
+	switch (weap)
+	{
+		default:
+		case WP_GAUNTLET:
+			addTime = 360; //-V1037
+			break;
+		case WP_LIGHTNING:
+			addTime = 45;
+			break;
+		case WP_SHOTGUN:
+			addTime = 900;
+			break;
+		case WP_MACHINEGUN:
+			addTime = 90; //-V1037
+			break;
+		case WP_GRENADE_LAUNCHER:
+			addTime = modeGrenadeTime - 100; //-V1037
+			break;
+		case WP_ROCKET_LAUNCHER:
+			addTime = 700; //-V1037
+			break;
+		case WP_PLASMAGUN:
+			addTime = 90; //-V1037
+			break;
+		case WP_RAILGUN:
+			addTime = 200; //rg reload time is not static, so set lower value
+			break;
+		case WP_BFG:
+			addTime = 180;
+			break;
+		case WP_GRAPPLING_HOOK:
+			addTime = 360; //-V1037
+			break;
+	}
+
+	if (cg.predictedPlayerState.powerups[PW_HASTE])
+	{
+		addTime /= 1.3;
+	}
+
+	weaponTime += addTime;
+	lastTime = cg.time;
+
+	return qfalse;
+}
+
 /*
 ================
 CG_FireWeapon
@@ -1923,7 +1993,14 @@ void CG_FireWeapon(centity_t* cent)
 		CG_Error("CG_FireWeapon: ent->weapon >= WP_NUM_WEAPONS");
 		return;
 	}
+
+
 	weap = &cg_weapons[ ent->weapon ];
+
+	if (cent->currentState.number == cg.predictedPlayerState.clientNum && CG_IsDoubleShoot(ent->weapon))
+	{
+		return;
+	}
 
 	// mark the entity as muzzle flashing, so when it is added it will
 	// append the flash to the weapon model

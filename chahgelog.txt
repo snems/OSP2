@@ -32,4 +32,9 @@
            auto cg_projectileNudge
            colored health&armor for SuperHUD
            minor bug fixes
+2024-10-10 v0.05
+           Promode support
+           Crosshair decor and animation 
+           cg_drawdamage 2
+           minor bug fixes
 

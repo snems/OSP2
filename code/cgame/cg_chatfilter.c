@@ -139,19 +139,26 @@ qboolean CG_ChatIsMessageAllowed(const char* message)
 	unsigned long hash;
 	const chatFilterTableNode_t* target;
 	const char* splitter;
+	const char* start = message;
 	char name[MAX_QPATH];
 	int len;
 	qboolean isNotFound = qfalse;
 
-	splitter = strchr(message, 25);// 25 is splitter
+	//check, is it tell command
+	if (start[0] == 25 && (start[1] == '(' || start[1] == '['))
+	{
+		start += 2;
+	}
+
+	splitter = strchr(start, 25);// 25 is splitter
 	if (!splitter) return qtrue; // no splitter, nothing to do
 
 	splitter -= 2; //there is 2 symbols after name: ^7
-	len = splitter - message;
+	len = splitter - start;
 	if (len <= 0) return qtrue; // something strange, ignore
 	if (len >= MAX_QPATH) return qtrue;
 	//
-	memcpy(name, message, len);
+	memcpy(name, start, len);
 	name[len] = 0;
 
 	target = CG_ChatfilterFindName(name);

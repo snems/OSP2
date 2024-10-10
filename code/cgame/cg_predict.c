@@ -461,7 +461,7 @@ static void CG_TouchItem(centity_t* cent)
 		return;
 	}
 
-	if (!BG_CanItemBeGrabbed(cgs.gametype, &cent->currentState, &cg.predictedPlayerState))
+	if (!BG_CanItemBeGrabbed(cgs.gametype, &cent->currentState, &cg.predictedPlayerState, qfalse))
 	{
 		return;     // can't hold it
 	}
@@ -669,7 +669,7 @@ void CG_PredictPlayerState(void)
 	{
 		cg_pmove.tracemask &= ~CONTENTS_BODY;   // spectators can fly through bodies
 	}
-	cg_pmove.noFootsteps = (cgs.dmflags & DF_NO_FOOTSTEPS) > 0;
+	cg_pmove.noFootsteps = (cgs.osp.server_mode & OSP_SERVER_MODE_PROMODE) || (cgs.dmflags & DF_NO_FOOTSTEPS) > 0;
 
 	// save the state before the pmove so we can detect transitions
 	oldPlayerState = cg.predictedPlayerState;

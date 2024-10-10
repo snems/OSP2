@@ -26,6 +26,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "bg_public.h"
 #include "bg_local.h"
 
+int modePromodePhysKoeff; //1870ec
+float modePromode_pm_airaccelerate_1; //3450
+int modePredictionKoeff2;   //3454
+float modePromode_pm_airaccelerate_2; //3458
+float modeWishspeedLimit; //345c
+int modePredictionKoeff1;   //3460
+float modeSwimScale1;         //3468
+float modeSwimScale2;         //346c
+float modeShotgunKoeff;    //3494
+int modeShotgunNumberOfPellets;    //3498
+float modeUnused8;    //349c
+int modeMaxAmmoShotgun;    //34a0
+int modeGrenadeTime;    //34a4
+int modeMaxAmmoGrenade;    //34a8
+int modeMaxAmmoRocket;     //34b0
+int modeMaxAmmoRail;       //34c0
+int modeBeginWeaponChangeTime;    //34d0
+int modeFinishWeaponChangeTime;    //34d4
+int modePMNoAmmoTime;    //34d8
+int pm_armorPromode;
+int modeHitLevelSounds;    //3514
+int modePickupDistance;    //20e8
+//
+int modeUnknown2;    //3528
+int modeUnknown3;    //352c
+int modeUnknown4;    //3530
+int modeShotgunPromode;    //3514
 /*
 
 input: origin, velocity, bounds, groundPlane, trace function
@@ -272,18 +299,20 @@ void PM_StepSlideMove(qboolean gravity)
 	{
 		return;     // we got exactly where we wanted to go first try
 	}
+	if (pm->ps->pm_flags & PMF_GRAPPLE_PULL)
+	{
+		return;
+	}
 
 	VectorCopy(start_o, down);
 	down[2] -= STEPSIZE;
 	pm->trace(&trace, start_o, pm->mins, pm->maxs, down, pm->ps->clientNum, pm->tracemask);
 	VectorSet(up, 0, 0, 1);
 	// never step up when you still have up velocity
-	if (pm->ps->velocity[2] > 0 && (trace.fraction == 1.0 ||
-	                                DotProduct(trace.plane.normal, up) < 0.7))
+	if (pm->ps->velocity[2] > 0 && (trace.fraction == 1.0 || DotProduct(trace.plane.normal, up) < 0.7) && ((pm->ps->velocity[2] > (modePromodePhysKoeff + 270)) || pm->ps->stats[STAT_OSP_PHYS] <= 0))
 	{
 		return;
 	}
-
 
 	VectorCopy(start_o, up);
 	up[2] += STEPSIZE;
@@ -316,7 +345,14 @@ void PM_StepSlideMove(qboolean gravity)
 	}
 	if (trace.fraction < 1.0)
 	{
-		PM_ClipVelocity(pm->ps->velocity, trace.plane.normal, pm->ps->velocity, OVERCLIP);
+		if (pm->ps->stats[STAT_OSP_10])
+		{
+			PM_ClipVelocityOSP(pm->ps->velocity, trace.plane.normal, pm->ps->velocity, OVERCLIP);
+		}
+		else
+		{
+			PM_ClipVelocity(pm->ps->velocity, trace.plane.normal, pm->ps->velocity, OVERCLIP);
+		}
 	}
 
 #if 0
