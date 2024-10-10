@@ -84,7 +84,8 @@ extern "C" {
 #define GIANT_WIDTH         32
 #define GIANT_HEIGHT        48
 
-#define NUM_CROSSHAIRS      100
+#define NUM_CROSSHAIRS      73
+#define NUM_DECORS          26
 
 #define TEAM_OVERLAY_MAXNAME_WIDTH  12
 #define TEAM_OVERLAY_MAXLOCATION_WIDTH  16
@@ -766,10 +767,14 @@ typedef struct
 
 	qhandle_t   selectShader;
 	qhandle_t   viewBloodShader;
+	qhandle_t   damageIndicatorCenter;
 	qhandle_t   tracerShader;
 	qhandle_t   crosshairShader[NUM_CROSSHAIRS];
-	qhandle_t   crosshairShader2[NUM_CROSSHAIRS];
+	qhandle_t   crosshairShader45[NUM_CROSSHAIRS];
+	qhandle_t   crosshairDecorShader[NUM_CROSSHAIRS];
+	qhandle_t   crosshairDecorShader45[NUM_CROSSHAIRS];
 	int         numberOfCrosshairs;
+	int         numberOfCrosshairDecors;
 	qhandle_t   lagometerShader;
 	qhandle_t   backTileShader;
 	qhandle_t   noammoShader;
@@ -1073,6 +1078,14 @@ typedef struct cgs_osp_s
 	playerColorsOverride_t teamColorsOverride;
 	playerColors_t enemyColors;
 	playerColorsOverride_t enemyColorsOverride;
+	int lastHitTime;
+	struct
+	{
+		vec4_t color;
+		vec4_t actionColor;
+		vec4_t decorColor;
+		vec4_t decorActionColor;
+	} crosshair;
 } cgs_osp_t;
 
 
@@ -1292,6 +1305,8 @@ extern vmCvar_t           cg_clientLog;
 extern vmCvar_t           cg_crosshairPulse;
 extern vmCvar_t           cg_customLoc;
 extern vmCvar_t           cg_damageDraw;
+extern vmCvar_t           cg_damageIndicatorScale;
+extern vmCvar_t           cg_damageIndicatorOpaque;
 extern vmCvar_t           cg_damageKick;
 extern vmCvar_t           cg_deadBodyFilter;
 extern vmCvar_t           cg_deadBodyBlack;
@@ -1332,7 +1347,7 @@ extern vmCvar_t           cg_trueLightning;
 extern vmCvar_t           cg_useScreenShotJPEG;
 extern vmCvar_t           ch_3waveFont;
 extern vmCvar_t           ch_ColorLocations;
-extern vmCvar_t           ch_CrosshairColor;
+extern vmCvar_t           cg_CrosshairColor;
 extern vmCvar_t           cf_CrosshairNames;
 extern vmCvar_t           ch_CrosshairNamesLeft;
 extern vmCvar_t           ch_crosshairTeamInfo;
@@ -1418,6 +1433,22 @@ extern vmCvar_t           cg_shudChatEnable;
 extern vmCvar_t           cg_healthMid;
 extern vmCvar_t           cg_healthLow;
 
+extern vmCvar_t           ch_crosshairDecor;
+extern vmCvar_t           ch_crosshair45;
+extern vmCvar_t           ch_crosshairDecor45;
+extern vmCvar_t           ch_crosshairOpaque;
+extern vmCvar_t           ch_crosshairDecorOpaque;
+
+extern vmCvar_t           ch_crosshairAction;
+extern vmCvar_t           ch_crosshairActionColor;
+extern vmCvar_t           ch_crosshairActionScale;
+extern vmCvar_t           ch_crosshairActionTime;
+extern vmCvar_t           ch_crosshairDecorSize;
+extern vmCvar_t           ch_crosshairDecorAction;
+extern vmCvar_t           ch_crosshairDecorActionColor;
+extern vmCvar_t           ch_crosshairDecorActionScale;
+extern vmCvar_t           ch_crosshairDecorActionTime;
+
 //
 // cg_main.c
 //
@@ -1475,6 +1506,7 @@ void CG_TestModelNextSkin_f(void);
 void CG_TestModelPrevSkin_f(void);
 void CG_ZoomDown_f(void);
 void CG_ZoomUp_f(void);
+void CG_ZoomToggle_f(void);
 void CG_AddBufferedSound(sfxHandle_t sfx);
 
 void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoPlayback);
@@ -2060,7 +2092,7 @@ int CG_NewParticleArea(int num);
 
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
-#define OSP_VERSION "0.04"
+#define OSP_VERSION "0.05"
 
 
 //
@@ -2139,8 +2171,12 @@ qboolean CG_IsFollowing(void);
 //
 extern int teamOverlayWidth;
 void CG_OSPHUDRoutine(void);
-void CG_OSPDrawCrosshair(void);
 float CG_OSPDrawPing(float y);
+
+//
+//cg_osphud.c
+//
+void CG_DrawCrosshair(void);
 
 //
 // cg_osputil.c
@@ -2153,6 +2189,7 @@ void CG_OSPColorFromNumber(int number, float* vector);
 void CG_OSPNormalizeNameCopy(char* from, char* to, unsigned int size);
 void CG_DynamicMemReport(void);
 const char* CG_LoadLine(const char* ptr, char* out, int outSize);
+qboolean CG_ParseColorStr(const char* str, vec4_t out);
 
 
 /*
@@ -2195,7 +2232,6 @@ void CG_ChatfilterDump(void);
 void CG_LocalEventCvarChanged_cg_drawTeamOverlay(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cl_maxpackets(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cl_timenudge(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_com_maxfps(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_recordMessage(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_followpowerup(cvarTable_t* cvart);
@@ -2209,7 +2245,6 @@ void CG_LocalEventCvarChanged_r_lodCurveError(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_r_subdivisions(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_r_znear(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_trueLightning(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_com_maxfps(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_r_shownormals(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_r_showtris(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_shadows(cvarTable_t* cvart);
@@ -2223,10 +2258,6 @@ void CG_LocalEventCvarChanged_cg_teamModel(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_handicap(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_s_ambient(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_pmove_fixed(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_altplasma(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_altlightning(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_altgrenades(cvarTable_t* cvart);
-void CG_LocalEventCvarChanged_cg_enableOSPHUD(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_hitSounds(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_cg_playerModelColors(cvarTable_t* cvart);
@@ -2244,6 +2275,17 @@ void CG_LocalEventCvarChanged_cg_fragSound(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_file(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_shud(cvarTable_t* cvart);
 
+void CG_LocalEventCvarChanged_ch_crosshairColor(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairActionColor(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorColor(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionColor(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorOpaque(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairOpaque(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairActionScale(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionScale(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart);
 
 #ifdef __cplusplus
 }

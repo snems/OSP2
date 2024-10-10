@@ -53,8 +53,15 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 	int x, y, w, h;
 	int total;
 	int ammo_max = 0;
+	int weapon;
+
+	if (!cg.snap)
+	{
+		return;
+	}
 
 	statWeapons = cg.snap->ps.stats[STAT_WEAPONS];
+	weapon = cg.snap->ps.weapon;
 
 	//update width
 	for (wpi = WP_MACHINEGUN; wpi < WP_NUM_WEAPONS; ++wpi)
@@ -138,7 +145,7 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 			CG_SHUDDrawMakeContext(&element->tmp_config, &element->back[element->weaponNum]);
 			//element will be set to color
 			//but if weapon not selected, set background color
-			if (wpi != cg.weaponSelect)
+			if (wpi != weapon)
 			{
 				if (element->config.bgcolor.isSet)
 				{

@@ -32,6 +32,8 @@ void CG_SHUDElementGameTimeRoutine(void* context)
 		int         msec;
 		msec = cg.time - cgs.levelStartTime;
 
+		if (msec < 0) msec *= -1;
+
 		seconds = msec / 1000;
 		mins = seconds / 60;
 		seconds -= mins * 60;

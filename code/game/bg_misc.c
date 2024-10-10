@@ -28,6 +28,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../qcommon/q_shared.h"
 #include "bg_public.h"
 
+extern int modePickupDistance;    //20e8
+extern int modeMaxAmmoShotgun;    //34a0
+extern int modeMaxAmmoGrenade;    //34a8
+extern int modeMaxAmmoRocket;     //34b0
+extern int modeMaxAmmoRail;       //34c0
+extern int pm_armorPromode;    //34e4
+
 /*QUAKED item_***** ( 0 0 0 ) (-16 -16 -16) (16 16 16) suspended
 DO NOT USE THIS CLASS, IT JUST HOLDS GENERAL INFORMATION.
 The suspended flag will allow items to hang in the air, otherwise they are dropped to the next surface.
@@ -727,6 +734,21 @@ gitem_t bg_itemlist[] =
 		/* precache */ "",
 		/* sounds */ ""
 	},
+	{
+		"item_armor_jacket",
+		"sound/misc/ar2_pkup.wav",
+		{
+			"models/powerups/armor/armor_gre.md3",
+			0, 0, 0
+		},
+		/* icon */      "icons/iconr_green",
+		/* pickup */    "Green Armor",
+		25,
+		IT_ARMOR,
+		0,
+		/* precache */ "",
+		/* sounds */ ""
+	},
 	// end of list marker
 	{NULL}
 };
@@ -841,7 +863,7 @@ qboolean    BG_PlayerTouchesItem(playerState_t* ps, entityState_t* item, int atT
 	        || ps->origin[0] - origin[0] < -50
 	        || ps->origin[1] - origin[1] > 36
 	        || ps->origin[1] - origin[1] < -36
-	        || ps->origin[2] - origin[2] > 36
+	        || ps->origin[2] - origin[2] > modePickupDistance
 	        || ps->origin[2] - origin[2] < -36)
 	{
 		return qfalse;
@@ -850,6 +872,96 @@ qboolean    BG_PlayerTouchesItem(playerState_t* ps, entityState_t* item, int atT
 	return qtrue;
 }
 
+static qboolean BG_CanArmorBeGrabbed(gitem_t* item, const playerState_t* ps)
+{
+	float armor;
+	int armorMax;
+	armorType_t armorTypeItem;
+	armorType_t armorTypePlayer = ps->stats[STAT_ARMOR_TYPE];
+	static float armorKoeff[3] = { 0.5f, 0.66f, 0.75f };
+
+	if (pm_armorPromode == 0)
+	{
+		if (ps->stats[STAT_ARMOR] < ps->stats[STAT_MAX_HEALTH])
+		{
+			return qtrue;
+		}
+		else
+		{
+			return qfalse;
+		}
+	}
+
+	switch (item->quantity)
+	{
+		case 5:
+			armorTypeItem = armorTypePlayer;                                                    /* Address : 0x1b7b0 Type : Interium */
+			break;
+		case 50:
+			armorTypeItem = ARMOR_YELLOW;
+			break;
+		case 100:
+			armorTypeItem = ARMOR_RED;
+			break;
+		default:
+			// unknown armor type
+			return qfalse;
+			break;
+	}
+
+	switch (armorTypeItem)
+	{
+		case ARMOR_GREEN:
+			armorMax = 100;                                                                 /* Address : 0x1b79b Type : Interium */
+			break;
+		case ARMOR_YELLOW:
+			armorMax = 150;                                                                 /* Address : 0x1b79b Type : Interium */
+			break;
+		case ARMOR_RED:
+			armorMax = 200;                                                                 /* Address : 0x1b79b Type : Interium */
+			break;
+		default:
+			// unknown armor type
+			return qfalse;
+			break;
+	}
+
+
+	if (armorTypeItem == armorTypePlayer)
+	{
+		return (ps->stats[STAT_ARMOR] < armorMax);
+	}
+
+	armor = (armorKoeff[armorTypeItem] / armorKoeff[armorTypePlayer]) * armorMax;
+
+	return (ps->stats[STAT_ARMOR] < armor);
+}
+
+static qboolean BG_CanAmmoBeGrabbed(weapon_t ammoType, const playerState_t* ps)
+{
+	int ammoMax;
+
+	switch (ammoType)
+	{
+		case WP_SHOTGUN:
+			ammoMax = modeMaxAmmoShotgun;
+			break;
+		case WP_GRENADE_LAUNCHER:
+			ammoMax = modeMaxAmmoGrenade;
+			break;
+		case WP_ROCKET_LAUNCHER:
+			ammoMax = modeMaxAmmoRocket;
+			break;
+		case WP_RAILGUN:
+			ammoMax = modeMaxAmmoRail;
+			break;
+		default:
+			ammoMax = 200;
+			break;
+	}
+
+	return ps->ammo[ammoType] < ammoMax;
+}
 
 
 /*
@@ -860,7 +972,7 @@ Returns false if the item should not be picked up.
 This needs to be the same for client side prediction and server use.
 ================
 */
-qboolean BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playerState_t* ps)
+qboolean BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playerState_t* ps, qboolean disableArmorCheck)
 {
 	gitem_t* item;
 
@@ -877,16 +989,16 @@ qboolean BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playe
 			return qtrue;   // weapons are always picked up
 
 		case IT_AMMO:
-			if (ps->ammo[ item->giTag ] >= 200)
-			{
-				return qfalse;      // can't hold any more
-			}
-			return qtrue;
+			return BG_CanAmmoBeGrabbed(item->giTag, ps);
 
 		case IT_ARMOR:
-			if (ps->stats[STAT_ARMOR] >= ps->stats[STAT_MAX_HEALTH] * 2)
+			if (!disableArmorCheck)
 			{
-				return qfalse;
+				BG_CanArmorBeGrabbed(item, ps);
+				if (ps->stats[STAT_ARMOR] >= ps->stats[STAT_MAX_HEALTH] * 2)
+				{
+					return qfalse;
+				}
 			}
 			return qtrue;
 

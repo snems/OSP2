@@ -1,6 +1,27 @@
 #include "cg_local.h"
 #include "../qcommon/qcommon.h"
 
+
+struct crosshairColors_s
+{
+	const char* name;
+	float* color;
+};
+
+const struct crosshairColors_s crosshairColors[11] =
+{
+	{"black",   colorBlack},
+	{"red",     colorRed},
+	{"yellow",  colorYellow},
+	{"blue",    colorBlue},
+	{"green",   colorGreen},
+	{"cyan",    colorCyan},
+	{"magenta", colorMagenta},
+	{"white",   colorWhite},
+	{"grey",    colorDkGrey},
+	{NULL,      NULL},
+};
+
 const char* weaponNames[10] = { "None", "Gauntlet", "MachineGun", "Shotgun", "G.Launcher", "R.Launcher", "LightningGun", "Railgun", "Plasmagun", "BFG" };
 
 // very unsafe
@@ -259,5 +280,163 @@ const char* CG_LoadLine(const char* ptr, char* out, int outSize)
 
 	return result;
 }
+
+static char CG_CharFromHex4bit(char in)
+{
+	char offset = in;
+	if (in >= '0' && in <= '9')
+	{
+		return in - '0';
+	}
+	else if (in >= 'a' && in <= 'f')
+	{
+		return 10 + (in - 'a');
+	}
+	return 0;
+}
+
+static float CG_FloatColorFromHex4bit(char in)
+{
+	return (1.0f / 15.0f) * CG_CharFromHex4bit(in);
+}
+
+static float CG_FloatColorFromHex8bit(char inHi, char inLow)
+{
+	int result;
+
+	result = CG_CharFromHex4bit(inHi) * 16 + CG_CharFromHex4bit(inLow);
+
+	return (1.0f / 255.0f) * (float)(result);
+}
+
+static void CG_ParseColorStr12Bit(const char* str, vec4_t out)
+{
+	char hexstr[4] = {'0', '0', '0', 0};
+	const int len = strlen(str);
+	int i;
+
+	Q_strncpyz(&hexstr[3 - len], str, len + 1);
+
+
+	out[0] = CG_FloatColorFromHex4bit(hexstr[0]);
+	out[1] = CG_FloatColorFromHex4bit(hexstr[1]);
+	out[2] = CG_FloatColorFromHex4bit(hexstr[2]);
+}
+
+static void CG_ParseColorStr24Bit(const char* str, vec4_t out)
+{
+	char hexstr[7] = {'0', '0', '0', '0', '0', '0', 0};
+	const int len = strlen(str);
+	int i;
+
+	Q_strncpyz(&hexstr[6 - len], str, len + 1);
+
+
+	out[0] = CG_FloatColorFromHex8bit(hexstr[0], hexstr[1]);
+	out[1] = CG_FloatColorFromHex8bit(hexstr[2], hexstr[3]);
+	out[2] = CG_FloatColorFromHex8bit(hexstr[4], hexstr[5]);
+}
+
+qboolean CG_ParseColorStr(const char* str, vec4_t out)
+{
+	char in[MAX_QPATH];
+	int len;
+	const char* ptr;
+	const struct crosshairColors_s* colorsArray;
+	int i;
+
+	if (!str) return qfalse;
+
+	// prepare string:
+	// to lower case, get len,
+	len = strlen(str);
+	if (!len || len > 8) return qfalse;
+
+	for (i = 0; i < 8 && *str; ++i, ++str)
+	{
+		in[i] = tolower(*str);
+	}
+	in[i] = 0;
+
+	// if len == 1, it and 0..9 - one letter color
+	if (len == 1 && in[0] >= '0' && in[0] <= '9')
+	{
+		//color code 0-9
+		VectorCopy(g_color_table[in[0] & 0x0f], out);
+		return qtrue;
+	}
+
+	//check, is it color string
+	//
+	if (in[0] >= 'a' && in[0] <= 'z')
+	{
+		colorsArray = &crosshairColors[0];
+		while (colorsArray->name)
+		{
+			if (Q_stricmp(in, colorsArray->name) == 0)
+			{
+				break;
+			}
+			++colorsArray;
+		}
+		if (colorsArray->name)
+		{
+			//found color
+			Vector4Copy(colorsArray->color, out);
+			return qtrue;
+		}
+
+	}
+
+	//remove prefix if have it
+	ptr = &in[0];
+	if (*ptr == '#')
+	{
+		++ptr;
+	}
+	else if (*ptr == 'x')
+	{
+		++ptr;
+	}
+	else if (ptr[0] == '0' && ptr[1] == 'x')
+	{
+		ptr += 2;
+	}
+
+	//check is characters allowed
+	for (i = 0; ptr[i]; ++i)
+	{
+		if (!((ptr[i] >= '0' && ptr[i] <= '9') || (ptr[i] >= 'a' && ptr[i] <= 'f')))
+		{
+			//unexpected character
+			return qfalse;
+		}
+	}
+
+	len = strlen(ptr);
+
+	if (len == 0)
+	{
+		VectorSet(out, 0, 0, 0);
+		return qtrue;
+	}
+	//next len = 1-3 - 24 bit hex
+	else if (len >= 1 && len <= 3)
+	{
+		CG_ParseColorStr12Bit(ptr, &out[0]);
+		return qtrue;
+	}
+	// len 4-6 - 32 bit hex
+	else if (len >= 4 && len <= 6)
+	{
+		CG_ParseColorStr24Bit(ptr, out);
+		return qtrue;
+	}
+
+	return qfalse;
+}
+
+
+
 
 

@@ -1,14 +1,5 @@
 #include "cg_local.h"
 
-vec4_t crosshairSpeedColor = { 1.0f, 1.0f, 1.0f, 0.4f };
-
-
-struct crosshairColors_s
-{
-	const char* name;
-	float* color;
-};
-
 #define OSPHUD_TEAMOVERLAY_STR_SIZE 128
 typedef struct
 {
@@ -23,21 +14,6 @@ typedef struct
 	int nameLenChar;
 	char str[OSPHUD_TEAMOVERLAY_STR_SIZE];
 } teamOverlay_t;
-
-struct crosshairColors_s crosshairColors[11] =
-{
-	{"white",   colorWhite},
-	{"black",   colorBlack},
-	{"red",     colorRed},
-	{"green",   colorGreen},
-	{"blue",    colorBlue},
-	{"yellow",  colorYellow},
-	{"magenta", colorMagenta},
-	{"cyan",    colorCyan},
-	{"white",   colorWhite},
-	{"grey",    colorDkGrey},
-	{NULL,      NULL},
-};
 
 teamOverlay_t teamOverlay;
 int teamOverlayWidth = 0;
@@ -70,221 +46,6 @@ static void CG_OSPPrepareTeamOverlay(int w, qboolean right) ;
 static void CG_OSPDrawPlayerIcon(float x, float y, float w, float h, int attacker, float* angles, float* color2);
 static int CG_OSPGetPresistantTeam(void);
 
-static qboolean CG_OSPSetCrosshairColor(void)
-{
-	static int modif = -1;
-	static qboolean isSet = qtrue;
-	static vec4_t color = { 0, 0, 0, 0 };
-
-	const char* colorstr;
-
-	if (ch_CrosshairColor.modificationCount == modif)
-	{
-		trap_R_SetColor(color);
-		return isSet;
-	}
-
-	colorstr = ch_CrosshairColor.string;
-
-	modif = ch_CrosshairColor.modificationCount;
-	isSet = qfalse;
-
-	if (colorstr[0] == '0' && (colorstr[1] == 'X' || colorstr[1] == 'x'))
-	{
-		if (!CG_Hex16GetColor(&colorstr[2], &color[0]) ||
-		        !CG_Hex16GetColor(&colorstr[4], &color[1]) ||
-		        !CG_Hex16GetColor(&colorstr[6], &color[2]))
-		{
-			trap_Cvar_Set(CG_OSPGetCvarName(&ch_CrosshairColor), "White");
-			trap_R_SetColor(0);
-			isSet = qtrue;
-			return isSet;
-		}
-		color[3] = 1.0;
-		if (color[0] > 0.999f && color[1] > 0.999f && color[2] > 0.999f)
-		{
-			isSet = qtrue;
-		}
-		trap_R_SetColor(color);
-	}
-	else
-	{
-		int i;
-
-		for (i = 0; crosshairColors[i].name; ++i)
-		{
-			if (Q_stricmp(colorstr, crosshairColors[i].name) == 0)
-			{
-				color[0] = crosshairColors[i].color[0];
-				color[1] = crosshairColors[i].color[1];
-				color[2] = crosshairColors[i].color[2];
-				color[3] = 1.0f;
-				trap_R_SetColor(color);
-				if (Q_stricmp(colorstr, "White") == 0)
-				{
-					isSet = qtrue;
-				}
-				return isSet;
-			}
-		}
-		if (!crosshairColors[i].name)
-		{
-			trap_Cvar_Set(CG_OSPGetCvarName(&ch_CrosshairColor), "White");
-			trap_R_SetColor(0);
-			color[0] = 1.0;
-			color[1] = 1.0;
-			color[2] = 1.0;
-			color[3] = 1.0f;
-			isSet = qtrue;
-			return isSet;
-		}
-	}
-	return isSet;
-}
-
-void CG_OSPDrawCrosshair(void)
-{
-	qboolean isColorWasSet = qfalse;
-	vec4_t hcolor;
-	float x; // 38
-	float y; // 3c
-	float w; // 30
-	float h; // 2c
-	qhandle_t shader;
-	int crosshair;
-	int weapon;
-
-	weapon = cg.predictedPlayerState.weapon;
-
-
-	if (ch_drawSpeed.integer == 2)
-	{
-		char* speed_str;
-		speed_str =
-		    va("<%fups>", cg.xyspeed);
-		CG_OSPDrawStringOld((320 - 5 * strlen(speed_str)),
-		                    225.0f - 0.5f * cg_crosshairSize.value,
-		                    speed_str,
-		                    10,
-		                    10,
-		                    crosshairSpeedColor,
-		                    0,
-		                    0);
-	}
-
-	switch (weapon)
-	{
-		case WP_GAUNTLET:
-			crosshair = cg_drawCrosshairGauntlet.integer;
-			break;
-		case WP_MACHINEGUN:
-			crosshair = cg_drawCrosshairMachinegun.integer;
-			break;
-		case WP_SHOTGUN:
-			crosshair = cg_drawCrosshairShotgun.integer;
-			break;
-		case WP_GRENADE_LAUNCHER:
-			crosshair = cg_drawCrosshairGrenadeLauncher.integer;
-			break;
-		case WP_ROCKET_LAUNCHER:
-			crosshair = cg_drawCrosshairRocketLauncher.integer;
-			break;
-		case WP_LIGHTNING:
-			if (cg_lightningHideCrosshair.integer && cg.predictedPlayerState.eFlags & EF_FIRING) return;
-			crosshair = cg_drawCrosshairLightning.integer;
-			break;
-		case WP_RAILGUN:
-			crosshair = cg_drawCrosshairRailgun.integer;
-			break;
-		case WP_PLASMAGUN:
-			crosshair = cg_drawCrosshairPlasmagun.integer;
-			break;
-		case WP_BFG:
-			crosshair = cg_drawCrosshairBFG.integer;
-			break;
-		default:
-			crosshair = cg_drawCrosshair.integer;
-	}
-
-	if (crosshair == -1)
-	{
-		crosshair = cg_drawCrosshair.integer;
-	}
-
-	if (!crosshair)
-	{
-		return;
-	}
-
-	if (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR)
-	{
-		return;
-	}
-
-	if (cg.renderingThirdPerson)
-	{
-		return;
-	}
-
-	if (global_viewlistFirstOption > 1)
-	{
-		return;
-	}
-	if (cg_crosshairHealth.integer != 0)
-	{
-		CG_ColorForHealth(hcolor, NULL);
-		trap_R_SetColor(hcolor);
-	}
-	else
-	{
-		if (ch_CrosshairColor.integer > 0)
-		{
-			hcolor[0] = ch_CrosshairColor.integer & 1 ? 1.0f : 0;
-			hcolor[1] = ch_CrosshairColor.integer & 1 ? 1.0f : 0;
-			hcolor[2] = ch_CrosshairColor.integer & 1 ? 1.0f : 0;
-			hcolor[3] = 1.0f;
-			trap_R_SetColor(hcolor);
-		}
-		else
-		{
-			isColorWasSet = CG_OSPSetCrosshairColor();
-		}
-	}
-
-	h = cg_crosshairSize.value;
-	w = cg_crosshairSize.value;
-	if (cg_crosshairPulse.integer != 0)
-	{
-		int time;
-		time = (float)(cg.time - cg.itemPickupBlendTime);
-		if ((time > 0) && (time < 200.0f))
-		{
-			float tmp;
-			tmp = (float)time;
-			tmp /= 200.0f;
-			tmp += 1.0f;
-			w *= tmp;
-			h *= tmp;
-		}
-	}
-	x = (float)cg_crosshairX.integer;
-	y = (float)cg_crosshairY.integer;
-	CG_AdjustFrom640_Old(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
-
-	shader = isColorWasSet ? cgs.media.crosshairShader[crosshair % cgs.media.numberOfCrosshairs] : cgs.media.crosshairShader2[crosshair % cgs.media.numberOfCrosshairs];
-
-	trap_R_DrawStretchPic(
-	    x + (float)cg.refdef.x + (0.5f * ((float)cg.refdef.width - w)),
-	    y + (float)cg.refdef.y + (0.5f * ((float)cg.refdef.height - h)),
-	    w,
-	    h,
-	    0,
-	    0,
-	    1,
-	    1,
-	    shader);
-	trap_R_SetColor(0);
-}
 
 static void CG_OSPDrawSpectator(void)
 {
@@ -501,7 +262,7 @@ static float CG_OSPDrawStatusBar(float arg)
 
 		if (cgs.osp.server_mode & OSP_SERVER_MODE_PROMODE)
 		{
-			CG_DrawPicOld((float)((((320 - (12 * fontW / (float)2) + offsetW) + 9 * fontW) + 3 * fontW) + 3), 452, 24, 24, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
+			CG_DrawPicOld((float)((((320 - (12 * fontW / (float)2) + offsetW) + 9 * fontW) + 3 * fontW) + 3), 452, 24, 24, cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]]);
 		}
 	}
 
@@ -749,7 +510,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 
 	if (ps->stats[STAT_ARMOR])
 	{
-		model = cgs.media.armorModel[ps->stats[STAT_OSP_8]];
+		model = cgs.media.armorModel[ps->stats[STAT_ARMOR_TYPE]];
 		pos[0] = 90.0f;
 		pos[1] = 0;
 		pos[2] = -10.0f;
@@ -816,7 +577,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 		trap_R_SetColor(NULL);
 		if (!cg_draw3dIcons.integer && cg_drawIcons.integer)
 		{
-			CG_DrawPicOld(470.0f, 432.0f, 48.0f, 48.0f, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
+			CG_DrawPicOld(470.0f, 432.0f, 48.0f, 48.0f, cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]]);
 		}
 	}
 }
@@ -979,7 +740,7 @@ static void CG_OSPDrawCPMStatusbarBars(void)
 		colorIndex = 0;
 	}
 
-	icon = cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]];
+	icon = cgs.media.armorIcon[cg.snap->ps.stats[STAT_ARMOR_TYPE]];
 
 	CG_OSPDrawCPMStatusbarsBar(armor, icon, 432, 0, CPMStatusBarsColors[colorIndex]);
 	CG_FillRect(320.0f, 432.0f, 1.0f, 32.0f, CPMStatusBarsColors[3]);
@@ -1113,7 +874,7 @@ static void CG_OSPDrawCPMStatusbar3(void)
 		armorColorIndex = 0;
 	}
 
-	iconArmor = cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]];
+	iconArmor = cgs.media.armorIcon[cg.snap->ps.stats[STAT_ARMOR_TYPE]];
 
 	CG_OSPDrawCPMStatusbar3Bars(health, armor, iconModel, iconArmor, 225, 432, CPMStatusBar3Colors[healthColorIndex], CPMStatusBar3Colors[armorColorIndex]);
 
@@ -1291,7 +1052,7 @@ static void CG_OSPDrawCPMStatusbar4(void)
 		colorIndex = 0;
 	}
 
-	icon = cgs.media.armorIcon[ps->stats[STAT_OSP_8]];
+	icon = cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]];
 
 	CG_OSPDrawCPMStatusbar4Bars(62, 470, value, icon, CPMStatusBar4Colors[colorIndex]);
 
@@ -1467,7 +1228,7 @@ static void CG_OSPDrawCPMStatusbar5(void)
 		colorIndex = 0;
 	}
 
-	icon = cgs.media.armorIcon[ps->stats[STAT_OSP_8]];
+	icon = cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]];
 	if (ch_graphs.integer == 0)
 	{
 		y = 350;
@@ -1943,7 +1704,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 		if ((cgs.osp.server_mode & 0x2) != 0)
 		{
 			qhandle_t icon;
-			icon = cgs.media.armorIcon[ps->stats[STAT_OSP_8]];
+			icon = cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]];
 			if (icon)
 			{
 				CG_DrawPicOld((float)(((486 - w_tmp) + (3 * w)) + 3), 452.0f, 24.0f, 24.0f, icon);
@@ -3579,7 +3340,7 @@ static float CG_OSPDrawHealthArmor67(float x, float y)
 	y += 28.0f;
 	if (cg_drawIcons.integer)
 	{
-		CG_DrawPicOld(x + 4.0f, y, 24.0f, 24.0f, cgs.media.armorIcon[cg.snap->ps.stats[STAT_OSP_8]]);
+		CG_DrawPicOld(x + 4.0f, y, 24.0f, 24.0f, cgs.media.armorIcon[cg.snap->ps.stats[STAT_ARMOR_TYPE]]);
 	}
 
 	armor = cg.snap->ps.stats[STAT_ARMOR];
@@ -4414,7 +4175,7 @@ void CG_OSPHUDRoutine(void)
 			CG_DrawAmmoWarning();
 		}
 
-		CG_OSPDrawCrosshair();
+		CG_DrawCrosshair();
 		CG_OSPDrawCrosshairNames();
 		CG_DrawReward();
 		CG_OSPDrawVote();

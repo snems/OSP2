@@ -302,7 +302,7 @@ void CG_SHUDRoutine(void)
 	const qboolean is_team_game = cgs.gametype >= GT_TEAM;
 	const qboolean is_spectator = CG_IsSpectator();
 
-	CG_OSPDrawCrosshair();
+	CG_DrawCrosshair();
 
 	if (CG_DrawIntermission() == 0)
 	{

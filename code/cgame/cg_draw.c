@@ -479,7 +479,7 @@ void CG_DrawStatusBar(void)
 		origin[2] = -10;
 		angles[YAW] = (cg.time & 2047) * 360 / 2048.0;
 		CG_Draw3DModel(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432.0, ICON_SIZE, ICON_SIZE,
-		               cgs.media.armorModel[ps->stats[STAT_OSP_9]], 0, origin, angles);
+		               cgs.media.armorModel[ps->stats[STAT_ARMOR_TYPE]], 0, origin, angles);
 	}
 	//
 	// ammo
@@ -565,7 +565,7 @@ void CG_DrawStatusBar(void)
 		// if we didn't draw a 3D icon, draw a 2D icon for armor
 		if (!cg_draw3dIcons.integer && cg_drawIcons.integer)
 		{
-			CG_DrawPicOld(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_OSP_8]]);
+			CG_DrawPicOld(370 + Q3_CHAR_WIDTH * 3 + TEXT_ICON_SPACE, 432, ICON_SIZE, ICON_SIZE, cgs.media.armorIcon[ps->stats[STAT_ARMOR_TYPE]]);
 		}
 
 	}
@@ -1788,75 +1788,6 @@ CROSSHAIR
 ================================================================================
 */
 
-/*
-=================
-CG_DrawCrosshair
-=================
-*/
-static void CG_DrawCrosshair(void)
-{
-	float       w, h;
-	qhandle_t   hShader;
-	float       f;
-	float       x, y;
-	int         ca;
-
-	if (!cg_drawCrosshair.integer)
-	{
-		return;
-	}
-
-	if (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR)
-	{
-		return;
-	}
-
-	if (cg.renderingThirdPerson)
-	{
-		return;
-	}
-
-	// set color based on health
-	if (cg_crosshairHealth.integer)
-	{
-		vec4_t      hcolor;
-
-		CG_ColorForHealth(hcolor, NULL);
-		trap_R_SetColor(hcolor);
-	}
-	else
-	{
-		trap_R_SetColor(NULL);
-	}
-
-	w = h = cg_crosshairSize.value;
-
-	// pulse the size of the crosshair when picking up items
-	f = cg.time - cg.itemPickupBlendTime;
-	if (f > 0 && f < ITEM_BLOB_TIME)
-	{
-		f /= ITEM_BLOB_TIME;
-		w *= (1 + f);
-		h *= (1 + f);
-	}
-
-	x = cg_crosshairX.integer;
-	y = cg_crosshairY.integer;
-	CG_AdjustFrom640_Old(&x, &y, &w, &h, cg_crosshairAspectRatioFix.integer != 0);
-
-	ca = cg_drawCrosshair.integer;
-	if (ca < 0)
-	{
-		ca = 0;
-	}
-	hShader = cgs.media.crosshairShader[ ca % cgs.media.numberOfCrosshairs ];
-
-	trap_R_DrawStretchPic(x + cg.refdef.x + 0.5 * (cg.refdef.width - w),
-	                      y + cg.refdef.y + 0.5 * (cg.refdef.height - h),
-	                      w, h, 0, 0, 1, 1, hShader);
-}
-
-
 
 /*
 =================
@@ -1876,6 +1807,15 @@ void CG_ScanForCrosshairEntity(void)
 	         cg.snap->ps.clientNum, CONTENTS_SOLID | CONTENTS_BODY);
 	if (trace.entityNum >= MAX_CLIENTS)
 	{
+		if (cgs.osp.gameTypeFreeze && trace.entityNum < MAX_GENTITIES)
+		{
+			centity_t* centp = &cg_entities[trace.entityNum];
+			if (centp->currentState.powerups & (1 << PW_BATTLESUIT))
+			{
+				cg.crosshairClientNum = centp->currentState.otherEntityNum;
+				cg.crosshairClientTime = cg.time;
+			}
+		}
 		return;
 	}
 
@@ -1918,7 +1858,7 @@ void CG_DrawCrosshairNames(void)
 	if ((cg_drawCrosshairNames.integer == 2) &&
 	        ((cg.snap->ps.persistant[PERS_TEAM] == TEAM_FREE) ||
 	         (cg.snap->ps.persistant[PERS_TEAM] == cgs.clientinfo[cg.crosshairClientNum].team) ||
-	         (cgs.osp.gameTypeFreeze == GT_FFA) ||
+	         cgs.osp.gameTypeFreeze ||
 	         (cgs.clientinfo[cg.snap->ps.clientNum].team != cgs.clientinfo[cg.crosshairClientNum].team)))
 	{
 		return;
@@ -2285,6 +2225,192 @@ void CG_DrawWarmup(void)
 	}
 }
 
+void CG_DrawWarmupNew(void)
+{
+	int sec = cg.warmup;
+
+	if (sec == 0)
+	{
+		return;
+	}
+	else if (sec < 0)
+	{
+		CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 24,
+		                 cgs.gametype != GT_TOURNAMENT ? "^BWaiting for Players" : "^BWaiting for Opponent",
+		                 colorRed,
+		                 14, 14,
+		                 32, DS_HCENTER | DS_PROPORTIONAL);
+		cg.warmupCount = 0;
+	}
+	else // warmup > 0
+	{
+		if (cgs.gametype == GT_TOURNAMENT)
+		{
+			const char* player1Name = NULL;
+			const char* player2Name = NULL;
+			int i;
+
+			for (i = 0; i < cgs.maxclients; ++i)
+			{
+				if (cgs.clientinfo[i].name[0] && cgs.clientinfo[i].team == TEAM_FREE)
+				{
+					if (!player1Name)
+					{
+						player1Name = cgs.clientinfo[i].name;
+					}
+					else
+					{
+						player2Name = cgs.clientinfo[i].name;
+						break;
+					}
+				}
+			}
+			if (player1Name && player2Name)
+			{
+				int len;
+				int width;
+				const char* text;
+				text = va("%s^7 vs %s", player1Name, player2Name);
+
+				len = CG_DrawStrlen(text);
+
+				if (len > 20)
+				{
+					width = SCREEN_WIDTH / len;
+				}
+				else
+				{
+					width = 32;
+				}
+
+				CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 20,
+				                 text,
+				                 colorWhite,
+				                 width, width * 1.5f,
+				                 128, DS_HCENTER | DS_PROPORTIONAL);
+			}
+		}
+		else
+		{
+			const char* text;
+			int len;
+			int width;
+
+			if (cgs.osp.clanBaseTeamDM)
+			{
+				text = "ClanBase TeamDM";
+			}
+			else if (cgs.gametype == GT_FFA)
+			{
+				text = "Free for all";
+			}
+			else if (cgs.gametype == GT_TEAM)
+			{
+				if (cgs.osp.gameTypeFreeze == 0)
+				{
+					text = "Team Deathmatch";
+				}
+				else if (cgs.osp.gameTypeFreeze == 2)
+				{
+
+					text = "FreezeTag TDM (Vanilla)";
+				}
+				else
+				{
+					text = "FreezeTag TDM";
+				}
+			}
+			else if (cgs.gametype == GT_CTF)
+			{
+				text = "Capture the Flag";
+			}
+			else if (cgs.gametype == GT_CA)
+			{
+				text = "Clan Arena";
+			}
+			else
+			{
+				text = "";
+			}
+
+			len = CG_DrawStrlen(text);
+			if (len > 0x14)
+			{
+				width = SCREEN_WIDTH / len;
+			}
+			else
+			{
+				width = 32;
+			}
+			CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 25,
+			                 text,
+			                 colorLtGrey,
+			                 width, width * 1.1f,
+			                 128, DS_HCENTER | DS_PROPORTIONAL);
+		}
+
+		if (cg.showScores == 0)
+		{
+			int cw;
+			float* color = colorWhite;
+			const char* s;
+			int w;
+
+			sec = (sec - cg.time) / 1000;
+			if (sec < 0)
+			{
+				cg.warmup = 0;
+				sec = 0;
+			}
+			s = va("Starts in: %i", sec + 1);
+			if (sec != cg.warmupCount)
+			{
+				cg.warmupCount = sec;
+				switch (sec)
+				{
+					case 0:
+						trap_S_StartLocalSound(cgs.media.count1Sound, CHAN_ANNOUNCER);
+						break;
+					case 1:
+						trap_S_StartLocalSound(cgs.media.count2Sound, CHAN_ANNOUNCER);
+						break;
+					case 2:
+						trap_S_StartLocalSound(cgs.media.count3Sound, CHAN_ANNOUNCER);
+						break;
+					default:
+						break;
+				}
+			}
+
+			switch (cg.warmupCount)
+			{
+				case 0:
+					cw = 28;
+					color = colorLtGrey;
+					break;
+				case 1:
+					cw = 24;
+					color = colorYellow;
+					break;
+				case 2:
+					cw = 20;
+					color = colorWhite;
+					break;
+				default:
+					cw = 16;
+					break;
+			}
+
+			w = CG_DrawStrlen(s);
+			CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 70,
+			                 s,
+			                 color,
+			                 cw, cw * 1.5f,
+			                 128, DS_HCENTER | DS_PROPORTIONAL);
+		}
+	}
+}
+
 /*
 =================
 CG_Draw2D
@@ -2306,6 +2432,7 @@ static void CG_Draw2D(void)
 	if (cg_shud.integer)
 	{
 		CG_SHUDRoutine();
+		CG_DrawWarmupNew();
 		return;
 	}
 
@@ -2334,7 +2461,7 @@ static void CG_Draw2D(void)
 		{
 			CG_DrawStatusBar();
 			CG_DrawAmmoWarning();
-			CG_OSPDrawCrosshair();
+			CG_DrawCrosshair();
 			CG_DrawCrosshairNames();
 			CG_DrawWeaponSelect();
 			CG_DrawHoldableItem();

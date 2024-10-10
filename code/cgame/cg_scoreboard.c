@@ -670,7 +670,7 @@ void CG_OSPShowStatsInfo(void)
 	int w_deaths;
 	qboolean flag = qfalse;
 
-	if (qfalse && !cg.demoPlayback && wstatsWndId <= 0 && !wstatsEnabled)
+	if (!cg.demoPlayback && wstatsWndId <= 0 && !wstatsEnabled)
 	{
 		return;
 	}

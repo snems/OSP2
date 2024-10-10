@@ -2,18 +2,33 @@
 
 This Quake 3 mod is an attempt to recover old OSP mod source codes and improve it.
 
-Based on https://github.com/ec-/baseq3a and OSP files analysis. 
-Also used code from https://github.com/xq3e/engine and unlagged mod written by Nail Toronto.
+Based on vanilla Q3 and OSP files analysis. 
+
+Also used code from :
+
+ - baseq3a from Cyrax: https://github.com/ec-/baseq3a
+ - XQ3E: https://github.com/xq3e/engine, 
+ - unlagged mod written by Nail Toronto 
+ - Ratmod https://github.com/rdntcntrl/ratoa_gamecode
+
+
+# Features
+
+- VQ3/Promode physics support
+- CPMA like SuperHUD
+- Proportional fonts
+- Multilevel hitsounds and fragsound
+- Crosshair decoration and animations
+- Client side /mute for players
+
+And many other small features
+
+![alt text](https://github.com/snems/OSP2/blob/master/docs/shot.jpg?raw=true)
 
 ## Mod state
 
 Only cgame now.
 
-Not working yet:
-
-- CQ3/PROMODE
-
-Lot of other things.
 
 ## Contacts
 

@@ -348,10 +348,9 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 	//hits > 0 here
 	{
 		const int atta = ps->persistant[PERS_ATTACKEE_ARMOR];
-		const qboolean is_osp = atta == 0;
 		int damage;
 
-		if (is_osp)
+		if (atta == 0) // osp if zero
 		{
 			damage = hits;
 		}
@@ -359,6 +358,8 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 		{
 			damage = atta & 0x00FF;
 		}
+
+		cgs.osp.lastHitTime = cg.time;
 
 		if ((OSP_CUSTOM_CLIENT_2_IS_DMG_INFO_ALLOWED()
 		        && cg_hitSounds.integer) || cgs.osp.server_mode == OSP_SERVER_MODE_PROMODE || cgs.osp.server_mode == OSP_SERVER_MODE_CQ3)

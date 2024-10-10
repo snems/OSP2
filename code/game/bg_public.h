@@ -233,21 +233,29 @@ void Pmove(pmove_t* pmove);
 //===================================================================================
 
 
+typedef enum
+{
+	ARMOR_GREEN = 0,
+	ARMOR_YELLOW = 1,
+	ARMOR_RED = 2,
+} armorType_t;
+
 // player_state->stats[] indexes
 // NOTE: may not have more than 16
 typedef enum
 {
-	STAT_HEALTH,
-	STAT_HOLDABLE_ITEM,
-	STAT_WEAPONS,                   // 16 bit fields
-	STAT_ARMOR,
-	STAT_DEAD_YAW,                  // look this direction when dead (FIXME: get rid of?)
-	STAT_CLIENTS_READY,             // bit mask of clients wishing to exit the intermission (FIXME: configstring?)
-	STAT_MAX_HEALTH,                    // health / armor limit, changable by handicap
-	STAT_OSP_6,
-	STAT_OSP_7,
-	STAT_OSP_8,
-	STAT_OSP_9    //aromor: red/green/yellow
+	STAT_HEALTH = 0,
+	STAT_HOLDABLE_ITEM = 1,
+	STAT_WEAPONS = 2,                   // 16 bit fields
+	STAT_ARMOR = 3,
+	STAT_DEAD_YAW = 4,                  // look this direction when dead (FIXME: get rid of?)
+	STAT_CLIENTS_READY = 5,             // bit mask of clients wishing to exit the intermission (FIXME: configstring?)
+	STAT_MAX_HEALTH = 6,                // health / armor limit, changable by handicap
+	STAT_OSP_PHYS = 7,
+	STAT_RAIL_DELAY = 8,
+	STAT_ARMOR_TYPE = 9,                //aromor: red/green/yellow
+	STAT_OSP_10 = 10,
+	STAT_WEAPON_DELAY = 11,
 } statIndex_t;
 
 
@@ -688,7 +696,7 @@ gitem_t* BG_FindItemForPowerup(powerup_t pw);
 gitem_t* BG_FindItemForHoldable(holdable_t pw);
 #define ITEM_INDEX(x) ((x)-bg_itemlist)
 
-qboolean    BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playerState_t* ps);
+qboolean    BG_CanItemBeGrabbed(int gametype, const entityState_t* ent, const playerState_t* ps, qboolean disableArmorCheck);
 
 
 // g_dmflags->integer flags
