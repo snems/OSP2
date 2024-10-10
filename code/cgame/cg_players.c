@@ -775,7 +775,7 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 		}
 
 		Q_strncpyz(ci->modelName, nameModel, MAX_QPATH);
-		Q_strncpyz(ci->skinName, nameSkin, MAX_QPATH);
+		Q_strncpyz(ci->skinName, nameSkin ? nameSkin : "default", MAX_QPATH);
 	}
 }
 
