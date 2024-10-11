@@ -326,6 +326,20 @@ static void pushReward(sfxHandle_t sfx, qhandle_t shader, int rewardCount)
 CG_CheckLocalSounds
 ==================
 */
+static void CG_PlayHitSound(sfxHandle_t sound, playerState_t* ps, playerState_t* ops)
+{
+	if (cg_lightningSilent.integer && ops->weapon == WP_LIGHTNING)
+	{
+		return;
+	}
+	if (cg_hitSounds.integer < 0)
+	{
+		return;
+	}
+
+	trap_S_StartLocalSound(sound, CHAN_LOCAL_SOUND);
+}
+
 void CG_HitSound(playerState_t* ps, playerState_t* ops)
 {
 	const int hits = ps->persistant[PERS_HITS] - ops->persistant[PERS_HITS];
@@ -334,15 +348,12 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 		return;
 	}
 
-	if (cg_lightningSilent.integer && ops->weapon == WP_LIGHTNING)
-	{
-		return;
-	}
+	cgs.osp.lastHitTime = cg.time;
 
 	if (hits < 0)
 	{
 		//frendly fire
-		trap_S_StartLocalSound(cgs.media.hitTeamSound, CHAN_LOCAL_SOUND);
+		CG_PlayHitSound(cgs.media.hitTeamSound, ps, ops);
 		return;
 	}
 	//hits > 0 here
@@ -359,7 +370,6 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 			damage = atta & 0x00FF;
 		}
 
-		cgs.osp.lastHitTime = cg.time;
 
 		if ((OSP_CUSTOM_CLIENT_2_IS_DMG_INFO_ALLOWED()
 		        && cg_hitSounds.integer) || cgs.osp.server_mode == OSP_SERVER_MODE_PROMODE || cgs.osp.server_mode == OSP_SERVER_MODE_CQ3)
@@ -373,11 +383,11 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 			if (cg_hitSounds.integer > 1)   // reversed: higher damage - higher tone
 				index = 3 - index;
 
-			trap_S_StartLocalSound(cgs.media.hitSounds[ index ], CHAN_LOCAL_SOUND);
+			CG_PlayHitSound(cgs.media.hitSounds[ index ], ps, ops);
 		}
 		else
 		{
-			trap_S_StartLocalSound(cgs.media.hitSound, CHAN_LOCAL_SOUND);
+			CG_PlayHitSound(cgs.media.hitSound, ps, ops);
 		}
 	}
 }
