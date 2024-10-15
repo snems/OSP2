@@ -1,0 +1,29 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: build
+        run: make
+        working-directory: build/linux-qvm
+
+      - name: Upload archive
+        uses: "svenstaro/upload-release-action@latest"
+        with:
+          release_name: Latest 
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          overwrite: true
+          file: build/linux-qvm/zz-osp-pak8.pk3
+
