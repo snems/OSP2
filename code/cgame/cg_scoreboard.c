@@ -901,14 +901,14 @@ void CG_OSPShowStatsInfo(void)
 		float scrollTime;
 		float wpos;
 
+		scrollTime = cg_statScrollTime.value;
+
 		if (cg.intermissionStarted)
 		{
-			scrollTime = 0.45f;
 			wpos = 435.0f;
 		}
 		else
 		{
-			scrollTime = cg_statScrollTime.value;
 			wpos = 420.0f;
 		}
 
