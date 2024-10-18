@@ -627,7 +627,7 @@ float CG_DrawAttacker(float y)
 	info = CG_ConfigString(CS_PLAYERS + clientNum);
 	name = Info_ValueForKey(info, "n");
 	y += size;
-	CG_DrawBigString(640 - (CG_DrawStrlen(name) * BIGCHAR_WIDTH), y, name, 0.5);
+	CG_DrawBigString(SCREEN_WIDTH - 1, y, name, 0.5f, DS_HRIGHT|DS_SHADOW, 0);
 
 	return y + BIGCHAR_HEIGHT + 2;
 }
@@ -639,14 +639,9 @@ CG_DrawSnapshot
 */
 float CG_DrawSnapshot(float y)
 {
-	char*        s;
-	int         w;
+	char* s = va("time:%i snap:%i cmd:%i", cg.snap->serverTime, cg.latestSnapshotNum, cgs.serverCommandSequence);
 
-	s = va("time:%i snap:%i cmd:%i", cg.snap->serverTime,
-	       cg.latestSnapshotNum, cgs.serverCommandSequence);
-	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
-
-	CG_DrawBigString(635 - w, y + 2, s, 1.0F);
+	CG_DrawBigString(SCREEN_WIDTH - 1, y + 2, s, 1.0f, DS_HRIGHT|DS_SHADOW, 0);
 
 	return y + BIGCHAR_HEIGHT + 4;
 }
@@ -660,7 +655,6 @@ CG_DrawFPS
 float CG_DrawFPS(float y)
 {
 	char*        s;
-	int         w;
 	static int  previousTimes[FPS_FRAMES];
 	static int  index;
 	int     i, total;
@@ -691,9 +685,8 @@ float CG_DrawFPS(float y)
 		fps = 1000 * FPS_FRAMES / total;
 
 		s = va("%ifps", fps);
-		w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
 
-		CG_DrawBigString(635 - w, y + 2, s, 1.0F);
+		CG_DrawBigString(SCREEN_WIDTH-5, y+2, s, 1.0f, DS_HRIGHT|DS_SHADOW, 0);
 	}
 
 	return y + BIGCHAR_HEIGHT + 4;
@@ -707,7 +700,6 @@ CG_DrawTimer
 float CG_DrawTimer(float y)
 {
 	char*        s;
-	int         w;
 	int         mins, seconds, tens;
 	int         msec;
 
@@ -720,9 +712,8 @@ float CG_DrawTimer(float y)
 	seconds -= tens * 10;
 
 	s = va("%i:%i%i", mins, tens, seconds);
-	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
 
-	CG_DrawBigString(635 - w, y + 2, s, 1.0F);
+	CG_DrawBigString(SCREEN_WIDTH-5, y+2, s, 1.0f, DS_HRIGHT|DS_SHADOW, 0);
 
 	return y + BIGCHAR_HEIGHT + 4;
 }
@@ -732,7 +723,6 @@ void CG_DrawTimer2(void)
 	char*        s;
 	int         mins, seconds, tens;
 	int         msec;
-	int         w;
 
 	msec = cg.time - cgs.levelStartTime;
 
@@ -744,9 +734,8 @@ void CG_DrawTimer2(void)
 
 
 	s = va("%i:%i%i", mins, tens, seconds);
-	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
 
-	CG_DrawBigString(320 - w / 2, 2, s, 1.0F);
+	CG_DrawBigString(SCREEN_WIDTH/2.0f, 2, s, 1.0f, DS_HCENTER|DS_SHADOW, 0);
 }
 
 
@@ -1035,7 +1024,7 @@ static float CG_DrawScores(float y)
 		{
 			CG_DrawPicOld(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
 		}
-		CG_DrawBigString(x + 4, y, s, 1.0F);
+		CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
 
 		if (cgs.gametype == GT_CTF)
 		{
@@ -1063,7 +1052,7 @@ static float CG_DrawScores(float y)
 		{
 			CG_DrawPicOld(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
 		}
-		CG_DrawBigString(x + 4, y, s, 1.0F);
+		CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
 
 		if (cgs.gametype == GT_CTF)
 		{
@@ -1093,7 +1082,7 @@ static float CG_DrawScores(float y)
 			s = va("%2i", v);
 			w = CG_DrawStrlen(s) * BIGCHAR_WIDTH + 8;
 			x -= w;
-			CG_DrawBigString(x + 4, y, s, 1.0F);
+			CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
 		}
 
 	}
@@ -1132,7 +1121,7 @@ static float CG_DrawScores(float y)
 				color[3] = 0.33f;
 				CG_FillRect(x, y - 4,  w, BIGCHAR_HEIGHT + 8, color);
 			}
-			CG_DrawBigString(x + 4, y, s, 1.0F);
+			CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
 		}
 
 		// first place
@@ -1158,7 +1147,7 @@ static float CG_DrawScores(float y)
 				color[3] = 0.33f;
 				CG_FillRect(x, y - 4,  w, BIGCHAR_HEIGHT + 8, color);
 			}
-			CG_DrawBigString(x + 4, y, s, 1.0F);
+			CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
 		}
 
 		if (cgs.fraglimit)
@@ -1166,7 +1155,7 @@ static float CG_DrawScores(float y)
 			s = va("%2i", cgs.fraglimit);
 			w = CG_DrawStrlen(s) * BIGCHAR_WIDTH + 8;
 			x -= w;
-			CG_DrawBigString(x + 4, y, s, 1.0F);
+			CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
 		}
 
 	}
@@ -1337,7 +1326,7 @@ static int CG_DrawPickupItem(int y)
 			CG_RegisterItemVisuals(value);
 			trap_R_SetColor(fadeColor);
 			CG_DrawPicOld(8, y, ICON_SIZE, ICON_SIZE, cg_items[ value ].icon);
-			CG_DrawBigString(ICON_SIZE + 16, y + (ICON_SIZE / 2 - BIGCHAR_HEIGHT / 2), bg_itemlist[ value ].pickup_name, fadeColor[0]);
+			CG_DrawBigString(ICON_SIZE + 16, y + (ICON_SIZE / 2 - BIGCHAR_HEIGHT / 2), bg_itemlist[ value ].pickup_name, fadeColor[0], DS_HCENTER|DS_SHADOW, 0);
 			trap_R_SetColor(NULL);
 		}
 	}
@@ -1587,7 +1576,6 @@ static float CG_DrawDisconnect(float pos)
 	int         cmdNum;
 	usercmd_t   cmd;
 	const char*      s;
-	int         w;  // bk010215 - FIXME char message[1024];
 
 	// draw the phone jack if we are completely past our buffers
 	cmdNum = trap_GetCurrentCmdNumber() - CMD_BACKUP + 1;
@@ -1598,9 +1586,7 @@ static float CG_DrawDisconnect(float pos)
 	}
 
 	// also add text in center of screen
-	s = "Connection Interrupted"; // bk 010215 - FIXME
-	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
-	CG_DrawBigString(320 - w / 2, 100, s, 1.0F);
+	CG_DrawBigString(SCREEN_WIDTH/2.0f, 100, "Connection Interrupted", 1.0f, DS_HCENTER|DS_SHADOW, 0);
 
 	// blink the icon
 	if ((cg.time >> 9) & 1)
@@ -1731,7 +1717,7 @@ float CG_DrawLagometer(float pos)
 
 	if (cg_nopredict.integer || cg_synchronousClients.integer)
 	{
-		CG_DrawBigString(ax, ay, "snc", 1.0);
+		CG_DrawBigString(ax, ay, "snc", 1.0f, DS_HLEFT|DS_SHADOW, 0);
 	}
 
 	pos += CG_DrawDisconnect(pos);
@@ -1847,7 +1833,6 @@ void CG_DrawCrosshairNames(void)
 {
 	float*       color;
 	char*        name;
-	float       w;
 
 	if (cg_drawCrosshair.integer == 0) return;
 	if (cg_drawCrosshairNames.integer == 0) return;
@@ -1865,15 +1850,8 @@ void CG_DrawCrosshairNames(void)
 	}
 
 	color = CG_FadeColor(cg.crosshairClientTime, 1000);
-	if (!color)
-	{
-		trap_R_SetColor(NULL);
-		return;
-	}
 	name = cgs.clientinfo[ cg.crosshairClientNum ].name;
-	w = CG_DrawStrlen(name) * BIGCHAR_WIDTH;
-	CG_DrawBigString(320.0f - w / 2.0f, 170, name, 0.5f * color[3]);
-	trap_R_SetColor(0);
+	CG_DrawBigString(SCREEN_WIDTH/2.0f, 170, name, 0.5f * color[3], DS_HCENTER|DS_SHADOW, 0);
 }
 
 
@@ -1907,7 +1885,7 @@ static void CG_DrawVote(void)
 		sec = 0;
 	}
 	s = va("VOTE(%i):%s yes:%i no:%i", sec, cgs.voteString, cgs.voteYes, cgs.voteNo);
-	CG_DrawSmallString(0, 58, s, 1.0F);
+	CG_DrawSmallString(0, 58, s, 1.0F, DS_HLEFT|DS_SHADOW, 0);
 }
 
 /*
@@ -2000,8 +1978,7 @@ static qboolean CG_DrawFollow(void)
 	color[2] = 1;
 	color[3] = 1;
 
-
-	CG_DrawBigString(320 - 9 * 8, 24, "following", 1.0F);
+	CG_DrawBigString(SCREEN_WIDTH-1, 24, "following", 1.0f, DS_HRIGHT|DS_SHADOW, 0);
 
 	name = cgs.clientinfo[ cg.snap->ps.clientNum ].name;
 
@@ -2043,7 +2020,7 @@ void CG_DrawAmmoWarning(void)
 		s = "LOW AMMO WARNING";
 	}
 	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
-	CG_DrawBigString(320 - w / 2, 64, s, 1.0F);
+	CG_DrawBigString(SCREEN_WIDTH/2.0f, 64, s, 1.0f, DS_HCENTER|DS_SHADOW, 0);
 }
 
 
@@ -2730,14 +2707,15 @@ void CG_OSPDrawLeftSlidingWindowsRoutine(OSP_SlidingPrintContext_t* context)
 
 	for (i = 0; i < context->numberOfStrings; ++i)
 	{
-		CG_OSPDrawStringWithShadow(
-		    calc_pos_x + 2,
-		    calc_pos_y + i * (context->charHeight + 1),
-		    &context->string[i][0],
-		    context->charWidth,
-		    context->charHeight,
-		    colorWhite,
-		    qfalse);
+		CG_FontSelect(0);
+		CG_OSPDrawString(calc_pos_x + 2,
+		    						 calc_pos_y + i * (context->charHeight + 1),
+		    						 &context->string[i][0],
+		    						 colorWhite,
+		    						 context->charWidth,
+		    						 context->charHeight,
+		                 256,
+		                 DS_HLEFT);
 	}
 }
 
@@ -2823,6 +2801,7 @@ void CG_OSPDraw3DModel(float x, float y, float w, float h, qhandle_t model, qhan
 	trap_R_AddRefEntityToScene(&re);
 	trap_R_RenderScene(&rd);
 }
+
 void CG_OSPDrawCenterString(void)
 {
 	float* fadeColor;
@@ -2841,8 +2820,6 @@ void CG_OSPDrawCenterString(void)
 		int i;
 		int space;
 		char buf[48];
-		int len_char;
-		int len_pix;
 
 		space = 0;
 		i = 0;
@@ -2872,17 +2849,14 @@ void CG_OSPDrawCenterString(void)
 			to_print += i + 1;
 		}
 
-		len_char = CG_DrawStrlen(buf);
-		len_pix = cg.centerPrintCharWidth * len_char;
-		CG_OSPDrawStringWithShadow(
-		    (SCREEN_WIDTH - len_pix) / 2,
-		    y,
-		    buf,
-		    cg.centerPrintCharWidth,
-		    1.5f * (float)cg.centerPrintCharWidth,
-		    fadeColor,
-		    48);
-
+		CG_OSPDrawString(SCREEN_WIDTH/2.0f,
+		    						 y,
+		    						 buf,
+		    						 fadeColor,
+		                 cg.centerPrintCharWidth,
+		                 1.5f * (float)cg.centerPrintCharWidth,
+		                 256,
+		                 DS_HCENTER | DS_PROPORTIONAL);
 
 		y += 1.5f * (float)cg.centerPrintCharWidth;
 	}

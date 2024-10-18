@@ -53,17 +53,17 @@ static void CG_OSPDrawSpectator(void)
 	if (global_viewlistFirstOption) return;
 	persOpt = CG_OSPGetPresistantTeam();
 
-	CG_OSPDrawStringWithShadow(248, 440, "^BSPECTATOR", 18, 18, colorYellow, 0);
+	CG_OSPDrawString(SCREEN_WIDTH/2.0f, 440, "^BSPECTATOR", colorYellow, 18, 18, 256, DS_HCENTER|DS_SHADOW);
 	if (cgs.gametype != 1 && (cgs.osp.gameTypeFreeze != 0 || persOpt == 3))
 	{
 		if (cgs.gametype >= GT_TEAM && (cgs.osp.gameTypeFreeze == OSP_SERVER_MODE_VQ3 || persOpt == 3))
 		{
-			CG_DrawBigString(8, 460, "press ESC and use the START menu to play", 1.0f);
+			CG_DrawBigString(SCREEN_WIDTH/2.0f, 460, "press ESC and use the START menu to play", 1.0f, DS_HCENTER|DS_SHADOW, 0);
 		}
 	}
 	else
 	{
-		CG_DrawBigString(200, 460, "Waiting to play", 1.0f);
+		CG_DrawBigString(SCREEN_WIDTH/2.0f, 460, "Waiting to play", 1.0f, DS_HCENTER|DS_SHADOW, 0);
 	}
 }
 
@@ -3156,7 +3156,7 @@ static float CG_OSPDrawWeaponSwitchAttacker(float y)
 
 	str = Info_ValueForKey(CG_ConfigString(attacker + CS_PLAYERS), "n");
 	y += 60.0f;
-	CG_DrawBigString(640 - (CG_DrawStrlen(str) * 16), y, str, 0.5f);
+	CG_DrawBigString(SCREEN_WIDTH - 1, y, str, 0.5f, DS_HRIGHT|DS_SHADOW, 0);
 
 	return (y + 16.0f) + 2.0f;
 }
@@ -3717,7 +3717,7 @@ static void CG_OSPDrawWeaponBarCPM2(float x, float y)
 static float CG_OSPDrawSpeed(float y)
 {
 	const char* str = va("%dups", (int)cg.xyspeed);
-	CG_DrawBigString(639 - CG_DrawStrlen(str) * 16, y + 2.0f, str, 1.0f);
+	CG_DrawBigString(SCREEN_WIDTH - 1, y + 2.0f, str, 1.0f, DS_HRIGHT|DS_SHADOW, 0);
 	return y + 20.0f;
 }
 

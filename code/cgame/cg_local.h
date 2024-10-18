@@ -1595,10 +1595,9 @@ void CG_LoadFonts(void);
 
 void CG_DrawStringExt(int x, int y, const char* string, const float* setColor,
                       qboolean forceColor, qboolean shadow, int charWidth, int charHeight, int maxChars);
-void CG_DrawBigString(int x, int y, const char* s, float alpha);
-void CG_DrawBigStringColor(int x, int y, const char* s, vec4_t color);
-void CG_DrawSmallString(int x, int y, const char* s, float alpha);
-void CG_DrawSmallStringColor(int x, int y, const char* s, vec4_t color);
+void CG_DrawBigString(int x, int y, const char* s, const float alpha, int flags, int font);
+void CG_DrawSmallString(int x, int y, const char* s, float alpha, int flags, int font);
+void CG_DrawSmallStringColor(int x, int y, const char* s, vec4_t color, int flags, int font);
 
 int CG_DrawStrlen(const char* str);
 
