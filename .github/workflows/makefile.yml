@@ -3,27 +3,63 @@ name: Makefile CI
 on:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - '**.md'
+      - '*.txt'
+      - '.gitignore'
+      - 'docs/*'
+      - 'build/*'
+      - 'util/*'
   pull_request:
     branches: [ "master" ]
+    paths-ignore:
+      - '**.md'
+      - '*.txt'
+      - '.gitignore'
+      - 'docs/*'
+      - 'build/*'
+      - 'util/*'
 
 jobs:
-  build:
-    permissions:
-      contents: write
+  linux-qvm:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: build
+      working-directory: build/linux-qvm
+      run: | 
+        make
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: qvm
+        path: build/linux-qvm/zz-osp-pak8.pk3
+        if-no-files-found: error
+        retention-days: 5
+
+  create-latest:
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: [linux-qvm]
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        
-      - name: build
-        run: make
-        working-directory: build/linux-qvm
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
 
-      - name: Upload archive
-        uses: "svenstaro/upload-release-action@latest"
+      - name: Create latest build
+        uses: czietz/action-automatic-releases@latest
         with:
-          release_name: Latest 
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
-          overwrite: true
-          file: build/linux-qvm/zz-osp-pak8.pk3
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: Latest Build
+          files: |
+            qvm
+
+
 
