@@ -2187,7 +2187,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	float           ax, ay, aw, aw1, ah; // absolute positions/dimensions
 	float           scale;
 	float           x_end, xx;
-	float fade = 1.0f;
+	float 					fade = 1.0f;
 	vec4_t          color;
 	float           xx_add, yy_add;
 	float           max_ax;
@@ -2332,6 +2332,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 
 	Vector4Copy(setColor, color);
 	trap_R_SetColor(color);
+	fade = 1.0f;
 
 	for (i = 0; i < OSP_TEXT_CMD_MAX && text_commands[i].type != OSP_TEXT_CMD_STOP; ++i)
 	{
