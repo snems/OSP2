@@ -113,7 +113,17 @@ void CG_SHUDElementChatRoutine(void* context)
 
 	entry = &element->gctx->chat.line[index];
 
-	if (entry->time == 0 || entry->message[0] == 0)
+	if (entry->message[0] == 0)
+	{
+		return;
+	}
+
+	if (cgs.osp.shud.forceChat)
+	{
+		entry->time = cg.time;
+	}
+
+	if (entry->time == 0)
 	{
 		return;
 	}

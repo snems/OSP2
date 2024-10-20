@@ -474,6 +474,16 @@ void CG_OSPWStatsUp_f(void)
 	wstatsEnabled = 0;
 }
 
+void CG_ShudChatDown_f(void)
+{
+	cgs.osp.shud.forceChat = qtrue;
+}
+
+void CG_ShudChatUp_f(void)
+{
+	cgs.osp.shud.forceChat = qfalse;
+}
+
 void CG_OSPPrintTime_f(void)
 {
 	qtime_t qtime;
@@ -733,6 +743,8 @@ static consoleCommand_t commands[] =
 	{ "-modif5", CG_OSPModif5Up_f },
 	{ "+action", CG_OSPActionDown_f },
 	{ "-action", CG_OSPActionUp_f },
+	{ "+shudchat", CG_ShudChatDown_f },
+	{ "-shudchat", CG_ShudChatUp_f },
 	{ "cg_dynamicmem", CG_OSPDynamicMem_f },
 	{ "addpos", CG_OSPAddPos_f },
 	{ "decaladd", CG_OSPDecalAdd_f },

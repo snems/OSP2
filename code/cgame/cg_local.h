@@ -1086,6 +1086,11 @@ typedef struct cgs_osp_s
 		vec4_t decorColor;
 		vec4_t decorActionColor;
 	} crosshair;
+	struct
+	{
+		qboolean forceChat;
+
+	}shud;
 } cgs_osp_t;
 
 
