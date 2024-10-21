@@ -953,6 +953,12 @@ static void CG_OSPDrawClientScore(int x, int y, const score_t* score, const floa
 	VectorClear(headAngles);
 	headAngles[1] = 180.0f;
 	CG_DrawHead(x + 20, y, 16.0f, 16.0f, score->client, headAngles);
+
+	if (!cg.warmup && cgs.gametype == GT_TEAM && cgs.osp.gameTypeFreeze && cg.snap->ps.stats[ STAT_CLIENTS_READY ] & (1 << score->client))
+	{
+		CG_OSPDrawPic(x + 20, y, 16.0f, 16.0f, cgs.media.frozenFoeTagShader);
+	}
+
 	if (score->ping == -1)
 	{
 		Com_sprintf(string, 1024, " ^2connecting^7      %s", ci->name);
@@ -985,7 +991,14 @@ static void CG_OSPDrawClientScore(int x, int y, const score_t* score, const floa
 		CG_OSPDrawString(x + 44, y, string, color, 12, 16, 256, DS_HLEFT|DS_SHADOW);
 		if (cgs.gametype == GT_TEAM)
 		{
-			Com_sprintf(string, 1024, "^%i%3i", score->scoreFlags < 0 ? 3 : 7, score->scoreFlags);
+			if (cgs.osp.gameTypeFreeze)
+			{
+				Com_sprintf(string, 1024, "%3i", score->scoreFlags);
+			}
+			else
+			{
+				Com_sprintf(string, 1024, "^%i%3i", score->scoreFlags < 0 ? 3 : 7, score->scoreFlags);
+			}
 			CG_OSPDrawString(x + 88, y + 4, string, color, 8, 12, 256, DS_HLEFT|DS_SHADOW);
 		}
 		else
@@ -993,17 +1006,17 @@ static void CG_OSPDrawClientScore(int x, int y, const score_t* score, const floa
 			CG_OSPDrawString(x + 88, y + 4, " 0", color, 8, 12, 256, DS_HLEFT|DS_SHADOW);
 		}
 		Com_sprintf(string, 1024, "^%i%3i", pingColor, score->ping);
-		CG_OSPDrawString(x + 116, y, string, colorWhite, 12, 16, 256, DS_HLEFT|DS_SHADOW);
+		CG_OSPDrawString(x + 116, y, string, color, 12, 16, 256, DS_HLEFT|DS_SHADOW);
 		Com_sprintf(string, 1024, "%3i", score->time);
-		CG_OSPDrawString(x + 148, y, string, colorWhite, 12, 16, 256, DS_HLEFT|DS_SHADOW);
+		CG_OSPDrawString(x + 148, y, string, color, 12, 16, 256, DS_HLEFT|DS_SHADOW);
 		Com_sprintf(string, 1024, "%s", &ci->name);
-		CG_OSPDrawString(x + 200, y + 4, string, colorWhite, 8, 12, 256, DS_HLEFT|DS_SHADOW);
+		CG_OSPDrawString(x + 200, y + 4, string, color, 8, 12, 256, DS_HLEFT|DS_SHADOW);
 	}
 	if (cgs.clientinfo[score->client].st)
 	{
 		char* tmp;
 		tmp = va(" ^B%sCoach", cgs.clientinfo[0].st == TEAM_RED ? "^1" : "^4");
-		CG_OSPDrawString(x, y, tmp, colorWhite, 8, 12, 256, DS_HLEFT|DS_SHADOW);
+		CG_OSPDrawString(x, y, tmp, color, 8, 12, 256, DS_HLEFT|DS_SHADOW);
 	}
 	if (!cg.warmup && cg.predictedPlayerState.pm_type != PM_INTERMISSION)
 	{
