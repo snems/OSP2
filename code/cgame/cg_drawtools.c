@@ -510,6 +510,12 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 
 					text += 2;
 					break;
+				case '^':
+					commands[i].type = OSP_TEXT_CMD_CHAR;
+					commands[i].value.character = '^';
+					++i;
+					text+=2;
+					break;
 				case 'X':
 				case 'x':
 					if (!CG_Hex16GetColor(&text[2], &rc))
