@@ -185,9 +185,9 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
 
     CHECK(commands[5].type == OSP_TEXT_CMD_FADE);
 
-    CHECK(commands[6].type == OSP_TEXT_CMD_TEXT_COLOR);
+    // reset color skipped because color was not set
 
-    CHECK(commands[7].type == OSP_TEXT_CMD_STOP);
+    CHECK(commands[6].type == OSP_TEXT_CMD_STOP);
 
     CG_CompiledTextDestroy(commands);
   }

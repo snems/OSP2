@@ -436,6 +436,7 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 	int len;
 	vec4_t back_color;
 	qboolean back_color_was_set = qfalse;
+	qboolean top_color_was_set = qfalse;
 	float rc, gc, bc;
 	unsigned int color_index;
 
@@ -497,16 +498,18 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					++i;
 
 					//reset color
-					commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
-					if (back_color_was_set)
+					if (!top_color_was_set && back_color_was_set)
 					{
+						commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
 						VectorCopy(back_color, commands[i].value.color);
+						++i;
 					}
-					else
+					else if (top_color_was_set && !back_color_was_set)
 					{
+						commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
 						VectorCopy(colorWhite, commands[i].value.color);
+						++i;
 					}
-					++i;
 
 					text += 2;
 					break;
@@ -550,6 +553,7 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
 					++i;
 					text += 2;
+					top_color_was_set = qtrue;
 					break;
 			}
 		}
