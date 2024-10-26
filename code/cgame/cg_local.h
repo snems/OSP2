@@ -915,6 +915,7 @@ typedef struct
 	sfxHandle_t hitSoundHighArmor;
 	sfxHandle_t hitSoundLowArmor;
 	sfxHandle_t hitTeamSound;
+	sfxHandle_t gotDamageSound;
 	sfxHandle_t impressiveSound;
 	sfxHandle_t excellentSound;
 	sfxHandle_t deniedSound;
@@ -1309,6 +1310,7 @@ extern vmCvar_t           cg_autoAction;
 extern vmCvar_t           cg_clientLog;
 extern vmCvar_t           cg_crosshairPulse;
 extern vmCvar_t           cg_customLoc;
+extern vmCvar_t           cg_damageSound;
 extern vmCvar_t           cg_damageDraw;
 extern vmCvar_t           cg_damageIndicatorScale;
 extern vmCvar_t           cg_damageIndicatorOpaque;

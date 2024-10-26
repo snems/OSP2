@@ -170,6 +170,7 @@ vmCvar_t           cg_ammoCheck;
 vmCvar_t           cg_autoAction;
 vmCvar_t           cg_clientLog;
 vmCvar_t           cg_customLoc;
+vmCvar_t           cg_damageSound;
 vmCvar_t           cg_damageDraw;
 vmCvar_t           cg_damageIndicatorScale;
 vmCvar_t           cg_damageIndicatorOpaque;
@@ -448,6 +449,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_clientLog, "cg_clientLog", "0", CVAR_ARCHIVE },
 	{ &cg_crosshairPulse, "cg_crosshairPulse", "0", CVAR_ARCHIVE },
 	{ &cg_customLoc, "cg_customLoc", "0", CVAR_ARCHIVE | CVAR_LATCH },
+	{ &cg_damageSound, "cg_damageSound", "0", CVAR_ARCHIVE },
 	{ &cg_damageDraw, "cg_damageDraw", "1", CVAR_ARCHIVE },
 	{ &cg_damageIndicatorScale, "cg_damageIndicatorScale", "1.0", CVAR_ARCHIVE},
 	{ &cg_damageIndicatorOpaque, "cg_damageIndicatorOpaque", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_damageIndicatorOpaque},
@@ -963,6 +965,7 @@ static void CG_RegisterSounds(void)
 	cgs.media.hitSounds[2] = trap_S_RegisterSound("sound/feedback/hit75.wav", qfalse);
 	cgs.media.hitSounds[3] = trap_S_RegisterSound("sound/feedback/hit100.wav", qfalse);
 	cgs.media.hitHighSound = trap_S_RegisterSound("sound/feedback/hithigh.wav", qfalse);
+	cgs.media.gotDamageSound = trap_S_RegisterSound("sound/feedback/damage.wav", qfalse);
 
 
 	cgs.media.impressiveSound = trap_S_RegisterSound("sound/feedback/impressive.wav", qtrue);

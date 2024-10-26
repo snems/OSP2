@@ -106,6 +106,11 @@ void CG_DamageFeedback(int yawByte, int pitchByte, int damage)
 	// show the attacking player's head and name in corner
 	cg.attackerTime = cg.time;
 
+	if (cg_damageSound.integer)
+	{
+		trap_S_StartLocalSound(cgs.media.gotDamageSound, CHAN_LOCAL_SOUND);
+	}
+
 	// the lower on health you are, the greater the view kick will be
 	health = cg.snap->ps.stats[STAT_HEALTH];
 	if (health < 40)
