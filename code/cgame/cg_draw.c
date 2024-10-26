@@ -2562,15 +2562,15 @@ int CG_OSPDrawLeftSlidingWindow(float timeAppearance, float timeShow, float time
 	/* find free window */
 	do
 	{
-		if (!ospPrintContext[i].time_b)
+		if (!ospPrintContext[i].hideBeforeCGTime)
 		{
 			minTimeIndex = i;
 			break;
 		}
-		else if (ospPrintContext[i].time_b < minTime)
+		else if (ospPrintContext[i].hideBeforeCGTime < minTime)
 		{
 			minTimeIndex = i;
-			minTime = ospPrintContext[i].time_b;
+			minTime = ospPrintContext[i].hideBeforeCGTime;
 		}
 	}
 	while (++i < 16);
@@ -2626,9 +2626,9 @@ int CG_OSPDrawLeftSlidingWindow(float timeAppearance, float timeShow, float time
 		}
 	}
 
-	target->time_a = trap_Milliseconds() + target->timeHiding + 1000 * time3Sec;
-	target->time_b = cg.time + target->timeHiding + 1000 * time3Sec;
-	target->time_c = cg.time + 1000 * time3Sec;
+	target->hideBeforeRealtime = trap_Milliseconds() + target->timeHiding + 1000 * time3Sec;
+	target->hideBeforeCGTime = cg.time + target->timeHiding + 1000 * time3Sec;
+	target->showFromCGTime = cg.time + 1000 * time3Sec;
 	return minTimeIndex;
 }
 
@@ -2639,7 +2639,7 @@ void CG_OSPDrawLeftSlidingWindowsRoutine(OSP_SlidingPrintContext_t* context)
 	float calc_pos_x;
 	float calc_pos_y;
 	int i;
-	time_u1 = context->time_a - trap_Milliseconds();
+	time_u1 = context->hideBeforeRealtime - trap_Milliseconds();
 	if (time_u1 < context->timeHiding - context->timeShow)
 	{
 		if (time_u1 < context->timeAppearance)

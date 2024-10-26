@@ -466,9 +466,9 @@ void CG_OSPWStatsUp_f(void)
 	if (wstatsWndId > 0)
 	{
 		OSP_SlidingPrintContext_t* window = &ospPrintContext[wstatsWndId - 1];
-		window->time_a = trap_Milliseconds() + window->timeAppearance;
-		window->timeHiding = window->time_a;
-		window->time_b = cg.time + window->timeAppearance;
+		window->hideBeforeRealtime = trap_Milliseconds() + window->timeAppearance;
+		window->hideBeforeCGTime = cg.time + window->timeAppearance;
+		window->timeHiding = window->hideBeforeRealtime;
 	}
 	wstatsWndId = 0;
 	wstatsEnabled = 0;

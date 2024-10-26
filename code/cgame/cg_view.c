@@ -1052,7 +1052,7 @@ void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoP
 
 		for (i = 0; i < 16; ++i)
 		{
-			if ((ospPrintContext[i].time_c <= cg.time) && (ospPrintContext[i].time_b > cg.time))
+			if ((ospPrintContext[i].showFromCGTime <= cg.time) && (ospPrintContext[i].hideBeforeCGTime > cg.time))
 			{
 				CG_OSPDrawLeftSlidingWindowsRoutine(&ospPrintContext[i]);
 			}

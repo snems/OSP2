@@ -1628,13 +1628,13 @@ typedef struct
 	int charHeight;
 	int charWidth;
 	int maxStringLen;
-	int time_a;
+	int hideBeforeRealtime;
 	int numberOfStrings;
-	int time_b;
+	int hideBeforeCGTime;
 	int timeAppearance;
 	int timeShow;
 	int timeHiding;
-	int time_c;
+	int showFromCGTime;
 	int windowPosX;
 	char string[24][128];
 	vec4_t borderColor;
