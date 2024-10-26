@@ -201,23 +201,23 @@ static void CG_DrawClientScore(int y, score_t* score, float* color, float fade, 
 	// draw the score line
 	if (score->ping == -1)
 	{
-		Com_sprintf(string, sizeof(string), "^2 connecting^7    %s", ci->name);
+		Com_sprintf(string, sizeof(string), "^2 connecting^7    ");
 	}
 	else if (ci->st)
 	{
-		Com_sprintf(string, 1024, " %s.COACH^7 %3i %4i %s", ci->st == 1 ? "^1R" : "^2B", score->ping, score->time, ci->name);
+		Com_sprintf(string, 1024, " %s.COACH^7 %3i %4i", ci->st == 1 ? "^1R" : "^2B", score->ping, score->time);
 	}
 	else if (ci->team == TEAM_6 || ci->team == TEAM_7)
 	{
-		Com_sprintf(string, 1024, " %s.SPEC^7%3i %4i %s", ci->team == TEAM_6 ? "^1R" : "^2B", score->ping, score->time, ci->name);
+		Com_sprintf(string, 1024, " %s.SPEC^7%3i %4i", ci->team == TEAM_6 ? "^1R" : "^2B", score->ping, score->time);
 	}
 	else if (ci->team == TEAM_SPECTATOR && !CG_OSPIsGameTypeCA(cgs.gametype))
 	{
-		Com_sprintf(string, sizeof(string), "^5 SPECT^7 %3i %4i %s", score->ping, score->time, ci->name);
+		Com_sprintf(string, sizeof(string), "^5 SPECT^7 %3i %4i", score->ping, score->time);
 	}
 	else
 	{
-		Com_sprintf(string, sizeof(string), "^7%5i %4i %4i %s", score->score, score->ping, score->time, ci->name);
+		Com_sprintf(string, sizeof(string), "^7%5i %4i %4i", score->score, score->ping, score->time);
 	}
 
 	// highlight your position
@@ -267,8 +267,12 @@ static void CG_DrawClientScore(int y, score_t* score, float* color, float fade, 
 		            640 - SB_SCORELINE_X - BIGCHAR_WIDTH, BIGCHAR_HEIGHT + 1, hcolor);
 	}
 
+
 	CG_FontSelect(0);
 	CG_OSPDrawString(128, y, string, color, 16, 16, 256, DS_HLEFT|DS_SHADOW);
+
+	CG_FontSelect(2);
+	CG_OSPDrawString(128 + 16 * 16, y, ci->name, color, 16, 16, 256, DS_HLEFT|DS_SHADOW|DS_PROPORTIONAL);
 
 	// add the "ready" marker for intermission exiting
 	if (cg.warmup == 0 && cg.predictedPlayerState.pm_type != PM_INTERMISSION)
