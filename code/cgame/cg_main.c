@@ -297,7 +297,7 @@ vmCvar_t           cg_shudChatEnable;
 vmCvar_t           cg_healthMid;
 vmCvar_t           cg_healthLow;
 
-vmCvar_t           cg_healthLow;
+vmCvar_t           cg_healthColorLevels;
 
 vmCvar_t           cg_drawCrosshair;
 vmCvar_t           cg_drawCrosshairGauntlet;
@@ -574,6 +574,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_shudChatEnable, "cg_shudChatEnable", "3", CVAR_ARCHIVE},
 	{ &cg_healthMid,   "cg_healthMid", "200",   CVAR_ARCHIVE},
 	{ &cg_healthLow,  "cg_healthLow", "100",  CVAR_ARCHIVE},
+	{ &cg_healthColorLevels,  "cg_healthColorLevels", "1",  CVAR_ARCHIVE},
 
 	{ &ch_crosshairDecor,  "ch_crosshairDecor", "0",  CVAR_ARCHIVE},
 	{ &ch_crosshairDecorSize,  "ch_crosshairDecorSize", "24",  CVAR_ARCHIVE},
