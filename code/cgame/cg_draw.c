@@ -1774,7 +1774,6 @@ CROSSHAIR
 ================================================================================
 */
 
-
 /*
 =================
 CG_ScanForCrosshairEntity
@@ -1785,9 +1784,17 @@ void CG_ScanForCrosshairEntity(void)
 	trace_t     trace;
 	vec3_t      start, end;
 	int         content;
+	vec3_t      l;
+	int dist;
 
 	VectorCopy(cg.refdef.vieworg, start);
 	VectorMA(start, 131072, cg.refdef.viewaxis[0], end);
+
+	CG_Trace(&trace, start, vec3_origin, vec3_origin, end,
+	         cg.snap->ps.clientNum, CONTENTS_SOLID);
+
+	VectorSubtract(cg.snap->ps.origin, trace.endpos, l);
+	cgs.osp.crosshair.distance = VectorLength(l);
 
 	CG_Trace(&trace, start, vec3_origin, vec3_origin, end,
 	         cg.snap->ps.clientNum, CONTENTS_SOLID | CONTENTS_BODY);

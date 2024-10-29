@@ -73,6 +73,33 @@ static qhandle_t CG_CrosshairGetShader(void)
 	return shader;
 }
 
+static float CG_GetCrosshairDistanceScale(void)
+{
+	float scale = 1.0f;
+	if (ch_crosshairAutoScale.integer)
+	{
+		const float distance = 2000;
+		const float startFrom = 200;
+		const float scaleRange = 0.40f;
+
+		if (cgs.osp.crosshair.distance > startFrom)
+		{
+			float mult = 1.0f - scaleRange;
+
+			if (cgs.osp.crosshair.distance < startFrom + distance)
+			{
+				float d = (cgs.osp.crosshair.distance - startFrom);
+				float s = scaleRange / distance;
+				mult = 1.0f - (d * s);
+			}
+
+			scale = mult;
+		}
+	}
+
+	return scale;
+}
+
 static qhandle_t CG_GetCrosshairDecorShader(void)
 {
 	qhandle_t shader;
@@ -112,8 +139,9 @@ static float CG_CrosshairGetPulseScaler(float pulseTime, float scale, int eventT
 
 static void CG_CrosshairGetSize(float* w, float* h)
 {
-	*h = cg_crosshairSize.value;
-	*w = cg_crosshairSize.value;
+	float size = CG_GetCrosshairDistanceScale() * cg_crosshairSize.value;
+	*h = size;
+	*w = size;
 	if (cg_crosshairPulse.integer != 0)
 	{
 		float k;
@@ -132,8 +160,9 @@ static void CG_CrosshairGetSize(float* w, float* h)
 
 static void CG_CrosshairDecorGetSize(float* w, float* h)
 {
-	*h = ch_crosshairDecorSize.value;
-	*w = ch_crosshairDecorSize.value;
+	float size = CG_GetCrosshairDistanceScale() * ch_crosshairDecorSize.value;
+	*h = size;
+	*w = size;
 
 	if (ch_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_PULSE)
 	{

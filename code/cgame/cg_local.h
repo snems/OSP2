@@ -1086,6 +1086,7 @@ typedef struct cgs_osp_s
 		vec4_t actionColor;
 		vec4_t decorColor;
 		vec4_t decorActionColor;
+		int distance;
 	} crosshair;
 	struct
 	{
@@ -1456,6 +1457,8 @@ extern vmCvar_t           ch_crosshairDecorAction;
 extern vmCvar_t           ch_crosshairDecorActionColor;
 extern vmCvar_t           ch_crosshairDecorActionScale;
 extern vmCvar_t           ch_crosshairDecorActionTime;
+
+extern vmCvar_t           ch_crosshairAutoScale;
 
 //
 // cg_main.c

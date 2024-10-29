@@ -340,6 +340,7 @@ vmCvar_t           ch_crosshairDecorActionScale;
 vmCvar_t           ch_crosshairDecorActionColor;
 vmCvar_t           ch_crosshairDecorActionTime;
 
+vmCvar_t           ch_crosshairAutoScale;
 
 static cvarTable_t cvarTable[] =
 {
@@ -593,6 +594,9 @@ static cvarTable_t cvarTable[] =
 	{ &ch_crosshairDecorActionColor,  "ch_crosshairDecorActionColor", "red",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionColor},
 	{ &ch_crosshairDecorActionScale,  "ch_crosshairDecorActionScale", "2.0",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionScale},
 	{ &ch_crosshairDecorActionTime,  "ch_crosshairDecorActionTime", "400",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionTime},
+
+	{ &ch_crosshairAutoScale,  "ch_crosshairAutoScale", "1",  CVAR_ARCHIVE},
+
 };
 
 #define CG_VARS_HASH_SIZE 512
