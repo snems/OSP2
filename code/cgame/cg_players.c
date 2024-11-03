@@ -643,7 +643,7 @@ static void CG_ForceNewClientInfo(clientInfo_t* old, clientInfo_t* new)
 	memcpy(old, new, sizeof(clientInfo_t));
 }
 
-static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qboolean isTeamGame, const char* config)
+static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qboolean isTeamGame, const char* config, int clientNum)
 {
 	char modelName[MAX_QPATH];
 	const char* resultModelString = "keel/pm";
@@ -658,11 +658,23 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 	else
 	{
 		const char* forceModelString = cg_forceModel.integer ? cfgModelString : NULL;
-		const char* enemyModelString = cg_enemyModel.string[0] ? cg_enemyModel.string : NULL;
+		const char* enemyModelString = NULL;
+		const qboolean useOriginal = CG_IsFollowing() && cg.snap->ps.clientNum == clientNum;
+
+		if (cg_enemyModel.string[0])
+		{
+			enemyModelString = cg_enemyModel.string;
+		}
+
 		if (!isTeamGame)
 		{
 			// FFA or 1vs1
-			if (enemyModelString)
+			
+			if (useOriginal)
+			{
+				resultModelString = cfgModelString;
+			}
+			else if (enemyModelString)
 			{
 				resultModelString = enemyModelString;
 			}
@@ -685,7 +697,11 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 
 			if (isTeamMate)
 			{
-				if (teamModelString)
+				if (useOriginal)
+				{
+					resultModelString = cfgModelString;
+				}
+				else if (teamModelString)
 				{
 					resultModelString = teamModelString;
 				}
@@ -700,7 +716,11 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 			}
 			else
 			{
-				if (enemyModelString)
+				if (useOriginal)
+				{
+					resultModelString = cfgModelString;
+				}
+				else if (enemyModelString)
 				{
 					resultModelString = enemyModelString;
 				}
@@ -993,7 +1013,7 @@ void CG_NewClientInfo(int clientNum)
 		}
 	}
 
-	CG_ClientInfoUpdateModel(&newInfo, isOurClient, isTeamGame, configstring);
+	CG_ClientInfoUpdateModel(&newInfo, isOurClient, isTeamGame, configstring, clientNum);
 	CG_ClientInfoUpdateColors(&newInfo, clientNum);
 	CG_ForceNewClientInfo(ci, &newInfo);
 
