@@ -2317,7 +2317,7 @@ void CG_Player(centity_t* cent)
 	float           shadowPlane;
 	qboolean        paintItBlack;
 
-	if (cg.clientNum == cent->currentState.clientNum && global_viewlistFirstOption)
+	if (cg.clientNum == cent->currentState.clientNum && (global_viewlistFirstOption || cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR))
 	{
 		return;
 	}
