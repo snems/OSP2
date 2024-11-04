@@ -193,10 +193,7 @@ void CG_LocalEventCvarChanged_handicap(cvarTable_t* cvart)
 
 void CG_LocalEventCvarChanged_s_ambient(cvarTable_t* cvart)
 {
-	if (s_ambient.modificationCount <= -1)
-	{
-		trap_SendConsoleCommand("vid_restart;\n");
-	}
+	trap_SendConsoleCommand("vid_restart;\n");
 }
 
 void CG_LocalEventCvarChanged_pmove_fixed(cvarTable_t* cvart)

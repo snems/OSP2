@@ -143,7 +143,7 @@ static void CG_EntityEffects(centity_t* cent)
 			trap_S_AddLoopingSound(cent->currentState.number, cent->lerpOrigin, vec3_origin,
 			                       cgs.gameSounds[ cent->currentState.loopSound ]);
 		}
-		else
+		else if (s_ambient.integer)
 		{
 			trap_S_AddRealLoopingSound(cent->currentState.number, cent->lerpOrigin, vec3_origin,
 			                           cgs.gameSounds[ cent->currentState.loopSound ]);
