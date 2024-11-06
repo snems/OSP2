@@ -659,7 +659,7 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 	{
 		const char* forceModelString = cg_forceModel.integer ? cfgModelString : NULL;
 		const char* enemyModelString = NULL;
-		const qboolean useOriginal = CG_IsFollowing() && cg.snap->ps.clientNum == clientNum;
+		const qboolean useOriginal = cg_spectOrigModel.integer && CG_IsFollowing() && cg.snap->ps.clientNum == clientNum;
 
 		if (cg_enemyModel.string[0])
 		{

@@ -1432,6 +1432,7 @@ extern vmCvar_t           cg_enemyRailColors;
 extern vmCvar_t           cg_enemyFrozenColor;
 
 extern vmCvar_t           cg_spectGlow;
+extern vmCvar_t           cg_spectOrigModel;
 extern vmCvar_t           cg_hitSounds;
 extern vmCvar_t           cg_playersXID;
 
