@@ -1,59 +1,61 @@
 # OSP2
 
-This Quake 3 mod is an attempt to recover old OSP mod source codes and improve it.
+![OSP2 Screenshot](https://github.com/snems/OSP2/blob/master/docs/shot.jpg?raw=true)  
+[![Mod State](https://img.shields.io/badge/Mod%20State-Development-yellow)](https://github.com/snems/OSP2)
 
-Based on vanilla Q3 and OSP files analysis. 
+**OSP2** is a Quake 3 mod aimed at recovering old OSP mod source codes and improving them.
 
-Also used code from :
+Based on vanilla Q3 and OSP files analysis, the project also incorporates code from several other mods.
 
- - baseq3a from Cyrax: https://github.com/ec-/baseq3a
- - XQ3E: https://github.com/xq3e/engine, 
- - unlagged mod written by Nail Toronto 
- - Ratmod https://github.com/rdntcntrl/ratoa_gamecode
+### Code sources
 
+- **[baseq3a from Cyrax](https://github.com/ec-/baseq3a)**
+- **[XQ3E Engine](https://github.com/xq3e/engine)**
+- Unlagged mod written by Nail Toronto
+- **[Ratmod](https://github.com/rdntcntrl/ratoa_gamecode)**
 
-# Features
+---
+
+## Features
 
 - VQ3/Promode physics support
-- CPMA like SuperHUD
+- CPMA-like SuperHUD
 - Proportional fonts
 - Multilevel hitsounds and fragsound
 - Crosshair decoration and animations
-- Client side /mute for players
+- Client-side /mute for players
 
-And many other small features
+And many other small features!
 
-![alt text](https://github.com/snems/OSP2/blob/master/docs/shot.jpg?raw=true)
+## Mod State
+Only **cgame** is available now.
 
-## Mod state
-
-Only cgame now.
-
+---
 
 ## Contacts
 
-Telegram [channel](https://t.me/q3osp2).
+- **Telegram channel**: [Join here](https://t.me/q3osp2)
+- **Telegram chat**: [Join the conversation](https://t.me/q3_osp2)
 
-Telegram [chat](https://t.me/q3_osp2).
+---
 
-## New commands
+## New Commands
 
-See [docs/commands.md](docs/commands.md)
+See the list of commands in: [docs/commands.md](docs/commands.md)
 
-Example config: OSP2.cfg inside mod.
+Example config: **OSP2.cfg** inside the mod folder.
 
-## How to install
+## How to Install
 
-- Install Quake3 and OSP mod v1.03
-- copy pack or library into `osp` folder
+1. Install Quake3 and OSP mod v1.03.
+2. Copy the required packs or libraries into the `osp` folder.
 
-## How to build
+## How to Build
 
-Only linux qvm, other builds are not supported yet.
+Currently, only Linux QVM is supported. Other builds are not supported yet.
 
-### Linux qvm
+### Linux QVM
 
-   `cd build/linux-qvm`
-
-   `make` 
-
+```bash
+cd build/linux-qvm
+make
