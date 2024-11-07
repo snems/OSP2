@@ -286,6 +286,7 @@ vmCvar_t           cg_enemyRailColors;
 vmCvar_t           cg_enemyFrozenColor;
 
 vmCvar_t           cg_spectGlow;
+vmCvar_t           cg_spectOrigModel;
 vmCvar_t           cg_hitSounds;
 
 vmCvar_t           ch_file;
@@ -558,6 +559,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_hideScores, "cg_hideScores", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyBlack, "cg_deadBodyBlack", "1", CVAR_ARCHIVE },
 	{ &cg_spectGlow, "cg_spectGlow", "0", CVAR_ARCHIVE },
+	{ &cg_spectOrigModel, "cg_spectOrigModel", "0", CVAR_ARCHIVE },
 	{ &cg_hitSounds, "cg_hitSounds", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_hitSounds},
 	{ &cg_playersXID, "cg_playersXID", "0", CVAR_ARCHIVE},
 
