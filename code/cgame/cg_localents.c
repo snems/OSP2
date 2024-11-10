@@ -166,6 +166,8 @@ void CG_FragmentBounceMark(localEntity_t* le, trace_t* trace)
 {
 	int         radius;
 
+	if (!cg_gibs.integer) return;
+
 	if (le->leMarkType == LEMT_BLOOD)
 	{
 		radius = 16 + (rand() & 31);
@@ -329,7 +331,7 @@ void CG_AddFragment(localEntity_t* le)
 		trap_R_AddRefEntityToScene(&le->refEntity);
 
 		// add a blood trail
-		if (le->leBounceSoundType == LEBS_BLOOD)
+		if (cg_gibs.integer && le->leBounceSoundType == LEBS_BLOOD)
 		{
 			CG_BloodTrail(le);
 		}
