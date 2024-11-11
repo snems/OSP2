@@ -1,5 +1,20 @@
 # 🌌 OSP2 - Quake 3 Mod
 
+## ⚡ New `cg_dlight` Commands
+
+New **`cg_dlight`** commands have been added to change the dynamic lighting color for all weapons. These commands allow you to customize the lighting color created by weapons during shooting and explosions, providing a more personalized and visually striking effect. Below is an example configuration:
+
+```c
+// Set the dynamic lighting color for the Rocket Launcher missile
+set cg_dlight_rl_missile "1.0 0.2 0.2"
+
+// Set the dynamic lighting color for the Machinegun flash
+set cg_dlight_mg_flash "0.2 0.8 0.2"
+
+// Set the dynamic lighting color for the Rocket explosion
+set cg_dlight_rl_explosion "0.2 0.2 1.0" 
+```
+---
 ---
 
 ![OSP2 Screenshot](https://github.com/snems/OSP2/blob/master/docs/shot.jpg?raw=true)  
@@ -19,21 +34,7 @@
 > - **[Ratmod](https://github.com/rdntcntrl/ratoa_gamecode)**
 
 ---
-## ⚡ New `cg_dlight` Commands
 
-New **`cg_dlight`** commands have been added to change the dynamic lighting color for all weapons. These commands allow you to customize the lighting color created by weapons during shooting and explosions, providing a more personalized and visually striking effect. Below is an example configuration:
-
-```c
-// Set the dynamic lighting color for the Rocket Launcher missile
-set cg_dlight_rl_missile "1.0 0.2 0.2"
-
-// Set the dynamic lighting color for the Machinegun flash
-set cg_dlight_mg_flash "0.2 0.8 0.2"
-
-// Set the dynamic lighting color for the Rocket explosion
-set cg_dlight_rl_explosion "0.2 0.2 1.0" 
-```
----
 ✨ Features
 
 - **VQ3/Promode physics support**
