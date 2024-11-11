@@ -242,9 +242,6 @@ static void CG_StartOrbit_f(void)
 		trap_Cvar_Set("cg_thirdPersonRange", "100");
 	}
 }
-/**************************************
- * OSP code start
- **************************************/
 
 void CG_OSPAddStr_f(void)
 {
@@ -262,7 +259,7 @@ void CG_OSPAddStr_f(void)
 	trap_Cvar_VariableStringBuffer(new_value, new_value, 256);
 
 	Q_strcat(var_value, 256, new_value);
-	trap_SendConsoleCommand(va("%s %s;", var_name, var_value));
+	trap_SendConsoleCommand(va("%s \"%s\";", var_name, var_value));
 }
 
 void CG_OSPVStrDown_f(void)
