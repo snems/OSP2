@@ -32,7 +32,7 @@ set cg_dlight_mg_flash "0.2 0.8 0.2"  // Green light for Machinegun flash
 
 // Set the dynamic lighting color for the Rocket explosion
 set cg_dlight_rl_explosion "0.2 0.2 1.0"  // Blue light for Rocket explosion
-
+```
 ---
 ✨ Features
 
