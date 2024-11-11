@@ -19,17 +19,20 @@
 > - **[Ratmod](https://github.com/rdntcntrl/ratoa_gamecode)**
 
 ---
+## ⚡ New `cg_dlight` Commands
 
-##⚡ New cg_dlight Commands
-New cg_dlight commands have been added to change the dynamic lighting color for all weapons. These commands allow you to customize the lighting color created by weapons during shooting and explosions, providing a more personalized and visually striking effect. Here is an example configuration:
-set cg_dlight_rl_missile "1.0 0.2 0.2"  // Red light Rocket Launcher missile color
+New **`cg_dlight`** commands have been added to change the dynamic lighting color for all weapons. These commands allow you to customize the lighting color created by weapons during shooting and explosions, providing a more personalized and visually striking effect. Below is an example configuration:
 
-// Set the dynamic lighting color for the machine gun
-set cg_dlight_mg_flash "0.2 0.8 0.2"  // Green light Machinegun flash color
+```c
+// Set the dynamic lighting color for the Rocket Launcher missile
+set cg_dlight_rl_missile "1.0 0.2 0.2"  // Red light for Rocket Launcher missile
 
-// Set the dynamic lighting color for the shotgun
-set cg_dlight_rl_explosion "0.2 0.2 1.0"  // Blue light Rocket explosion color
-## 
+// Set the dynamic lighting color for the Machinegun flash
+set cg_dlight_mg_flash "0.2 0.8 0.2"  // Green light for Machinegun flash
+
+// Set the dynamic lighting color for the Rocket explosion
+set cg_dlight_rl_explosion "0.2 0.2 1.0"  // Blue light for Rocket explosion
+
 ---
 ✨ Features
 
