@@ -25,13 +25,13 @@ New **`cg_dlight`** commands have been added to change the dynamic lighting colo
 
 ```c
 // Set the dynamic lighting color for the Rocket Launcher missile
-set cg_dlight_rl_missile "1.0 0.2 0.2"  // Red light for Rocket Launcher missile
+set cg_dlight_rl_missile "1.0 0.2 0.2"
 
 // Set the dynamic lighting color for the Machinegun flash
-set cg_dlight_mg_flash "0.2 0.8 0.2"  // Green light for Machinegun flash
+set cg_dlight_mg_flash "0.2 0.8 0.2"
 
 // Set the dynamic lighting color for the Rocket explosion
-set cg_dlight_rl_explosion "0.2 0.2 1.0"  // Blue light for Rocket explosion
+set cg_dlight_rl_explosion "0.2 0.2 1.0" 
 ```
 ---
 ✨ Features
