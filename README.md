@@ -47,11 +47,6 @@ set cg_dlight_rl_explosion "0.2 0.2 1.0"
 
 ---
 
-## 🛠 Mod State
-> Only **cgame** is available now.
-
----
-
 ## 📞 Contacts
 
 - **Telegram Channel**: [Join here](https://t.me/q3osp2)
@@ -72,6 +67,12 @@ Example config: **OSP2.cfg** inside the mod folder.
 2. Copy the required packs or libraries into the `osp` folder.
 
 ---
+
+## 🛠 Mod State
+> Only **cgame** is available now.
+
+---
+
 
 ## 🔨 How to Build
 
