@@ -1197,6 +1197,37 @@ typedef struct
 } cgs_t;
 
 //==============================================================================
+//BLACKED
+// Определение структуры цвета
+// Define color structure for weapon effects
+typedef struct {
+    float r;
+    float g;
+    float b;
+} beDlightColor_t;
+
+// Define structure for each weapon's effects
+typedef struct {
+    beDlightColor_t explosion;
+    beDlightColor_t flash;
+    beDlightColor_t missile;
+} WeaponEffects_t;
+
+// Main structure that will contain weapon effects
+typedef struct {
+    WeaponEffects_t effects;
+} beWeaponDlights_t;
+
+// Declare global array for all weapon effects (ensure MAX_WEAPONS is defined elsewhere)
+
+
+
+
+
+
+
+
+//==============================================================================
 
 extern  cgs_t           cgs;
 extern  cg_t            cg;
@@ -1204,6 +1235,7 @@ extern  centity_t       cg_entities[MAX_GENTITIES];
 extern  weaponInfo_t    cg_weapons[MAX_WEAPONS];
 extern  itemInfo_t      cg_items[MAX_ITEMS];
 extern  markPoly_t      cg_markPolys[MAX_MARK_POLYS];
+extern beWeaponDlights_t beWeaponDlights[MAX_WEAPONS];
 
 extern vmCvar_t           osp_client;
 extern vmCvar_t           osp_hidden;
@@ -1460,8 +1492,6 @@ extern vmCvar_t           ch_crosshairDecorActionScale;
 extern vmCvar_t           ch_crosshairDecorActionTime;
 
 extern vmCvar_t           ch_crosshairAutoScale;
-
-//BLACKED
 
 
 
@@ -2216,13 +2246,14 @@ void CG_OSPConfigFreezeModeSet(int value);
 qboolean CG_IsSpectator(void);
 qboolean CG_IsFollowing(void);
 
-//
-//BLACKED
-//
-
 void CG_UpdateWeaponFlashDlightColor(weapon_t weapon, float red, float green, float blue);
 void CG_LocalEventCvarChanged_cg_dlight(cvarTable_t* cvart);
-
+void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color);
+void SetFlashDlightColor(weapon_t weapon, beDlightColor_t color);
+void SetMissileDlightColor(weapon_t weapon, beDlightColor_t color);
+void SetWeaponEffectColor(weapon_t weapon, const char* effect, float r, float g, float b);
+void UpdateDlightColorFromCvar(const char* cvarName, beDlightColor_t* color);
+void InitAllDlightColors();
 //
 //cg_osphud.c
 //
@@ -2343,6 +2374,7 @@ void CG_LocalEventCvarChanged_ch_crosshairDecorActionScale(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart);
+
 
 #ifdef __cplusplus
 }

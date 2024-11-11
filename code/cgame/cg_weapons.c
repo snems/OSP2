@@ -911,6 +911,7 @@ void CG_RegisterWeapon(int weaponNum)
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/bfg/bfg_fire.wav", qfalse);
 			cgs.media.bfgExplosionShader = trap_R_RegisterShader("bfgExplosion");
 			cgs.media.bfgExplosionShaderNoPicMip = trap_R_RegisterShader("bfgExplosionNoPicMip");
+			MAKERGB(weaponInfo->missileDlightColor, 0, 1, 0);
 			weaponInfo->missileDlight = 200;
 			weaponInfo->wiTrailTime = 2000;
 			weaponInfo->trailRadius = 64;
