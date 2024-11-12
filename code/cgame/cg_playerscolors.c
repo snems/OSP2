@@ -58,6 +58,10 @@ static void CG_PlayerColorsFromEnemyColors(playerColors_t* colors, playerColorsO
 		CG_OSPColorFromChar(color1[2], colors->legs);
 	}
 
+	if (BE_cg_unique_color_enabled()) {
+        BE_ApplyColorToAllPlayers();
+    }
+
 }
 
 void CG_PlayerColorsLoadDefault(playerColors_t* colors)
@@ -70,7 +74,6 @@ void CG_PlayerColorsLoadDefault(playerColors_t* colors)
 	VectorCopy(colorWhite, colors->railRings);
 	VectorCopy(colorWhite, colors->frozen);
 }
-
 
 static void CG_PlayerColorsLoadOverrides(playerColors_t* colors,
         playerColorsOverride_t* override,
@@ -105,6 +108,9 @@ static void CG_PlayerColorsLoadOverrides(playerColors_t* colors,
 			CG_Hex16GetColor(&modelColors->string[14], &colors->legs[1]);
 			CG_Hex16GetColor(&modelColors->string[16], &colors->legs[2]);
 		}
+		if (BE_cg_unique_color_enabled()) {
+    		BE_ApplyColorToAllPlayers();
+    }
 	}
 
 	if (railColors)
@@ -167,10 +173,10 @@ static void CG_RebuildOurPlayerColors(void)
 	CG_PlayerColorsFromCS(&cgs.osp.myColors, NULL, color1, color2);
 
 	CG_PlayerColorsLoadOverrides(&cgs.osp.myColors,
-	                             NULL,
-	                             &cg_playerModelColors,
-	                             &cg_playerRailColors,
-	                             &cg_playerFrozenColor);
+                                 NULL,
+                                 &cg_playerModelColors,
+                                 &cg_playerRailColors,
+                                 &cg_playerFrozenColor);
 }
 
 void CG_RebuildPlayerColors(void)
@@ -186,6 +192,15 @@ void CG_RebuildPlayerColors(void)
 	                             &cg_teamModelColors,
 	                             &cg_teamRailColors,
 	                             &cg_teamFrozenColor);
+	if (BE_cg_unique_color_enabled() == 1) {
+    // Логика для значения 1
+    BE_ApplyColorToAllPlayers();  // Вашу функцию, например, для применения цвета
+}
+else if (BE_cg_unique_color_enabled() == 2) {
+    // Логика для значения 2
+    // Подставьте здесь другую функцию или код для следующей логики
+    BE_ApplyColorToAllPlayers();  // Например, другая логика для 2
+}  //UB
 
 	/* Enemy colors */
 	/* Do not load default */
@@ -195,9 +210,11 @@ void CG_RebuildPlayerColors(void)
 	                             &cgs.osp.enemyColorsOverride,
 	                             &cg_enemyModelColors,
 	                             &cg_enemyRailColors,
-	                             &cg_enemyFrozenColor);
+	                             &cg_enemyFrozenColor);	
+	if (BE_cg_unique_color_enabled()) {
+        BE_ApplyColorToAllPlayers();
+    }					 
 }
-
 
 void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
 {
@@ -296,7 +313,10 @@ void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
 		{
 			VectorCopy(cgs.osp.enemyColors.frozen, ci->colors.frozen);
 		}
-	}
+        if (BE_cg_unique_color_enabled()) {
+            BE_ApplyColorToAllPlayers();
+        }
+    }
 }
 
 

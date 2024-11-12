@@ -354,3 +354,22 @@ void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart)
 	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
 }
 
+void CG_LocalEventCvarChanged_cg_unique_colors(cvarTable_t* cvart)
+{
+	int colorMode = (int)cvart->vmCvar->value;
+	int playerNum;
+
+    cvart->vmCvar->value = Com_Clamp(0, 2, cvart->vmCvar->value);
+     
+    for (playerNum = 0; playerNum < MAX_CLIENTS; playerNum++) {
+        if (colorMode == 1) {
+            BE_ApplyColorToPlayerHead(&cgs.clientinfo[playerNum]);
+        }
+        else if (colorMode == 2) {
+            BE_ApplyColorToPlayerModel(&cgs.clientinfo[playerNum]);
+        }
+    }
+}
+
+
+

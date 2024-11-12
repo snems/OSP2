@@ -79,7 +79,8 @@ cgs_t               cgs;
 centity_t           cg_entities[MAX_GENTITIES];
 weaponInfo_t        cg_weapons[MAX_WEAPONS];
 itemInfo_t          cg_items[MAX_ITEMS];
-beWeaponDlights_t beWeaponDlights[MAX_WEAPONS];
+beWeaponDlights_t 	beWeaponDlights[MAX_WEAPONS];
+PlayerModelInfo_t 	be_playerInfo[MAX_CLIENTS];
 
 
 vmCvar_t           osp_client;
@@ -343,7 +344,11 @@ vmCvar_t           ch_crosshairDecorActionColor;
 vmCvar_t           ch_crosshairDecorActionTime;
 
 vmCvar_t           ch_crosshairAutoScale;
+vmCvar_t			cg_unique_colors;
 //BLACKED
+
+clientInfo_t clientinfo[MAX_CLIENTS];
+float be_headColors[MAX_CLIENTS][3];
 
 vmCvar_t cg_dlight_gauntlet_flash;
 vmCvar_t cg_dlight_mg_flash;
@@ -634,22 +639,62 @@ static cvarTable_t cvarTable[] =
 
 	{ &ch_crosshairAutoScale,  "ch_crosshairAutoScale", "1",  CVAR_ARCHIVE},
 		//BLACKED
-    { &cg_dlight_gauntlet_flash, "cg_dlight_gauntlet_flash", "0.6 0.6 1.0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_mg_flash, "cg_dlight_mg_flash", "1.0 1.0 0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_sg_flash, "cg_dlight_sg_flash", "1.0 1.0 0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_gl_flash, "cg_dlight_gl_flash", "1.0 0.7 0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_gl_explosion, "cg_dlight_gl_explosion", "1 0.75 0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_rl_flash, "cg_dlight_rl_flash", "1, 0.75, 0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_rl_missile, "cg_dlight_rl_missile", "1 0.75 0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_rl_explosion, "cg_dlight_rl_explosion", "1.0 0.75 0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_lg_flash, "cg_dlight_lg_flash", "0.6 0.6 1.0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_rg_flash, "cg_dlight_rg_flash", "1.0 0.5 0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_pg_flash, "cg_dlight_pg_flash", "0.6 0.6 1.0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_pg_missile, "cg_dlight_pg_missile", "0.3 0.3 0.8", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_bfg_flash, "cg_dlight_bfg_flash", "1.0 0.7 1.0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_bfg_missile, "cg_dlight_bfg_missile", "0 1 0.2", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
-    { &cg_dlight_bfg_explosion, "cg_dlight_bfg_explosion", "0 1 0.2", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlight },
+    { &cg_dlight_gauntlet_flash, "cg_dlight_gauntlet_flash", "0.6 0.6 1.0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_mg_flash, "cg_dlight_mg_flash", "1.0 1.0 0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_sg_flash, "cg_dlight_sg_flash", "1.0 1.0 0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_gl_flash, "cg_dlight_gl_flash", "1.0 0.7 0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_gl_explosion, "cg_dlight_gl_explosion", "1 0.75 0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_rl_flash, "cg_dlight_rl_flash", "1, 0.75, 0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_rl_missile, "cg_dlight_rl_missile", "1 0.75 0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_rl_explosion, "cg_dlight_rl_explosion", "1.0 0.75 0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_lg_flash, "cg_dlight_lg_flash", "0.6 0.6 1.0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_rg_flash, "cg_dlight_rg_flash", "1.0 0.5 0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_pg_flash, "cg_dlight_pg_flash", "0.6 0.6 1.0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_pg_missile, "cg_dlight_pg_missile", "0.3 0.3 0.8", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_bfg_flash, "cg_dlight_bfg_flash", "1.0 0.7 1.0", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_bfg_missile, "cg_dlight_bfg_missile", "0 1 0.2", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+    { &cg_dlight_bfg_explosion, "cg_dlight_bfg_explosion", "0 1 0.2", CVAR_ARCHIVE, BE_LocalEventCvarChanged_cg_dlight_weapon_effect },
+	{ &cg_unique_colors, "cg_unique_colors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_unique_colors},
  
+};
+
+float be_ColorTable[36][3] = {
+{ 1, 0, 0 }, /* Red */
+{ 0, 1, 0 }, /* Green */
+{ 0, 0, 1 }, /* Blue */
+{ 1, 1, 0 }, /* Yellow */
+{ 0, 1, 1 }, /* Cyan */
+{ 1, 0, 1 }, /* Magenta */
+{ 1, 1, 0.25 }, /* Light Gold */
+{ 1, 0.5, 0 }, /* Orange */
+{ 1, 1, 0.5 }, /* Light Yellow */
+{ 0.75, 0.5, 0.25 }, /* Tan */
+{ 1, 0.5, 1 }, /* Pink */
+{ 0.5, 0, 1 }, /* Purple */
+{ 0, 0.5, 0 }, /* Dark Green */
+{ 0, 1, 0.5 }, /* Light Green */
+{ 1, 1, 0.25 }, /* Light Gold */
+{ 0.75, 0.75, 0 }, /* Mustard */
+{ 0.25, 0.25, 1 }, /* Light Blue */
+{ 0, 0.75, 0.75 }, /* Light Cyan */
+{ 0.75, 0, 0.75 }, /* Violet */
+{ 0.75, 0.25, 0.25 }, /* Coral */
+{ 0.25, 0.75, 0.25 }, /* Lime */
+{ 0.25, 0.25, 0.25 }, /* Charcoal */
+{ 0.75, 0.75, 0.75 }, /* Light Gray */
+{ 1, 1, 1 }, /* White */
+{ 1, 0.25, 0.25 }, /* Salmon */
+{ 0.25, 1, 0.25 }, /* Mint Green */
+{ 0.25, 0.75, 0.5 }, /* Sea Green */
+{ 0.75, 0.25, 0.5 }, /* Plum */
+{ 0.5, 0.25, 0.75 }, /* Orchid */
+{ 0.5, 0, 0 }, /* Dark Red */
+{ 0, 0, 0.5 }, /* Dark Blue */
+{ 0.5, 0.75, 0.25 }, /* Yellow Green */
+{ 0.75, 0.75, 0.25 }, /* Lemon */
+{ 0.5, 0.5, 0.5 }, /* Gray */
+{ 0, 0, 0 }, /* Black */
+{ 0.5, 0.5, 0 }, /* Olive */
 };
 
 #define CG_VARS_HASH_SIZE 512
@@ -1540,13 +1585,15 @@ static void CG_RegisterClients(void)
 		if (!clientInfo[0])
 		{
 			continue;
-		}
-		CG_LoadingClient(i);
-		CG_NewClientInfo(i);
-	}
-	CG_BuildSpectatorString();
+        }
+        CG_LoadingClient(i);
+        CG_NewClientInfo(i);
+        if (BE_cg_unique_color_enabled()) {
+            BE_ApplyColorToAllPlayers();
+        }
+    }
+    CG_BuildSpectatorString();
 }
-
 //===========================================================================
 
 /*
@@ -1976,7 +2023,9 @@ char* CG_OSPGetCvarName(vmCvar_t* cvar)
 //BLACKED
 //
 
-weapon_t GetWeaponTypeFromCvar(cvarTable_t* cvart) {
+char playerIDs[MAX_CLIENTS][XID_LENGTH + 1];
+
+weapon_t BE_GetWeaponTypeFromCvar(cvarTable_t* cvart) {
     if (cvart->vmCvar == &cg_dlight_gauntlet_flash) {
         return WP_GAUNTLET;
     } else if (cvart->vmCvar == &cg_dlight_mg_flash) {
@@ -2000,7 +2049,9 @@ weapon_t GetWeaponTypeFromCvar(cvarTable_t* cvart) {
     }
 }
 
-beDlightColor_t* GetEffectTypeFromCvar(cvarTable_t* cvart, WeaponEffects_t* effects) {
+//cg_dlight weapon effects
+
+beDlightColor_t* BE_GetEffectTypeFromCvar(cvarTable_t* cvart, WeaponEffects_t* effects) {
     if (strstr(cvart->cvarName, "_flash")) {
         return &effects->flash;
     } else if (strstr(cvart->cvarName, "_missile")) {
@@ -2012,25 +2063,25 @@ beDlightColor_t* GetEffectTypeFromCvar(cvarTable_t* cvart, WeaponEffects_t* effe
     }
 }
 
-void CG_LocalEventCvarChanged_cg_dlight(cvarTable_t* cvart) {
-    weapon_t weapon = GetWeaponTypeFromCvar(cvart);
-    beDlightColor_t* effectColor = GetEffectTypeFromCvar(cvart, &beWeaponDlights[weapon].effects);
+void BE_LocalEventCvarChanged_cg_dlight_weapon_effect(cvarTable_t* cvart) {
+    weapon_t weapon = BE_GetWeaponTypeFromCvar(cvart);
+    beDlightColor_t* effectColor = BE_GetEffectTypeFromCvar(cvart, &beWeaponDlights[weapon].effects);
 	CG_Printf("^2Okey");
     if (weapon == WP_NONE || effectColor == NULL) {
         return;
     }
-    UpdateDlightColorFromCvar(cvart->cvarName, effectColor);
+    BE_UpdateDlightWeaponColorFromCvar(cvart->cvarName, effectColor);
 
     if (effectColor == &beWeaponDlights[weapon].effects.explosion) {
-        SetExplosionDlightColor(weapon, *effectColor);
+        BE_SetExplosionDlightColor(weapon, *effectColor);
     } else if (effectColor == &beWeaponDlights[weapon].effects.flash) {
-        SetFlashDlightColor(weapon, *effectColor);
+        BE_SetFlashDlightColor(weapon, *effectColor);
     } else if (effectColor == &beWeaponDlights[weapon].effects.missile) {
-        SetMissileDlightColor(weapon, *effectColor);
+        BE_SetMissileDlightColor(weapon, *effectColor);
     }
 }
 
-void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
+void BE_SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
 			if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
     		color.r < 0.0 || color.g < 0.0 || color.b < 0.0) &&
@@ -2059,7 +2110,7 @@ void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
     }
 }
 
-void SetFlashDlightColor(weapon_t weapon, beDlightColor_t color) {
+void BE_SetFlashDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
 			if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
              color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
@@ -2074,7 +2125,7 @@ void SetFlashDlightColor(weapon_t weapon, beDlightColor_t color) {
     }
 }
 
-void SetMissileDlightColor(weapon_t weapon, beDlightColor_t color) {
+void BE_SetMissileDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
 		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
              color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
@@ -2089,9 +2140,9 @@ void SetMissileDlightColor(weapon_t weapon, beDlightColor_t color) {
 	
 }
 
-void UpdateDlightColorFromCvar(const char* cvarName, beDlightColor_t* color) {
+void BE_UpdateDlightWeaponColorFromCvar(const char* cvarName, beDlightColor_t* color) {
     char buffer[32];
-    vec4_t parsedColor;  // Временный массив для хранения значений цвета
+    vec4_t parsedColor;
     float r = 0.0f, g = 0.0f, b = 0.0f;
 
     trap_Cvar_VariableStringBuffer(cvarName, buffer, sizeof(buffer));
@@ -2109,39 +2160,130 @@ void UpdateDlightColorFromCvar(const char* cvarName, beDlightColor_t* color) {
     }
 }
 
+//unique color
 
-void InitAllDlightColors() {
-    UpdateDlightColorFromCvar("cg_dlight_bfg_explosion", &beWeaponDlights[WP_BFG].effects.explosion);
-    SetExplosionDlightColor(WP_BFG, beWeaponDlights[WP_BFG].effects.explosion);
-    UpdateDlightColorFromCvar("cg_dlight_rl_explosion", &beWeaponDlights[WP_ROCKET_LAUNCHER].effects.explosion);
-    SetExplosionDlightColor(WP_ROCKET_LAUNCHER, beWeaponDlights[WP_ROCKET_LAUNCHER].effects.explosion);
-    UpdateDlightColorFromCvar("cg_dlight_gl_explosion", &beWeaponDlights[WP_GRENADE_LAUNCHER].effects.explosion);
-    SetExplosionDlightColor(WP_GRENADE_LAUNCHER, beWeaponDlights[WP_GRENADE_LAUNCHER].effects.explosion);
-    UpdateDlightColorFromCvar("cg_dlight_gauntlet_flash", &beWeaponDlights[WP_GAUNTLET].effects.flash);
-    SetFlashDlightColor(WP_GAUNTLET, beWeaponDlights[WP_GAUNTLET].effects.flash);
-    UpdateDlightColorFromCvar("cg_dlight_mg_flash", &beWeaponDlights[WP_MACHINEGUN].effects.flash);
-    SetFlashDlightColor(WP_MACHINEGUN, beWeaponDlights[WP_MACHINEGUN].effects.flash);
-    UpdateDlightColorFromCvar("cg_dlight_sg_flash", &beWeaponDlights[WP_SHOTGUN].effects.flash);
-    SetFlashDlightColor(WP_SHOTGUN, beWeaponDlights[WP_SHOTGUN].effects.flash);
-    UpdateDlightColorFromCvar("cg_dlight_gl_flash", &beWeaponDlights[WP_GRENADE_LAUNCHER].effects.flash);
-    SetFlashDlightColor(WP_GRENADE_LAUNCHER, beWeaponDlights[WP_GRENADE_LAUNCHER].effects.flash);
-    UpdateDlightColorFromCvar("cg_dlight_rl_flash", &beWeaponDlights[WP_ROCKET_LAUNCHER].effects.flash);
-    SetFlashDlightColor(WP_ROCKET_LAUNCHER, beWeaponDlights[WP_ROCKET_LAUNCHER].effects.flash);
-    UpdateDlightColorFromCvar("cg_dlight_lg_flash", &beWeaponDlights[WP_LIGHTNING].effects.flash);
-    SetFlashDlightColor(WP_LIGHTNING, beWeaponDlights[WP_LIGHTNING].effects.flash);
-    UpdateDlightColorFromCvar("cg_dlight_rg_flash", &beWeaponDlights[WP_RAILGUN].effects.flash);
-    SetFlashDlightColor(WP_RAILGUN, beWeaponDlights[WP_RAILGUN].effects.flash);
-    UpdateDlightColorFromCvar("cg_dlight_pg_flash", &beWeaponDlights[WP_PLASMAGUN].effects.flash);
-    SetFlashDlightColor(WP_PLASMAGUN, beWeaponDlights[WP_PLASMAGUN].effects.flash);
-    UpdateDlightColorFromCvar("cg_dlight_bfg_flash", &beWeaponDlights[WP_BFG].effects.flash);
-    SetFlashDlightColor(WP_BFG, beWeaponDlights[WP_BFG].effects.flash);
-    UpdateDlightColorFromCvar("cg_dlight_rl_missile", &beWeaponDlights[WP_ROCKET_LAUNCHER].effects.missile);
-    SetMissileDlightColor(WP_ROCKET_LAUNCHER, beWeaponDlights[WP_ROCKET_LAUNCHER].effects.missile);
-    UpdateDlightColorFromCvar("cg_dlight_pg_missile", &beWeaponDlights[WP_PLASMAGUN].effects.missile);
-    SetMissileDlightColor(WP_PLASMAGUN, beWeaponDlights[WP_PLASMAGUN].effects.missile);
-    UpdateDlightColorFromCvar("cg_dlight_bfg_missile", &beWeaponDlights[WP_BFG].effects.missile);
-    SetMissileDlightColor(WP_BFG, beWeaponDlights[WP_BFG].effects.missile);
+void BE_ColorPickerPlayerNum(int playerNum, clientInfo_t* playerInfo) {
+	float* color = be_ColorTable[playerNum];
+    be_headColors[playerNum][0] = color[0];
+    be_headColors[playerNum][1] = color[1];
+    be_headColors[playerNum][2] = color[2];
+}
+
+void BE_ApplyColorToPlayerHead(clientInfo_t* playerInfo) {
+	int playerNum = playerInfo - cgs.clientinfo;
+	float* color = be_headColors[playerNum];
+    playerInfo->colors.head[0] = color[0];
+    playerInfo->colors.head[1] = color[1];
+    playerInfo->colors.head[2] = color[2];
+}
+void BE_ApplyColorToPlayerModel(clientInfo_t* playerInfo) {
+	int playerNum = playerInfo - cgs.clientinfo;
+	float* color = be_headColors[playerNum];
+    playerInfo->colors.head[0] = color[0];
+    playerInfo->colors.head[1] = color[1];
+    playerInfo->colors.head[2] = color[2];
+	playerInfo->colors.torso[0] = color[0];
+    playerInfo->colors.torso[1] = color[1];
+    playerInfo->colors.torso[2] = color[2];
+	playerInfo->colors.legs[0] = color[0];
+    playerInfo->colors.legs[1] = color[1];
+    playerInfo->colors.legs[2] = color[2];
+}
+
+void BE_ApplyColorToAllPlayers() {
+    int playerNum;
+    int colorMode = BE_cg_unique_color_enabled();
+    for (playerNum = 0; playerNum < MAX_CLIENTS; playerNum++) {
+        BE_ColorPickerPlayerNum(playerNum, &cgs.clientinfo[playerNum]);
+        if (cgs.gametype >= GT_TEAM) {
+            if (!BE_IsTeammate(playerNum)) {
+                if (colorMode == 1) {
+                    BE_ApplyColorToPlayerHead(&cgs.clientinfo[playerNum]);
+                } else if (colorMode == 2) {
+                    BE_ApplyColorToPlayerModel(&cgs.clientinfo[playerNum]);
+                }
+            }
+        } else {
+            if (colorMode == 1) {
+                BE_ApplyColorToPlayerHead(&cgs.clientinfo[playerNum]);
+            } else if (colorMode == 2) {
+                BE_ApplyColorToPlayerModel(&cgs.clientinfo[playerNum]);
+            }
+        }
+    }
 }
 
 
+int BE_cg_unique_color_enabled() {
+    char cvarValue[32]; 
+    trap_Cvar_VariableStringBuffer("cg_unique_colors", cvarValue, sizeof(cvarValue));  // Получаем значение CVar
+
+    if (strcmp(cvarValue, "2") == 0) {
+        return 2;
+    }
+    if (strcmp(cvarValue, "1") == 0) {
+        return 1;
+    }
+
+    return 0;
+
+}
+
+qboolean BE_IsTeammate(int clientNum) {
+    const clientInfo_t* ourClient = &cgs.clientinfo[cg.clientNum];
+    const clientInfo_t* targetClient = &cgs.clientinfo[clientNum];
+
+    if (ourClient->rt == TEAM_SPECTATOR || targetClient->rt == TEAM_SPECTATOR) {
+        return qfalse;
+    }
+
+    return (ourClient->rt == targetClient->rt);
+}
+
+void InitAllDlightColors() {
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_bfg_explosion", &beWeaponDlights[WP_BFG].effects.explosion);
+    BE_SetExplosionDlightColor(WP_BFG, beWeaponDlights[WP_BFG].effects.explosion);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_rl_explosion", &beWeaponDlights[WP_ROCKET_LAUNCHER].effects.explosion);
+    BE_SetExplosionDlightColor(WP_ROCKET_LAUNCHER, beWeaponDlights[WP_ROCKET_LAUNCHER].effects.explosion);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_gl_explosion", &beWeaponDlights[WP_GRENADE_LAUNCHER].effects.explosion);
+    BE_SetExplosionDlightColor(WP_GRENADE_LAUNCHER, beWeaponDlights[WP_GRENADE_LAUNCHER].effects.explosion);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_gauntlet_flash", &beWeaponDlights[WP_GAUNTLET].effects.flash);
+    BE_SetFlashDlightColor(WP_GAUNTLET, beWeaponDlights[WP_GAUNTLET].effects.flash);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_mg_flash", &beWeaponDlights[WP_MACHINEGUN].effects.flash);
+    BE_SetFlashDlightColor(WP_MACHINEGUN, beWeaponDlights[WP_MACHINEGUN].effects.flash);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_sg_flash", &beWeaponDlights[WP_SHOTGUN].effects.flash);
+    BE_SetFlashDlightColor(WP_SHOTGUN, beWeaponDlights[WP_SHOTGUN].effects.flash);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_gl_flash", &beWeaponDlights[WP_GRENADE_LAUNCHER].effects.flash);
+    BE_SetFlashDlightColor(WP_GRENADE_LAUNCHER, beWeaponDlights[WP_GRENADE_LAUNCHER].effects.flash);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_rl_flash", &beWeaponDlights[WP_ROCKET_LAUNCHER].effects.flash);
+    BE_SetFlashDlightColor(WP_ROCKET_LAUNCHER, beWeaponDlights[WP_ROCKET_LAUNCHER].effects.flash);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_lg_flash", &beWeaponDlights[WP_LIGHTNING].effects.flash);
+    BE_SetFlashDlightColor(WP_LIGHTNING, beWeaponDlights[WP_LIGHTNING].effects.flash);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_rg_flash", &beWeaponDlights[WP_RAILGUN].effects.flash);
+    BE_SetFlashDlightColor(WP_RAILGUN, beWeaponDlights[WP_RAILGUN].effects.flash);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_pg_flash", &beWeaponDlights[WP_PLASMAGUN].effects.flash);
+    BE_SetFlashDlightColor(WP_PLASMAGUN, beWeaponDlights[WP_PLASMAGUN].effects.flash);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_bfg_flash", &beWeaponDlights[WP_BFG].effects.flash);
+    BE_SetFlashDlightColor(WP_BFG, beWeaponDlights[WP_BFG].effects.flash);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_rl_missile", &beWeaponDlights[WP_ROCKET_LAUNCHER].effects.missile);
+    BE_SetMissileDlightColor(WP_ROCKET_LAUNCHER, beWeaponDlights[WP_ROCKET_LAUNCHER].effects.missile);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_pg_missile", &beWeaponDlights[WP_PLASMAGUN].effects.missile);
+    BE_SetMissileDlightColor(WP_PLASMAGUN, beWeaponDlights[WP_PLASMAGUN].effects.missile);
+    BE_UpdateDlightWeaponColorFromCvar("cg_dlight_bfg_missile", &beWeaponDlights[WP_BFG].effects.missile);
+    BE_SetMissileDlightColor(WP_BFG, beWeaponDlights[WP_BFG].effects.missile);
+}
+//
+// for future
+//
+// int Com_Memcmp(const void* ptr1, const void* ptr2, int num) {
+//     unsigned char* p1 = (unsigned char*)ptr1;
+//     unsigned char* p2 = (unsigned char*)ptr2;
+// 	int i;
+//     for (i = 0; i < num; i++) {
+//         if (p1[i] != p2[i]) {
+//             return p1[i] - p2[i]; 
+//         }
+//     }
+//     return 0; 
+// }
 

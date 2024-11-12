@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 #ifndef CG_LOCAL_H
 #define CG_LOCAL_H
+
 #include "../qcommon/q_shared.h"
 #include "tr_types.h"
 #include "../game/bg_public.h"
@@ -97,6 +98,8 @@ extern "C" {
 
 #define DEFAULT_REDTEAM_NAME        "Stroggs"
 #define DEFAULT_BLUETEAM_NAME       "Pagans"
+//BLACKED
+#define XID_LENGTH 4 
 
 typedef enum
 {
@@ -1198,8 +1201,8 @@ typedef struct
 
 //==============================================================================
 //BLACKED
-// Определение структуры цвета
-// Define color structure for weapon effects
+
+extern float be_ColorTable[36][3];
 typedef struct {
     float r;
     float g;
@@ -1219,15 +1222,20 @@ typedef struct {
     WeaponEffects_t effects;
 } beWeaponDlights_t;
 
-// Declare global array for all weapon effects (ensure MAX_WEAPONS is defined elsewhere)
+typedef struct {
+    int playerID;          
+    const char *xidStr; 
+} PlayerModelInfo_t;
+
+typedef struct {
+    float r, g, b;
+} Color;
 
 
 
 
-
-
-
-
+extern float be_headColors[MAX_CLIENTS][3];
+// extern void be_AssignColorToPlayerHeadByClientNum(int clientNum, const char *xidStr);
 //==============================================================================
 
 extern  cgs_t           cgs;
@@ -1236,8 +1244,7 @@ extern  centity_t       cg_entities[MAX_GENTITIES];
 extern  weaponInfo_t    cg_weapons[MAX_WEAPONS];
 extern  itemInfo_t      cg_items[MAX_ITEMS];
 extern  markPoly_t      cg_markPolys[MAX_MARK_POLYS];
-extern beWeaponDlights_t beWeaponDlights[MAX_WEAPONS];
-
+extern PlayerModelInfo_t be_playerInfo[MAX_CLIENTS];
 extern vmCvar_t           osp_client;
 extern vmCvar_t           osp_hidden;
 extern vmCvar_t           osp_debug;
@@ -1494,8 +1501,7 @@ extern vmCvar_t           ch_crosshairDecorActionTime;
 
 extern vmCvar_t           ch_crosshairAutoScale;
 
-
-
+//BLACKED
 extern vmCvar_t cg_dlight_gauntlet_flash;
 extern vmCvar_t cg_dlight_mg_flash;
 extern vmCvar_t cg_dlight_sg_flash;
@@ -1528,7 +1534,7 @@ extern vmCvar_t cg_dlight_gl_explosionR;
 extern vmCvar_t cg_dlight_gl_explosionG;
 extern vmCvar_t cg_dlight_gl_explosionB;
 
-
+extern vmCvar_t ch_crosshairTeamInfo;
 
 
 //
@@ -2055,8 +2061,7 @@ void        trap_S_UpdateEntityPosition(int entityNum, const vec3_t origin);
 void        trap_S_Respatialize(int entityNum, const vec3_t origin, vec3_t axis[3], int inwater);
 sfxHandle_t trap_S_RegisterSound(const char* sample, qboolean compressed);       // returns buzz if not found
 void        trap_S_StartBackgroundTrack(const char* intro, const char* loop);    // empty name stops music
-void    trap_S_StopBackgroundTrack(void);
-
+void    	trap_S_StopBackgroundTrack(void);
 
 void        trap_R_LoadWorldMap(const char* mapname);
 
@@ -2142,7 +2147,6 @@ typedef enum
 	TEAMCHAT_PRINT
 } q3print_t; // bk001201 - warning: useless keyword or type name in empty declaration
 
-
 int trap_CIN_PlayCinematic(const char* arg0, int xpos, int ypos, int width, int height, int bits);
 e_status trap_CIN_StopCinematic(int handle);
 e_status trap_CIN_RunCinematic(int handle);
@@ -2174,7 +2178,6 @@ int CG_NewParticleArea(int num);
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
 #define OSP_VERSION "0.06-test"
-
 
 //
 // cg_ospconfig.c
@@ -2213,7 +2216,6 @@ extern int statsInfo[24];
 #define OSP_STATS_UNKNOWN1          22
 #define OSP_STATS_UNKNOWN2          23
 
-
 // OSP Custom client
 #define OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG      0x04
 #define OSP_CUSTOM_CLIENT_OSP_HUD_FLAG         0x08
@@ -2247,14 +2249,26 @@ void CG_OSPConfigFreezeModeSet(int value);
 qboolean CG_IsSpectator(void);
 qboolean CG_IsFollowing(void);
 
+//BLACKED
+
+//cg_dlight weapons effect
 void CG_UpdateWeaponFlashDlightColor(weapon_t weapon, float red, float green, float blue);
-void CG_LocalEventCvarChanged_cg_dlight(cvarTable_t* cvart);
+void BE_LocalEventCvarChanged_cg_dlight_weapon_effect(cvarTable_t* cvart);
 void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color);
 void SetFlashDlightColor(weapon_t weapon, beDlightColor_t color);
 void SetMissileDlightColor(weapon_t weapon, beDlightColor_t color);
 void SetWeaponEffectColor(weapon_t weapon, const char* effect, float r, float g, float b);
-void UpdateDlightColorFromCvar(const char* cvarName, beDlightColor_t* color);
+void BE_UpdateDlightWeaponColorFromCvar(const char* cvarName, beDlightColor_t* color);
 void InitAllDlightColors();
+//color head
+int BE_cg_unique_color_enabled();
+void BE_ColorPickerPlayerNum(int hash, clientInfo_t* playerInfo);
+void BE_ApplyColorToPlayerHead(clientInfo_t* playerInfo);
+void BE_ApplyColorToPlayerModel(clientInfo_t* playerInfo);
+void BE_ApplyColorToAllPlayers();
+qboolean BE_IsTeammate(int clientNum);
+void CG_RebuildOurPlayerColors();
+
 //
 //cg_osphud.c
 //
@@ -2375,6 +2389,7 @@ void CG_LocalEventCvarChanged_ch_crosshairDecorActionScale(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_unique_colors(cvarTable_t* cvart);
 
 
 #ifdef __cplusplus
