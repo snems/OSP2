@@ -4,11 +4,10 @@
 
 
 added
-```c
+
 cg_dlight_(weapon)_(effect) - you can use 1-9, color names (red, blue...), HEX color (without #) and common # # # where is # - float 0-1
 cg_altLightning -1 - disables LG beam
  
-```
 ---
 ---
 
