@@ -1976,119 +1976,69 @@ char* CG_OSPGetCvarName(vmCvar_t* cvar)
 //
 //BLACKED
 //
-const char* GetWeaponName(weapon_t weapon) {
-    switch (weapon) {
-        case WP_GAUNTLET:
-            return "GAUNTLET";
-        case WP_MACHINEGUN:
-            return "MACHINEGUN";
-        case WP_SHOTGUN:
-            return "SHOTGUN";
-        case WP_GRENADE_LAUNCHER:
-            return "GRENADE_LAUNCHER";
-        case WP_ROCKET_LAUNCHER:
-            return "ROCKET_LAUNCHER";
-        case WP_LIGHTNING:
-            return "LIGHTNING";
-        case WP_RAILGUN:
-            return "RAILGUN";
-        case WP_PLASMAGUN:
-            return "PLASMAGUN";
-        case WP_BFG:
-            return "BFG";
-        case WP_GRAPPLING_HOOK:
-            return "GRAPPLING_HOOK";
-        default:
-            return "UNKNOWN";
-    }
-}
-
-
 
 weapon_t GetWeaponTypeFromCvar(cvarTable_t* cvart) {
     if (cvart->vmCvar == &cg_dlight_gauntlet_flash) {
-        CG_Printf("Detected weapon: GAUNTLET\n");
         return WP_GAUNTLET;
     } else if (cvart->vmCvar == &cg_dlight_mg_flash) {
-        CG_Printf("Detected weapon: MACHINEGUN\n");
         return WP_MACHINEGUN;
     } else if (cvart->vmCvar == &cg_dlight_sg_flash) {
-        CG_Printf("Detected weapon: SHOTGUN\n");
         return WP_SHOTGUN;
     } else if (cvart->vmCvar == &cg_dlight_gl_flash || cvart->vmCvar == &cg_dlight_gl_explosion) {
-        CG_Printf("Detected weapon: GRENADE_LAUNCHER\n");
         return WP_GRENADE_LAUNCHER;
     } else if (cvart->vmCvar == &cg_dlight_rl_flash || cvart->vmCvar == &cg_dlight_rl_missile || cvart->vmCvar == &cg_dlight_rl_explosion) {
-        CG_Printf("Detected weapon: ROCKET_LAUNCHER\n");
         return WP_ROCKET_LAUNCHER;
     } else if (cvart->vmCvar == &cg_dlight_lg_flash) {
-        CG_Printf("Detected weapon: LIGHTNING\n");
         return WP_LIGHTNING;
     } else if (cvart->vmCvar == &cg_dlight_rg_flash) {
-        CG_Printf("Detected weapon: RAILGUN\n");
         return WP_RAILGUN;
     } else if (cvart->vmCvar == &cg_dlight_pg_flash || cvart->vmCvar == &cg_dlight_pg_missile) {
-        CG_Printf("Detected weapon: PLASMAGUN\n");
         return WP_PLASMAGUN;
     } else if (cvart->vmCvar == &cg_dlight_bfg_flash || cvart->vmCvar == &cg_dlight_bfg_missile || cvart->vmCvar == &cg_dlight_bfg_explosion) {
-        CG_Printf("Detected weapon: BFG\n");
         return WP_BFG;
     } else {
-        CG_Printf("Warning: No matching weapon found for cvar\n");
         return WP_NONE;
     }
 }
 
-
-const char* GetEffectTypeFromCvar(cvarTable_t* cvart) {
+beDlightColor_t* GetEffectTypeFromCvar(cvarTable_t* cvart, WeaponEffects_t* effects) {
     if (strstr(cvart->cvarName, "_flash")) {
-        CG_Printf("Detected effect: flash\n");
-        return "flash";
+        return &effects->flash;
     } else if (strstr(cvart->cvarName, "_missile")) {
-        CG_Printf("Detected effect: missile\n");
-        return "missile";
+        return &effects->missile;
     } else if (strstr(cvart->cvarName, "_explosion")) {
-        CG_Printf("Detected effect: explosion\n");
-        return "explosion";
+        return &effects->explosion;
     } else {
-        CG_Printf("Warning: No matching effect type found for cvar\n");
         return NULL;
     }
 }
 
-
 void CG_LocalEventCvarChanged_cg_dlight(cvarTable_t* cvart) {
     weapon_t weapon = GetWeaponTypeFromCvar(cvart);
-    const char* effectType = GetEffectTypeFromCvar(cvart);
-
-    if (weapon == WP_NONE || effectType == NULL) {
-        CG_Printf("^1Error:^7 Invalid weapon or effect type.\n");
+    beDlightColor_t* effectColor = GetEffectTypeFromCvar(cvart, &beWeaponDlights[weapon].effects);
+	CG_Printf("^2Okey?->");
+    if (weapon == WP_NONE || effectColor == NULL) {
         return;
     }
+    UpdateDlightColorFromCvar(cvart->cvarName, effectColor);
 
-    // Обновление цвета из cvar и сохранение его в структуре
-    if (strcmp(effectType, "explosion") == 0) {
-        UpdateDlightColorFromCvar(cvart->cvarName, &beWeaponDlights[weapon].effects.explosion);
-        SetExplosionDlightColor(weapon, beWeaponDlights[weapon].effects.explosion);
-    } else if (strcmp(effectType, "flash") == 0) {
-        UpdateDlightColorFromCvar(cvart->cvarName, &beWeaponDlights[weapon].effects.flash);
-        SetFlashDlightColor(weapon, beWeaponDlights[weapon].effects.flash);
-    } else if (strcmp(effectType, "missile") == 0) {
-        UpdateDlightColorFromCvar(cvart->cvarName, &beWeaponDlights[weapon].effects.missile);
-        SetMissileDlightColor(weapon, beWeaponDlights[weapon].effects.missile);
+    if (effectColor == &beWeaponDlights[weapon].effects.explosion) {
+        SetExplosionDlightColor(weapon, *effectColor);
+    } else if (effectColor == &beWeaponDlights[weapon].effects.flash) {
+        SetFlashDlightColor(weapon, *effectColor);
+    } else if (effectColor == &beWeaponDlights[weapon].effects.missile) {
+        SetMissileDlightColor(weapon, *effectColor);
     }
-
-    CG_Printf("^7Dlight ^3%s ^7color saved for ^3%s^7\n", effectType, GetWeaponName(weapon));
 }
-
-
-
-
-
-
 
 void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
+		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
+             color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
+            (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
+            CG_Printf("^1Error: OUT OF BOUNDS.^7Color ^1not changed.\n");
+            return;
+        }
 
         beWeaponDlights[weapon].effects.explosion = color;
 
@@ -2096,59 +2046,64 @@ void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
             cg_dlight_bfg_explosionR.value = color.r;
             cg_dlight_bfg_explosionG.value = color.g;
             cg_dlight_bfg_explosionB.value = color.b;
+			
         } else if (weapon == WP_ROCKET_LAUNCHER) {
             cg_dlight_rl_explosionR.value = color.r;
             cg_dlight_rl_explosionG.value = color.g;
             cg_dlight_rl_explosionB.value = color.b;
+			
         } else if (weapon == WP_GRENADE_LAUNCHER) {
             cg_dlight_gl_explosionR.value = color.r;
             cg_dlight_gl_explosionG.value = color.g;
             cg_dlight_gl_explosionB.value = color.b;
+			
         }
     }
 }
 
 void SetFlashDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
-
+		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
+             color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
+            (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
+            CG_Printf("^1Error: OUT OF BOUNDS.^7Color ^1not changed.\n");
+            return;
+        }
         beWeaponDlights[weapon].effects.flash = color;
-
         cg_weapons[weapon].flashDlightColor[0] = color.r;
         cg_weapons[weapon].flashDlightColor[1] = color.g;
         cg_weapons[weapon].flashDlightColor[2] = color.b;
+		
     }
 }
-
 
 void SetMissileDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
-
+		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
+             color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
+            (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
+            CG_Printf("^1Error: OUT OF BOUNDS.^7Color ^1not changed.\n");
+            return;
+        }
         beWeaponDlights[weapon].effects.missile = color;
-
         cg_weapons[weapon].missileDlightColor[0] = color.r;
         cg_weapons[weapon].missileDlightColor[1] = color.g;
         cg_weapons[weapon].missileDlightColor[2] = color.b;
-    }
+		}
+	
 }
-
-
 
 void UpdateDlightColorFromCvar(const char* cvarName, beDlightColor_t* color) {
     char buffer[32];
     float r = 0.0f, g = 0.0f, b = 0.0f;
-
     trap_Cvar_VariableStringBuffer(cvarName, buffer, sizeof(buffer));
-    
-    CG_Printf("Cvar %s loaded value: %s\n", cvarName, buffer);
-
     if (Q_sscanf(buffer, "%f %f %f", &r, &g, &b) == 3) {
         color->r = r;
         color->g = g;
         color->b = b;
     }
+	
 }
-
-
 
 void InitAllDlightColors() {
     UpdateDlightColorFromCvar("cg_dlight_bfg_explosion", &beWeaponDlights[WP_BFG].effects.explosion);
@@ -2182,6 +2137,16 @@ void InitAllDlightColors() {
     UpdateDlightColorFromCvar("cg_dlight_bfg_missile", &beWeaponDlights[WP_BFG].effects.missile);
     SetMissileDlightColor(WP_BFG, beWeaponDlights[WP_BFG].effects.missile);
 }
+void PrintEffectColor(WeaponEffects_t* effects) {
+    CG_Printf("Color values - ^1%.2f, ^2%.2f, ^4%.2f^7 set.\n", 
+              effects->explosion.r, effects->explosion.g, effects->explosion.b);
+    CG_Printf("Color values - ^1%.2f, ^2%.2f, ^4%.2f^7 set.\n", 
+              effects->flash.r, effects->flash.g, effects->flash.b);
+    CG_Printf("Color values - ^1%.2f, ^2%.2f, ^4%.2f^7 set.\n", 
+              effects->missile.r, effects->missile.g, effects->missile.b);
+}
+
+
 
 
 

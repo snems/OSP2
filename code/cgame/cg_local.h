@@ -1206,14 +1206,15 @@ typedef struct {
     float b;
 } beDlightColor_t;
 
-// Define structure for each weapon's effects
 typedef struct {
     beDlightColor_t explosion;
+    char explosionType[16];
     beDlightColor_t flash;
+    char flashType[16];
     beDlightColor_t missile;
+    char missileType[16];
 } WeaponEffects_t;
 
-// Main structure that will contain weapon effects
 typedef struct {
     WeaponEffects_t effects;
 } beWeaponDlights_t;
