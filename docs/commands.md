@@ -510,6 +510,26 @@
 
 ---
 
+    cg_dlight_gauntlet_flash "0.6 0.6 1.0"
+    cg_dlight_mg_flash "1.0 1.0 0"
+    cg_dlight_sg_flash "1.0 1.0 0"
+    cg_dlight_gl_flash "1.0 0.7 0"
+    cg_dlight_gl_explosion "1 0.75 0"
+    cg_dlight_rl_flash "1 0.75 0"
+    cg_dlight_rl_missile "1 0.75 0"
+    cg_dlight_rl_explosion "1.0 0.75 0"
+    cg_dlight_lg_flash "0.6 0.6 1.0"
+    cg_dlight_rg_flash "1.0 0.5 0"
+    cg_dlight_pg_flash "0.6 0.6 1.0"
+    cg_dlight_pg_missile "0.3 0.3 0.8"
+    cg_dlight_bfg_flash "1.0 0.7 1.0"
+    cg_dlight_bfg_missile "0 1 0.2"
+    cg_dlight_bfg_explosion "0 1 0.2"
+
+Цвет динамического освещения для оружия_эффекта.
+
+---
+
     +shudchat
 
 Принудительно показать чат в суперхуде.
