@@ -2,17 +2,12 @@
 
 ## ⚡ New `cg_dlight` Commands
 
-New **`cg_dlight`** commands have been added to change the dynamic lighting color for all weapons. These commands allow you to customize the lighting color created by weapons during shooting and explosions, providing a more personalized and visually striking effect. Below is an example configuration:
 
+added
 ```c
-// Set the dynamic lighting color for the Rocket Launcher missile
-set cg_dlight_rl_missile "1.0 0.2 0.2"
-
-// Set the dynamic lighting color for the Machinegun flash
-set cg_dlight_mg_flash "0.2 0.8 0.2"
-
-// Set the dynamic lighting color for the Rocket explosion
-set cg_dlight_rl_explosion "0.2 0.2 1.0" 
+cg_dlight_(weapon_(effect) - you can use 1-9, color names (red, blue...), HEX color (without #) and common # # # where is # - float 0-1
+cg_altLightning -1 - disables LG beam
+ 
 ```
 ---
 ---
