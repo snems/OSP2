@@ -2036,7 +2036,7 @@ void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
 		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
      color.r < 0.0 || color.g < 0.0 || color.b < 0.0) &&
     (&color.r != NULL && &color.g != NULL && &color.b != NULL)) {
-            CG_Printf("^1NOT OKEY: OUT OF BOUNDS.^7Color ^1not changed\n");
+            CG_Printf("^1->NOT OKEY: ^7Incorrect value, use ^1# ^2# ^4#.^7 # - from 0 to 1\n");
             return;
         }
 
@@ -2063,12 +2063,7 @@ void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
 
 void SetFlashDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
-		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
-             color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
-            (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
-            CG_Printf("^1NOT OKEY: OUT OF BOUNDS.^7Color ^1not changed\n");
-            return;
-        }
+		
         beWeaponDlights[weapon].effects.flash = color;
         cg_weapons[weapon].flashDlightColor[0] = color.r;
         cg_weapons[weapon].flashDlightColor[1] = color.g;
@@ -2082,7 +2077,7 @@ void SetMissileDlightColor(weapon_t weapon, beDlightColor_t color) {
 		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
              color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
             (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
-            CG_Printf("^1NOT OKEY: OUT OF BOUNDS.^7Color ^1not changed\n");
+            CG_Printf("^1->NOT OKEY: ^7Incorrect value, use ^1# ^2# ^4#.^7 # - from 0 to 1\n");
             return;
         }
         beWeaponDlights[weapon].effects.missile = color;
@@ -2136,14 +2131,6 @@ void InitAllDlightColors() {
     SetMissileDlightColor(WP_PLASMAGUN, beWeaponDlights[WP_PLASMAGUN].effects.missile);
     UpdateDlightColorFromCvar("cg_dlight_bfg_missile", &beWeaponDlights[WP_BFG].effects.missile);
     SetMissileDlightColor(WP_BFG, beWeaponDlights[WP_BFG].effects.missile);
-}
-void PrintEffectColor(WeaponEffects_t* effects) {
-    CG_Printf("Color values - ^1%.2f, ^2%.2f, ^4%.2f^7 set.\n", 
-              effects->explosion.r, effects->explosion.g, effects->explosion.b);
-    CG_Printf("Color values - ^1%.2f, ^2%.2f, ^4%.2f^7 set.\n", 
-              effects->flash.r, effects->flash.g, effects->flash.b);
-    CG_Printf("Color values - ^1%.2f, ^2%.2f, ^4%.2f^7 set.\n", 
-              effects->missile.r, effects->missile.g, effects->missile.b);
 }
 
 
