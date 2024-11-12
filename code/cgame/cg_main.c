@@ -2016,7 +2016,7 @@ beDlightColor_t* GetEffectTypeFromCvar(cvarTable_t* cvart, WeaponEffects_t* effe
 void CG_LocalEventCvarChanged_cg_dlight(cvarTable_t* cvart) {
     weapon_t weapon = GetWeaponTypeFromCvar(cvart);
     beDlightColor_t* effectColor = GetEffectTypeFromCvar(cvart, &beWeaponDlights[weapon].effects);
-	CG_Printf("^2Okey?->");
+	CG_Printf("^2Okey");
     if (weapon == WP_NONE || effectColor == NULL) {
         return;
     }
@@ -2034,9 +2034,9 @@ void CG_LocalEventCvarChanged_cg_dlight(cvarTable_t* cvart) {
 void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
 		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
-             color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
-            (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
-            CG_Printf("^1Error: OUT OF BOUNDS.^7Color ^1not changed.\n");
+     color.r < 0.0 || color.g < 0.0 || color.b < 0.0) &&
+    (&color.r != NULL && &color.g != NULL && &color.b != NULL)) {
+            CG_Printf("^1NOT OKEY: OUT OF BOUNDS.^7Color ^1not changed\n");
             return;
         }
 
@@ -2066,7 +2066,7 @@ void SetFlashDlightColor(weapon_t weapon, beDlightColor_t color) {
 		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
              color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
             (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
-            CG_Printf("^1Error: OUT OF BOUNDS.^7Color ^1not changed.\n");
+            CG_Printf("^1NOT OKEY: OUT OF BOUNDS.^7Color ^1not changed\n");
             return;
         }
         beWeaponDlights[weapon].effects.flash = color;
@@ -2082,7 +2082,7 @@ void SetMissileDlightColor(weapon_t weapon, beDlightColor_t color) {
 		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
              color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
             (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
-            CG_Printf("^1Error: OUT OF BOUNDS.^7Color ^1not changed.\n");
+            CG_Printf("^1NOT OKEY: OUT OF BOUNDS.^7Color ^1not changed\n");
             return;
         }
         beWeaponDlights[weapon].effects.missile = color;
