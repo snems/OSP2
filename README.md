@@ -7,6 +7,12 @@ added
 
 cg_dlight_(weapon)_(effect) - you can use 1-9, color names (red, blue...), HEX color (without #) and common # # # where is # - float 0-1
 cg_altLightning -1 - disables LG beam
+
+
+Make enemies different colors (from color table)
+cg_unique_colors  "1" for head only
+cg_unique_colors  "2" for full body
+After switching between modes need vid_restart
  
 ---
 ---
