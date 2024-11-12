@@ -1605,9 +1605,9 @@ static void CG_BreathPuffs(centity_t* cent, refEntity_t* head)
 
 	ci = &cgs.clientinfo[ cent->currentState.clientNum ];
 
-	if (!cg_enableBreath.integer)
-	{
-		return;
+	if (!cg_enableBreath.integer ||
+        (cgs.osp.gameTypeFreeze && (cent->currentState.weapon == WP_NONE) && (cent->currentState.powerups & (1 << PW_BATTLESUIT)))) {
+        return;
 	}
 	if (cent->currentState.number == cg.snap->ps.clientNum && !cg.renderingThirdPerson)
 	{
@@ -2028,7 +2028,6 @@ void CG_AddRefEntityFrozenPlayer(refEntity_t* ent, entityState_t* state, int tea
 
 	if (state->clientNum >= MAX_CLIENTS) return;
 	ci = &cgs.clientinfo[state->clientNum];
-
 	ent->shaderRGBA[0] = ci->colors.frozen[0] * 255;
 	ent->shaderRGBA[1] = ci->colors.frozen[1] * 255;
 	ent->shaderRGBA[2] = ci->colors.frozen[2] * 255;
@@ -2036,6 +2035,8 @@ void CG_AddRefEntityFrozenPlayer(refEntity_t* ent, entityState_t* state, int tea
 	ent->shaderRGBA[3] = 255;
 	ent->customShader = cgs.media.frozenShader;
 	trap_R_AddRefEntityToScene(ent);
+	
+	
 }
 
 
