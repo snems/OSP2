@@ -2200,20 +2200,20 @@ void BE_ApplyColorToAllPlayers() {
     for (playerNum = 0; playerNum < MAX_CLIENTS; playerNum++) {
         BE_ColorPickerPlayerNum(playerNum, &cgs.clientinfo[playerNum]);
 
-        // Проверяем, в каком режиме находится игра
+        // В командном режиме
         if (cgs.gametype >= GT_TEAM) {
-            // Если это командный режим (союзники против врагов)
-            if (!BE_IsTeammate(playerNum)) {  // Если это враг
-                // Применяем цвета для врага
+            // Если это враг (проверяем через BE_IsTeammate)
+            if (!BE_IsTeammate(playerNum)) {
+                // Применяем цвета только для врагов
                 if (colorMode == 1) {
                     BE_ApplyColorToPlayerHead(&cgs.clientinfo[playerNum]);
                 } else if (colorMode == 2) {
                     BE_ApplyColorToPlayerModel(&cgs.clientinfo[playerNum]);
                 }
             }
-            // Если союзник, не применяем никакие изменения (пропускаем его)
+            // Если это союзник, ничего не применяем
         } else {
-            // Если это не командный режим (например, FFA или 1vs1), все игроки — враги
+            // В режимах FFA или 1vs1 все игроки считаются врагами
             if (colorMode == 1) {
                 BE_ApplyColorToPlayerHead(&cgs.clientinfo[playerNum]);
             } else if (colorMode == 2) {
@@ -2222,6 +2222,7 @@ void BE_ApplyColorToAllPlayers() {
         }
     }
 }
+
 
 
 

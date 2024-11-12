@@ -2267,7 +2267,6 @@ void BE_ApplyColorToPlayerHead(clientInfo_t* playerInfo);
 void BE_ApplyColorToPlayerModel(clientInfo_t* playerInfo);
 void BE_ApplyColorToAllPlayers();
 qboolean BE_IsTeammate(int clientNum);
-void CG_RebuildOurPlayerColors();
 
 //
 //cg_osphud.c
