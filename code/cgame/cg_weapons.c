@@ -733,40 +733,50 @@ void CG_RegisterWeapon(int weaponNum)
 
 
 
-			for (i = 0; i < LIGHTNING_NUMBER_OF_SHADERS; ++i)
-			{
-				if (i == 0)//cg_altLightning 0
-				{
-					cgs.media.lightningBolt[0] = trap_R_RegisterShader("lightningBoltNew");
-					cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("lightningBoltNewNoPicMip");
-					if (!cgs.media.lightningBoltNoPicMip[0])
-					{
-						cgs.media.lightningBoltNoPicMip[0] = cgs.media.lightningBolt[0];
-					}
-				}
-				else if (i == 1)//cg_altLightning 1
-				{
-					cgs.media.lightningBolt[1] = trap_R_RegisterShader("lightningBolt");
-					cgs.media.lightningBoltNoPicMip[1] = trap_R_RegisterShader("lightningBoltNoPicMip");
-					if (!cgs.media.lightningBoltNoPicMip[1])
-					{
-						cgs.media.lightningBoltNoPicMip[1] = cgs.media.lightningBolt[1];
-					}
-				}
-				else //cg_altLightning > 1
-				{
-					cgs.media.lightningBolt[i] = trap_R_RegisterShader(va("lightningBoltNew%i", i));
-					if (!cgs.media.lightningBolt[i])
-					{
-						cgs.media.lightningBolt[i] = cgs.media.lightningBolt[0];
-					}
-					cgs.media.lightningBoltNoPicMip[i] = trap_R_RegisterShader(va("lightningBoltNewNoPicMip%i", i));
-					if (!cgs.media.lightningBoltNoPicMip[i])
-					{
-						cgs.media.lightningBoltNoPicMip[i] = cgs.media.lightningBolt[i];
-					}
-				}
-			}
+
+
+// Обработка случая i = -1
+if (i == -1) {
+    cgs.media.lightningBolt[0] = trap_R_RegisterShader("");
+    cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("");
+
+    if (!cgs.media.lightningBoltNoPicMip[0]) {
+        cgs.media.lightningBoltNoPicMip[0] = cgs.media.lightningBolt[0];
+    }
+}
+
+// Основной цикл для значений от 0 и выше
+for (i = 0; i < LIGHTNING_NUMBER_OF_SHADERS; ++i) {
+    if (i == 0) {  // cg_altLightning 0
+        cgs.media.lightningBolt[0] = trap_R_RegisterShader("lightningBoltNew");
+        cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("lightningBoltNewNoPicMip");
+
+        if (!cgs.media.lightningBoltNoPicMip[0]) {
+            cgs.media.lightningBoltNoPicMip[0] = cgs.media.lightningBolt[0];
+        }
+
+    } else if (i == 1) {  // cg_altLightning 1
+        cgs.media.lightningBolt[1] = trap_R_RegisterShader("lightningBolt");
+        cgs.media.lightningBoltNoPicMip[1] = trap_R_RegisterShader("lightningBoltNoPicMip");
+
+        if (!cgs.media.lightningBoltNoPicMip[1]) {
+            cgs.media.lightningBoltNoPicMip[1] = cgs.media.lightningBolt[1];
+        }
+
+    } else {  // cg_altLightning > 1
+        cgs.media.lightningBolt[i] = trap_R_RegisterShader(va("lightningBoltNew%i", i));
+
+        if (!cgs.media.lightningBolt[i]) {
+            cgs.media.lightningBolt[i] = cgs.media.lightningBolt[0];
+        }
+
+        cgs.media.lightningBoltNoPicMip[i] = trap_R_RegisterShader(va("lightningBoltNewNoPicMip%i", i));
+
+        if (!cgs.media.lightningBoltNoPicMip[i]) {
+            cgs.media.lightningBoltNoPicMip[i] = cgs.media.lightningBolt[i];
+        }
+    }
+}
 
 			cgs.media.lightningExplosionModel = trap_R_RegisterModel("models/weaphits/crackle.md3");
 
@@ -1113,7 +1123,9 @@ void CG_LightningBolt(centity_t* cent, float* origin)
 	float tl;
 	qboolean isOurClient = cent->currentState.number == cg.predictedPlayerState.clientNum;
 	qboolean isDelagEnabled =  cg_delag.integer & 1 || cg_delag.integer & 2;
-
+ 	if (cg_altLightning.integer == -1) {
+        return;
+    }
 	if (cent->currentState.weapon != WP_LIGHTNING) return;
 
 	memset(&beam, 0, sizeof(refEntity_t));
