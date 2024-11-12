@@ -737,7 +737,6 @@ void CG_RegisterCvars(void)
 	trap_Cvar_Register(NULL, "team_model", DEFAULT_TEAM_MODEL, CVAR_USERINFO | CVAR_ARCHIVE);
 	trap_Cvar_Register(NULL, "team_headmodel", DEFAULT_TEAM_HEAD, CVAR_USERINFO | CVAR_ARCHIVE);
 	CG_OSPCvarsRestrictValues();
-	InitAllDlightColors();
 }
 
 
@@ -2033,10 +2032,9 @@ void CG_LocalEventCvarChanged_cg_dlight(cvarTable_t* cvart) {
 
 void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
-		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
-     color.r < 0.0 || color.g < 0.0 || color.b < 0.0) &&
-    (&color.r != NULL && &color.g != NULL && &color.b != NULL)) {
-            CG_Printf("^1->NOT OKEY: ^7Incorrect value, use ^1# ^2# ^4#.^7 # - from 0 to 1\n");
+			if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
+    		color.r < 0.0 || color.g < 0.0 || color.b < 0.0) &&
+    		(&color.r != NULL && &color.g != NULL && &color.b != NULL)) {
             return;
         }
 
@@ -2063,7 +2061,11 @@ void SetExplosionDlightColor(weapon_t weapon, beDlightColor_t color) {
 
 void SetFlashDlightColor(weapon_t weapon, beDlightColor_t color) {
     if (weapon != WP_NONE) {
-		
+			if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
+             color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
+            (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
+            return;
+        }
         beWeaponDlights[weapon].effects.flash = color;
         cg_weapons[weapon].flashDlightColor[0] = color.r;
         cg_weapons[weapon].flashDlightColor[1] = color.g;
@@ -2077,7 +2079,6 @@ void SetMissileDlightColor(weapon_t weapon, beDlightColor_t color) {
 		  if ((color.r > 1.0 || color.g > 1.0 || color.b > 1.0 || 
              color.r < 0.0 || color.g < 0.0 || color.b < 0.0) || 
             (&color.r == NULL || &color.g == NULL || &color.b == NULL)) {
-            CG_Printf("^1->NOT OKEY: ^7Incorrect value, use ^1# ^2# ^4#.^7 # - from 0 to 1\n");
             return;
         }
         beWeaponDlights[weapon].effects.missile = color;
@@ -2090,15 +2091,24 @@ void SetMissileDlightColor(weapon_t weapon, beDlightColor_t color) {
 
 void UpdateDlightColorFromCvar(const char* cvarName, beDlightColor_t* color) {
     char buffer[32];
+    vec4_t parsedColor;  // Временный массив для хранения значений цвета
     float r = 0.0f, g = 0.0f, b = 0.0f;
+
     trap_Cvar_VariableStringBuffer(cvarName, buffer, sizeof(buffer));
-    if (Q_sscanf(buffer, "%f %f %f", &r, &g, &b) == 3) {
+
+    if (CG_ParseColorStr(buffer, parsedColor)) {
+        color->r = parsedColor[0];
+        color->g = parsedColor[1];
+        color->b = parsedColor[2];
+    } else if (Q_sscanf(buffer, "%f %f %f", &r, &g, &b) == 3) {
         color->r = r;
         color->g = g;
         color->b = b;
+    } else {
+          CG_Printf("^1->NOT OKEY: ^7Invalid color format in cvar '%s'\n", cvarName);
     }
-	
 }
+
 
 void InitAllDlightColors() {
     UpdateDlightColorFromCvar("cg_dlight_bfg_explosion", &beWeaponDlights[WP_BFG].effects.explosion);
@@ -2132,12 +2142,6 @@ void InitAllDlightColors() {
     UpdateDlightColorFromCvar("cg_dlight_bfg_missile", &beWeaponDlights[WP_BFG].effects.missile);
     SetMissileDlightColor(WP_BFG, beWeaponDlights[WP_BFG].effects.missile);
 }
-
-
-
-
-
-
 
 
 
