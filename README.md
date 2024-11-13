@@ -10,14 +10,14 @@ added
  cg_altLightning -1 - disables LG beam
 
 
-> Make enemies different colors (from color table)
-> 
-> cg_unique_colors  "1" for head only
-> 
-> cg_unique_colors  "2" for full body
-> 
-> After switching between modes need vid_restart
-> 
+ Make enemies different colors (from color table)
+ 
+ cg_unique_colors  "1" for head only
+ 
+ cg_unique_colors  "2" for full body
+ 
+ After switching between modes need vid_restart
+
  
 ---
 ---
