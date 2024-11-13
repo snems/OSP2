@@ -81,6 +81,7 @@ weaponInfo_t        cg_weapons[MAX_WEAPONS];
 itemInfo_t          cg_items[MAX_ITEMS];
 beWeaponDlights_t 	beWeaponDlights[MAX_WEAPONS];
 PlayerModelInfo_t 	be_playerInfo[MAX_CLIENTS];
+be_t 				be;
 
 
 vmCvar_t           osp_client;
@@ -2292,3 +2293,28 @@ void InitAllDlightColors() {
 //     return 0; 
 // }
 
+//SCOREBOARD
+
+void BE_TeamScoreSum(team_t team) {
+    int totalScore = 0;
+    int i;
+
+    for (i = 0; i < cgs.maxclients; i++) {
+        clientInfo_t* ci = &cgs.clientinfo[i];
+
+        if (ci->infoValid && ci->team == team) {
+            totalScore += ci->score; 
+        }
+    }
+
+    if (team == TEAM_RED) {
+        be.red.scoreSum = totalScore;
+    } else if (team == TEAM_BLUE) {
+        be.blue.scoreSum = totalScore;
+    }
+}
+
+void UpdateTeamSumScores() {
+    BE_TeamScoreSum(TEAM_RED);
+    BE_TeamScoreSum(TEAM_BLUE);
+}

@@ -1202,6 +1202,18 @@ typedef struct
 //==============================================================================
 //BLACKED
 
+typedef struct {
+    int scoreSum;
+} be_team_t;
+
+typedef struct {
+    be_team_t red;
+    be_team_t blue;
+} be_t;
+
+
+//under structs need optimisation
+
 extern float be_ColorTable[36][3];
 typedef struct {
     float r;
@@ -1244,7 +1256,8 @@ extern  centity_t       cg_entities[MAX_GENTITIES];
 extern  weaponInfo_t    cg_weapons[MAX_WEAPONS];
 extern  itemInfo_t      cg_items[MAX_ITEMS];
 extern  markPoly_t      cg_markPolys[MAX_MARK_POLYS];
-extern PlayerModelInfo_t be_playerInfo[MAX_CLIENTS];
+extern 	PlayerModelInfo_t be_playerInfo[MAX_CLIENTS];
+extern 	be_t				be;
 extern vmCvar_t           osp_client;
 extern vmCvar_t           osp_hidden;
 extern vmCvar_t           osp_debug;
@@ -2267,6 +2280,8 @@ void BE_ApplyColorToPlayerHead(clientInfo_t* playerInfo);
 void BE_ApplyColorToPlayerModel(clientInfo_t* playerInfo);
 void BE_ApplyColorToAllPlayers();
 qboolean BE_IsTeammate(int clientNum);
+//scoreboard
+void PrintBlueTeamScore();
 
 //
 //cg_osphud.c

@@ -761,7 +761,7 @@ static consoleCommand_t commands[] =
 	{ "playersid", CG_PrintPlayerIDs_f },
 	{ "mute", CG_Mute_f },
 	{ "unmute", CG_UnMute_f },
-	//{ "berun", InitAllDlightColors }, debug
+	// { "berun", PrintBlueTeamScore  }, /*BE debug*/
 };
 
 

@@ -560,7 +560,6 @@ void CG_DrawOldTourneyScoreboard(void)
 	clientInfo_t*    ci;
 	int             y;
 	int             i;
-
 	if (cg_hideScores.integer)
 	{
 		return ;
@@ -1146,7 +1145,7 @@ qboolean CG_OSPDrawScoretable(void)
 	sumScoresRed = 0;
 	sumPingBlue = 0;
 	sumPingRed = 0;
-
+	UpdateTeamSumScores();
 	if (cg_hideScores.integer)
 	{
 		return qfalse;
@@ -1271,10 +1270,10 @@ qboolean CG_OSPDrawScoretable(void)
 		{
 			if (cgs.gametype == GT_TEAM)
 			{
-				tmpStr = va("^1Players  AvgPing");
-				CG_OSPDrawString(140, 64, tmpStr, colorWhite, 8, 16, 256, DS_HLEFT|DS_SHADOW);
-				Com_sprintf(string, 128, " %2i  %3i", drewRed, sumPingRed / drewRed);
-				CG_OSPDrawString(140, 80, string, colorWhite, 16, 20, 256, DS_HLEFT|DS_SHADOW);
+				tmpStr = va("^1Scores    Players  AvgPing");
+				CG_OSPDrawString(80, 64, tmpStr, colorWhite, 8, 16, 256, DS_HLEFT|DS_SHADOW);
+				Com_sprintf(string, 128, "%3d   %2i  %3i  ", be.red.scoreSum, drewRed, sumPingRed / drewRed);
+				CG_OSPDrawString(80, 80, string, colorWhite, 16, 20, 256, DS_HLEFT|DS_SHADOW);
 			}
 		}
 	}
@@ -1291,10 +1290,10 @@ qboolean CG_OSPDrawScoretable(void)
 		}
 		else if (cgs.gametype == GT_TEAM)
 		{
-			tmpStr = va("^4Players  AvgPing");
-			CG_OSPDrawString(460, 64, tmpStr, colorWhite, 8, 16, 256, DS_HLEFT|DS_SHADOW);
-			Com_sprintf(string, 128, " %2i  %3i", drewBlue, sumPingBlue / drewBlue);
-			CG_OSPDrawString(460, 80, string, colorWhite, 16, 20, 256, DS_HLEFT|DS_SHADOW);
+			tmpStr = va("^4Scores    Players  AvgPing");
+			CG_OSPDrawString(400, 64, tmpStr, colorWhite, 8, 16, 256, DS_HLEFT|DS_SHADOW);
+			Com_sprintf(string, 128, "%3d   %2i  %3i", be.blue.scoreSum, drewBlue, sumPingBlue / drewBlue);
+			CG_OSPDrawString(400, 80, string, colorWhite, 16, 20, 256, DS_HLEFT|DS_SHADOW);
 		}
 	}
 
