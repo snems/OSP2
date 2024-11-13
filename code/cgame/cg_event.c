@@ -1317,5 +1317,7 @@ void CG_CheckEvents(centity_t* cent)
 	CG_SetEntitySoundPosition(cent);
 
 	CG_EntityEvent(cent, cent->lerpOrigin);
+    BE_ApplyColorToAllPlayers();
+    
 }
 

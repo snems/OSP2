@@ -57,10 +57,8 @@ static void CG_PlayerColorsFromEnemyColors(playerColors_t* colors, playerColorsO
 		CG_OSPColorFromChar(color1[1], colors->torso);
 		CG_OSPColorFromChar(color1[2], colors->legs);
 	}
-
-	if (BE_cg_unique_color_enabled()) {
-        BE_ApplyColorToAllPlayers();
-    }
+    BE_ApplyColorToAllPlayers();
+    
 
 }
 
@@ -108,9 +106,7 @@ static void CG_PlayerColorsLoadOverrides(playerColors_t* colors,
 			CG_Hex16GetColor(&modelColors->string[14], &colors->legs[1]);
 			CG_Hex16GetColor(&modelColors->string[16], &colors->legs[2]);
 		}
-		if (BE_cg_unique_color_enabled()) {
-    		BE_ApplyColorToAllPlayers();
-    }
+		BE_ApplyColorToAllPlayers();
 	}
 
 	if (railColors)
@@ -192,15 +188,6 @@ void CG_RebuildPlayerColors(void)
 	                             &cg_teamModelColors,
 	                             &cg_teamRailColors,
 	                             &cg_teamFrozenColor);
-	if (BE_cg_unique_color_enabled() == 1) {
-    // Логика для значения 1
-    BE_ApplyColorToAllPlayers();  // Вашу функцию, например, для применения цвета
-}
-else if (BE_cg_unique_color_enabled() == 2) {
-    // Логика для значения 2
-    // Подставьте здесь другую функцию или код для следующей логики
-    BE_ApplyColorToAllPlayers();  // Например, другая логика для 2
-}  //UB
 
 	/* Enemy colors */
 	/* Do not load default */
@@ -211,9 +198,8 @@ else if (BE_cg_unique_color_enabled() == 2) {
 	                             &cg_enemyModelColors,
 	                             &cg_enemyRailColors,
 	                             &cg_enemyFrozenColor);	
-	if (BE_cg_unique_color_enabled()) {
-        BE_ApplyColorToAllPlayers();
-    }					 
+	
+    BE_ApplyColorToAllPlayers();				 
 }
 
 void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
@@ -313,10 +299,9 @@ void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
 		{
 			VectorCopy(cgs.osp.enemyColors.frozen, ci->colors.frozen);
 		}
-        if (BE_cg_unique_color_enabled()) {
-            BE_ApplyColorToAllPlayers();
-        }
-    }
+        
+   }
+   BE_ApplyColorToAllPlayers();
 }
 
 

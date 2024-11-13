@@ -1588,9 +1588,7 @@ static void CG_RegisterClients(void)
         }
         CG_LoadingClient(i);
         CG_NewClientInfo(i);
-        if (BE_cg_unique_color_enabled()) {
-            BE_ApplyColorToAllPlayers();
-        }
+        BE_ApplyColorToAllPlayers();
     }
     CG_BuildSpectatorString();
 }
@@ -2192,28 +2190,23 @@ void BE_ApplyColorToPlayerModel(clientInfo_t* playerInfo) {
 
 void BE_ApplyColorToAllPlayers() {
     int playerNum;
-
-    // Получаем текущий режим уникальной окраски
     int colorMode = BE_cg_unique_color_enabled();
-
-    // Проходим по всем игрокам
     for (playerNum = 0; playerNum < MAX_CLIENTS; playerNum++) {
         BE_ColorPickerPlayerNum(playerNum, &cgs.clientinfo[playerNum]);
 
-        // В командном режиме
         if (cgs.gametype >= GT_TEAM) {
-            // Если это враг (проверяем через BE_IsTeammate)
+
             if (!BE_IsTeammate(playerNum)) {
-                // Применяем цвета только для врагов
+        
                 if (colorMode == 1) {
                     BE_ApplyColorToPlayerHead(&cgs.clientinfo[playerNum]);
                 } else if (colorMode == 2) {
                     BE_ApplyColorToPlayerModel(&cgs.clientinfo[playerNum]);
                 }
             }
-            // Если это союзник, ничего не применяем
+            
         } else {
-            // В режимах FFA или 1vs1 все игроки считаются врагами
+            
             if (colorMode == 1) {
                 BE_ApplyColorToPlayerHead(&cgs.clientinfo[playerNum]);
             } else if (colorMode == 2) {
