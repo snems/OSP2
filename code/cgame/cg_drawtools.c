@@ -518,7 +518,7 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					commands[i].type = OSP_TEXT_CMD_CHAR;
 					commands[i].value.character = '^';
 					++i;
-					text += 2;
+					text += 1;
 					break;
 				case 'X':
 				case 'x':

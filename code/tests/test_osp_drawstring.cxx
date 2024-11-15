@@ -292,3 +292,37 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
   }
 }
 
+TEST_CASE("Text compiler: bug ^^0 ", "[API][cg_drawtools.c]")
+{
+  Com_InitZoneMemory();
+  CHECK(CG_CompiledTextCreate(NULL) == NULL);
+  CHECK(CG_CompiledTextCreate("") == NULL);
+
+  {
+    text_command_t *commands = CG_CompiledTextCreate("te^^0xt");
+    REQUIRE(commands);
+    
+    CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[0].value.character == 't');
+
+    CHECK(commands[1].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[1].value.character == 'e');
+
+    CHECK(commands[2].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[2].value.character == '^');
+
+    CHECK(commands[3].type == OSP_TEXT_CMD_TEXT_COLOR);
+
+    CHECK(commands[4].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[4].value.character == 'x');
+
+    CHECK(commands[5].type == OSP_TEXT_CMD_CHAR);
+    CHECK(commands[5].value.character == 't');
+
+    CHECK(commands[6].type == OSP_TEXT_CMD_STOP);
+
+    CG_CompiledTextDestroy(commands);
+  }
+
+}
+
