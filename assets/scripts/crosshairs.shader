@@ -1552,6 +1552,153 @@ gfx/2d/crosshair_73_r45
     }
 }
 
+//************Crosshair74************
+gfx/2d/crosshair_74
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_74.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/crosshair_74_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_74.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Crosshair75************
+gfx/2d/crosshair_75
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_75.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/crosshair_75_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_75.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Crosshair76************
+gfx/2d/crosshair_76
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_76.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/crosshair_76_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_76.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Crosshair77************
+gfx/2d/crosshair_77
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_77.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/crosshair_77_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_77.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Crosshair78************
+gfx/2d/crosshair_78
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_78.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/crosshair_78_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_78.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Crosshair79************
+gfx/2d/crosshair_79
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_79.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/crosshair_79_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_79.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Crosshair80************
+gfx/2d/crosshair_80
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_80.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/crosshair_80_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/crosshair_80.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
 //************Decor1************
 gfx/2d/decor_1
 {
@@ -2092,6 +2239,153 @@ gfx/2d/decor_26_r45
     nopicmip
     {
        clampmap gfx/2d/decor_26.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Decor27************
+gfx/2d/decor_27
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_27.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/decor_27_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_27.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Decor28************
+gfx/2d/decor_28
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_28.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/decor_28_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_28.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Decor29************
+gfx/2d/decor_29
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_29.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/decor_29_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_29.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Decor30************
+gfx/2d/decor_30
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_30.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/decor_30_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_30.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Decor31************
+gfx/2d/decor_31
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_31.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/decor_31_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_31.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Decor32************
+gfx/2d/decor_32
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_32.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/decor_32_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_32.tga
+       blendFunc blend
+       tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
+       rgbGen vertex
+    }
+}
+
+//************Decor33************
+gfx/2d/decor_33
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_33.tga
+       blendFunc blend
+       rgbGen vertex
+    }
+}
+gfx/2d/decor_33_r45
+{
+    nopicmip
+    {
+       clampmap gfx/2d/decor_33.tga
        blendFunc blend
        tcMod transform 0.707 0.707 -0.707 0.707 0.5 -0.207
        rgbGen vertex

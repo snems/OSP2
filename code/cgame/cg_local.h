@@ -84,8 +84,8 @@ extern "C" {
 #define GIANT_WIDTH         32
 #define GIANT_HEIGHT        48
 
-#define NUM_CROSSHAIRS      73
-#define NUM_DECORS          26
+#define NUM_CROSSHAIRS      80
+#define NUM_DECORS          33
 
 #define TEAM_OVERLAY_MAXNAME_WIDTH  12
 #define TEAM_OVERLAY_MAXLOCATION_WIDTH  16
