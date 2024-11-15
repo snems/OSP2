@@ -2347,6 +2347,7 @@ void CG_Player(centity_t* cent)
 	qboolean        shadow;
 	float           shadowPlane;
 	qboolean        paintItBlack;
+	float           paintBlackLevel;
 
 	if (cg.clientNum == cent->currentState.clientNum && (global_viewlistFirstOption || cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR))
 	{
@@ -2412,6 +2413,22 @@ void CG_Player(centity_t* cent)
 	                   cent->currentState.eFlags & EF_DEAD || //dead
 	                   (cgs.osp.gameTypeFreeze && (cent->currentState.weapon == WP_NONE) && (cent->currentState.powerups & (1 << PW_BATTLESUIT)))// or frozen
 	               );
+	if (paintItBlack)
+	{
+		switch (cg_deadBodyBlack.integer)
+		{
+			case 1:
+				paintBlackLevel = 165;
+				break;
+			case 2:
+				paintBlackLevel = 110;
+				break;
+			default:
+			case 3:
+				paintBlackLevel = 55;
+				break;
+		}
+	}
 
 	//
 	// add the legs
@@ -2465,7 +2482,7 @@ void CG_Player(centity_t* cent)
 
 	if (paintItBlack)
 	{
-		legs.shaderRGBA[0] = legs.shaderRGBA[1] = legs.shaderRGBA[2] = 220 - (55 * cg_deadBodyBlack.integer);
+		legs.shaderRGBA[0] = legs.shaderRGBA[1] = legs.shaderRGBA[2] = paintBlackLevel;
 	}
 
 	CG_AddRefEntityWithPowerups(&legs, &cent->currentState, ci->team);
@@ -2519,7 +2536,7 @@ void CG_Player(centity_t* cent)
 
 	if (paintItBlack)
 	{
-		torso.shaderRGBA[0] = torso.shaderRGBA[1] = torso.shaderRGBA[2] = 220 - (55 * cg_deadBodyBlack.integer);
+		torso.shaderRGBA[0] = torso.shaderRGBA[1] = torso.shaderRGBA[2] = paintBlackLevel;
 	}
 
 	CG_AddRefEntityWithPowerups(&torso, &cent->currentState, ci->team);
@@ -2573,7 +2590,7 @@ void CG_Player(centity_t* cent)
 
 	if (paintItBlack)
 	{
-		head.shaderRGBA[0] = head.shaderRGBA[1] = head.shaderRGBA[2] = 220 - (55 * cg_deadBodyBlack.integer);
+		head.shaderRGBA[0] = head.shaderRGBA[1] = head.shaderRGBA[2] = paintBlackLevel;
 	}
 
 	if (cgs.osp.gameTypeFreeze != 0)
