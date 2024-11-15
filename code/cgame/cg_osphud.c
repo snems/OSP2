@@ -487,7 +487,7 @@ static void CG_OSPDrawCPMStatusbar0(void)
 	weapon = es->currentState.weapon;
 	if (weapon)
 	{
-		icon = cg_weapons[weapon].weaponIcon;
+		icon = cg_weapons[weapon].ammoModel;
 		if (icon)
 		{
 			pos[0] = 70.0f;
@@ -883,21 +883,21 @@ static void CG_OSPDrawCPMStatusbar3(void)
 	if ((ch_weaponList.integer != 3) && cent->currentState.weapon)
 	{
 		playerState_t* ps;
-		qhandle_t weaponIcon;
+		qhandle_t ammoModel;
 		int ammo;
 		int ammoColorIndex;
 
-		weaponIcon = cg_weapons[cent->currentState.weapon].weaponIcon;
+		ammoModel = cg_weapons[cent->currentState.weapon].ammoModel;
 		ps = &cg.snap->ps;
 
-		if (weaponIcon)
+		if (ammoModel)
 		{
 			vec3_t pos1 = {70.0f, 0.0f, 0.0f};
 			vec3_t pos2 = {0.0f, 0.0f, 0.0f};
 
 			pos2[1] = 20.0f * sin(((float)cg.time / 1000.0f)) + 90.0f;
 
-			CG_OSPDraw3DModel(380.0f, 427.0f, 48.0f, 48.0f, weaponIcon, 0, pos1, pos2, NULL);
+			CG_OSPDraw3DModel(380.0f, 427.0f, 48.0f, 48.0f, ammoModel, 0, pos1, pos2, NULL);
 		}
 
 		ammo = ps->ammo[cent->currentState.weapon];
@@ -1418,7 +1418,7 @@ static void CG_OSPDrawQ3CompStatusbar(void)
 
 		if (weapon)
 		{
-			icon = cg_weapons[weapon].weaponIcon;
+			icon = cg_weapons[weapon].ammoModel;
 			if (icon)
 			{
 				pos2[0] = 70.0f;
