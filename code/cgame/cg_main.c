@@ -247,6 +247,7 @@ vmCvar_t           ch_Weaponswitch;
 vmCvar_t           cf_WeaponSwitch;
 vmCvar_t           cf_WeaponName;
 vmCvar_t           cf_AmmoStatusbar;
+vmCvar_t           cf_timer;
 vmCvar_t           s_ambient;
 vmCvar_t           cl_maxpackets;
 vmCvar_t           cl_timenudge;
@@ -534,6 +535,7 @@ static cvarTable_t cvarTable[] =
 	{ &cf_WeaponSwitch, "cf_WeaponSwitch", "32x32", CVAR_ARCHIVE },
 	{ &cf_WeaponName, "cf_WeaponName", "12x12", CVAR_ARCHIVE },
 	{ &cf_AmmoStatusbar, "cf_AmmoStatusbar", "8x8", CVAR_ARCHIVE },
+	{ &cf_timer, "cf_timer", "16x16", CVAR_ARCHIVE },
 	{ &s_ambient, "s_ambient", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_s_ambient},
 	{ &cl_maxpackets, "cl_maxpackets", "30", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cl_maxpackets},
 	{ &cl_timenudge, "cl_timenudge", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cl_timenudge},

@@ -44,6 +44,7 @@ OSP_ClientFont_t OSP_ClientFontsTable[] =
 	{&cf_Vote, -1, 0, 0},
 	{&cf_Following, -1, 0, 0},
 	{&cf_AmmoStatusbar, -1, 0, 0},
+	{&cf_timer, -1, 0, 0},
 	{&cf_Fragmsg, -1, 0, 0},
 	{&cf_Scores, -1, 0, 0},
 	{&cf_WeaponSwitch, -1, 0, 0},

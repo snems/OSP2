@@ -702,6 +702,8 @@ float CG_DrawTimer(float y)
 	char*        s;
 	int         mins, seconds, tens;
 	int         msec;
+	int         w, h;
+	const float   color[4] = {1.0, 1.0, 1.0, 1.0};
 
 	msec = cg.time - cgs.levelStartTime;
 
@@ -713,9 +715,12 @@ float CG_DrawTimer(float y)
 
 	s = va("%i:%i%i", mins, tens, seconds);
 
-	CG_DrawBigString(SCREEN_WIDTH-5, y+2, s, 1.0f, DS_HRIGHT|DS_SHADOW, 0);
+	CG_OSPGetClientFontSize(&cf_timer, &w, &h);
 
-	return y + BIGCHAR_HEIGHT + 4;
+	CG_FontSelect(0);
+	CG_OSPDrawString(SCREEN_WIDTH-5, y+2, s, color, w, h, 256, DS_HRIGHT|DS_SHADOW);
+
+	return y + h + 4;
 }
 
 void CG_DrawTimer2(void)
@@ -723,6 +728,8 @@ void CG_DrawTimer2(void)
 	char*        s;
 	int         mins, seconds, tens;
 	int         msec;
+	int         w, h;
+	const float   color[4] = {1.0, 1.0, 1.0, 1.0};
 
 	msec = cg.time - cgs.levelStartTime;
 
@@ -735,7 +742,9 @@ void CG_DrawTimer2(void)
 
 	s = va("%i:%i%i", mins, tens, seconds);
 
-	CG_DrawBigString(SCREEN_WIDTH/2.0f, 2, s, 1.0f, DS_HCENTER|DS_SHADOW, 0);
+	CG_OSPGetClientFontSize(&cf_timer, &w, &h);
+	CG_FontSelect(0);
+	CG_OSPDrawString(SCREEN_WIDTH/2.0f, 2, s, color, w, h, 256, DS_HCENTER|DS_SHADOW);
 }
 
 

@@ -1395,6 +1395,7 @@ extern vmCvar_t           ch_Weaponswitch;
 extern vmCvar_t           cf_WeaponSwitch;
 extern vmCvar_t           cf_WeaponName;
 extern vmCvar_t           cf_AmmoStatusbar;
+extern vmCvar_t           cf_timer;
 extern vmCvar_t           s_ambient;
 extern vmCvar_t           cl_maxpackets;
 extern vmCvar_t           cl_timenudge;
