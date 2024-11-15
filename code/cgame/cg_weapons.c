@@ -1716,7 +1716,7 @@ void CG_DrawWeaponSelect(void)
 		name = cg_weapons[ cg.weaponSelect ].item->pickup_name;
 		if (name)
 		{
-			CG_DrawBigString(SCREEN_WIDTH/2.0f, y, name, color[3], DS_HCENTER|DS_SHADOW, 0);
+			CG_DrawBigString(SCREEN_WIDTH / 2.0f, y, name, color[3], DS_HCENTER | DS_SHADOW, 0);
 		}
 	}
 

@@ -302,7 +302,7 @@ static void CG_ConfigStringModified(void)
 	}
 	else if (num == CS_VOTE_YES)
 	{
-		CG_OSPWStatsUp_f();                                      												/* Address : 0xf046 Type : Interium */
+		CG_OSPWStatsUp_f();                                                                                     /* Address : 0xf046 Type : Interium */
 		cgs.voteYes = atoi(str);
 		cgs.voteModified = qtrue;
 	}
@@ -599,7 +599,7 @@ static void CG_MapRestart(void)
 
 	cg.scoreFadeTime = 0;
 
-	CG_OSPWStatsUp_f();                                                            	/* Address : 0xf5df Type : Interium */
+	CG_OSPWStatsUp_f();                                                             /* Address : 0xf5df Type : Interium */
 
 	CG_StartMusic();
 

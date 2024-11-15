@@ -518,7 +518,7 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					commands[i].type = OSP_TEXT_CMD_CHAR;
 					commands[i].value.character = '^';
 					++i;
-					text+=2;
+					text += 2;
 					break;
 				case 'X':
 				case 'x':
@@ -1364,9 +1364,10 @@ float* CG_TeamColor(int team)
 CG_GetColorForHealthVQ3
 =================
 */
-void CG_GetColorForHealthVQ3( int health, int armor, vec4_t hcolor , char* ccolor) {
-	int		count;
-	int		max;
+void CG_GetColorForHealthVQ3(int health, int armor, vec4_t hcolor, char* ccolor)
+{
+	int     count;
+	int     max;
 
 	if (ccolor)
 	{
@@ -1380,14 +1381,16 @@ void CG_GetColorForHealthVQ3( int health, int armor, vec4_t hcolor , char* ccolo
 
 	// calculate the total points of damage that can
 	// be sustained at the current health / armor level
-	if ( health <= 0 ) {
-		VectorClear( hcolor );	// black
+	if (health <= 0)
+	{
+		VectorClear(hcolor);     // black
 		hcolor[3] = 1;
 		return;
 	}
 	count = armor;
-	max = health * ARMOR_PROTECTION / ( 1.0 - ARMOR_PROTECTION );
-	if ( max < count ) {
+	max = health * ARMOR_PROTECTION / (1.0 - ARMOR_PROTECTION);
+	if (max < count)
+	{
 		count = max;
 	}
 	health += count;
@@ -1395,20 +1398,30 @@ void CG_GetColorForHealthVQ3( int health, int armor, vec4_t hcolor , char* ccolo
 	// set the color based on health
 	hcolor[0] = 1.0;
 	hcolor[3] = 1.0;
-	if ( health >= 100 ) {
+	if (health >= 100)
+	{
 		hcolor[2] = 1.0;
-	} else if ( health < 66 ) {
+	}
+	else if (health < 66)
+	{
 		hcolor[2] = 0;
-	} else {
-		hcolor[2] = ( health - 66 ) / 33.0;
+	}
+	else
+	{
+		hcolor[2] = (health - 66) / 33.0;
 	}
 
-	if ( health > 60 ) {
+	if (health > 60)
+	{
 		hcolor[1] = 1.0;
-	} else if ( health < 30 ) {
+	}
+	else if (health < 30)
+	{
 		hcolor[1] = 0;
-	} else {
-		hcolor[1] = ( health - 30 ) / 30.0;
+	}
+	else
+	{
+		hcolor[1] = (health - 30) / 30.0;
 	}
 }
 
@@ -1422,10 +1435,10 @@ void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char* ccolor)
 	int     count;
 	int     max;
 
-	
+
 	if (!cg_healthColorLevels.integer)
 	{
-		CG_GetColorForHealthVQ3(health, armor, hcolor , ccolor);
+		CG_GetColorForHealthVQ3(health, armor, hcolor, ccolor);
 		return;
 	}
 
@@ -2255,7 +2268,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	float           ax, ay, aw, aw1, ah; // absolute positions/dimensions
 	float           scale;
 	float           x_end, xx;
-	float 					fade = 1.0f;
+	float                   fade = 1.0f;
 	vec4_t          color;
 	float           xx_add, yy_add;
 	float           max_ax;

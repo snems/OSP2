@@ -652,7 +652,7 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 	// сначала решим какую строку модели использовать
 	if (isOurClient)
 	{
-	  trap_Cvar_VariableStringBuffer("model", modelName, sizeof(modelName));
+		trap_Cvar_VariableStringBuffer("model", modelName, sizeof(modelName));
 		resultModelString = modelName;
 	}
 	else
@@ -669,7 +669,7 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 		if (!isTeamGame)
 		{
 			// FFA or 1vs1
-			
+
 			if (useOriginal)
 			{
 				resultModelString = cfgModelString;
@@ -2407,12 +2407,12 @@ void CG_Player(centity_t* cent)
 		renderfx |= RF_SHADOW_PLANE;
 	}
 	renderfx |= RF_LIGHTING_ORIGIN;         // use the same origin for all
-																					//
+	//
 	paintItBlack = cg_deadBodyBlack.integer && (
-			cent->currentState.eFlags & EF_DEAD || //dead
-		  (cgs.osp.gameTypeFreeze && (cent->currentState.weapon == WP_NONE) && (cent->currentState.powerups & (1 << PW_BATTLESUIT)))// or frozen
-			);
-	
+	                   cent->currentState.eFlags & EF_DEAD || //dead
+	                   (cgs.osp.gameTypeFreeze && (cent->currentState.weapon == WP_NONE) && (cent->currentState.powerups & (1 << PW_BATTLESUIT)))// or frozen
+	               );
+
 	//
 	// add the legs
 	//

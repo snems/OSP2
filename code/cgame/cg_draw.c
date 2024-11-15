@@ -627,7 +627,7 @@ float CG_DrawAttacker(float y)
 	info = CG_ConfigString(CS_PLAYERS + clientNum);
 	name = Info_ValueForKey(info, "n");
 	y += size;
-	CG_DrawBigString(SCREEN_WIDTH - 1, y, name, 0.5f, DS_HRIGHT|DS_SHADOW, 0);
+	CG_DrawBigString(SCREEN_WIDTH - 1, y, name, 0.5f, DS_HRIGHT | DS_SHADOW, 0);
 
 	return y + BIGCHAR_HEIGHT + 2;
 }
@@ -641,7 +641,7 @@ float CG_DrawSnapshot(float y)
 {
 	char* s = va("time:%i snap:%i cmd:%i", cg.snap->serverTime, cg.latestSnapshotNum, cgs.serverCommandSequence);
 
-	CG_DrawBigString(SCREEN_WIDTH - 1, y + 2, s, 1.0f, DS_HRIGHT|DS_SHADOW, 0);
+	CG_DrawBigString(SCREEN_WIDTH - 1, y + 2, s, 1.0f, DS_HRIGHT | DS_SHADOW, 0);
 
 	return y + BIGCHAR_HEIGHT + 4;
 }
@@ -686,7 +686,7 @@ float CG_DrawFPS(float y)
 
 		s = va("%ifps", fps);
 
-		CG_DrawBigString(SCREEN_WIDTH-5, y+2, s, 1.0f, DS_HRIGHT|DS_SHADOW, 0);
+		CG_DrawBigString(SCREEN_WIDTH - 5, y + 2, s, 1.0f, DS_HRIGHT | DS_SHADOW, 0);
 	}
 
 	return y + BIGCHAR_HEIGHT + 4;
@@ -718,7 +718,7 @@ float CG_DrawTimer(float y)
 	CG_OSPGetClientFontSize(&cf_timer, &w, &h);
 
 	CG_FontSelect(0);
-	CG_OSPDrawString(SCREEN_WIDTH-5, y+2, s, color, w, h, 256, DS_HRIGHT|DS_SHADOW);
+	CG_OSPDrawString(SCREEN_WIDTH - 5, y + 2, s, color, w, h, 256, DS_HRIGHT | DS_SHADOW);
 
 	return y + h + 4;
 }
@@ -744,7 +744,7 @@ void CG_DrawTimer2(void)
 
 	CG_OSPGetClientFontSize(&cf_timer, &w, &h);
 	CG_FontSelect(0);
-	CG_OSPDrawString(SCREEN_WIDTH/2.0f, 2, s, color, w, h, 256, DS_HCENTER|DS_SHADOW);
+	CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 2, s, color, w, h, 256, DS_HCENTER | DS_SHADOW);
 }
 
 
@@ -1033,7 +1033,7 @@ static float CG_DrawScores(float y)
 		{
 			CG_DrawPicOld(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
 		}
-		CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
+		CG_DrawBigString(x + 4, y, s, 1.0f, DS_HLEFT | DS_SHADOW, 0);
 
 		if (cgs.gametype == GT_CTF)
 		{
@@ -1061,7 +1061,7 @@ static float CG_DrawScores(float y)
 		{
 			CG_DrawPicOld(x, y - 4, w, BIGCHAR_HEIGHT + 8, cgs.media.selectShader);
 		}
-		CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
+		CG_DrawBigString(x + 4, y, s, 1.0f, DS_HLEFT | DS_SHADOW, 0);
 
 		if (cgs.gametype == GT_CTF)
 		{
@@ -1091,7 +1091,7 @@ static float CG_DrawScores(float y)
 			s = va("%2i", v);
 			w = CG_DrawStrlen(s) * BIGCHAR_WIDTH + 8;
 			x -= w;
-			CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
+			CG_DrawBigString(x + 4, y, s, 1.0f, DS_HLEFT | DS_SHADOW, 0);
 		}
 
 	}
@@ -1130,7 +1130,7 @@ static float CG_DrawScores(float y)
 				color[3] = 0.33f;
 				CG_FillRect(x, y - 4,  w, BIGCHAR_HEIGHT + 8, color);
 			}
-			CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
+			CG_DrawBigString(x + 4, y, s, 1.0f, DS_HLEFT | DS_SHADOW, 0);
 		}
 
 		// first place
@@ -1156,7 +1156,7 @@ static float CG_DrawScores(float y)
 				color[3] = 0.33f;
 				CG_FillRect(x, y - 4,  w, BIGCHAR_HEIGHT + 8, color);
 			}
-			CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
+			CG_DrawBigString(x + 4, y, s, 1.0f, DS_HLEFT | DS_SHADOW, 0);
 		}
 
 		if (cgs.fraglimit)
@@ -1164,7 +1164,7 @@ static float CG_DrawScores(float y)
 			s = va("%2i", cgs.fraglimit);
 			w = CG_DrawStrlen(s) * BIGCHAR_WIDTH + 8;
 			x -= w;
-			CG_DrawBigString(x+4, y, s, 1.0f, DS_HLEFT|DS_SHADOW, 0);
+			CG_DrawBigString(x + 4, y, s, 1.0f, DS_HLEFT | DS_SHADOW, 0);
 		}
 
 	}
@@ -1335,7 +1335,7 @@ static int CG_DrawPickupItem(int y)
 			CG_RegisterItemVisuals(value);
 			trap_R_SetColor(fadeColor);
 			CG_DrawPicOld(8, y, ICON_SIZE, ICON_SIZE, cg_items[ value ].icon);
-			CG_DrawBigString(ICON_SIZE + 16, y + (ICON_SIZE / 2 - BIGCHAR_HEIGHT / 2), bg_itemlist[ value ].pickup_name, fadeColor[0], DS_HCENTER|DS_SHADOW, 0);
+			CG_DrawBigString(ICON_SIZE + 16, y + (ICON_SIZE / 2 - BIGCHAR_HEIGHT / 2), bg_itemlist[ value ].pickup_name, fadeColor[0], DS_HCENTER | DS_SHADOW, 0);
 			trap_R_SetColor(NULL);
 		}
 	}
@@ -1595,7 +1595,7 @@ static float CG_DrawDisconnect(float pos)
 	}
 
 	// also add text in center of screen
-	CG_DrawBigString(SCREEN_WIDTH/2.0f, 100, "Connection Interrupted", 1.0f, DS_HCENTER|DS_SHADOW, 0);
+	CG_DrawBigString(SCREEN_WIDTH / 2.0f, 100, "Connection Interrupted", 1.0f, DS_HCENTER | DS_SHADOW, 0);
 
 	// blink the icon
 	if ((cg.time >> 9) & 1)
@@ -1726,7 +1726,7 @@ float CG_DrawLagometer(float pos)
 
 	if (cg_nopredict.integer || cg_synchronousClients.integer)
 	{
-		CG_DrawBigString(ax, ay, "snc", 1.0f, DS_HLEFT|DS_SHADOW, 0);
+		CG_DrawBigString(ax, ay, "snc", 1.0f, DS_HLEFT | DS_SHADOW, 0);
 	}
 
 	pos += CG_DrawDisconnect(pos);
@@ -1867,7 +1867,7 @@ void CG_DrawCrosshairNames(void)
 
 	color = CG_FadeColor(cg.crosshairClientTime, 1000);
 	name = cgs.clientinfo[ cg.crosshairClientNum ].name;
-	CG_DrawBigString(SCREEN_WIDTH/2.0f, 170, name, 0.5f * color[3], DS_HCENTER|DS_SHADOW, 0);
+	CG_DrawBigString(SCREEN_WIDTH / 2.0f, 170, name, 0.5f * color[3], DS_HCENTER | DS_SHADOW, 0);
 }
 
 
@@ -1901,7 +1901,7 @@ static void CG_DrawVote(void)
 		sec = 0;
 	}
 	s = va("VOTE(%i):%s yes:%i no:%i", sec, cgs.voteString, cgs.voteYes, cgs.voteNo);
-	CG_DrawSmallString(0, 58, s, 1.0F, DS_HLEFT|DS_SHADOW, 0);
+	CG_DrawSmallString(0, 58, s, 1.0F, DS_HLEFT | DS_SHADOW, 0);
 }
 
 /*
@@ -1994,7 +1994,7 @@ static qboolean CG_DrawFollow(void)
 	color[2] = 1;
 	color[3] = 1;
 
-	CG_DrawBigString(SCREEN_WIDTH-1, 24, "following", 1.0f, DS_HRIGHT|DS_SHADOW, 0);
+	CG_DrawBigString(SCREEN_WIDTH - 1, 24, "following", 1.0f, DS_HRIGHT | DS_SHADOW, 0);
 
 	name = cgs.clientinfo[ cg.snap->ps.clientNum ].name;
 
@@ -2036,7 +2036,7 @@ void CG_DrawAmmoWarning(void)
 		s = "LOW AMMO WARNING";
 	}
 	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
-	CG_DrawBigString(SCREEN_WIDTH/2.0f, 64, s, 1.0f, DS_HCENTER|DS_SHADOW, 0);
+	CG_DrawBigString(SCREEN_WIDTH / 2.0f, 64, s, 1.0f, DS_HCENTER | DS_SHADOW, 0);
 }
 
 
@@ -2725,11 +2725,11 @@ void CG_OSPDrawLeftSlidingWindowsRoutine(OSP_SlidingPrintContext_t* context)
 	{
 		CG_FontSelect(0);
 		CG_OSPDrawString(calc_pos_x + 2,
-		    						 calc_pos_y + i * (context->charHeight + 1),
-		    						 &context->string[i][0],
-		    						 colorWhite,
-		    						 context->charWidth,
-		    						 context->charHeight,
+		                 calc_pos_y + i * (context->charHeight + 1),
+		                 &context->string[i][0],
+		                 colorWhite,
+		                 context->charWidth,
+		                 context->charHeight,
 		                 256,
 		                 DS_HLEFT);
 	}
@@ -2865,10 +2865,10 @@ void CG_OSPDrawCenterString(void)
 			to_print += i + 1;
 		}
 
-		CG_OSPDrawString(SCREEN_WIDTH/2.0f,
-		    						 y,
-		    						 buf,
-		    						 fadeColor,
+		CG_OSPDrawString(SCREEN_WIDTH / 2.0f,
+		                 y,
+		                 buf,
+		                 fadeColor,
 		                 cg.centerPrintCharWidth,
 		                 1.5f * (float)cg.centerPrintCharWidth,
 		                 256,
