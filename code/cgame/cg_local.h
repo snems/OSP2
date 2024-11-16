@@ -1048,6 +1048,7 @@ typedef struct cgs_osp_s
 	int numberOfStringsMotd;
 	char motd[8][64];
 
+	char testFont[MAX_QPATH];
 	int custom_gfx_number;
 	int custom_gfx[16][8];
 	qboolean clanBaseTeamDM;

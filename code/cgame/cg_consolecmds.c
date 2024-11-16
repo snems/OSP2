@@ -674,6 +674,18 @@ void CG_UnMute_f(void)
 	}
 }
 
+void CG_ShowFont_f(void)
+{
+	if (trap_Argc() < 2)
+	{
+		cgs.osp.testFont[0] = 0;
+	}
+	else
+	{
+		Com_sprintf(cgs.osp.testFont, MAX_QPATH, "%s", CG_Argv(1));
+	}
+}
+
 void CG_Stub_f(void) { }
 
 typedef struct
@@ -761,6 +773,7 @@ static consoleCommand_t commands[] =
 	{ "playersid", CG_PrintPlayerIDs_f },
 	{ "mute", CG_Mute_f },
 	{ "unmute", CG_UnMute_f },
+	{ "showfont", CG_ShowFont_f },
 };
 
 
@@ -945,4 +958,5 @@ void CG_InitConsoleCommands(void)
 	trap_AddCommand("decalprev");
 	trap_AddCommand("decalrotclock");
 	trap_AddCommand("decalrotcounter");
+	trap_AddCommand("testfont");
 }
