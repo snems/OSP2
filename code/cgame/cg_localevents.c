@@ -354,3 +354,32 @@ void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart)
 	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
 }
 
+void BE_LocalEventCvarChanged_cg_dlight_weapon_effect(cvarTable_t* cvart) {
+    weapon_t weapon = WP_NONE;
+    be_Effect_t* effect = NULL;
+
+    BE_GetWeaponAndEffectFromCvar(cvart, &weapon, &effect);
+
+    if (weapon == WP_NONE || effect == NULL) {
+        return;
+    }
+
+    BE_UpdateDlightWeaponColorFromCvar(cvart->cvarName, weapon, effect);
+    BE_SetDlightEffectColor(weapon, effect);
+}
+
+void CG_LocalEventCvarChanged_cg_unique_colors(cvarTable_t* cvart)
+{
+	int colorMode = (int)cvart->vmCvar->value;
+	int playerNum;
+    cvart->vmCvar->value = Com_Clamp(0, 2, cvart->vmCvar->value);
+     
+    for (playerNum = 0; playerNum < MAX_CLIENTS; playerNum++) {
+        if (colorMode == 1) {
+            BE_ApplyColorToPlayerHead(&cgs.clientinfo[playerNum]);
+        }
+        else if (colorMode == 2) {
+            BE_ApplyColorToPlayerModel(&cgs.clientinfo[playerNum]);
+        }
+    }
+}

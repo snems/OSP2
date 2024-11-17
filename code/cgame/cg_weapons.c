@@ -730,43 +730,39 @@ void CG_RegisterWeapon(int weaponNum)
 			weaponInfo->firingSound = trap_S_RegisterSound("sound/weapons/lightning/lg_hum.wav", qfalse);
 
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/lightning/lg_fire.wav", qfalse);
-
-
-
-			for (i = 0; i < LIGHTNING_NUMBER_OF_SHADERS; ++i)
-			{
-				if (i == 0)//cg_altLightning 0
-				{
-					cgs.media.lightningBolt[0] = trap_R_RegisterShader("lightningBoltNew");
-					cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("lightningBoltNewNoPicMip");
-					if (!cgs.media.lightningBoltNoPicMip[0])
-					{
-						cgs.media.lightningBoltNoPicMip[0] = cgs.media.lightningBolt[0];
-					}
+				
+		if (i == -1) { //cg_altLightning -1
+			cgs.media.lightningBolt[0] = trap_R_RegisterShader("");
+			cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("");
+			if (!cgs.media.lightningBoltNoPicMip[0]) {
+				cgs.media.lightningBoltNoPicMip[0] = cgs.media.lightningBolt[0];
+			}
+		}
+		// Основной цикл для значений от 0 и выше
+		for (i = 0; i < LIGHTNING_NUMBER_OF_SHADERS; ++i) {
+			if (i == 0) {  // cg_altLightning 0
+				cgs.media.lightningBolt[0] = trap_R_RegisterShader("lightningBoltNew");
+				cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("lightningBoltNewNoPicMip");
+				if (!cgs.media.lightningBoltNoPicMip[0]) {
+					cgs.media.lightningBoltNoPicMip[0] = cgs.media.lightningBolt[0];
 				}
-				else if (i == 1)//cg_altLightning 1
-				{
-					cgs.media.lightningBolt[1] = trap_R_RegisterShader("lightningBolt");
-					cgs.media.lightningBoltNoPicMip[1] = trap_R_RegisterShader("lightningBoltNoPicMip");
-					if (!cgs.media.lightningBoltNoPicMip[1])
-					{
-						cgs.media.lightningBoltNoPicMip[1] = cgs.media.lightningBolt[1];
-					}
+			} else if (i == 1) {  // cg_altLightning 1
+				cgs.media.lightningBolt[1] = trap_R_RegisterShader("lightningBolt");
+				cgs.media.lightningBoltNoPicMip[1] = trap_R_RegisterShader("lightningBoltNoPicMip");
+				if (!cgs.media.lightningBoltNoPicMip[1]) {
+					cgs.media.lightningBoltNoPicMip[1] = cgs.media.lightningBolt[1];
 				}
-				else //cg_altLightning > 1
-				{
-					cgs.media.lightningBolt[i] = trap_R_RegisterShader(va("lightningBoltNew%i", i));
-					if (!cgs.media.lightningBolt[i])
-					{
-						cgs.media.lightningBolt[i] = cgs.media.lightningBolt[0];
-					}
-					cgs.media.lightningBoltNoPicMip[i] = trap_R_RegisterShader(va("lightningBoltNewNoPicMip%i", i));
-					if (!cgs.media.lightningBoltNoPicMip[i])
-					{
-						cgs.media.lightningBoltNoPicMip[i] = cgs.media.lightningBolt[i];
-					}
+			} else {  // cg_altLightning > 1
+				cgs.media.lightningBolt[i] = trap_R_RegisterShader(va("lightningBoltNew%i", i));
+				if (!cgs.media.lightningBolt[i]) {
+					cgs.media.lightningBolt[i] = cgs.media.lightningBolt[0];
+				}
+				cgs.media.lightningBoltNoPicMip[i] = trap_R_RegisterShader(va("lightningBoltNewNoPicMip%i", i));
+				if (!cgs.media.lightningBoltNoPicMip[i]) {
+					cgs.media.lightningBoltNoPicMip[i] = cgs.media.lightningBolt[i];
 				}
 			}
+		}
 
 			cgs.media.lightningExplosionModel = trap_R_RegisterModel("models/weaphits/crackle.md3");
 
@@ -834,7 +830,10 @@ void CG_RegisterWeapon(int weaponNum)
 			weaponInfo->missileTrailFunc = CG_GrenadeTrail;
 			weaponInfo->wiTrailTime = 700;
 			weaponInfo->trailRadius = 32;
-			MAKERGB(weaponInfo->flashDlightColor, 1, 0.70f, 0);
+			MAKERGB(weaponInfo->flashDlightColor, 
+        		be.weapon[WP_GRENADE_LAUNCHER].dlight.flash.color.r, //	I hate grenade launcher flash effect
+        		be.weapon[WP_GRENADE_LAUNCHER].dlight.flash.color.g, // Okey?
+        		be.weapon[WP_GRENADE_LAUNCHER].dlight.flash.color.b);//	Костыль, по другому инициализации нет.
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/grenade/grenlf1a.wav", qfalse);
 			cgs.media.grenadeExplosionShader = trap_R_RegisterShader("grenadeExplosion");
 			cgs.media.grenadeExplosionShaderNoPicMip = trap_R_RegisterShader("grenadeExplosionNoPicMip");
@@ -847,6 +846,8 @@ void CG_RegisterWeapon(int weaponNum)
 		case WP_PLASMAGUN:
 			weaponInfo->missileTrailFunc = CG_PlasmaTrail;
 			weaponInfo->missileSound = trap_S_RegisterSound("sound/weapons/plasma/lasfly.wav", qfalse);
+			weaponInfo->missileDlight = 150;
++			MAKERGB(weaponInfo->missileDlightColor, 0.6f, 0.6f, 1.0f);
 			MAKERGB(weaponInfo->flashDlightColor, 0.6f, 0.6f, 1.0f);
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/plasma/hyprbf1a.wav", qfalse);
 			cgs.media.plasmaExplosionShader = trap_R_RegisterShader("plasmaExplosion");
@@ -909,6 +910,11 @@ void CG_RegisterWeapon(int weaponNum)
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/bfg/bfg_fire.wav", qfalse);
 			cgs.media.bfgExplosionShader = trap_R_RegisterShader("bfgExplosion");
 			cgs.media.bfgExplosionShaderNoPicMip = trap_R_RegisterShader("bfgExplosionNoPicMip");
+			MAKERGB(weaponInfo->missileDlightColor, 0, 1, 0);
+			weaponInfo->missileDlight = 200;
+			weaponInfo->wiTrailTime = 2000;
+			weaponInfo->trailRadius = 64;
+
 			if (!cgs.media.bfgExplosionShaderNoPicMip)
 			{
 				cgs.media.bfgExplosionShaderNoPicMip = cgs.media.bfgExplosionShader;
@@ -1108,9 +1114,13 @@ void CG_LightningBolt(centity_t* cent, float* origin)
 	qboolean isDelagEnabled =  cg_delag.integer & 1 || cg_delag.integer & 2;
 
 	if (cent->currentState.weapon != WP_LIGHTNING) return;
-
-	memset(&beam, 0, sizeof(refEntity_t));
-
+	 	memset(&beam, 0, sizeof(refEntity_t));
+		
+	if (cg_altLightning.integer == -1) 
+	{
+    return;
+   	}
+	
 	if (cg_trueLightning.value > 1)
 	{
 		tl = 1;
@@ -2129,6 +2139,9 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 				shader = cgs.media.grenadeExplosionShaderNoPicMip;
 				mark = cgs.media.burnMarkNoPicMipShader;
 			}
+			lightColor[0] = be.weapon[WP_GRENADE_LAUNCHER].dlight.explosion.color.r;
+			lightColor[1] = be.weapon[WP_GRENADE_LAUNCHER].dlight.explosion.color.g;
+			lightColor[2] = be.weapon[WP_GRENADE_LAUNCHER].dlight.explosion.color.b;
 			radius = 64;
 			light = 300;
 			isSprite = qtrue;
@@ -2150,9 +2163,9 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 			light = 300;
 			isSprite = qtrue;
 			duration = 1000;
-			lightColor[0] = 1;
-			lightColor[1] = 0.75;
-			lightColor[2] = 0.0;
+    		lightColor[0] = be.weapon[weapon].dlight.explosion.color.r;
+    		lightColor[1] = be.weapon[weapon].dlight.explosion.color.g;
+    		lightColor[2] = be.weapon[weapon].dlight.explosion.color.b;
 			if (cg_oldRocket.integer == 0)
 			{
 				// explosion sprite animation
@@ -2224,7 +2237,13 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 				shader = cgs.media.bfgExplosionShaderNoPicMip;
 				mark = cgs.media.burnMarkNoPicMipShader;
 			}
-			radius = 32;
+			+			light = 200;
+			isSprite = qtrue;
+			duration = 800;
+    		lightColor[0] = be.weapon[WP_BFG].dlight.explosion.color.r;
+    		lightColor[1] = be.weapon[WP_BFG].dlight.explosion.color.g;
+    		lightColor[2] = be.weapon[WP_BFG].dlight.explosion.color.b;
+			radius = 64;
 			isSprite = qtrue;
 			break;
 		case WP_SHOTGUN:
