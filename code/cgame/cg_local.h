@@ -848,6 +848,10 @@ typedef struct
 	qhandle_t   bfgExplosionShaderNoPicMip;
 	qhandle_t   bloodExplosionShader;
 	qhandle_t   bloodExplosionNoPicMipShader;
+	vec3_t      grenadeExplosionLightColor;
+	vec3_t      grenadeFlashLightColor;
+	vec3_t      rocketExplosionLightColor;
+	vec3_t      bfgExplosionLightColor;
 
 	// special effects models
 	qhandle_t   teleportEffectModel;
@@ -1048,11 +1052,11 @@ typedef struct cgs_osp_s
 	int numberOfStringsMotd;
 	char motd[8][64];
 
-	char testFont[MAX_QPATH];
 	int custom_gfx_number;
 	int custom_gfx[16][8];
 	qboolean clanBaseTeamDM;
 	int gameTypeFreeze;
+	int teamScoreSum[2];
 	qhandle_t flagStatus;
 	qhandle_t redflag;
 	qhandle_t blueflag;
@@ -1080,6 +1084,7 @@ typedef struct cgs_osp_s
 	playerColorsOverride_t teamColorsOverride;
 	playerColors_t enemyColors;
 	playerColorsOverride_t enemyColorsOverride;
+	vec3_t uniqueColorById[MAX_CLIENTS];
 	int lastHitTime;
 	struct
 	{
@@ -1197,63 +1202,6 @@ typedef struct
 	cgs_osp_t osp;
 } cgs_t;
 
-//blackedition
-typedef struct {
-    int scoreSum;
-} be_team_t;
-
-typedef struct {
-    be_team_t Red;
-    be_team_t Blue;
-} be_teams_t;
-
-typedef struct {
-    float r;
-    float g;
-    float b;
-} be_Color_t;
-
-typedef struct {
-    const char* name;
-    be_Color_t color;
-} be_Effect_t;
-
-typedef struct {
-    be_Effect_t explosion;
-    be_Effect_t flash;
-    be_Effect_t missile;
-} be_WeaponEffectColors_t;
-
-typedef struct {
-    be_WeaponEffectColors_t dlight;
-} be_WeaponColors_t;
-
-typedef struct {
-    be_Color_t head;
-    be_Color_t torso;
-    be_Color_t legs;
-    be_Color_t uniqueColors[MAX_CLIENTS];
-} be_PlayerModelColors_t;
-
-
-typedef struct {
-    be_PlayerModelColors_t playermodel;
-    float ColorTable[36][3];
-} be_colors_t;
-
-typedef struct {
-    be_teams_t team;
-    be_WeaponColors_t weapon[WP_NUM_WEAPONS];
-    be_colors_t colors;
-} be_t;
-
-extern float be_ColorTable[36][3];
-
-
-
-
-
-
 //==============================================================================
 
 extern  cgs_t           cgs;
@@ -1262,7 +1210,6 @@ extern  centity_t       cg_entities[MAX_GENTITIES];
 extern  weaponInfo_t    cg_weapons[MAX_WEAPONS];
 extern  itemInfo_t      cg_items[MAX_ITEMS];
 extern  markPoly_t      cg_markPolys[MAX_MARK_POLYS];
-extern 	be_t 			be;
 
 extern vmCvar_t           osp_client;
 extern vmCvar_t           osp_hidden;
@@ -1520,6 +1467,22 @@ extern vmCvar_t           ch_crosshairDecorActionScale;
 extern vmCvar_t           ch_crosshairDecorActionTime;
 
 extern vmCvar_t           ch_crosshairAutoScale;
+
+extern vmCvar_t cg_dlight_gauntlet_flash;
+extern vmCvar_t cg_dlight_mg_flash;
+extern vmCvar_t cg_dlight_sg_flash;
+extern vmCvar_t cg_dlight_gl_flash;
+extern vmCvar_t cg_dlight_gl_explosion;
+extern vmCvar_t cg_dlight_rl_flash;
+extern vmCvar_t cg_dlight_rl_explosion;
+extern vmCvar_t cg_dlight_rl_missile;
+extern vmCvar_t cg_dlight_lg_flash;
+extern vmCvar_t cg_dlight_rg_flash;
+extern vmCvar_t cg_dlight_pg_flash;
+extern vmCvar_t cg_dlight_pg_missile;
+extern vmCvar_t cg_dlight_bfg_flash;
+extern vmCvar_t cg_dlight_bfg_missile;
+extern vmCvar_t cg_dlight_bfg_explosion;
 
 //
 // cg_main.c
@@ -2358,20 +2321,9 @@ void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart);
 //blackedition
-void BE_LocalEventCvarChanged_cg_dlight_weapon_effect(cvarTable_t* cvart);
-void BE_InitAllDlightColors();
-void BE_GetWeaponAndEffectFromCvar(cvarTable_t* cvart, weapon_t* weapon, be_Effect_t** effect);
-void BE_SetDlightEffectColor(weapon_t weapon, be_Effect_t* effect);
-void BE_UpdateDlightWeaponColorFromCvar(const char* cvarName, weapon_t weapon, be_Effect_t* effect);
-
-int BE_cg_unique_color_enabled();
-void BE_ColorPickerPlayerNum(int hash, clientInfo_t* playerInfo);
-void BE_ApplyColorToPlayerHead(clientInfo_t* playerInfo);
-void BE_ApplyColorToPlayerModel(clientInfo_t* playerInfo);
-void BE_ApplyColorToAllPlayers();
-qboolean BE_IsTeammate(int clientNum);
-void CG_LocalEventCvarChanged_cg_unique_colors(cvarTable_t* cvart);
-
+void CG_LocalEventCvarChanged_cg_dlight_weapon_effect(cvarTable_t* cvart);
+void CG_ApplyUniqueColor();
+void CG_InitAllDlightColors(cvarTable_t* table);
 
 
 

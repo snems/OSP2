@@ -57,8 +57,7 @@ static void CG_PlayerColorsFromEnemyColors(playerColors_t* colors, playerColorsO
 		CG_OSPColorFromChar(color1[1], colors->torso);
 		CG_OSPColorFromChar(color1[2], colors->legs);
 	}
-    BE_ApplyColorToAllPlayers();
-    
+	CG_ApplyUniqueColor();
 
 }
 
@@ -106,7 +105,7 @@ static void CG_PlayerColorsLoadOverrides(playerColors_t* colors,
 			CG_Hex16GetColor(&modelColors->string[14], &colors->legs[1]);
 			CG_Hex16GetColor(&modelColors->string[16], &colors->legs[2]);
 		}
-		BE_ApplyColorToAllPlayers();
+		CG_ApplyUniqueColor();
 	}
 
 	if (railColors)
@@ -169,10 +168,10 @@ static void CG_RebuildOurPlayerColors(void)
 	CG_PlayerColorsFromCS(&cgs.osp.myColors, NULL, color1, color2);
 
 	CG_PlayerColorsLoadOverrides(&cgs.osp.myColors,
-                                 NULL,
-                                 &cg_playerModelColors,
-                                 &cg_playerRailColors,
-                                 &cg_playerFrozenColor);
+	                             NULL,
+	                             &cg_playerModelColors,
+	                             &cg_playerRailColors,
+	                             &cg_playerFrozenColor);
 }
 
 void CG_RebuildPlayerColors(void)
@@ -197,9 +196,9 @@ void CG_RebuildPlayerColors(void)
 	                             &cgs.osp.enemyColorsOverride,
 	                             &cg_enemyModelColors,
 	                             &cg_enemyRailColors,
-	                             &cg_enemyFrozenColor);	
-	
-    BE_ApplyColorToAllPlayers();				 
+	                             &cg_enemyFrozenColor);
+	CG_ApplyUniqueColor();
+
 }
 
 void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
@@ -299,10 +298,7 @@ void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
 		{
 			VectorCopy(cgs.osp.enemyColors.frozen, ci->colors.frozen);
 		}
-        
-   }
-   BE_ApplyColorToAllPlayers();
+
+	}
+	CG_ApplyUniqueColor();
 }
-
-
-

@@ -730,39 +730,51 @@ void CG_RegisterWeapon(int weaponNum)
 			weaponInfo->firingSound = trap_S_RegisterSound("sound/weapons/lightning/lg_hum.wav", qfalse);
 
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/lightning/lg_fire.wav", qfalse);
-				
-		if (i == -1) { //cg_altLightning -1
-			cgs.media.lightningBolt[0] = trap_R_RegisterShader("");
-			cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("");
-			if (!cgs.media.lightningBoltNoPicMip[0]) {
-				cgs.media.lightningBoltNoPicMip[0] = cgs.media.lightningBolt[0];
-			}
-		}
-		// Основной цикл для значений от 0 и выше
-		for (i = 0; i < LIGHTNING_NUMBER_OF_SHADERS; ++i) {
-			if (i == 0) {  // cg_altLightning 0
-				cgs.media.lightningBolt[0] = trap_R_RegisterShader("lightningBoltNew");
-				cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("lightningBoltNewNoPicMip");
-				if (!cgs.media.lightningBoltNoPicMip[0]) {
+
+			if (i == -1)   //cg_altLightning -1
+			{
+				cgs.media.lightningBolt[0] = trap_R_RegisterShader("");
+				cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("");
+				if (!cgs.media.lightningBoltNoPicMip[0])
+				{
 					cgs.media.lightningBoltNoPicMip[0] = cgs.media.lightningBolt[0];
 				}
-			} else if (i == 1) {  // cg_altLightning 1
-				cgs.media.lightningBolt[1] = trap_R_RegisterShader("lightningBolt");
-				cgs.media.lightningBoltNoPicMip[1] = trap_R_RegisterShader("lightningBoltNoPicMip");
-				if (!cgs.media.lightningBoltNoPicMip[1]) {
-					cgs.media.lightningBoltNoPicMip[1] = cgs.media.lightningBolt[1];
+			}
+			// Основной цикл для значений от 0 и выше
+			for (i = 0; i < LIGHTNING_NUMBER_OF_SHADERS; ++i)
+			{
+				if (i == 0)    // cg_altLightning 0
+				{
+					cgs.media.lightningBolt[0] = trap_R_RegisterShader("lightningBoltNew");
+					cgs.media.lightningBoltNoPicMip[0] = trap_R_RegisterShader("lightningBoltNewNoPicMip");
+					if (!cgs.media.lightningBoltNoPicMip[0])
+					{
+						cgs.media.lightningBoltNoPicMip[0] = cgs.media.lightningBolt[0];
+					}
 				}
-			} else {  // cg_altLightning > 1
-				cgs.media.lightningBolt[i] = trap_R_RegisterShader(va("lightningBoltNew%i", i));
-				if (!cgs.media.lightningBolt[i]) {
-					cgs.media.lightningBolt[i] = cgs.media.lightningBolt[0];
+				else if (i == 1)      // cg_altLightning 1
+				{
+					cgs.media.lightningBolt[1] = trap_R_RegisterShader("lightningBolt");
+					cgs.media.lightningBoltNoPicMip[1] = trap_R_RegisterShader("lightningBoltNoPicMip");
+					if (!cgs.media.lightningBoltNoPicMip[1])
+					{
+						cgs.media.lightningBoltNoPicMip[1] = cgs.media.lightningBolt[1];
+					}
 				}
-				cgs.media.lightningBoltNoPicMip[i] = trap_R_RegisterShader(va("lightningBoltNewNoPicMip%i", i));
-				if (!cgs.media.lightningBoltNoPicMip[i]) {
-					cgs.media.lightningBoltNoPicMip[i] = cgs.media.lightningBolt[i];
+				else      // cg_altLightning > 1
+				{
+					cgs.media.lightningBolt[i] = trap_R_RegisterShader(va("lightningBoltNew%i", i));
+					if (!cgs.media.lightningBolt[i])
+					{
+						cgs.media.lightningBolt[i] = cgs.media.lightningBolt[0];
+					}
+					cgs.media.lightningBoltNoPicMip[i] = trap_R_RegisterShader(va("lightningBoltNewNoPicMip%i", i));
+					if (!cgs.media.lightningBoltNoPicMip[i])
+					{
+						cgs.media.lightningBoltNoPicMip[i] = cgs.media.lightningBolt[i];
+					}
 				}
 			}
-		}
 
 			cgs.media.lightningExplosionModel = trap_R_RegisterModel("models/weaphits/crackle.md3");
 
@@ -830,10 +842,11 @@ void CG_RegisterWeapon(int weaponNum)
 			weaponInfo->missileTrailFunc = CG_GrenadeTrail;
 			weaponInfo->wiTrailTime = 700;
 			weaponInfo->trailRadius = 32;
-			MAKERGB(weaponInfo->flashDlightColor, 
-        		be.weapon[WP_GRENADE_LAUNCHER].dlight.flash.color.r, //	I hate grenade launcher flash effect
-        		be.weapon[WP_GRENADE_LAUNCHER].dlight.flash.color.g, // Okey?
-        		be.weapon[WP_GRENADE_LAUNCHER].dlight.flash.color.b);//	Костыль, по другому инициализации нет.
+			MAKERGB(weaponInfo->flashDlightColor,
+			        cgs.media.grenadeExplosionLightColor[0],
+			        cgs.media.grenadeExplosionLightColor[1],
+			        cgs.media.grenadeExplosionLightColor[2]); //It makes me laugh when grenade flash effect cant initialize well
+
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/grenade/grenlf1a.wav", qfalse);
 			cgs.media.grenadeExplosionShader = trap_R_RegisterShader("grenadeExplosion");
 			cgs.media.grenadeExplosionShaderNoPicMip = trap_R_RegisterShader("grenadeExplosionNoPicMip");
@@ -847,7 +860,7 @@ void CG_RegisterWeapon(int weaponNum)
 			weaponInfo->missileTrailFunc = CG_PlasmaTrail;
 			weaponInfo->missileSound = trap_S_RegisterSound("sound/weapons/plasma/lasfly.wav", qfalse);
 			weaponInfo->missileDlight = 150;
-+			MAKERGB(weaponInfo->missileDlightColor, 0.6f, 0.6f, 1.0f);
+			+           MAKERGB(weaponInfo->missileDlightColor, 0.6f, 0.6f, 1.0f);
 			MAKERGB(weaponInfo->flashDlightColor, 0.6f, 0.6f, 1.0f);
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/plasma/hyprbf1a.wav", qfalse);
 			cgs.media.plasmaExplosionShader = trap_R_RegisterShader("plasmaExplosion");
@@ -1114,13 +1127,13 @@ void CG_LightningBolt(centity_t* cent, float* origin)
 	qboolean isDelagEnabled =  cg_delag.integer & 1 || cg_delag.integer & 2;
 
 	if (cent->currentState.weapon != WP_LIGHTNING) return;
-	 	memset(&beam, 0, sizeof(refEntity_t));
-		
-	if (cg_altLightning.integer == -1) 
+	memset(&beam, 0, sizeof(refEntity_t));
+
+	if (cg_altLightning.integer == -1)
 	{
-    return;
-   	}
-	
+		return;
+	}
+
 	if (cg_trueLightning.value > 1)
 	{
 		tl = 1;
@@ -2139,9 +2152,7 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 				shader = cgs.media.grenadeExplosionShaderNoPicMip;
 				mark = cgs.media.burnMarkNoPicMipShader;
 			}
-			lightColor[0] = be.weapon[WP_GRENADE_LAUNCHER].dlight.explosion.color.r;
-			lightColor[1] = be.weapon[WP_GRENADE_LAUNCHER].dlight.explosion.color.g;
-			lightColor[2] = be.weapon[WP_GRENADE_LAUNCHER].dlight.explosion.color.b;
+			VectorCopy(cgs.media.grenadeExplosionLightColor, lightColor);
 			radius = 64;
 			light = 300;
 			isSprite = qtrue;
@@ -2163,9 +2174,7 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 			light = 300;
 			isSprite = qtrue;
 			duration = 1000;
-    		lightColor[0] = be.weapon[weapon].dlight.explosion.color.r;
-    		lightColor[1] = be.weapon[weapon].dlight.explosion.color.g;
-    		lightColor[2] = be.weapon[weapon].dlight.explosion.color.b;
+			VectorCopy(cgs.media.rocketExplosionLightColor, lightColor);
 			if (cg_oldRocket.integer == 0)
 			{
 				// explosion sprite animation
@@ -2237,12 +2246,10 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 				shader = cgs.media.bfgExplosionShaderNoPicMip;
 				mark = cgs.media.burnMarkNoPicMipShader;
 			}
-			+			light = 200;
+			+           light = 200;
 			isSprite = qtrue;
 			duration = 800;
-    		lightColor[0] = be.weapon[WP_BFG].dlight.explosion.color.r;
-    		lightColor[1] = be.weapon[WP_BFG].dlight.explosion.color.g;
-    		lightColor[2] = be.weapon[WP_BFG].dlight.explosion.color.b;
+			VectorCopy(cgs.media.bfgExplosionLightColor, lightColor);
 			radius = 64;
 			isSprite = qtrue;
 			break;
@@ -2717,3 +2724,135 @@ void CG_Bullet(vec3_t end, int sourceEntityNum, vec3_t normal, qboolean flesh, i
 	}
 
 }
+
+//cg_dlight
+
+void CG_GetWeaponAndEffectFromCvar(cvarTable_t* cvart, weapon_t* weapon, const char** effect)
+{
+	int i;
+	static const struct
+	{
+		const vmCvar_t* vmCvar;
+		weapon_t weapon;
+		const char* effect;
+	} weaponEffectTable[] =
+	{
+		{ &cg_dlight_gauntlet_flash, WP_GAUNTLET, "flash" },
+		{ &cg_dlight_mg_flash, WP_MACHINEGUN, "flash" },
+		{ &cg_dlight_sg_flash, WP_SHOTGUN, "flash" },
+		{ &cg_dlight_gl_flash, WP_GRENADE_LAUNCHER, "flash" },
+		{ &cg_dlight_gl_explosion, WP_GRENADE_LAUNCHER, "explosion" },
+		{ &cg_dlight_rl_flash, WP_ROCKET_LAUNCHER, "flash" },
+		{ &cg_dlight_rl_explosion, WP_ROCKET_LAUNCHER, "explosion" },
+		{ &cg_dlight_rl_missile, WP_ROCKET_LAUNCHER, "missile" },
+		{ &cg_dlight_lg_flash, WP_LIGHTNING, "flash" },
+		{ &cg_dlight_rg_flash, WP_RAILGUN, "flash" },
+		{ &cg_dlight_pg_flash, WP_PLASMAGUN, "flash" },
+		{ &cg_dlight_pg_missile, WP_PLASMAGUN, "missile" },
+		{ &cg_dlight_bfg_flash, WP_BFG, "flash" },
+		{ &cg_dlight_bfg_missile, WP_BFG, "missile" },
+		{ &cg_dlight_bfg_explosion, WP_BFG, "explosion" },
+		{ NULL, WP_NONE, NULL }
+	};
+
+	*weapon = WP_NONE;
+	*effect = NULL;
+
+	for (i = 0; weaponEffectTable[i].vmCvar != NULL; i++)
+	{
+		if (cvart->vmCvar == weaponEffectTable[i].vmCvar)
+		{
+			*weapon = weaponEffectTable[i].weapon;
+			*effect = weaponEffectTable[i].effect;
+			return;
+		}
+	}
+}
+
+void CG_SetDlightEffectColor(weapon_t weapon, const char* effect, vec3_t color)
+{
+	int i;
+	for (i = 0; i < 3; i++)
+	{
+		if (color[i] < 0.0f)
+		{
+			color[i] = 0.0f;
+		}
+		else if (color[i] > 1.0f)
+		{
+			color[i] = 1.0f;
+		}
+	}
+
+	if (strcmp(effect, "explosion") == 0)
+	{
+		switch (weapon)
+		{
+			case WP_GRENADE_LAUNCHER:
+				VectorCopy(color, cgs.media.grenadeExplosionLightColor);
+				break;
+			case WP_ROCKET_LAUNCHER:
+				VectorCopy(color, cgs.media.rocketExplosionLightColor);
+				break;
+			case WP_BFG:
+				VectorCopy(color, cgs.media.bfgExplosionLightColor);
+				break;
+		}
+	}
+	else if (strcmp(effect, "flash") == 0)
+	{
+		VectorCopy(color, cg_weapons[weapon].flashDlightColor);
+	}
+	else if (strcmp(effect, "missile") == 0)
+	{
+		VectorCopy(color, cg_weapons[weapon].missileDlightColor);
+	}
+}
+
+
+void CG_UpdateDlightWeaponColorFromCvar(const char* cvarName, vec3_t color)
+{
+	char buffer[32];
+	vec4_t parsedColor;
+	float r, g, b;
+
+	trap_Cvar_VariableStringBuffer(cvarName, buffer, sizeof(buffer));
+
+	if (CG_ParseColorStr(buffer, parsedColor))
+	{
+		color[0] = parsedColor[0];
+		color[1] = parsedColor[1];
+		color[2] = parsedColor[2];
+	}
+	else if (Q_sscanf(buffer, "%f %f %f", &r, &g, &b) == 3)
+	{
+		color[0] = r;
+		color[1] = g;
+		color[2] = b;
+	}
+}
+
+void CG_InitAllDlightColors(cvarTable_t* table)
+{
+	int i;
+	weapon_t weapon = WP_NONE;
+	const char* effect = NULL;
+	vec3_t color;
+
+	for (i = 0; table[i].cvarName != NULL; i++)
+	{
+		cvarTable_t* cvart = &table[i];
+
+		if (!cvart->vmCvar || !cvart->cvarName)
+		{
+			continue;
+		}
+		CG_GetWeaponAndEffectFromCvar(cvart, &weapon, &effect);
+		if (weapon != WP_NONE && effect != NULL)
+		{
+			CG_UpdateDlightWeaponColorFromCvar(cvart->cvarName, color);
+			CG_SetDlightEffectColor(weapon, effect, color);
+		}
+	}
+}
+

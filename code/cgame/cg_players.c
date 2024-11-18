@@ -2647,6 +2647,125 @@ void CG_ResetPlayerEntity(centity_t* cent)
 }
 
 
+//cg_uniquecolors
+vec3_t ColorTable[24] =
+{
+	{ 1, 0, 0 },       /* Red */
+	{ 0, 1, 0 },       /* Green */
+	{ 0, 0, 1 },       /* Blue */
+	{ 1, 1, 0 },       /* Yellow */
+	{ 0, 1, 1 },       /* Cyan */
+	{ 1, 0, 1 },       /* Magenta */
+	{ 1, 0.65, 0 },    /* Orange */
+	{ 0, 0.75, 1 },    /* Sky Blue */
+	{ 0, 1, 0.6 },     /* Aqua Green */
+	{ 1, 0.35, 0.35 }, /* Soft Red */
+	{ 0.93, 0.5, 0.93 }, /* Purple */
+	{ 1, 0.35, 0 },    /* Tomato */
+	{ 0.35, 1, 0.35 }, /* Lime Green */
+	{ 1, 1, 0.35 },    /* Light Yellow */
+	{ 0, 0.75, 0.75 }, /* Teal */
+	{ 1, 0.5, 0.5 },   /* Light Red */
+	{ 1, 0.4, 0.75 },  /* Pink */
+	{ 0.25, 0.75, 0.5 }, /* Mint Green */
+	{ 0.5, 0, 0 },     /* Dark Red */
+	{ 0.5, 0, 0.5 },   /* Dark Magenta */
+	{ 0, 0.55, 0.55 }, /* Dark Teal */
+	{ 0.3, 0, 0.5 },   /* Indigo */
+	{ 0.5, 0.5, 0 },   /* Olive */
+	{ 1, 1, 1 },       /* White */
+};
+
+void CG_ColorPickerPlayerNum(int playerNum, clientInfo_t* playerInfo)
+{
+	int colorIndex = playerNum % 24;
+	float* color = ColorTable[colorIndex];
+	VectorSet(cgs.osp.uniqueColorById[playerNum], color[0], color[1], color[2]);
+}
+
+void CG_UniqueColorToPlayerHead(clientInfo_t* playerInfo)
+{
+	int playerNum = playerInfo - cgs.clientinfo;
+	vec3_t color;
+	VectorCopy(cgs.osp.uniqueColorById[playerNum], color);
+	VectorCopy(color, playerInfo->colors.head);
+}
+
+
+void CG_UniqueColorToPlayerModel(clientInfo_t* playerInfo)
+{
+	int playerNum = playerInfo - cgs.clientinfo;
+	vec3_t color;
+	VectorCopy(cgs.osp.uniqueColorById[playerNum], color);
+	VectorCopy(color, playerInfo->colors.head);
+	VectorCopy(color, playerInfo->colors.torso);
+	VectorCopy(color, playerInfo->colors.legs);
+}
+
+qboolean CG_IsTeammate(int clientNum)
+{
+	const clientInfo_t* ourClient = &cgs.clientinfo[cg.clientNum];
+	const clientInfo_t* targetClient = &cgs.clientinfo[clientNum];
+	if (ourClient->rt == TEAM_SPECTATOR || targetClient->rt == TEAM_SPECTATOR)
+	{
+		return qfalse;
+	}
+	return (ourClient->rt == targetClient->rt);
+}
+
+void CG_ApplyUniqueColor()   //to enemies
+{
+	int playerNum;
+	int colorMode = CG_cg_unique_color_enabled();
+	for (playerNum = 0; playerNum < MAX_CLIENTS; playerNum++)
+	{
+		CG_ColorPickerPlayerNum(playerNum, &cgs.clientinfo[playerNum]);
+		if (cgs.gametype >= GT_TEAM)
+		{
+			if (!CG_IsTeammate(playerNum))
+			{
+
+				if (colorMode == 1)
+				{
+					CG_UniqueColorToPlayerHead(&cgs.clientinfo[playerNum]);
+				}
+				else if (colorMode == 2)
+				{
+					CG_UniqueColorToPlayerModel(&cgs.clientinfo[playerNum]);
+				}
+			}
+
+		}
+		else
+		{
+
+			if (colorMode == 1)
+			{
+				CG_UniqueColorToPlayerHead(&cgs.clientinfo[playerNum]);
+			}
+			else if (colorMode == 2)
+			{
+				CG_UniqueColorToPlayerModel(&cgs.clientinfo[playerNum]);
+			}
+		}
+	}
+}
+
+int CG_cg_unique_color_enabled()
+{
+	char cvarValue[32];
+	trap_Cvar_VariableStringBuffer("cg_unique_colors", cvarValue, sizeof(cvarValue));
+	if (strcmp(cvarValue, "2") == 0)
+	{
+		return 2;
+	}
+	if (strcmp(cvarValue, "1") == 0)
+	{
+		return 1;
+	}
+	return 0;
+}
+
 
 
 
