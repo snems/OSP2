@@ -2404,6 +2404,28 @@ void CG_DrawWarmupNew(void)
 	}
 }
 
+static void CG_DrawTestFont(const char *font)
+{
+	const int offs_x = (SCREEN_WIDTH - 320)/2;
+	const int offs_y = (SCREEN_HEIGHT - 320)/2;
+	int x, y;
+	char to_print[2];
+	unsigned char c = 0;
+	to_print[1] = 0;
+	CG_FontSelect(CG_FontIndexFromName(font));
+	for (y = 0; y < 16; ++y)
+	{
+		for (x = 0; x < 16; ++x)
+		{
+			to_print[0] = (char)c;
+			c++;
+			if (to_print[0] == 0) to_print[0] = ' ';
+			CG_OSPDrawString(offs_x + x * 20, offs_y + y * 20, to_print, colorWhite, 16, 16, 4, DS_HLEFT);
+		}
+	}
+
+}
+
 /*
 =================
 CG_Draw2D
@@ -2419,6 +2441,12 @@ static void CG_Draw2D(void)
 
 	if (cg_draw2D.integer == 0)
 	{
+		return;
+	}
+
+	if (strlen(cgs.osp.testFont))
+	{
+		CG_DrawTestFont(cgs.osp.testFont);
 		return;
 	}
 

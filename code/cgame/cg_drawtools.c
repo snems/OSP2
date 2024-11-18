@@ -609,7 +609,7 @@ typedef struct
 	int             shaderCount;
 } font_t;
 
-static font_t fonts[] = {{"id"}, {"idblock"}, {"sansman"}, {"cpma"}};
+static font_t fonts[] = {{"id"}, {"idblock"}, {"sansman"}, {"cpma"}, {"m1rage"}};
 static int fonts_num = sizeof(fonts) / sizeof(fonts[0]);
 static const font_t* font = &fonts[0];
 static const font_metric_t* metrics = &fonts[0].metrics[0];
@@ -636,7 +636,6 @@ int CG_FontIndexFromName(const char* name)
 			return index;
 		}
 	}
-	CG_Printf("^1Unknown font %s, using default\n", name);
 	return 0;
 }
 
@@ -916,6 +915,7 @@ void CG_LoadFonts(void)
 	CG_LoadFont(&fonts[1], "gfx/2d/numbers.cfg");
 	CG_LoadFont(&fonts[2], "gfx/2d/sansman.cfg");
 	CG_LoadFont(&fonts[3], "gfx/2d/sansman.cfg"); // use sansman instead of cpma
+	CG_LoadFont(&fonts[4], "gfx/2d/m1rage.cfg"); 
 }
 
 
@@ -2421,7 +2421,13 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		switch (curr->type)
 		{
 			case OSP_TEXT_CMD_CHAR:
-				fm = &metrics[(unsigned char)curr->value.character ];
+				{
+					//avoid compiler bug
+					//after cast curr->value.character to unsigned char it still could be less than zero
+					int index = curr->value.character;
+					if (index < 0) index += 256;
+					fm = &metrics[(unsigned char)index ];
+				}
 				if (proportional)
 				{
 					tc = fm->tc_prop;
