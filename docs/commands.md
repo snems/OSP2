@@ -17,6 +17,20 @@
 
 ---
 
+    cg_enemyModelColorsUnique
+
+Задает уникальный (почти) цвет для вражеской модели.
+
+`0` отключено
+
+`1` голова
+
+`2` туловище
+
+`4` ноги
+
+---
+
     cg_enemyRailColors
     cg_teamRailColors
     cg_playerRailColors

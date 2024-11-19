@@ -1,5 +1,37 @@
 #include "cg_local.h"
 
+#define UNIQUE_COLORS_TABLE_SIZE 24
+
+static const vec3_t uniqueColorTable[UNIQUE_COLORS_TABLE_SIZE] =
+{
+	{ 1, 0, 0 },       /* Red */
+	{ 0, 1, 0 },       /* Green */
+	{ 0, 0, 1 },       /* Blue */
+	{ 1, 1, 0 },       /* Yellow */
+	{ 0, 1, 1 },       /* Cyan */
+	{ 1, 0, 1 },       /* Magenta */
+	{ 1, 0.65, 0 },    /* Orange */
+	{ 0, 0.75, 1 },    /* Sky Blue */
+	{ 0, 1, 0.6 },     /* Aqua Green */
+	{ 1, 0.35, 0.35 }, /* Soft Red */
+	{ 0.93, 0.5, 0.93 }, /* Purple */
+	{ 1, 0.35, 0 },    /* Tomato */
+	{ 0.35, 1, 0.35 }, /* Lime Green */
+	{ 1, 1, 0.35 },    /* Light Yellow */
+	{ 0, 0.75, 0.75 }, /* Teal */
+	{ 1, 0.5, 0.5 },   /* Light Red */
+	{ 1, 0.4, 0.75 },  /* Pink */
+	{ 0.25, 0.75, 0.5 }, /* Mint Green */
+	{ 0.5, 0, 0 },     /* Dark Red */
+	{ 0.5, 0, 0.5 },   /* Dark Magenta */
+	{ 0, 0.55, 0.55 }, /* Dark Teal */
+	{ 0.3, 0, 0.5 },   /* Indigo */
+	{ 0.5, 0.5, 0 },   /* Olive */
+	{ 1, 1, 1 },       /* White */
+};
+
+#define UNIQUE_COLOR(CI) uniqueColorTable[CI%UNIQUE_COLORS_TABLE_SIZE]
+
 void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* override, const char* color1, const char* color2)
 {
 	int color1Len = color1 ? strlen(color1) : 0;
@@ -198,6 +230,22 @@ void CG_RebuildPlayerColors(void)
 	                             &cg_enemyFrozenColor);
 }
 
+void CG_ModelUniqueColors(int clientNum, playerColors_t *colors)
+{
+	if (cg_enemyModelColorsUnique.integer & 1)
+	{
+		VectorCopy(UNIQUE_COLOR(clientNum), colors->head);
+	}
+	else if (cg_enemyModelColorsUnique.integer & 2)
+	{
+		VectorCopy(UNIQUE_COLOR(clientNum), colors->torso);
+	}
+	else if (cg_enemyModelColorsUnique.integer & 4)
+	{
+		VectorCopy(UNIQUE_COLOR(clientNum), colors->legs);
+	}
+}
+
 
 void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
 {
@@ -241,6 +289,8 @@ void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
 				VectorCopy(teamColor, ci->colors.torso);
 				VectorCopy(teamColor, ci->colors.legs);
 			}
+
+			CG_ModelUniqueColors(clientNum, &ci->colors);
 
 			if (cgs.osp.enemyColorsOverride.isRailColorSet)
 			{
@@ -286,6 +336,8 @@ void CG_ClientInfoUpdateColors(clientInfo_t* ci, int clientNum)
 			VectorCopy(cgs.osp.enemyColors.torso, ci->colors.torso);
 			VectorCopy(cgs.osp.enemyColors.legs, ci->colors.legs);
 		}
+
+		CG_ModelUniqueColors(clientNum, &ci->colors);
 
 		if (cgs.osp.enemyColorsOverride.isRailColorSet)
 		{

@@ -274,6 +274,7 @@ vmCvar_t           cg_optimizePrediction;
 vmCvar_t           cg_projectileNudge;
 vmCvar_t           cg_hideScores;
 
+vmCvar_t           cg_enemyModelColorsUnique;
 vmCvar_t           cg_playerModelColors;
 vmCvar_t           cg_playerRailColors;
 vmCvar_t           cg_playerFrozenColor;
@@ -574,6 +575,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_enemyModelColors,  "cg_enemyModelColors", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModelColors},
 	{ &cg_enemyRailColors,   "cg_enemyRailColors", "",   CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyRailColors},
 	{ &cg_enemyFrozenColor,  "cg_enemyFrozenColor", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyFrozenColor},
+	{ &cg_enemyModelColorsUnique, "cg_enemyModelColorsUnique", "1", CVAR_ARCHIVE, NULL},
 
 	{ &cg_chatEnable, "cg_chatEnable", "3", CVAR_ARCHIVE},
 	{ &cg_shudChatEnable, "cg_shudChatEnable", "3", CVAR_ARCHIVE},
