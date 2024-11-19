@@ -1052,6 +1052,7 @@ typedef struct cgs_osp_s
 	int numberOfStringsMotd;
 	char motd[8][64];
 
+	char testFont[MAX_QPATH];
 	int custom_gfx_number;
 	int custom_gfx[16][8];
 	qboolean clanBaseTeamDM;
@@ -2320,7 +2321,6 @@ void CG_LocalEventCvarChanged_ch_crosshairDecorActionScale(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart);
-//blackedition
 void CG_LocalEventCvarChanged_cg_dlight_weapon_effect(cvarTable_t* cvart);
 void CG_ApplyUniqueColor();
 void CG_InitAllDlightColors(cvarTable_t* table);

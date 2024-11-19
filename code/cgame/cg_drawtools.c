@@ -636,6 +636,7 @@ int CG_FontIndexFromName(const char* name)
 			return index;
 		}
 	}
+	CG_Printf("^1Unknown font %s, using default\n", name);
 	return 0;
 }
 
@@ -915,7 +916,7 @@ void CG_LoadFonts(void)
 	CG_LoadFont(&fonts[1], "gfx/2d/numbers.cfg");
 	CG_LoadFont(&fonts[2], "gfx/2d/sansman.cfg");
 	CG_LoadFont(&fonts[3], "gfx/2d/sansman.cfg"); // use sansman instead of cpma
-	CG_LoadFont(&fonts[4], "gfx/2d/m1rage.cfg"); 
+	CG_LoadFont(&fonts[4], "gfx/2d/m1rage.cfg");
 }
 
 
