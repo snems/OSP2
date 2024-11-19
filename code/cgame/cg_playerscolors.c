@@ -230,7 +230,7 @@ void CG_RebuildPlayerColors(void)
 	                             &cg_enemyFrozenColor);
 }
 
-void CG_ModelUniqueColors(int clientNum, playerColors_t *colors)
+void CG_ModelUniqueColors(int clientNum, playerColors_t* colors)
 {
 	if (cg_enemyModelColorsUnique.integer & 1)
 	{

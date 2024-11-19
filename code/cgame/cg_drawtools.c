@@ -915,7 +915,7 @@ void CG_LoadFonts(void)
 	CG_LoadFont(&fonts[1], "gfx/2d/numbers.cfg");
 	CG_LoadFont(&fonts[2], "gfx/2d/sansman.cfg");
 	CG_LoadFont(&fonts[3], "gfx/2d/sansman.cfg"); // use sansman instead of cpma
-	CG_LoadFont(&fonts[4], "gfx/2d/m1rage.cfg"); 
+	CG_LoadFont(&fonts[4], "gfx/2d/m1rage.cfg");
 }
 
 
@@ -2421,34 +2421,34 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		switch (curr->type)
 		{
 			case OSP_TEXT_CMD_CHAR:
-				{
-					//avoid compiler bug
-					//after cast curr->value.character to unsigned char it still could be less than zero
-					int index = curr->value.character;
-					if (index < 0) index += 256;
-					fm = &metrics[(unsigned char)index ];
-				}
-				if (proportional)
-				{
-					tc = fm->tc_prop;
-					aw1 = fm->width * aw;
-					ax += fm->space1 * aw;          // add extra space if required by metrics
-					x_end = ax + fm->space2 * aw;   // final position
-				}
-				else
-				{
-					tc = fm->tc_mono;
-					aw1 = aw;
-					x_end = ax + aw;
-				}
+			{
+				//avoid compiler bug
+				//after cast curr->value.character to unsigned char it still could be less than zero
+				int index = curr->value.character;
+				if (index < 0) index += 256;
+				fm = &metrics[(unsigned char)index ];
+			}
+			if (proportional)
+			{
+				tc = fm->tc_prop;
+				aw1 = fm->width * aw;
+				ax += fm->space1 * aw;          // add extra space if required by metrics
+				x_end = ax + fm->space2 * aw;   // final position
+			}
+			else
+			{
+				tc = fm->tc_mono;
+				aw1 = aw;
+				x_end = ax + aw;
+			}
 
-				if (x_end > max_ax || ax >= cgs.glconfig.vidWidth)
-					break;
-
-				trap_R_DrawStretchPic(ax, ay, aw1, ah, tc[0], tc[1], tc[2], tc[3], sh);
-
-				ax = x_end;
+			if (x_end > max_ax || ax >= cgs.glconfig.vidWidth)
 				break;
+
+			trap_R_DrawStretchPic(ax, ay, aw1, ah, tc[0], tc[1], tc[2], tc[3], sh);
+
+			ax = x_end;
+			break;
 			case OSP_TEXT_CMD_TEXT_COLOR:
 				VectorCopy(curr->value.color, color);
 				color[3] = fade;

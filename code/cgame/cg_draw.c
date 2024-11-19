@@ -2404,10 +2404,10 @@ void CG_DrawWarmupNew(void)
 	}
 }
 
-static void CG_DrawTestFont(const char *font)
+static void CG_DrawTestFont(const char* font)
 {
-	const int offs_x = (SCREEN_WIDTH - 320)/2;
-	const int offs_y = (SCREEN_HEIGHT - 320)/2;
+	const int offs_x = (SCREEN_WIDTH - 320) / 2;
+	const int offs_y = (SCREEN_HEIGHT - 320) / 2;
 	int x, y;
 	char to_print[2];
 	unsigned char c = 0;
