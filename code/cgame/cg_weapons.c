@@ -1232,8 +1232,10 @@ void CG_LightningBolt(centity_t* cent, float* origin)
 		beam.customShader = nomip ? cgs.media.lightningBoltNoPicMip[shaft_type] : cgs.media.lightningBolt[shaft_type];
 	}
 
-
-	trap_R_AddRefEntityToScene(&beam);
+	if (!(isOurClient && cg_lightningHide.integer))
+	{
+		trap_R_AddRefEntityToScene(&beam);
+	}
 
 	if (trace.fraction < 1.0 && cg_lightningImpact.integer)
 	{

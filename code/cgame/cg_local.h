@@ -1413,6 +1413,7 @@ extern vmCvar_t           com_maxfps;
 extern vmCvar_t           cg_gun_frame;
 extern vmCvar_t           cg_noLeadSounds;
 extern vmCvar_t           cg_fragSound;
+extern vmCvar_t           cg_lightningHide;
 extern vmCvar_t           cg_lightningHideCrosshair;
 extern vmCvar_t           cg_lightningSilent;
 extern vmCvar_t           cg_delag;

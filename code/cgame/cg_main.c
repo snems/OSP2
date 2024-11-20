@@ -267,6 +267,7 @@ vmCvar_t           cg_noLeadSounds;
 vmCvar_t           cg_fragSound;
 vmCvar_t           cg_lightningHideCrosshair;
 vmCvar_t           cg_lightningSilent;
+vmCvar_t           cg_lightningHide;
 
 vmCvar_t           cg_delag;
 vmCvar_t           cg_drawHitBox;
@@ -555,6 +556,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_fragSound, "cg_fragSound", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_fragSound},
 	{ &cg_lightningHideCrosshair, "cg_lightningHideCrosshair", "0", CVAR_ARCHIVE },
 	{ &cg_lightningSilent, "cg_lightningSilent", "0", CVAR_ARCHIVE },
+	{ &cg_lightningHide, "cg_lightningHide", "0", CVAR_ARCHIVE },
 	{ &cg_delag, "cg_delag", "1", CVAR_ARCHIVE },
 	{ &cg_drawHitBox, "cg_drawHitBox", "0", CVAR_ARCHIVE },
 	{ &cg_optimizePrediction, "cg_optimizePrediction", "0", CVAR_ARCHIVE },
