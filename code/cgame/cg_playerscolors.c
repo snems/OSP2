@@ -236,11 +236,11 @@ void CG_ModelUniqueColors(int clientNum, playerColors_t* colors)
 	{
 		VectorCopy(UNIQUE_COLOR(clientNum), colors->head);
 	}
-	else if (cg_enemyModelColorsUnique.integer & 2)
+	if (cg_enemyModelColorsUnique.integer & 2)
 	{
 		VectorCopy(UNIQUE_COLOR(clientNum), colors->torso);
 	}
-	else if (cg_enemyModelColorsUnique.integer & 4)
+	if (cg_enemyModelColorsUnique.integer & 4)
 	{
 		VectorCopy(UNIQUE_COLOR(clientNum), colors->legs);
 	}
