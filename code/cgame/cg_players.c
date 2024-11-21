@@ -1617,6 +1617,11 @@ static void CG_BreathPuffs(centity_t* cent, refEntity_t* head)
 	{
 		return;
 	}
+	if (cgs.osp.gameTypeFreeze && (cent->currentState.weapon == WP_NONE) &&
+	        (cent->currentState.powerups & (1 << PW_BATTLESUIT)))
+	{
+		return;
+	}
 	contents = trap_CM_PointContents(head->origin, 0);
 	if (contents & (CONTENTS_WATER | CONTENTS_SLIME | CONTENTS_LAVA))
 	{
