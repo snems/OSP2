@@ -547,6 +547,20 @@
 
 ---
 
+    cg_dlightGauntlet <color>
+    cg_dlightGL <color>
+    cg_dlightLG <color>
+    cg_dlightMG <color>
+    cg_dlightPG <color>
+    cg_dlightRG <color>
+    cg_dlightRL <color>
+    cg_dlightSG <color>
+    cg_dlightBFG <color>
+
+Задает оттенок динамического освещения для оружия
+
+---
+
     ch_fragMessage
     cg_fallKick
     cg_smokegrowth_gl

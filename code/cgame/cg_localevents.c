@@ -354,3 +354,87 @@ void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart)
 	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
 }
 
+void CG_LocalEventCvarChanged_cg_dlightGauntlet(cvarTable_t* cvart)
+{
+	vec3_t color;
+	if (CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		CG_SetWeaponDlightColor(WP_GAUNTLET, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_dlightMG(cvarTable_t* cvart)
+{
+	vec3_t color;
+	if (CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		CG_SetWeaponDlightColor(WP_MACHINEGUN, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_dlightSG(cvarTable_t* cvart)
+{
+	vec3_t color;
+	if (CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		CG_SetWeaponDlightColor(WP_SHOTGUN, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_dlightGL(cvarTable_t* cvart)
+{
+	vec3_t color;
+	if (CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		CG_SetWeaponDlightColor(WP_GRENADE_LAUNCHER, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_dlightRL(cvarTable_t* cvart)
+{
+	vec3_t color;
+	if (CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		CG_SetWeaponDlightColor(WP_ROCKET_LAUNCHER, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_dlightLG(cvarTable_t* cvart)
+{
+	vec3_t color;
+	if (CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		CG_SetWeaponDlightColor(WP_LIGHTNING, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_dlightRG(cvarTable_t* cvart)
+{
+	vec3_t color;
+	if (CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		CG_SetWeaponDlightColor(WP_RAILGUN, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_dlightPG(cvarTable_t* cvart)
+{
+	vec3_t color;
+	if (CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		CG_SetWeaponDlightColor(WP_PLASMAGUN, color);
+	}
+}
+
+void CG_LocalEventCvarChanged_cg_dlightBFG(cvarTable_t* cvart)
+{
+	vec3_t color;
+	if (CG_ParseColorStr(cvart->vmCvar->string, color))
+	{
+		CG_SetWeaponDlightColor(WP_BFG, color);
+	}
+}
+
+
+
+

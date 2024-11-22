@@ -629,6 +629,12 @@ static void CG_GrenadeTrail(centity_t* ent, const weaponInfo_t* wi)
 	CG_RocketTrail(ent, wi);
 }
 
+void CG_SetWeaponDlightColor(weapon_t weapon, vec3_t color)
+{
+	VectorCopy(color, cg_weapons[weapon].flashDlightColor);
+	VectorCopy(color, cg_weapons[weapon].missileDlightColor);
+	VectorCopy(color, cg_weapons[weapon].explosionDlightColor);
+}
 
 /*
 =================
@@ -2082,9 +2088,7 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 	mod = 0;
 	shader = 0;
 	light = 0;
-	lightColor[0] = 1;
-	lightColor[1] = 1;
-	lightColor[2] = 0;
+	VectorCopy(cg_weapons[weapon].explosionDlightColor, lightColor);
 
 	// set defaults
 	isSprite = qfalse;
@@ -2152,9 +2156,6 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 			light = 300;
 			isSprite = qtrue;
 			duration = 1000;
-			lightColor[0] = 1;
-			lightColor[1] = 0.75;
-			lightColor[2] = 0.0;
 			if (cg_oldRocket.integer == 0)
 			{
 				// explosion sprite animation
