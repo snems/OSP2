@@ -354,3 +354,51 @@ void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart)
 	cvart->vmCvar->value = Com_Clamp(0, 1, cvart->vmCvar->value);
 }
 
+void CG_LocalEventCvarChanged_cg_dlightGauntlet(cvarTable_t* cvart)
+{
+	CG_UpdateWeaponDlightColor(WP_GAUNTLET);
+}
+
+void CG_LocalEventCvarChanged_cg_dlightMG(cvarTable_t* cvart)
+{
+	CG_UpdateWeaponDlightColor(WP_MACHINEGUN);
+}
+
+void CG_LocalEventCvarChanged_cg_dlightSG(cvarTable_t* cvart)
+{
+	CG_UpdateWeaponDlightColor(WP_SHOTGUN);
+}
+
+void CG_LocalEventCvarChanged_cg_dlightGL(cvarTable_t* cvart)
+{
+	CG_UpdateWeaponDlightColor(WP_GRENADE_LAUNCHER);
+}
+
+void CG_LocalEventCvarChanged_cg_dlightRL(cvarTable_t* cvart)
+{
+	CG_UpdateWeaponDlightColor(WP_ROCKET_LAUNCHER);
+}
+
+void CG_LocalEventCvarChanged_cg_dlightLG(cvarTable_t* cvart)
+{
+	CG_UpdateWeaponDlightColor(WP_LIGHTNING);
+}
+
+void CG_LocalEventCvarChanged_cg_dlightRG(cvarTable_t* cvart)
+{
+	CG_UpdateWeaponDlightColor(WP_RAILGUN);
+}
+
+void CG_LocalEventCvarChanged_cg_dlightPG(cvarTable_t* cvart)
+{
+	CG_UpdateWeaponDlightColor(WP_PLASMAGUN);
+}
+
+void CG_LocalEventCvarChanged_cg_dlightBFG(cvarTable_t* cvart)
+{
+	CG_UpdateWeaponDlightColor(WP_BFG);
+}
+
+
+
+

@@ -629,6 +629,37 @@ static void CG_GrenadeTrail(centity_t* ent, const weaponInfo_t* wi)
 	CG_RocketTrail(ent, wi);
 }
 
+void CG_UpdateWeaponDlightColor(weapon_t weapon)
+{
+	static const vmCvar_t *weaponCvars[WP_NUM_WEAPONS] = {
+		NULL, //WP_NONE
+		&cg_dlightGauntlet, //WP_GAUNTLET
+		&cg_dlightMG,//WP_MACHINEGUN
+		&cg_dlightSG,//WP_SHOTGUN
+	  &cg_dlightGL,//WP_GRENADE_LAUNCHER
+	  &cg_dlightRL,//WP_ROCKET_LAUNCHER
+	  &cg_dlightLG,//WP_LIGHTNING
+	  &cg_dlightRG,//WP_RAILGUN
+	  &cg_dlightPG,//WP_PLASMAGUN
+	  &cg_dlightBFG,//WP_BFG
+	  NULL,//WP_GRAPPLING_HOOK
+	};
+	const vmCvar_t *cvar;
+	vec3_t color;
+
+	if (weapon <= WP_NONE || weapon >= WP_NUM_WEAPONS || ((cvar = weaponCvars[weapon]) == NULL))
+	{
+		return;
+	}
+
+	if (CG_ParseColorStr(cvar->string, color))
+	{
+		VectorCopy(color, cg_weapons[weapon].flashDlightColor);
+		VectorCopy(color, cg_weapons[weapon].missileDlightColor);
+		VectorCopy(color, cg_weapons[weapon].explosionDlightColor);
+	}
+
+}
 
 /*
 =================
@@ -922,6 +953,7 @@ void CG_RegisterWeapon(int weaponNum)
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/rocket/rocklf1a.wav", qfalse);
 			break;
 	}
+	CG_UpdateWeaponDlightColor(weaponNum);
 }
 
 /*
@@ -2082,9 +2114,7 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 	mod = 0;
 	shader = 0;
 	light = 0;
-	lightColor[0] = 1;
-	lightColor[1] = 1;
-	lightColor[2] = 0;
+	VectorCopy(cg_weapons[weapon].explosionDlightColor, lightColor);
 
 	// set defaults
 	isSprite = qfalse;
@@ -2152,9 +2182,6 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 			light = 300;
 			isSprite = qtrue;
 			duration = 1000;
-			lightColor[0] = 1;
-			lightColor[1] = 0.75;
-			lightColor[2] = 0.0;
 			if (cg_oldRocket.integer == 0)
 			{
 				// explosion sprite animation

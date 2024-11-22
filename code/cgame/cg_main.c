@@ -346,6 +346,16 @@ vmCvar_t           ch_crosshairDecorActionTime;
 
 vmCvar_t           ch_crosshairAutoScale;
 
+vmCvar_t           cg_dlightGauntlet;
+vmCvar_t           cg_dlightMG;
+vmCvar_t           cg_dlightSG;
+vmCvar_t           cg_dlightGL;
+vmCvar_t           cg_dlightRL;
+vmCvar_t           cg_dlightLG;
+vmCvar_t           cg_dlightRG;
+vmCvar_t           cg_dlightPG;
+vmCvar_t           cg_dlightBFG;
+
 static cvarTable_t cvarTable[] =
 {
 	{ &osp_client, "osp_client", "1008_OSP2_"OSP_VERSION, CVAR_USERINFO | CVAR_ROM },
@@ -604,6 +614,16 @@ static cvarTable_t cvarTable[] =
 	{ &ch_crosshairDecorActionTime,  "ch_crosshairDecorActionTime", "400",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairDecorActionTime},
 
 	{ &ch_crosshairAutoScale,  "ch_crosshairAutoScale", "1",  CVAR_ARCHIVE},
+
+	{ &cg_dlightGauntlet, "cg_dlightGauntlet", "9999FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightGauntlet },
+	{ &cg_dlightMG,       "cg_dlightMG",       "FFFF00", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightMG },
+	{ &cg_dlightSG,       "cg_dlightSG",       "FFFF00", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightSG },
+	{ &cg_dlightGL,       "cg_dlightGL",       "FFBF00", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightGL },
+	{ &cg_dlightRL,       "cg_dlightRL",       "FFBF00", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightRL },
+	{ &cg_dlightLG,       "cg_dlightLG",       "9999FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightLG },
+	{ &cg_dlightRG,       "cg_dlightRG",       "FF8000", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightRG },
+	{ &cg_dlightPG,       "cg_dlightPG",       "9999FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightPG },
+	{ &cg_dlightBFG,      "cg_dlightBFG",      "FFB2FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightBFG },
 
 };
 
@@ -1597,6 +1617,16 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	CG_CvarTouch("ch_crosshairDecorActionTime");
 
 	CG_CvarTouch("cg_damageIndicatorOpaque");
+
+  CG_CvarTouch("cg_dlightGauntlet");
+  CG_CvarTouch("cg_dlightMG");
+  CG_CvarTouch("cg_dlightSG");
+  CG_CvarTouch("cg_dlightGL");
+  CG_CvarTouch("cg_dlightRL");
+  CG_CvarTouch("cg_dlightLG");
+  CG_CvarTouch("cg_dlightRG");
+  CG_CvarTouch("cg_dlightPG");
+  CG_CvarTouch("cg_dlightBFG");
 
 	CG_InitConsoleCommands();
 

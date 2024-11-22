@@ -445,6 +445,7 @@ typedef struct weaponInfo_s
 	sfxHandle_t     readySound;
 	sfxHandle_t     firingSound;
 	qboolean        loopFireSound;
+	vec3_t          explosionDlightColor;
 } weaponInfo_t;
 
 
@@ -1465,6 +1466,15 @@ extern vmCvar_t           ch_crosshairDecorActionTime;
 
 extern vmCvar_t           ch_crosshairAutoScale;
 
+extern vmCvar_t           cg_dlightGauntlet;
+extern vmCvar_t           cg_dlightMG;
+extern vmCvar_t           cg_dlightSG;
+extern vmCvar_t           cg_dlightGL;
+extern vmCvar_t           cg_dlightRL;
+extern vmCvar_t           cg_dlightLG;
+extern vmCvar_t           cg_dlightRG;
+extern vmCvar_t           cg_dlightPG;
+extern vmCvar_t           cg_dlightBFG;
 //
 // cg_main.c
 //
@@ -1793,6 +1803,8 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 void CG_DrawWeaponSelect(void);
 
 void CG_OutOfAmmoChange(void);   // should this be in pmove?
+
+void CG_UpdateWeaponDlightColor(weapon_t weapon);
 
 //
 // cg_marks.c
@@ -2301,6 +2313,16 @@ void CG_LocalEventCvarChanged_ch_crosshairDecorActionScale(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_ch_crosshairDecorActionTime(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_damageIndicatorOpaque(cvarTable_t* cvart);
+
+void CG_LocalEventCvarChanged_cg_dlightGauntlet(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_dlightMG(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_dlightSG(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_dlightGL(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_dlightRL(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_dlightLG(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_dlightRG(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_dlightPG(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_dlightBFG(cvarTable_t* cvart);
 
 #ifdef __cplusplus
 }
