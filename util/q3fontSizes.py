@@ -1,7 +1,7 @@
 from PIL import Image, ImageFont, ImageDraw
 
-file_in = "/home/snems/tmp/elite.png"
-file_out = "../assets/gfx/2d/elite_emoji_%s.tga"
+file_in = "/home/snems/tmp/diablo.png"
+file_out = "../assets/gfx/2d/diablo_%s.tga"
 
 template_size_x = 1024
 template_size_y = 1024
@@ -64,9 +64,9 @@ image = Image.open(file_in)
 imageRGB = image.convert('RGB')
 
 print("// img <font image> <threshold>, up to 4 entries allowed")
-print("img \"gfx/2d/elite_emoji_64.tga\" 48")
-print("img \"gfx/2d/elite_emoji_32.tga\" 22")
-print("img \"gfx/2d/elite_emoji_16.tga\" 0")
+print("img \"gfx/2d/diablo_64.tga\" 48")
+print("img \"gfx/2d/diablo_32.tga\" 22")
+print("img \"gfx/2d/diablo_16.tga\" 0")
 print("// fnt <width> <height> <char width> <char height>")
 print("fnt 1024 1024 64 64")
 print("// <ch> <x0> <y0> <x1> <w> <s1> <s2>")
