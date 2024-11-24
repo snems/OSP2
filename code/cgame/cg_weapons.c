@@ -631,20 +631,21 @@ static void CG_GrenadeTrail(centity_t* ent, const weaponInfo_t* wi)
 
 void CG_UpdateWeaponDlightColor(weapon_t weapon)
 {
-	static const vmCvar_t *weaponCvars[WP_NUM_WEAPONS] = {
+	static const vmCvar_t* weaponCvars[WP_NUM_WEAPONS] =
+	{
 		NULL, //WP_NONE
 		&cg_dlightGauntlet, //WP_GAUNTLET
 		&cg_dlightMG,//WP_MACHINEGUN
 		&cg_dlightSG,//WP_SHOTGUN
-	  &cg_dlightGL,//WP_GRENADE_LAUNCHER
-	  &cg_dlightRL,//WP_ROCKET_LAUNCHER
-	  &cg_dlightLG,//WP_LIGHTNING
-	  &cg_dlightRG,//WP_RAILGUN
-	  &cg_dlightPG,//WP_PLASMAGUN
-	  &cg_dlightBFG,//WP_BFG
-	  NULL,//WP_GRAPPLING_HOOK
+		&cg_dlightGL,//WP_GRENADE_LAUNCHER
+		&cg_dlightRL,//WP_ROCKET_LAUNCHER
+		&cg_dlightLG,//WP_LIGHTNING
+		&cg_dlightRG,//WP_RAILGUN
+		&cg_dlightPG,//WP_PLASMAGUN
+		&cg_dlightBFG,//WP_BFG
+		NULL,//WP_GRAPPLING_HOOK
 	};
-	const vmCvar_t *cvar;
+	const vmCvar_t* cvar;
 	vec3_t color;
 
 	if (weapon <= WP_NONE || weapon >= WP_NUM_WEAPONS || ((cvar = weaponCvars[weapon]) == NULL))

@@ -1618,15 +1618,15 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 
 	CG_CvarTouch("cg_damageIndicatorOpaque");
 
-  CG_CvarTouch("cg_dlightGauntlet");
-  CG_CvarTouch("cg_dlightMG");
-  CG_CvarTouch("cg_dlightSG");
-  CG_CvarTouch("cg_dlightGL");
-  CG_CvarTouch("cg_dlightRL");
-  CG_CvarTouch("cg_dlightLG");
-  CG_CvarTouch("cg_dlightRG");
-  CG_CvarTouch("cg_dlightPG");
-  CG_CvarTouch("cg_dlightBFG");
+	CG_CvarTouch("cg_dlightGauntlet");
+	CG_CvarTouch("cg_dlightMG");
+	CG_CvarTouch("cg_dlightSG");
+	CG_CvarTouch("cg_dlightGL");
+	CG_CvarTouch("cg_dlightRL");
+	CG_CvarTouch("cg_dlightLG");
+	CG_CvarTouch("cg_dlightRG");
+	CG_CvarTouch("cg_dlightPG");
+	CG_CvarTouch("cg_dlightBFG");
 
 	CG_InitConsoleCommands();
 
