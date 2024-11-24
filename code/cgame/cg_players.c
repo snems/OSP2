@@ -1774,17 +1774,12 @@ static void CG_PlayerFloatSprite(centity_t* cent, qhandle_t shader, vec4_t color
 	ent.renderfx = rf;
 	if (color)
 	{
-		ent.shaderRGBA[0] = color[0] * 255;
-		ent.shaderRGBA[1] = color[1] * 255;
-		ent.shaderRGBA[2] = color[2] * 255;
+		MAKERGBA(ent.shaderRGBA, color[0] * 255, color[1] * 255, color[2] * 255, 255);
 	}
 	else
 	{
-		ent.shaderRGBA[0] = 255;
-		ent.shaderRGBA[1] = 255;
-		ent.shaderRGBA[2] = 255;
+		MAKERGBA(ent.shaderRGBA, 255, 255, 255, 255);
 	}
-	ent.shaderRGBA[3] = 255;
 	trap_R_AddRefEntityToScene(&ent);
 }
 
@@ -1862,7 +1857,15 @@ static void CG_PlayerSprites(centity_t* cent)
 			else
 			{
 				vec4_t color;
-				CG_GetColorForHealth(cl->health, cl->armor, color, NULL);
+				// Black color for low hp is transparent, skip it
+				if (cl->health >= 0)
+				{
+					CG_GetColorForHealth(cl->health, cl->armor, color, NULL);
+				}
+				else
+				{
+					VectorCopy(colorRed, color);
+				}
 				CG_PlayerFloatSprite(cent, cgs.media.friendShader, color);
 			}
 			return;

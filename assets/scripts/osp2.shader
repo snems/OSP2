@@ -43,21 +43,6 @@ sprites/foe
 	}
 }
 
-//sprites/foe
-//{
-//  sort Additive
-//
-//  nomipmaps
-//  nopicmip
-//  deformvertexes autosprite
-//  {
-//		map sprites/foe2.tga
-//
-//    blendFunc blend
-//    rgbGen entity
-//  }
-//}
-
 textures/effects/frozen
 {
   deformvertexes wave 100 sin 3 0 0 0
