@@ -879,6 +879,8 @@ void CG_RegisterWeapon(int weaponNum)
 		case WP_PLASMAGUN:
 			weaponInfo->missileTrailFunc = CG_PlasmaTrail;
 			weaponInfo->missileSound = trap_S_RegisterSound("sound/weapons/plasma/lasfly.wav", qfalse);
+			weaponInfo->missileDlight = 150;
+			MAKERGB(weaponInfo->missileDlightColor, 0.6f, 0.6f, 1.0f);
 			MAKERGB(weaponInfo->flashDlightColor, 0.6f, 0.6f, 1.0f);
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/plasma/hyprbf1a.wav", qfalse);
 			cgs.media.plasmaExplosionShader = trap_R_RegisterShader("plasmaExplosion");
@@ -941,6 +943,10 @@ void CG_RegisterWeapon(int weaponNum)
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/bfg/bfg_fire.wav", qfalse);
 			cgs.media.bfgExplosionShader = trap_R_RegisterShader("bfgExplosion");
 			cgs.media.bfgExplosionShaderNoPicMip = trap_R_RegisterShader("bfgExplosionNoPicMip");
+			MAKERGB(weaponInfo->missileDlightColor, 0, 1, 0);
+			weaponInfo->missileDlight = 200;
+			weaponInfo->wiTrailTime = 2000;
+			weaponInfo->trailRadius = 64;
 			if (!cgs.media.bfgExplosionShaderNoPicMip)
 			{
 				cgs.media.bfgExplosionShaderNoPicMip = cgs.media.bfgExplosionShader;
@@ -2254,7 +2260,9 @@ void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, imp
 				shader = cgs.media.bfgExplosionShaderNoPicMip;
 				mark = cgs.media.burnMarkNoPicMipShader;
 			}
-			radius = 32;
+			duration = 800;
+			light = 200;
+			radius = 64;
 			isSprite = qtrue;
 			break;
 		case WP_SHOTGUN:
