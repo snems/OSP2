@@ -609,7 +609,7 @@ typedef struct
 	int             shaderCount;
 } font_t;
 
-static font_t fonts[] = {{"id"}, {"idblock"}, {"sansman"}, {"cpma"}, {"m1rage"}};
+static font_t fonts[] = {{"id"}, {"idblock"}, {"sansman"}, {"cpma"}, {"m1rage"}, {"elite_emoji"}};
 static int fonts_num = sizeof(fonts) / sizeof(fonts[0]);
 static const font_t* font = &fonts[0];
 static const font_metric_t* metrics = &fonts[0].metrics[0];
@@ -916,6 +916,7 @@ void CG_LoadFonts(void)
 	CG_LoadFont(&fonts[2], "gfx/2d/sansman.cfg");
 	CG_LoadFont(&fonts[3], "gfx/2d/sansman.cfg"); // use sansman instead of cpma
 	CG_LoadFont(&fonts[4], "gfx/2d/m1rage.cfg");
+	CG_LoadFont(&fonts[5], "gfx/2d/elite_emoji.cfg");
 }
 
 
