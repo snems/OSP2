@@ -116,7 +116,7 @@ void CG_OSPDrawField(int x, int y, int val)
 	{
 		CG_DrawField(x, y, 1, val, 32, 48);
 	}
-	else if ((val > -9 && val < 0) || (val > 10 && val < 100))
+	else if ((val > -9 && val < 0) || (val >= 10 && val < 100))
 	{
 		CG_DrawField(x, y, 2, val, 32, 48);
 	}
