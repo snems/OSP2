@@ -77,6 +77,8 @@ int sumScoresBlue;
 int sumScoresRed;
 int sumPingBlue;
 int sumPingRed;
+int sumThawsBlue;
+int sumThawsRed;
 
 /*
 =================
@@ -266,7 +268,6 @@ static void CG_DrawClientScore(int y, score_t* score, float* color, float fade, 
 		CG_FillRect(SB_SCORELINE_X + BIGCHAR_WIDTH + (SB_RATING_WIDTH / 2.0), y,
 		            640 - SB_SCORELINE_X - BIGCHAR_WIDTH, BIGCHAR_HEIGHT + 1, hcolor);
 	}
-
 
 	CG_FontSelect(0);
 	CG_OSPDrawString(128, y, string, color, 16, 16, 256, DS_HLEFT | DS_SHADOW);
@@ -1054,22 +1055,18 @@ static int CG_OSPDrawTeamScores(int x, int y, int team, float fade, int maxScore
 		{
 			continue;
 		}
+
 		if (team == TEAM_RED)
 		{
-			if (ci->team == team && isCAGame)
-			{
-				sumPingRed += score->ping;
-			}
+			sumPingRed += score->ping;
 			sumScoresRed += score->score;
-
+			sumThawsRed += score->scoreFlags;
 		}
 		else if (team == TEAM_BLUE)
 		{
-			if (ci->team == team && isCAGame)
-			{
-				sumPingBlue += score->ping;
-			}
+			sumPingBlue += score->ping;
 			sumScoresBlue += score->score;
+			sumThawsBlue += score->scoreFlags;
 		}
 		if (team == TEAM_SPECTATOR && !isCAGame && ci->rt == TEAM_SPECTATOR)
 		{
@@ -1145,6 +1142,8 @@ qboolean CG_OSPDrawScoretable(void)
 	sumScoresRed = 0;
 	sumPingBlue = 0;
 	sumPingRed = 0;
+	sumThawsBlue = 0;
+	sumThawsRed = 0;
 
 	if (cg_hideScores.integer)
 	{
@@ -1277,9 +1276,9 @@ qboolean CG_OSPDrawScoretable(void)
 			}
 			else if (CG_OSPIsGameTypeFreeze()) // Freeze Tag
 			{
-				tmpStr = va("^1Scores  Players  AvgPing");
+				tmpStr = va("^1Scores   Thaws Players");
 				CG_OSPDrawString(80, 64, tmpStr, colorWhite, 8, 16, 256, DS_HLEFT | DS_SHADOW);
-				Com_sprintf(string, 128, " %3i  %2i  %3i", sumScoresRed, drewRed, sumPingRed / drewRed);
+				Com_sprintf(string, 128, " %3i %3i  %2i", sumScoresRed, sumThawsRed, drewRed);
 				CG_OSPDrawString(64, 80, string, colorWhite, 16, 20, 256, DS_HLEFT | DS_SHADOW);
 			}
 		}
@@ -1305,9 +1304,9 @@ qboolean CG_OSPDrawScoretable(void)
 		}
 		else if (CG_OSPIsGameTypeFreeze()) // Freeze Tag
 		{
-			tmpStr = va("^4Scores  Players  AvgPing");
+			tmpStr = va("^4Scores   Thaws Players");
 			CG_OSPDrawString(400, 64, tmpStr, colorWhite, 8, 16, 256, DS_HLEFT | DS_SHADOW);
-			Com_sprintf(string, 128, " %3i  %2i  %3i", sumScoresBlue, drewBlue, sumPingBlue / drewBlue);
+			Com_sprintf(string, 128, " %3i %3i  %2i", sumScoresBlue, sumThawsBlue, drewBlue);
 			CG_OSPDrawString(384, 80, string, colorWhite, 16, 20, 256, DS_HLEFT | DS_SHADOW);
 		}
 	}
