@@ -221,8 +221,18 @@ void CG_Respawn(void)
 	// display weapons available
 	cg.weaponSelectTime = cg.time;
 
-	// select the weapon the server says we are using
-	cg.weaponSelect = cg.snap->ps.weapon;
+	if (cg_respawnWeapon.integer >= WP_GAUNTLET && cg_respawnWeapon.integer <= WP_GRAPPLING_HOOK)
+	{
+		cg.weaponSelect = cg_respawnWeapon.integer;
+	}
+	else if (cg_respawnWeapon.integer == 0)
+	{
+		cg.weaponSelect = cg.snap->ps.weapon;
+	}
+
+
+
+
 }
 
 extern char* eventnames[];

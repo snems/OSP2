@@ -355,6 +355,7 @@ vmCvar_t           cg_dlightLG;
 vmCvar_t           cg_dlightRG;
 vmCvar_t           cg_dlightPG;
 vmCvar_t           cg_dlightBFG;
+vmCvar_t            cg_respawnWeapon;
 
 static cvarTable_t cvarTable[] =
 {
@@ -624,6 +625,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_dlightRG,       "cg_dlightRG",       "FF8000", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightRG },
 	{ &cg_dlightPG,       "cg_dlightPG",       "9999FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightPG },
 	{ &cg_dlightBFG,      "cg_dlightBFG",      "FFB2FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightBFG },
+	{ &cg_respawnWeapon, "cg_respawnWeapon", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_respawnWeapon },
 
 };
 
