@@ -248,7 +248,6 @@ typedef enum
 #define SE_TEAM_ONLY  0x00000002 // team only
 #define SE_SPECT      0x00000004 // available in spectator and not folowing view
 #define SE_DEAD       0x00000008 // available if dead or freeze
-#define SE_SCORES     0x00000010 // available if scores visible
 
 typedef struct superHUDConfigElement_s
 {
