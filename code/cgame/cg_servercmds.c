@@ -1068,21 +1068,38 @@ void CG_ServerCommand(void)
 //chat
 	if (strcmp(cmd, "chat") == 0)
 	{
+		messageAllowed_t ma;
+		qboolean isVanilaChatEnabled;
+		qboolean isShudChatEnabled;
+
 		Q_strncpyz(text, CG_Argv(1), 1024);
-		if (!CG_ChatIsMessageAllowed(text))
+
+		ma = CG_ChatCheckMessageAllowed(text);
+		if (ma == MESSAGE_NOTALLOWED)
 		{
 			return;
 		}
-		CG_RemoveChatEscapeChar(text);
-		if (cg_chatEnable.integer & CG_CHAT_COMMMON_ENABLED)
+
+		isVanilaChatEnabled = cg_chatEnable.integer & CG_CHAT_COMMMON_ENABLED;
+		isShudChatEnabled = cg_shudChatEnable.integer & CG_CHAT_COMMMON_ENABLED && ma == MESSAGE_ALLOWED_PLAYER;
+
+		if (!isVanilaChatEnabled && !isShudChatEnabled)
 		{
-			if (!cg_nochatbeep.integer)
-			{
-				trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
-			}
+			return;
+		}
+
+		if (!cg_nochatbeep.integer)
+		{
+			trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
+		}
+
+		CG_RemoveChatEscapeChar(text);
+
+		if (isVanilaChatEnabled)
+		{
 			CG_Printf("%s\n", text);
 		}
-		if (cg_shudChatEnable.integer & CG_CHAT_COMMMON_ENABLED)
+		if (isShudChatEnabled)
 		{
 			CG_SHUDEventChat(text);
 		}
@@ -1091,28 +1108,45 @@ void CG_ServerCommand(void)
 //tchat
 	if (strcmp(cmd, "tchat") == 0)
 	{
+		messageAllowed_t ma;
+		qboolean isVanilaChatEnabled;
+		qboolean isShudChatEnabled;
+
 		Q_strncpyz(text, CG_Argv(1), 1024);
-		if (!CG_ChatIsMessageAllowed(text))
+		ma = CG_ChatCheckMessageAllowed(text);
+		if (ma == MESSAGE_NOTALLOWED)
 		{
 			return;
 		}
-		CG_RemoveChatEscapeChar(text);
-		if (cg_chatEnable.integer & CG_CHAT_TEAM_ENABLED)
+
+		isVanilaChatEnabled = cg_chatEnable.integer & CG_CHAT_TEAM_ENABLED;
+		isShudChatEnabled = cg_shudChatEnable.integer & CG_CHAT_TEAM_ENABLED && ma == MESSAGE_ALLOWED_PLAYER;
+
+		if (!isVanilaChatEnabled && !isShudChatEnabled)
 		{
-			if (!cg_noTeamChatBeep.integer)
-			{
-				trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
-			}
+			return;
+		}
+
+		if (!cg_noTeamChatBeep.integer)
+		{
+			trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
+		}
+
+		CG_RemoveChatEscapeChar(text);
+		if (isVanilaChatEnabled)
+		{
 			CG_AddToTeamChat(text, 1024);
 			if (!ch_TeamchatOnly.integer || cgs.gametype == GT_TOURNAMENT)
 			{
 				CG_Printf("%s\n", text);
 			}
 		}
-		if (cg_shudChatEnable.integer & CG_CHAT_TEAM_ENABLED)
+
+		if (isShudChatEnabled)
 		{
 			CG_SHUDEventChat(text);
 		}
+
 		return;
 	}
 //scores

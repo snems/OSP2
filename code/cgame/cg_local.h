@@ -2245,7 +2245,13 @@ void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* overr
 // cg_chatfilter.c
 //
 #define CG_CHATFILTER_DEFAULT_FILE "chatfilter"
-qboolean CG_ChatIsMessageAllowed(const char* message);
+typedef enum 
+{
+	MESSAGE_NOTALLOWED, 
+	MESSAGE_ALLOWED_PLAYER, 
+	MESSAGE_ALLOWED_OTHER, 
+} messageAllowed_t;
+messageAllowed_t CG_ChatCheckMessageAllowed(const char* message);
 void CG_ChatfilterLoadFile(const char* filename);
 void CG_ChatfilterSaveFile(const char* filename);
 void CG_ChatfilterAddName(const char* name);

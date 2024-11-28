@@ -134,7 +134,7 @@ void CG_ChatfilterAddName(const char* name)
 	Q_strncpyz(target->name, name, len + 1);
 }
 
-qboolean CG_ChatIsMessageAllowed(const char* message)
+messageAllowed_t CG_ChatCheckMessageAllowed(const char* message)
 {
 	unsigned long hash;
 	const chatFilterTableNode_t* target;
@@ -151,19 +151,20 @@ qboolean CG_ChatIsMessageAllowed(const char* message)
 	}
 
 	splitter = strchr(start, 25);// 25 is splitter
-	if (!splitter) return qtrue; // no splitter, nothing to do
+	if (!splitter) return MESSAGE_ALLOWED_OTHER; // no splitter, nothing to do
 
 	splitter -= 2; //there is 2 symbols after name: ^7
 	len = splitter - start;
-	if (len <= 0) return qtrue; // something strange, ignore
-	if (len >= MAX_QPATH) return qtrue;
+	if (len <= 0) return MESSAGE_ALLOWED_OTHER; // something strange, ignore
+	if (len >= MAX_QPATH) return MESSAGE_ALLOWED_OTHER;
 	//
 	memcpy(name, start, len);
 	name[len] = 0;
 
 	target = CG_ChatfilterFindName(name);
 
-	return target == NULL; //not found
+
+	return target == NULL ? MESSAGE_ALLOWED_PLAYER : MESSAGE_NOTALLOWED; //not found
 }
 
 void CG_ChatfilterLoadFile(const char* filename)
