@@ -1594,7 +1594,7 @@ typedef struct
 	} value;
 } text_command_t;
 
-text_command_t* CG_CompiledTextCreate(const char* text);
+text_command_t* CG_CompileText(const char* text);
 void CG_CompiledTextDestroy(text_command_t* root);
 
 // flags for CG_DrawString

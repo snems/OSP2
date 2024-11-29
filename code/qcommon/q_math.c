@@ -51,7 +51,7 @@ const vec4_t g_color_table[ 10 ] =
 	{1.0f, 0.0f, 1.0f, 1.0f},
 	{1.0f, 1.0f, 1.0f, 1.0f},
 	{1.0f, 0.5f, 0.0f, 1.0f},
-	{0.6f, 0.6f, 1.0f, 1.0f},
+	{0.5f, 0.5f, 0.5f, 1.0f},
 };
 
 vec3_t  bytedirs[NUMVERTEXNORMALS] =

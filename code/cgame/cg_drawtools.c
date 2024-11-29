@@ -426,7 +426,7 @@ void CG_OSPDrawStringPrepare(const char* from, char* to, int size)
 }
 
 
-text_command_t* CG_CompiledTextCreate(const char* in)
+text_command_t* CG_CompileText(const char* in)
 {
 	int b;
 	text_command_t* commands;
@@ -470,6 +470,12 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					text += 2;
 					break;
 				case 'B':
+					if (!top_color_was_set && back_color_was_set)
+					{
+						commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
+						VectorCopy(back_color, commands[i].value.color);
+						++i;
+					}
 					b = cg.time & 0x7ff;
 					if (b > 1024)
 					{
@@ -481,6 +487,12 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					text += 2;
 					break;
 				case 'b':
+					if (!top_color_was_set && back_color_was_set)
+					{
+						commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
+						VectorCopy(back_color, commands[i].value.color);
+						++i;
+					}
 					b = cg.time & 0x7ff;
 					if (b > 1024)
 					{
@@ -549,12 +561,15 @@ text_command_t* CG_CompiledTextCreate(const char* in)
 					text += 8;
 					break;
 				default:
-					color_index = (text[1] - 0x30) % 10;
-					VectorCopy(g_color_table[color_index], commands[i].value.color); //-V557
-					commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
-					++i;
+					if ((text[1] >= '0') && (text[1] <= '9'))
+					{
+						color_index = text[1] - 0x30;
+						VectorCopy(g_color_table[color_index], commands[i].value.color); //-V557
+						commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
+						++i;
+						top_color_was_set = qtrue;
+					}
 					text += 2;
-					top_color_was_set = qtrue;
 					break;
 			}
 		}
@@ -2246,7 +2261,7 @@ int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, in
 	if (!string)
 		return 0;
 
-	text_commands = CG_CompiledTextCreate(string);
+	text_commands = CG_CompileText(string);
 	if (!text_commands)
 	{
 		return 0;
@@ -2285,7 +2300,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		return;
 
 
-	text_commands = CG_CompiledTextCreate(string);
+	text_commands = CG_CompileText(string);
 	if (!text_commands)
 	{
 		return;
