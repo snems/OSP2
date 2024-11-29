@@ -317,7 +317,8 @@ void CG_SHUDRoutine(void)
 		skip = (!(vflags & SE_IM) && is_intermission) ||
 		       ((vflags & SE_TEAM_ONLY) && (!is_team_game)) ||
 		       (!(vflags & SE_DEAD) && is_dead) ||
-		       (!(vflags & SE_SPECT) && is_spectator)
+		       (!(vflags & SE_SPECT) && is_spectator)||
+		       ((vflags & SE_DEMO_HIDE) && cg.demoPlayback)
 		       ;
 
 		if (!skip && last->element.routine)
