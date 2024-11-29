@@ -625,7 +625,6 @@ void CG_PredictPlayerState(void)
 	usercmd_t   oldestCmd;
 	usercmd_t   latestCmd;
 	int stateIndex = 0, predictCmd = 0;
-	int numPredicted = 0, numPlayedBack = 0; // debug code
 
 	cg.hyperspace = qfalse; // will be set if touching a trigger_teleport
 
@@ -720,79 +719,6 @@ void CG_PredictPlayerState(void)
 
 	cg_pmove.pmove_fixed = pmove_fixed.integer;// | cg_pmove_fixed.integer;
 	cg_pmove.pmove_msec = pmove_msec.integer;
-
-	if (cg_optimizePrediction.integer)
-	{
-		if (cg.nextFrameTeleport || cg.thisFrameTeleport)
-		{
-			// do a full predict
-			cg.lastPredictedCommand = 0;
-			cg.stateTail = cg.stateHead;
-			predictCmd = current - CMD_BACKUP + 1;
-		}
-		// cg.physicsTime is the current snapshot's serverTime
-		// if it's the same as the last one
-		else if (cg.physicsTime == cg.lastServerTime)
-		{
-			// we have no new information, so do an incremental predict
-			predictCmd = cg.lastPredictedCommand + 1;
-		}
-		else
-		{
-			// we have a new snapshot
-
-			int i;
-			qboolean error = qtrue;
-
-			// loop through the saved states queue
-			for (i = cg.stateHead; i != cg.stateTail; i = (i + 1) % NUM_SAVED_STATES)
-			{
-				// if we find a predicted state whose commandTime matches the snapshot player state's commandTime
-				if (cg.savedPmoveStates[i].commandTime == cg.predictedPlayerState.commandTime)
-				{
-					// make sure the state differences are acceptable
-					int errorcode = IsUnacceptableError(&cg.predictedPlayerState, &cg.savedPmoveStates[i]);
-
-					// too much change?
-					if (errorcode)
-					{
-						if (cg_showmiss.integer)
-						{
-							CG_Printf("errorcode %d at %d\n", errorcode, cg.time);
-						}
-						// yeah, so do a full predict
-						break;
-					}
-
-					// this one is almost exact, so we'll copy it in as the starting point
-					*cg_pmove.ps = cg.savedPmoveStates[i];
-					// advance the head
-					cg.stateHead = (i + 1) % NUM_SAVED_STATES;
-
-					// set the next command to predict
-					predictCmd = cg.lastPredictedCommand + 1;
-
-					// a saved state matched, so flag it
-					error = qfalse;
-					break;
-				}
-			}
-
-			// if no saved states matched
-			if (error)
-			{
-				// do a full predict
-				cg.lastPredictedCommand = 0;
-				cg.stateTail = cg.stateHead;
-				predictCmd = current - CMD_BACKUP + 1;
-			}
-		}
-
-		// keep track of the server time of the last snapshot so we
-		// know when we're starting from a new one in future calls
-		cg.lastServerTime = cg.physicsTime;
-		stateIndex = cg.stateHead;
-	}
 
 	// run cmds
 	moved = qfalse;
@@ -895,54 +821,8 @@ void CG_PredictPlayerState(void)
 			cg_pmove.cmd.serverTime = ((cg_pmove.cmd.serverTime + pmove_msec.integer - 1) / pmove_msec.integer) * pmove_msec.integer;
 		}
 
-		if (cg_optimizePrediction.integer)
-		{
-			// if we need to predict this command, or we've run out of space in the saved states queue
-			if (cmdNum >= predictCmd || (stateIndex + 1) % NUM_SAVED_STATES == cg.stateHead)
-			{
-				// run the Pmove
-				Pmove(&cg_pmove);
-
-				numPredicted++; // debug code
-
-				// record the last predicted command
-				cg.lastPredictedCommand = cmdNum;
-
-				// if we haven't run out of space in the saved states queue
-				if ((stateIndex + 1) % NUM_SAVED_STATES != cg.stateHead)
-				{
-					// save the state for the false case (of cmdNum >= predictCmd)
-					// in later calls to this function
-					cg.savedPmoveStates[stateIndex] = *cg_pmove.ps;
-					stateIndex = (stateIndex + 1) % NUM_SAVED_STATES;
-					cg.stateTail = stateIndex;
-				}
-			}
-			else
-			{
-				numPlayedBack++; // debug code
-
-				if (cg_showmiss.integer &&
-				        cg.savedPmoveStates[stateIndex].commandTime != cg_pmove.cmd.serverTime)
-				{
-					// this should ONLY happen just after changing the value of pmove_fixed
-					CG_Printf("saved state miss\n");
-				}
-
-				// play back the command from the saved states
-				*cg_pmove.ps = cg.savedPmoveStates[stateIndex];
-
-				// go to the next element in the saved states array
-				stateIndex = (stateIndex + 1) % NUM_SAVED_STATES;
-			}
-		}
-		else
-		{
 			// run the Pmove
-			Pmove(&cg_pmove);
-
-			numPredicted++; // debug code
-		}
+		Pmove(&cg_pmove);
 
 		moved = qtrue;
 
@@ -953,17 +833,6 @@ void CG_PredictPlayerState(void)
 		//CG_CheckChangedPredictableEvents(&cg.predictedPlayerState);
 	}
 
-
-	// do a /condump after a few seconds of this
-	if (qfalse)
-	{
-		CG_Printf("cg.time: %d, numPredicted: %d, numPlayedBack: %d\n", cg.time, numPredicted, numPlayedBack); // debug code
-	}
-	// if everything is working right, numPredicted should be 1 more than 98%
-	// of the time, meaning only ONE predicted move was done in the frame
-	// you should see other values for numPredicted after IsUnacceptableError
-	// returns nonzero, and that's it
-	//
 	if (cg_showmiss.integer > 1)
 	{
 		CG_Printf("[%i : %i] ", cg_pmove.cmd.serverTime, cg.time);
