@@ -1471,6 +1471,11 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 	}
 
 	CG_PositionEntityOnTag(&gun, parent, parent->hModel, "tag_weapon");
+	// First person gun shader
+	if (cg_drawGun.integer == 3 && (gun.renderfx & RF_FIRST_PERSON))
+	{
+		gun.customShader = cgs.media.firstPersonGun;
+	}
 
 	CG_AddWeaponWithPowerups(&gun, cent->currentState.powerups);
 
@@ -1489,7 +1494,11 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 		AnglesToAxis(angles, barrel.axis);
 
 		CG_PositionRotatedEntityOnTag(&barrel, &gun, weapon->weaponModel, "tag_barrel");
-
+		// First person gun shader
+		if (cg_drawGun.integer == 3 && (gun.renderfx & RF_FIRST_PERSON))
+		{
+			barrel.customShader = cgs.media.firstPersonGun;
+		}
 		CG_AddWeaponWithPowerups(&barrel, cent->currentState.powerups);
 	}
 
@@ -1568,6 +1577,7 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 		}
 	}
 }
+
 
 /*
 ==============

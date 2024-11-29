@@ -748,6 +748,7 @@ typedef struct
 	qhandle_t   railCoreShaderNoPicMip;
 
 	qhandle_t   lightningShader; //probably removed
+	qhandle_t   firstPersonGun;
 
 	qhandle_t   unk_media_60;
 	qhandle_t   unk_media_61;
@@ -2245,11 +2246,11 @@ void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* overr
 // cg_chatfilter.c
 //
 #define CG_CHATFILTER_DEFAULT_FILE "chatfilter"
-typedef enum 
+typedef enum
 {
-	MESSAGE_NOTALLOWED, 
-	MESSAGE_ALLOWED_PLAYER, 
-	MESSAGE_ALLOWED_OTHER, 
+	MESSAGE_NOTALLOWED,
+	MESSAGE_ALLOWED_PLAYER,
+	MESSAGE_ALLOWED_OTHER,
 } messageAllowed_t;
 messageAllowed_t CG_ChatCheckMessageAllowed(const char* message);
 void CG_ChatfilterLoadFile(const char* filename);

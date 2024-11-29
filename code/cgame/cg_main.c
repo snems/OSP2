@@ -1213,6 +1213,7 @@ static void CG_RegisterGraphics(void)
 		cgs.media.grenadeCPMANoPicMipShader = 0;
 	}
 
+	cgs.media.firstPersonGun = trap_R_RegisterShader("firstPersonGun");
 
 
 	cgs.media.bloodTrailShader = trap_R_RegisterShader("bloodTrail");
