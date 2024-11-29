@@ -1960,6 +1960,11 @@ static void PM_Weapon(void)
 		return;
 	}
 
+	if (pm->ps->weapon == WP_RAILGUN && pm->ps->stats[STAT_RAIL_DELAY] > 0)
+	{
+		return;
+	}
+
 	if (pm->ps->weaponstate == WEAPON_RAISING)
 	{
 		pm->ps->weaponstate = WEAPON_READY;
