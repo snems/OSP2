@@ -271,6 +271,7 @@ vmCvar_t           cg_lightningHide;
 
 vmCvar_t           cg_delag;
 vmCvar_t           cg_drawHitBox;
+vmCvar_t           cg_optimizePrediction;
 vmCvar_t           cg_projectileNudge;
 vmCvar_t           cg_hideScores;
 
@@ -354,6 +355,8 @@ vmCvar_t           cg_dlightLG;
 vmCvar_t           cg_dlightRG;
 vmCvar_t           cg_dlightPG;
 vmCvar_t           cg_dlightBFG;
+vmCvar_t            cg_gunColor;
+vmCvar_t            cg_gunOpaque;
 
 static cvarTable_t cvarTable[] =
 {
@@ -568,6 +571,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_lightningHide, "cg_lightningHide", "0", CVAR_ARCHIVE },
 	{ &cg_delag, "cg_delag", "1", CVAR_ARCHIVE },
 	{ &cg_drawHitBox, "cg_drawHitBox", "0", CVAR_ARCHIVE },
+	{ &cg_optimizePrediction, "cg_optimizePrediction", "0", CVAR_ARCHIVE },
 	{ &cg_projectileNudge, "cg_projectileNudge", "0", CVAR_ARCHIVE },
 	{ &cg_hideScores, "cg_hideScores", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyBlack, "cg_deadBodyBlack", "1", CVAR_ARCHIVE },
@@ -622,6 +626,9 @@ static cvarTable_t cvarTable[] =
 	{ &cg_dlightRG,       "cg_dlightRG",       "FF8000", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightRG },
 	{ &cg_dlightPG,       "cg_dlightPG",       "9999FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightPG },
 	{ &cg_dlightBFG,      "cg_dlightBFG",      "FFB2FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightBFG },
+	{ &cg_gunColor,         "cg_gunColor",      "white", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_gunColor },
+	{ &cg_gunOpaque,      "cg_gunOpaque",      "white", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_gunOpaque },
+
 
 };
 
@@ -1211,6 +1218,7 @@ static void CG_RegisterGraphics(void)
 		cgs.media.grenadeCPMANoPicMipShader = 0;
 	}
 
+	cgs.media.firstPersonGun = trap_R_RegisterShader("firstPersonGun");
 
 
 	cgs.media.bloodTrailShader = trap_R_RegisterShader("bloodTrail");
