@@ -1071,7 +1071,7 @@ static void CG_CalculateWeaponPosition(vec3_t origin, vec3_t angles)
 	VectorCopy(cg.refdef.vieworg, origin);
 	VectorCopy(cg.refdefViewAngles, angles);
 
-	if (cg_drawGun.integer == 2) return;
+	if (cg_drawGun.integer == 2 || cg_drawGun.integer == 3) return;
 
 	// on odd legs, invert some angles
 	if (cg.bobcycle & 1)
@@ -1471,6 +1471,12 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 	}
 
 	CG_PositionEntityOnTag(&gun, parent, parent->hModel, "tag_weapon");
+	if ((cg_drawGun.integer == 3) && (gun.renderfx & RF_FIRST_PERSON))
+	{
+		CG_UpdateGunShaderRGBA(&gun);
+		gun.customShader = cgs.media.firstPersonGun;
+
+	}
 
 	CG_AddWeaponWithPowerups(&gun, cent->currentState.powerups);
 
@@ -1489,7 +1495,11 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 		AnglesToAxis(angles, barrel.axis);
 
 		CG_PositionRotatedEntityOnTag(&barrel, &gun, weapon->weaponModel, "tag_barrel");
-
+		if ((cg_drawGun.integer == 3) && (gun.renderfx & RF_FIRST_PERSON))
+		{
+			CG_UpdateGunShaderRGBA(&barrel);
+			barrel.customShader = cgs.media.firstPersonGun;
+		}
 		CG_AddWeaponWithPowerups(&barrel, cent->currentState.powerups);
 	}
 
@@ -2735,4 +2745,24 @@ void CG_Bullet(vec3_t end, int sourceEntityNum, vec3_t normal, qboolean flesh, i
 		CG_MissileHitWall(WP_MACHINEGUN, 0, end, normal, IMPACTSOUND_DEFAULT);
 	}
 
+}
+
+void CG_UpdateGunShaderRGBA(refEntity_t* gun)
+{
+	vec4_t color;
+
+	if (!CG_ParseColorStr(cg_gunColor.string, color))
+	{
+		Com_Printf("^1Invalid color in cg_gunColor. Using default.\n");
+		VectorSet(color, 1.0f, 1.0f, 1.0f);
+	}
+
+	color[3] = atof(cg_gunOpaque.string);
+	if (color[3] < 0.0f) color[3] = 0.0f;
+	if (color[3] > 1.0f) color[3] = 1.0f;
+
+	gun->shaderRGBA[0] = 255 * color[0];
+	gun->shaderRGBA[1] = 255 * color[1];
+	gun->shaderRGBA[2] = 255 * color[2];
+	gun->shaderRGBA[3] = 255 * color[3];
 }
