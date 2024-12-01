@@ -1071,7 +1071,7 @@ static void CG_CalculateWeaponPosition(vec3_t origin, vec3_t angles)
 	VectorCopy(cg.refdef.vieworg, origin);
 	VectorCopy(cg.refdefViewAngles, angles);
 
-	if (cg_drawGun.integer == 2) return;
+	if (cg_drawGun.integer == 2 || cg_drawGun.integer == 3) return;
 
 	// on odd legs, invert some angles
 	if (cg.bobcycle & 1)
@@ -1471,6 +1471,14 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 	}
 
 	CG_PositionEntityOnTag(&gun, parent, parent->hModel, "tag_weapon");
+	// First person gun shader
+	if ((cg_drawGun.integer == 3) && (gun.renderfx & RF_FIRST_PERSON))
+	{
+		CG_UpdateGunShaderRGBA(&gun);
+		gun.customShader = cgs.media.firstPersonGun;
+
+	}
+
 
 	CG_AddWeaponWithPowerups(&gun, cent->currentState.powerups);
 
@@ -1489,7 +1497,12 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 		AnglesToAxis(angles, barrel.axis);
 
 		CG_PositionRotatedEntityOnTag(&barrel, &gun, weapon->weaponModel, "tag_barrel");
-
+		// First person gun shader
+		if ((cg_drawGun.integer == 3) && (gun.renderfx & RF_FIRST_PERSON))
+		{
+			CG_UpdateGunShaderRGBA(&barrel);
+			barrel.customShader = cgs.media.firstPersonGun;
+		}
 		CG_AddWeaponWithPowerups(&barrel, cent->currentState.powerups);
 	}
 
@@ -1568,6 +1581,7 @@ void CG_AddPlayerWeapon(refEntity_t* parent, playerState_t* ps, centity_t* cent,
 		}
 	}
 }
+
 
 /*
 ==============
@@ -2736,3 +2750,32 @@ void CG_Bullet(vec3_t end, int sourceEntityNum, vec3_t normal, qboolean flesh, i
 	}
 
 }
+
+
+void CG_UpdateGunShaderRGBA(refEntity_t* gun)
+{
+	vec4_t color;
+
+	// Парсим значение из переменной cg_gunColor
+	if (!CG_ParseColorStr(cg_gunColor.string, color))
+	{
+		Com_Printf("^1Invalid color in cg_gunColor. Using default.\n");
+		VectorSet(color, 1.0f, 1.0f, 1.0f); // Белый цвет по умолчанию
+	}
+
+	// Прозрачность берётся из cg_gunOpaque
+	color[3] = atof(cg_gunOpaque.string);
+	if (color[3] < 0.0f) color[3] = 0.0f; // Минимум
+	if (color[3] > 1.0f) color[3] = 1.0f; // Максимум
+
+	// Устанавливаем в gun->shaderRGBA
+	gun->shaderRGBA[0] = 255 * color[0];
+	gun->shaderRGBA[1] = 255 * color[1];
+	gun->shaderRGBA[2] = 255 * color[2];
+	gun->shaderRGBA[3] = 255 * color[3];
+}
+
+
+
+
+
