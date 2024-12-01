@@ -1474,6 +1474,8 @@ extern vmCvar_t           cg_dlightLG;
 extern vmCvar_t           cg_dlightRG;
 extern vmCvar_t           cg_dlightPG;
 extern vmCvar_t           cg_dlightBFG;
+extern vmCvar_t           cg_gunColor;
+extern vmCvar_t           cg_gunOpaque;
 //
 // cg_main.c
 //
@@ -2244,11 +2246,11 @@ void CG_PlayerColorsFromCS(playerColors_t* colors, playerColorsOverride_t* overr
 // cg_chatfilter.c
 //
 #define CG_CHATFILTER_DEFAULT_FILE "chatfilter"
-typedef enum 
+typedef enum
 {
-	MESSAGE_NOTALLOWED, 
-	MESSAGE_ALLOWED_PLAYER, 
-	MESSAGE_ALLOWED_OTHER, 
+	MESSAGE_NOTALLOWED,
+	MESSAGE_ALLOWED_PLAYER,
+	MESSAGE_ALLOWED_OTHER,
 } messageAllowed_t;
 messageAllowed_t CG_ChatCheckMessageAllowed(const char* message);
 void CG_ChatfilterLoadFile(const char* filename);
@@ -2328,6 +2330,7 @@ void CG_LocalEventCvarChanged_cg_dlightLG(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_dlightRG(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_dlightPG(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_dlightBFG(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_gunRGBA(cvarTable_t* cvart);
 
 #ifdef __cplusplus
 }
