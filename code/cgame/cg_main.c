@@ -354,6 +354,8 @@ vmCvar_t           cg_dlightLG;
 vmCvar_t           cg_dlightRG;
 vmCvar_t           cg_dlightPG;
 vmCvar_t           cg_dlightBFG;
+vmCvar_t            cg_gunColor;
+vmCvar_t            cg_gunOpaque;
 
 static cvarTable_t cvarTable[] =
 {
@@ -622,6 +624,8 @@ static cvarTable_t cvarTable[] =
 	{ &cg_dlightRG,       "cg_dlightRG",       "FF8000", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightRG },
 	{ &cg_dlightPG,       "cg_dlightPG",       "9999FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightPG },
 	{ &cg_dlightBFG,      "cg_dlightBFG",      "FFB2FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightBFG },
+	{ &cg_gunColor,       "cg_gunColor",      "white", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_gunRGBA },
+	{ &cg_gunOpaque,      "cg_gunOpaque",      "0.15", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_gunRGBA },
 
 };
 
@@ -1211,7 +1215,7 @@ static void CG_RegisterGraphics(void)
 		cgs.media.grenadeCPMANoPicMipShader = 0;
 	}
 
-
+	cgs.media.firstPersonGun = trap_R_RegisterShader("firstPersonGun");
 
 	cgs.media.bloodTrailShader = trap_R_RegisterShader("bloodTrail");
 	cgs.media.lagometerShader = trap_R_RegisterShader("lagometer");
