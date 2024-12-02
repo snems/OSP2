@@ -1148,6 +1148,18 @@ void CG_LightningBolt(centity_t* cent, float* origin)
 
 	if (cent->currentState.weapon != WP_LIGHTNING) return;
 
+	if (isOurClient)
+	{
+		if (cg.snap->ps.weapon != WP_LIGHTNING)
+		{
+			return;
+		}
+		if (cg.snap->ps.weaponstate != WEAPON_READY && cg.snap->ps.weaponstate != WEAPON_FIRING)
+		{
+			return;
+		}
+	}
+
 	memset(&beam, 0, sizeof(refEntity_t));
 
 	if (cg_trueLightning.value > 1)
