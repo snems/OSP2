@@ -1406,6 +1406,26 @@ static void CG_AddWeaponWithPowerups(refEntity_t* gun, int powerups)
 	}
 }
 
+static void CG_UpdateGunShaderRGBA(refEntity_t* gun)
+{
+	vec4_t color;
+
+	if (!CG_ParseColorStr(cg_gunColor.string, color))
+	{
+		Com_Printf("^1Invalid color in cg_gunColor. Using default.\n");
+		VectorSet(color, 1.0f, 1.0f, 1.0f);
+	}
+
+	color[3] = atof(cg_gunOpaque.string);
+	if (color[3] < 0.0f) color[3] = 0.0f;
+	if (color[3] > 1.0f) color[3] = 1.0f;
+
+	gun->shaderRGBA[0] = 255 * color[0];
+	gun->shaderRGBA[1] = 255 * color[1];
+	gun->shaderRGBA[2] = 255 * color[2];
+	gun->shaderRGBA[3] = 255 * color[3];
+}
+
 
 /*
 =============
@@ -2759,22 +2779,3 @@ void CG_Bullet(vec3_t end, int sourceEntityNum, vec3_t normal, qboolean flesh, i
 
 }
 
-void CG_UpdateGunShaderRGBA(refEntity_t* gun)
-{
-	vec4_t color;
-
-	if (!CG_ParseColorStr(cg_gunColor.string, color))
-	{
-		Com_Printf("^1Invalid color in cg_gunColor. Using default.\n");
-		VectorSet(color, 1.0f, 1.0f, 1.0f);
-	}
-
-	color[3] = atof(cg_gunOpaque.string);
-	if (color[3] < 0.0f) color[3] = 0.0f;
-	if (color[3] > 1.0f) color[3] = 1.0f;
-
-	gun->shaderRGBA[0] = 255 * color[0];
-	gun->shaderRGBA[1] = 255 * color[1];
-	gun->shaderRGBA[2] = 255 * color[2];
-	gun->shaderRGBA[3] = 255 * color[3];
-}

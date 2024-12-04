@@ -28,7 +28,7 @@ file(GLOB SOURCES_TESTS
         ../../code/tests/*.hxx
         )
 
-find_package(Catch2 2.13.8 REQUIRED)
+find_package(Catch2 3.4.0 REQUIRED)
 add_executable(osp2_tests ${SOURCES_COMMON} ${SOURCES_TESTS})
 
 target_link_libraries(osp2_tests PRIVATE Catch2::Catch2WithMain)

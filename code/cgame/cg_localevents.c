@@ -399,10 +399,6 @@ void CG_LocalEventCvarChanged_cg_dlightBFG(cvarTable_t* cvart)
 	CG_UpdateWeaponDlightColor(WP_BFG);
 }
 
-void CG_LocalEventCvarChanged_cg_gunRGBA(cvarTable_t* cvart)
-{
-	void CG_UpdateGunShaderRGBA(refEntity_t* gun);
-}
 
 
 
