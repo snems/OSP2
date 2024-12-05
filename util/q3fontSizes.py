@@ -1,7 +1,7 @@
 from PIL import Image, ImageFont, ImageDraw
 
-file_in = "./diablo.png"
-file_out = "../assets/gfx/2d/diablo_%s.tga"
+file_in = "./m1rage.png"
+file_out = "../assets/gfx/2d/m1rage_%s.tga"
 
 template_size_x = 1024
 template_size_y = 1024
@@ -64,9 +64,9 @@ image = Image.open(file_in)
 imageRGB = image.convert('RGB')
 
 print("// img <font image> <threshold>, up to 4 entries allowed")
-print("img \"gfx/2d/diablo_64.tga\" 48")
-print("img \"gfx/2d/diablo_32.tga\" 22")
-print("img \"gfx/2d/diablo_16.tga\" 0")
+print("img \"gfx/2d/m1rage_64.tga\" 48")
+print("img \"gfx/2d/m1rage_32.tga\" 22")
+print("img \"gfx/2d/m1rage_16.tga\" 0")
 print("// fnt <width> <height> <char width> <char height>")
 print("fnt 1024 1024 64 64")
 print("// <ch> <x0> <y0> <x1> <w> <s1> <s2>")
@@ -81,6 +81,8 @@ for char in q3_ascii_table:
     x_offset = 0
     if char != ' ':
         if char == 'X':
+            x_offset = 4
+        elif char == 'Z':
             x_offset = 4
 
     for begin in range(x_offset, int(char_size_x)):
