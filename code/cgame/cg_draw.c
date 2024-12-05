@@ -2420,7 +2420,7 @@ static void CG_DrawTestFont(const char* font)
 			to_print[0] = (char)c;
 			c++;
 			if (to_print[0] == 0) to_print[0] = ' ';
-			CG_OSPDrawString(offs_x + x * 20, offs_y + y * 20, to_print, colorWhite, 16, 16, 4, DS_HLEFT);
+			CG_OSPDrawString(offs_x + x * 20, offs_y + y * 20, to_print, colorWhite, 16, 16, 4, DS_HCENTER|DS_PROPORTIONAL);
 		}
 	}
 
