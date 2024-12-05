@@ -159,6 +159,8 @@ qhandle_t CG_GetModIcon(int mod)
 			// CG_Printf("CG_GetModIcon: Unknown mod value = %d\n", mod);
 			iconShader = 0;
 			break;
+	}
+
 	return iconShader;
 }
 
