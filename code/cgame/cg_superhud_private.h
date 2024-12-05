@@ -659,7 +659,7 @@ typedef struct
 	int targetLength;
 } superhudNecrologEntry_t;
 
-#define SHUD_MAX_NECROLOG_LINES 16
+#define SHUD_MAX_NECROLOG_LINES 8
 #define SHUD_MAX_CHAT_LINES 16
 #define SHUD_MAX_POWERUPS 8
 
