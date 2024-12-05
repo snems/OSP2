@@ -47,6 +47,13 @@ typedef enum
 
 typedef enum
 {
+	SUPERHUD_OBITUARYSTYLE_1,
+	SUPERHUD_OBITUARYSTYLE_2,
+	SUPERHUD_OBITUARYSTYLE_3,
+} superhudObituaryStyle_t;
+
+typedef enum
+{
 	SUPERHUD_ITTEAM_BLUE,
 	SUPERHUD_ITTEAM_RED,
 	SUPERHUD_ITTEAM_NEUTRAL,
@@ -150,6 +157,11 @@ typedef struct
 	} monospace;
 	struct
 	{
+		superhudObituaryStyle_t value;
+		qboolean isSet;
+	} obituarystyle;
+	struct
+	{
 		vec3_t value;
 		qboolean isSet;
 	} offset;
@@ -249,6 +261,7 @@ typedef enum
 #define SE_SPECT      0x00000004 // available in spectator and not folowing view
 #define SE_DEAD       0x00000008 // available if dead or freeze
 #define SE_DEMO_HIDE  0x00000010 // hide when playing demo
+#define SE_SCORES     0x00000120 // hide when scores up
 
 typedef struct superHUDConfigElement_s
 {
@@ -427,6 +440,21 @@ void* CG_SHUDElementChat15Create(const superhudConfig_t* config);
 void* CG_SHUDElementChat16Create(const superhudConfig_t* config);
 void CG_SHUDElementChatRoutine(void* context);
 void CG_SHUDElementChatDestroy(void* context);
+
+void* CG_SHUDElementNecrolog1Create(const superhudConfig_t* config);
+void* CG_SHUDElementNecrolog2Create(const superhudConfig_t* config);
+void* CG_SHUDElementNecrolog3Create(const superhudConfig_t* config);
+void* CG_SHUDElementNecrolog4Create(const superhudConfig_t* config);
+void* CG_SHUDElementNecrolog5Create(const superhudConfig_t* config);
+void* CG_SHUDElementNecrolog6Create(const superhudConfig_t* config);
+void* CG_SHUDElementNecrolog7Create(const superhudConfig_t* config);
+void* CG_SHUDElementNecrolog8Create(const superhudConfig_t* config);
+void CG_SHUDElementNecrologRoutine(void* context);
+void CG_SHUDElementNecrologDestroy(void* context);
+
+
+
+
 
 void* CG_SHUDElementSpecMessageCreate(const superhudConfig_t* config);
 void CG_SHUDElementSpecMessageRoutine(void* context);
@@ -618,6 +646,20 @@ typedef struct
 	int time;
 } superhudChatEntry_t;
 
+typedef struct
+{
+	int time;
+	qhandle_t iconShader;
+	int attacker;
+	int target;
+	int attackerTeam;
+	int targetTeam;
+	int mod;
+	int attackerLength;
+	int targetLength;
+} superhudNecrologEntry_t;
+
+#define SHUD_MAX_NECROLOG_LINES 16
 #define SHUD_MAX_CHAT_LINES 16
 #define SHUD_MAX_POWERUPS 8
 
@@ -638,6 +680,11 @@ typedef struct
 		superhudChatEntry_t line[SHUD_MAX_CHAT_LINES];
 		unsigned int index;
 	} chat;
+	struct
+	{
+		superhudNecrologEntry_t line[SHUD_MAX_NECROLOG_LINES];
+		unsigned int index;
+	} necrolog;
 	struct superhudPowerupsCache_t
 	{
 		struct superhudPowerupElement_t

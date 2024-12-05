@@ -593,6 +593,16 @@
 
 ---
 
+    cg_conObituaries 0/1
+
+Вывод сообщений об убийствах/размороке в консоль. 
+
+`0` не выводится
+
+`1` выводится
+
+---
+
     ch_fragMessage
     cg_fallKick
     cg_smokegrowth_gl

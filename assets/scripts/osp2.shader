@@ -99,3 +99,69 @@ firstPersonGun {
     }
 }
 
+
+
+
+// obituaries
+ObituariesSkull {
+    {
+        map icons/obituaries/ObituariesSkull.tga
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+        depthWrite
+        rgbGen identity
+    }
+}
+
+ObituariesFallenCrashed {
+    {
+        map icons/obituaries/fallencrashed.tga
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+        depthWrite
+        rgbGen identity
+    }
+}
+
+ObituariesFalling {
+    {
+        map icons/obituaries/falling.tga
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+        depthWrite
+        rgbGen identity
+    }
+}
+
+ObituariesDrowned {
+    {
+        map icons/obituaries/drowned.tga
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+        depthWrite
+        rgbGen identity
+    }
+}
+
+ObituariesLava {
+    {
+        map icons/obituaries/lava.tga
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+        depthWrite
+        rgbGen identity
+    }
+}
+
+ObituariesTelefrag {
+    {
+        map icons/obituaries/telefrag.tga
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+        depthWrite
+        rgbGen identity
+    }
+}
+
+ObituariesMelted {
+    {
+        map icons/obituaries/melted.tga
+        blendFunc GL_SRC_ALPHA GL_ONE_MINUS_SRC_ALPHA
+        depthWrite
+        rgbGen identity
+    }
+}

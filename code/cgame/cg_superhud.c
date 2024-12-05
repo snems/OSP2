@@ -314,10 +314,11 @@ void CG_SHUDRoutine(void)
 		// check visibility
 		vflags = last->config.visiblity.isSet ? last->config.visiblity.value : last->element.visibility;
 
-		skip = (!(vflags & SE_IM) && is_intermission) ||
+		skip = ((vflags & SE_SCORES) && cg.showScores) ||
+		       (!(vflags & SE_IM) && is_intermission) ||
 		       ((vflags & SE_TEAM_ONLY) && (!is_team_game)) ||
 		       (!(vflags & SE_DEAD) && is_dead) ||
-		       (!(vflags & SE_SPECT) && is_spectator)||
+		       (!(vflags & SE_SPECT) && is_spectator) ||
 		       ((vflags & SE_DEMO_HIDE) && cg.demoPlayback)
 		       ;
 
@@ -433,4 +434,52 @@ void CG_SHUDEventTeamChat(const char* message)
 	ctx->chat.line[index].time = cg.time;
 	++ctx->chat.index;
 }
+
+void CG_SHUDEventNecrolog(int attacker, int target, int mod)
+{
+	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
+	int index;
+	const char* attackerName;
+	const char* targetName;
+	int attackerTeam;
+	int targetTeam;
+
+	index = ctx->necrolog.index % SHUD_MAX_NECROLOG_LINES;
+
+	attackerTeam = cgs.clientinfo[attacker].team;
+	targetTeam = cgs.clientinfo[target].team;
+
+	ctx->necrolog.line[index].attacker = attacker;
+	ctx->necrolog.line[index].target = target;
+	ctx->necrolog.line[index].mod = mod;
+	ctx->necrolog.line[index].time = cg.time;
+
+	attackerName = cgs.clientinfo[attacker].name_clean;
+	targetName = cgs.clientinfo[target].name_clean;
+
+	ctx->necrolog.line[index].attackerTeam = attackerTeam;
+	ctx->necrolog.line[index].targetTeam = targetTeam;
+
+	ctx->necrolog.line[index].attackerLength = strlen(attackerName);
+	ctx->necrolog.line[index].targetLength = strlen(targetName);
+
+	++ctx->necrolog.index;
+	// CG_Printf("Necrolog Event: Mod=%d\n", mod);
+	// CG_Printf("Necrolog Event: attacker=%d\n", attacker);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
