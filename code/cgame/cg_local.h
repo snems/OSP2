@@ -1094,7 +1094,7 @@ typedef struct cgs_osp_s
 	struct
 	{
 		qboolean forceChat;
-
+		qboolean forceNecrolog;
 	} shud;
 } cgs_osp_t;
 
@@ -1477,6 +1477,7 @@ extern vmCvar_t           cg_dlightPG;
 extern vmCvar_t           cg_dlightBFG;
 extern vmCvar_t           cg_gunColor;
 extern vmCvar_t           cg_gunOpaque;
+extern vmCvar_t             cg_conObituaries;
 //
 // cg_main.c
 //
@@ -2331,6 +2332,7 @@ void CG_LocalEventCvarChanged_cg_dlightLG(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_dlightRG(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_dlightPG(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_dlightBFG(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_conObituaries(cvarTable_t* cvart);
 
 #ifdef __cplusplus
 }
