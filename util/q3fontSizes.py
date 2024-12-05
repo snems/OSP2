@@ -1,6 +1,6 @@
 from PIL import Image, ImageFont, ImageDraw
 
-file_in = "/home/snems/tmp/diablo.png"
+file_in = "./diablo.png"
 file_out = "../assets/gfx/2d/diablo_%s.tga"
 
 template_size_x = 1024
@@ -14,7 +14,7 @@ q3_ascii_table = \
 " !\"#$%&'()*+,-./" \
 "0123456789:;<=>?" \
 "@ABCDEFGHIJKLMNO" \
-"PQRSTUVWXYZ[\]^_" \
+"PQRSTUVWXYZ[\\]^_" \
 "`abcdefghijklmno" \
 "pqrstuvwxyz{|}~ " \
 "                " \
@@ -22,7 +22,7 @@ q3_ascii_table = \
 " !\"#$%&'()*+,-./" \
 "0123456789:;<=>?" \
 "@ABCDEFGHIJKLMNO" \
-"PQRSTUVWXYZ[\]^_" \
+"PQRSTUVWXYZ[\\]^_" \
 "'ABCDEFGHIJKLMNO" \
 "PQRSTUVWXYZ{|}\" "
 
@@ -78,8 +78,12 @@ x_offset = 4
 y_offset = 0
 
 for char in q3_ascii_table:
+    x_offset = 0
+    if char != ' ':
+        if char == 'X':
+            x_offset = 4
 
-    for begin in range(0, int(char_size_x)):
+    for begin in range(x_offset, int(char_size_x)):
         if (not isCharColumEmpty(imageRGB, x + begin, y)):
            break;
 
