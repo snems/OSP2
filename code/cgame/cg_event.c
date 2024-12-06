@@ -149,7 +149,7 @@ void CG_OSPObituaryFreeze(entityState_t* es, char* targetName)
 	const char* actionStr;
 	const char* endStr = "";
 	const char* cs;
-
+	int mod = 1337;
 	targetId = es->otherEntityNum;
 	actorId = es->otherEntityNum2;
 
@@ -179,6 +179,8 @@ void CG_OSPObituaryFreeze(entityState_t* es, char* targetName)
 				break;
 		}
 	}
+	CG_SHUDEventNecrolog(actorId, targetId, mod);
+
 	if (actorId == cg.snap->ps.clientNum)
 	{
 		CG_ObituaryFragmessage(va("You thawed %s", targetName));
@@ -189,6 +191,10 @@ void CG_OSPObituaryFreeze(entityState_t* es, char* targetName)
 	}
 	if (actorName[0] && targetName)
 	{
+		if (cg_conObituaries.integer == 0)
+		{
+			return;
+		}
 		CG_OSPNormalizeNameCopy(actorName, actorNameNormalized, 64);
 		CG_OSPNormalizeNameCopy(targetName, targetNameNormalized, 64);
 		CG_Printf("%s ^6%s ^7%s ^6%s.\n", actorNameNormalized, actionStr, targetNameNormalized, endStr);
@@ -266,7 +272,7 @@ static void CG_Obituary(entityState_t* ent)
 		CG_OSPObituaryFreeze(ent, targetName);
 		return;
 	}
-
+	CG_SHUDEventNecrolog(attacker, target, mod);
 	// check for single client messages
 	switch (mod)
 	{
@@ -342,6 +348,10 @@ static void CG_Obituary(entityState_t* ent)
 	}
 	if (message != NULL)
 	{
+		if (cg_conObituaries.integer == 0)
+		{
+			return;
+		}
 		CG_Printf("%s %s.\n", targetName, message);
 		if (cg.demoPlayback != 0)
 		{
@@ -442,6 +452,10 @@ static void CG_Obituary(entityState_t* ent)
 			default:
 				message = "was killed by";
 				break;
+		}
+		if (cg_conObituaries.integer == 0)
+		{
+			return;
 		}
 
 		CG_RemoveChatEscapeChar(targetName);

@@ -31,7 +31,7 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseTime(configFileInfo_
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseVisFlags(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseHlColor(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseHlSize(configFileInfo_t* finfo, superhudConfig_t* config);
-
+static superhudConfigParseStatus_t CG_SHUDConfigCommandParseObituarystyle(configFileInfo_t* finfo, superhudConfig_t* config);
 static superHUDConfigCommand_t superHUDConfigItemCommands[] =
 {
 	{ "alignh", CG_SHUDConfigCommandParseAlighH },
@@ -62,6 +62,7 @@ static superHUDConfigCommand_t superHUDConfigItemCommands[] =
 	{ "time", CG_SHUDConfigCommandParseTime },
 	{ "visflags", CG_SHUDConfigCommandParseVisFlags},
 	{ "hlsize", CG_SHUDConfigCommandParseHlSize },
+	{ "obituarystyle", CG_SHUDConfigCommandParseObituarystyle },
 	{ NULL, NULL, NULL },
 };
 
@@ -1290,3 +1291,32 @@ void CG_SHUDParserInit(void)
 	initialized = qtrue;
 }
 
+static superhudConfigParseStatus_t CG_SHUDConfigCommandParseObituarystyle(configFileInfo_t* finfo, superhudConfig_t* config)
+{
+	char c;
+	superhudConfigParseStatus_t status;
+
+	config->obituarystyle.isSet = qfalse;
+
+	status = CG_SHUDConfigSkipSCN(finfo);
+	if (status != SUPERHUD_CONFIG_OK) return status;
+
+	c = tolower(CG_SHUD_CONFIG_INFO_GET_CHAR(finfo));
+	switch (c)
+	{
+		case '0':
+			config->obituarystyle.value = SUPERHUD_OBITUARYSTYLE_1;
+			break;
+		case '1':
+			config->obituarystyle.value = SUPERHUD_OBITUARYSTYLE_2;
+			break;
+		case '2':
+			config->obituarystyle.value = SUPERHUD_OBITUARYSTYLE_3;
+			break;
+		default:
+			return SUPERHUD_CONFIG_UNEXPECTED_CHARACTER;
+	}
+
+	config->obituarystyle.isSet = qtrue;
+	return SUPERHUD_CONFIG_OK;
+}
