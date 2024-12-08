@@ -71,7 +71,7 @@ static qboolean CG_SHUDScoresGetOWN(int* scores)
 	switch (team)
 	{
 		case TEAM_FREE:
-			*scores = cgs.clientinfo[cg.snap->ps.clientNum].score;
+			*scores = cg.snap->ps.persistant[PERS_SCORE];
 			return *scores != SCORE_NOT_PRESENT;
 		case TEAM_RED:
 			*scores = cgs.scores1;
