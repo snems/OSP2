@@ -629,7 +629,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_dlightBFG,      "cg_dlightBFG",      "FFB2FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightBFG },
 	{ &cg_gunColor,       "cg_gunColor",      "white", CVAR_ARCHIVE },
 	{ &cg_gunOpaque,      "cg_gunOpaque",      "0.15", CVAR_ARCHIVE },
-	
+
 
 };
 
