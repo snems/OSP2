@@ -1850,7 +1850,7 @@ static void CG_PlayerSprites(centity_t* cent)
 	{
 		if (!(cent->currentState.eFlags & EF_DEAD) && cg.snap->ps.persistant[PERS_TEAM] == cl->team && cgs.gametype >= GT_TEAM)
 		{
-			if (cgs.osp.gameTypeFreeze && cent->currentState.powerups & (1 << PW_BATTLESUIT) && cent->currentState.weapon == WP_NONE)
+			if (cg_teamFrozenFoe.integer && cgs.osp.gameTypeFreeze && cent->currentState.powerups & (1 << PW_BATTLESUIT) && cent->currentState.weapon == WP_NONE)
 			{
 				CG_PlayerFloatSprite(cent, cgs.media.frozenFoeTagShader, NULL);
 			}
@@ -1858,7 +1858,7 @@ static void CG_PlayerSprites(centity_t* cent)
 			{
 				vec4_t color;
 				// Black color for low hp is transparent, skip it
-				if (cl->health >= 0)
+				if (cl->health > 0)
 				{
 					CG_GetColorForHealth(cl->health, cl->armor, color, NULL);
 				}

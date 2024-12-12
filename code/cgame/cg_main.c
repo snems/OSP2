@@ -282,10 +282,12 @@ vmCvar_t           cg_playerFrozenColor;
 vmCvar_t           cg_teamModelColors;
 vmCvar_t           cg_teamRailColors;
 vmCvar_t           cg_teamFrozenColor;
+vmCvar_t           cg_teamFrozenFoe;
 
 vmCvar_t           cg_enemyModelColors;
 vmCvar_t           cg_enemyRailColors;
 vmCvar_t           cg_enemyFrozenColor;
+
 
 vmCvar_t           cg_spectGlow;
 vmCvar_t           cg_spectOrigModel;
@@ -354,8 +356,8 @@ vmCvar_t           cg_dlightLG;
 vmCvar_t           cg_dlightRG;
 vmCvar_t           cg_dlightPG;
 vmCvar_t           cg_dlightBFG;
-vmCvar_t            cg_gunColor;
-vmCvar_t            cg_gunOpaque;
+vmCvar_t           cg_gunColor;
+vmCvar_t           cg_gunOpaque;
 
 static cvarTable_t cvarTable[] =
 {
@@ -588,6 +590,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_enemyRailColors,   "cg_enemyRailColors", "",   CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyRailColors},
 	{ &cg_enemyFrozenColor,  "cg_enemyFrozenColor", "",  CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyFrozenColor},
 	{ &cg_enemyModelColorsUnique, "cg_enemyModelColorsUnique", "1", CVAR_ARCHIVE, NULL},
+	{ &cg_teamFrozenFoe,   "cg_teamFrozenFoe", "1",   CVAR_ARCHIVE },
 
 	{ &cg_chatEnable, "cg_chatEnable", "3", CVAR_ARCHIVE},
 	{ &cg_shudChatEnable, "cg_shudChatEnable", "3", CVAR_ARCHIVE},
@@ -626,6 +629,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_dlightBFG,      "cg_dlightBFG",      "FFB2FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightBFG },
 	{ &cg_gunColor,       "cg_gunColor",      "white", CVAR_ARCHIVE },
 	{ &cg_gunOpaque,      "cg_gunOpaque",      "0.15", CVAR_ARCHIVE },
+	
 
 };
 
