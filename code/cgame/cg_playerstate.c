@@ -106,7 +106,7 @@ void CG_DamageFeedback(int yawByte, int pitchByte, int damage)
 	// show the attacking player's head and name in corner
 	cg.attackerTime = cg.time;
 
-	if (cg_damageSound.integer)
+	if (cg_damageSound.integer == 1)
 	{
 		trap_S_StartLocalSound(cgs.media.gotDamageSound, CHAN_LOCAL_SOUND);
 	}
@@ -345,9 +345,65 @@ static void CG_PlayHitSound(sfxHandle_t sound, playerState_t* ps, playerState_t*
 	trap_S_StartLocalSound(sound, CHAN_LOCAL_SOUND);
 }
 
+int hit_hp;
+int hit_ar;
+
 void CG_HitSound(playerState_t* ps, playerState_t* ops)
 {
 	const int hits = ps->persistant[PERS_HITS] - ops->persistant[PERS_HITS];
+
+	/* когда враг наносит тебе урон проигрываем звук с частотой снятия хп */
+    if (ps->stats[STAT_HEALTH] > ops->stats[STAT_HEALTH])
+    {
+        hit_hp = ps->stats[STAT_HEALTH] - (ps->stats[STAT_HEALTH] - ops->stats[STAT_HEALTH]) - ops->stats[STAT_HEALTH];
+    }
+    else
+    {
+        hit_hp = ps->stats[STAT_HEALTH] - ops->stats[STAT_HEALTH];
+    }
+
+    if (ps->stats[STAT_ARMOR] > ops->stats[STAT_ARMOR])
+    {
+        hit_ar = ps->stats[STAT_ARMOR] - (ps->stats[STAT_ARMOR] - ops->stats[STAT_ARMOR]) - ops->stats[STAT_ARMOR];
+    }
+    else
+    {
+        hit_ar = ps->stats[STAT_ARMOR] - ops->stats[STAT_ARMOR];
+    }
+
+    if (cg_damageSound.integer > 1)
+    {
+        int hit_sum = hit_hp + hit_ar;
+        if (cg_damageSound.integer == 4 && hit_sum <= -4) // ricochet
+        {
+            int random = rand() % 8; 
+            trap_S_StartLocalSound(cgs.media.gotDamageSounds[ random ], CHAN_LOCAL_SOUND); // incoming hits randomized sound
+        }
+        else
+        {    // qc gradient sound damage indicator from high (-25hp) to low (-100hp) tone
+            if ((cg_damageSound.integer == 2 && hit_sum <= -3) || (cg_damageSound.integer == 3 && (hit_sum <= -3 && hit_sum >= -25)))
+            {
+                trap_S_StartLocalSound(cgs.media.gotDamageSounds[8], CHAN_LOCAL_SOUND);
+            }
+            else if (cg_damageSound.integer == 3)
+            {
+                if (hit_sum < -25 && hit_sum >= -50)
+                {
+                    trap_S_StartLocalSound(cgs.media.gotDamageSounds[9], CHAN_LOCAL_SOUND);
+                }
+                else if (hit_sum < -50 && hit_sum >= -75)
+                {
+                    trap_S_StartLocalSound(cgs.media.gotDamageSounds[10], CHAN_LOCAL_SOUND);
+                }
+                else if (cg_damageSound.integer == 3 && (hit_sum < -75))
+                {
+                    trap_S_StartLocalSound(cgs.media.gotDamageSounds[11], CHAN_LOCAL_SOUND);
+                }
+            }
+        }
+    }
+
+    // когда ты наносишь урон по врагу
 	if (!hits)
 	{
 		return;
@@ -361,7 +417,7 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 		CG_PlayHitSound(cgs.media.hitTeamSound, ps, ops);
 		return;
 	}
-	//hits > 0 here
+	else //hits > 0 here
 	{
 		const int atta = ps->persistant[PERS_ATTACKEE_ARMOR];
 		int damage;

@@ -1004,9 +1004,22 @@ static void CG_RegisterSounds(void)
 	cgs.media.hitSounds[2] = trap_S_RegisterSound("sound/feedback/hit75.wav", qfalse);
 	cgs.media.hitSounds[3] = trap_S_RegisterSound("sound/feedback/hit100.wav", qfalse);
 	cgs.media.hitHighSound = trap_S_RegisterSound("sound/feedback/hithigh.wav", qfalse);
-	cgs.media.gotDamageSound = trap_S_RegisterSound("sound/feedback/damage.wav", qfalse);
+	    
+    // default incoming damage sound
+    cgs.media.gotDamageSound = trap_S_RegisterSound("sound/feedback/damage.wav", qfalse);
+    
+    // RIC incoming damage sound
+    for (i = 0 ; i < 9 ; i++)
+    {
+        cgs.media.gotDamageSounds[i] = trap_S_RegisterSound(va("sound/feedback/damage_ric%i.wav", i), qfalse);
+    }
+    // QC incoming damage sound
+    cgs.media.gotDamageSounds[8] = trap_S_RegisterSound("sound/feedback/damage_qc25.wav", qfalse);
+    cgs.media.gotDamageSounds[9] = trap_S_RegisterSound("sound/feedback/damage_qc50.wav", qfalse);
+    cgs.media.gotDamageSounds[10] = trap_S_RegisterSound("sound/feedback/damage_qc75.wav", qfalse);
+    cgs.media.gotDamageSounds[11] = trap_S_RegisterSound("sound/feedback/damage_qc100.wav", qfalse);
 
-
+    //
 	cgs.media.impressiveSound = trap_S_RegisterSound("sound/feedback/impressive.wav", qtrue);
 	cgs.media.excellentSound = trap_S_RegisterSound("sound/feedback/excellent.wav", qtrue);
 	cgs.media.deniedSound = trap_S_RegisterSound("sound/feedback/denied.wav", qtrue);
