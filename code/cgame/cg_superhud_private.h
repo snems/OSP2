@@ -548,6 +548,11 @@ void* CG_SHUDElementObituaries8Create(const superhudConfig_t* config);
 void CG_SHUDElementObituariesRoutine(void* context);
 void CG_SHUDElementObituariesDestroy(void* context);
 
+void* CG_SHUDElementTempAccCurrentCreate(const superhudConfig_t* config);
+void* CG_SHUDElementTempAccLastCreate(const superhudConfig_t* config);
+void CG_SHUDElementTempAccRoutine(void* context);
+void CG_SHUDElementTempAccDestroy(void* context);
+
 /*
  * cg_superhud_util.c
  */
@@ -658,6 +663,17 @@ typedef struct
 	int mod;
 } superhudObituariesEntry_t;
 
+typedef struct
+{
+	float accuracy;
+	float currentAccuracy;
+	float lastAccuracy;
+	int totalAmmoUsed;
+	int lastTotalAmmoUsed;
+	int totalHits;
+	int lastTotalHits;
+} superhudTempAccEntry_t; // не уверен что это так должно быть 1
+
 #define SHUD_MAX_OBITUARIES_LINES 8
 #define SHUD_MAX_CHAT_LINES 16
 #define SHUD_MAX_POWERUPS 8
@@ -684,6 +700,7 @@ typedef struct
 		superhudObituariesEntry_t line[SHUD_MAX_OBITUARIES_LINES];
 		unsigned int index;
 	} obituaries;
+	superhudTempAccEntry_t tempAcc; // не уверен что это так должно быть 2
 	struct superhudPowerupsCache_t
 	{
 		struct superhudPowerupElement_t

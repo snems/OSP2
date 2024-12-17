@@ -72,6 +72,8 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | TeamCount_NME                 | Количество живых игроков во вражеской команде (только фриз). |
 | TeamCount_OWN                 | Количество живых игроков в своей команде (только фриз).      |
 | Team1-Team16                  | Тимоверлей.                                                  |
+| tempAcc_current               | Временная точность LG. Текущая                               |
+| tempAcc_last                  | Временная точность LG. Последняя                             |
 | VoteMessageWorld              | Строка голосования.                                          |
 | WeaponList                    | Список доступного оружия.                                    |
 | RewardIcons                   | Изображение полученной медали.                               |
@@ -130,3 +132,7 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 - Размер иконки зависит от размера шрифта
 - style 1 - цвет команды на фоне ника
 - style 2 - цвет команды полосой под ником
+
+## tempAcc_current, tempAcc_last
+
+- style 1 - цвета значения точности по границам (<30, <50, <60, >60)
