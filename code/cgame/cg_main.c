@@ -358,6 +358,7 @@ vmCvar_t           cg_dlightPG;
 vmCvar_t           cg_dlightBFG;
 vmCvar_t           cg_gunColor;
 vmCvar_t           cg_gunOpaque;
+vmCvar_t           cg_conObituaries;
 
 static cvarTable_t cvarTable[] =
 {
@@ -629,7 +630,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_dlightBFG,      "cg_dlightBFG",      "FFB2FF", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_dlightBFG },
 	{ &cg_gunColor,       "cg_gunColor",      "white", CVAR_ARCHIVE },
 	{ &cg_gunOpaque,      "cg_gunOpaque",      "0.15", CVAR_ARCHIVE },
-
+	{ &cg_conObituaries,  "cg_conObituaries",   "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_conObituaries },
 
 };
 

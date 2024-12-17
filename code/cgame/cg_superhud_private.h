@@ -47,6 +47,20 @@ typedef enum
 
 typedef enum
 {
+	SUPERHUD_STYLE_0,
+	SUPERHUD_STYLE_1,
+	SUPERHUD_STYLE_2,
+	SUPERHUD_STYLE_3,
+	SUPERHUD_STYLE_4,
+	SUPERHUD_STYLE_5,
+	SUPERHUD_STYLE_6,
+	SUPERHUD_STYLE_7,
+	SUPERHUD_STYLE_8,
+	SUPERHUD_STYLE_9,
+} superhudStyle_t;
+
+typedef enum
+{
 	SUPERHUD_ITTEAM_BLUE,
 	SUPERHUD_ITTEAM_RED,
 	SUPERHUD_ITTEAM_NEUTRAL,
@@ -158,6 +172,11 @@ typedef struct
 		vec4_t value;
 		qboolean isSet;
 	} rect;
+	struct
+	{
+		superhudStyle_t value;
+		qboolean isSet;
+	} style;
 	struct
 	{
 		char value[MAX_QPATH];
@@ -518,6 +537,16 @@ void* CG_SHUDElementWeaponListCreate(const superhudConfig_t* config);
 void CG_SHUDElementWeaponListRoutine(void* context);
 void CG_SHUDElementWeaponListDestroy(void* context);
 
+void* CG_SHUDElementObituaries1Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries2Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries3Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries4Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries5Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries6Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries7Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries8Create(const superhudConfig_t* config);
+void CG_SHUDElementObituariesRoutine(void* context);
+void CG_SHUDElementObituariesDestroy(void* context);
 
 /*
  * cg_superhud_util.c
@@ -618,6 +647,18 @@ typedef struct
 	int time;
 } superhudChatEntry_t;
 
+typedef struct
+{
+	int time;
+	qhandle_t iconShader;
+	int attacker;
+	int target;
+	int attackerTeam;
+	int targetTeam;
+	int mod;
+} superhudObituariesEntry_t;
+
+#define SHUD_MAX_OBITUARIES_LINES 8
 #define SHUD_MAX_CHAT_LINES 16
 #define SHUD_MAX_POWERUPS 8
 
@@ -638,6 +679,11 @@ typedef struct
 		superhudChatEntry_t line[SHUD_MAX_CHAT_LINES];
 		unsigned int index;
 	} chat;
+	struct
+	{
+		superhudObituariesEntry_t line[SHUD_MAX_OBITUARIES_LINES];
+		unsigned int index;
+	} obituaries;
 	struct superhudPowerupsCache_t
 	{
 		struct superhudPowerupElement_t

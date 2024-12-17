@@ -31,6 +31,7 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseTime(configFileInfo_
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseVisFlags(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseHlColor(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseHlSize(configFileInfo_t* finfo, superhudConfig_t* config);
+static superhudConfigParseStatus_t CG_SHUDConfigCommandParseStyle(configFileInfo_t* finfo, superhudConfig_t* config);
 
 static superHUDConfigCommand_t superHUDConfigItemCommands[] =
 {
@@ -62,6 +63,7 @@ static superHUDConfigCommand_t superHUDConfigItemCommands[] =
 	{ "time", CG_SHUDConfigCommandParseTime },
 	{ "visflags", CG_SHUDConfigCommandParseVisFlags},
 	{ "hlsize", CG_SHUDConfigCommandParseHlSize },
+	{ "style", CG_SHUDConfigCommandParseStyle },
 	{ NULL, NULL, NULL },
 };
 
@@ -1290,3 +1292,26 @@ void CG_SHUDParserInit(void)
 	initialized = qtrue;
 }
 
+static superhudConfigParseStatus_t CG_SHUDConfigCommandParseStyle(configFileInfo_t* finfo, superhudConfig_t* config)
+{
+	char c;
+	superhudConfigParseStatus_t status;
+
+	config->style.isSet = qfalse;
+
+	status = CG_SHUDConfigSkipSCN(finfo);
+	if (status != SUPERHUD_CONFIG_OK) return status;
+
+	c = tolower(CG_SHUD_CONFIG_INFO_GET_CHAR(finfo));
+	if (c >= '0' && c <= '9')
+	{
+		config->style.value = SUPERHUD_STYLE_0 + (c - '0');
+	}
+	else
+	{
+		return SUPERHUD_CONFIG_UNEXPECTED_CHARACTER;
+	}
+
+	config->style.isSet = qtrue;
+	return SUPERHUD_CONFIG_OK;
+}

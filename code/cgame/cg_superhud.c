@@ -434,3 +434,27 @@ void CG_SHUDEventTeamChat(const char* message)
 	++ctx->chat.index;
 }
 
+void CG_SHUDEventObituaries(int attacker, int target, int mod)
+{
+	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
+	int index;
+	const char* attackerName;
+	const char* targetName;
+	int attackerTeam;
+	int targetTeam;
+
+	index = ctx->obituaries.index % SHUD_MAX_OBITUARIES_LINES;
+
+	attackerTeam = cgs.clientinfo[attacker].team;
+	targetTeam = cgs.clientinfo[target].team;
+
+	ctx->obituaries.line[index].attacker = attacker;
+	ctx->obituaries.line[index].target = target;
+	ctx->obituaries.line[index].mod = mod;
+	ctx->obituaries.line[index].time = cg.time;
+
+	ctx->obituaries.line[index].attackerTeam = attackerTeam;
+	ctx->obituaries.line[index].targetTeam = targetTeam;
+
+	++ctx->obituaries.index;
+}
