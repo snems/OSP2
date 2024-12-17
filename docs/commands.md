@@ -31,6 +31,17 @@
 
 ---
 
+    cg_switchUniqueColors
+
+Выбор таблицы цветов для cg_enemyModelColorsUnique
+
+`0` стандартная
+
+`1` светлые цвета
+
+
+---
+
     cg_enemyRailColors
     cg_teamRailColors
     cg_playerRailColors
@@ -573,16 +584,6 @@
 
 ---
 
-    cg_teamFrozenFoe 0..1 
-
-Показывать снежинку в режиме freezeTag
-
-`0` обычный foe tag
-
-`1` снежинка если заморожен
-
----
-
     +shudchat
 
 Принудительно показать чат в суперхуде.
@@ -600,6 +601,16 @@
     cg_dlightBFG <color>
 
 Задает оттенок динамического освещения для оружия
+
+---
+
+    cg_conObituaries 0/1
+
+Вывод сообщений об убийствах/размороке в консоль. 
+
+`0` не выводится
+
+`1` выводится
 
 ---
 

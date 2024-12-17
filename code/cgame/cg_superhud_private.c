@@ -134,6 +134,14 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "rewardicons", 0, CG_SHUDElementRewardIconCreate, CG_SHUDElementRewardRoutine, CG_SHUDElementRewardDestroy },
 	{ "rewardnumbers", 0, CG_SHUDElementRewardCountCreate, CG_SHUDElementRewardRoutine, CG_SHUDElementRewardDestroy },
 	{ "postdecorate", 0, CG_SHUDElementDecorCreate, CG_SHUDElementDecorRoutine, CG_SHUDElementDecorDestroy },
+	{ "obituary1", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries1Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
+	{ "obituary2", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries2Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
+	{ "obituary3", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries3Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
+	{ "obituary4", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries4Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
+	{ "obituary5", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries5Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
+	{ "obituary6", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries6Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
+	{ "obituary7", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries7Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
+	{ "obituary8", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries8Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
 	{ NULL },
 };
 

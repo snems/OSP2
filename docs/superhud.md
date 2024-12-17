@@ -49,6 +49,7 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | Name_OWN                      | Свое имя или имя команды.                                    |
 | NetGraph                      | Лагометр.                                                    |
 | NetGraphPing                  | Ping.                                                        |
+| Obituary1 - Obituary8         | Некролог (сообщения о смертях)                               |
 | PlayerSpeed                   | Скорость игрока.                                             |
 | Powerup1_icon - Powerup8_icon | Иконка поверапа.                                             |
 | Powerup1_time - Powerup8_time | Оставшееся время действия поверапа.                          |
@@ -102,7 +103,7 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | Textalign | L/C/R          | Выравнивание текста лево/центр/право.                     |
 | Textstyle | flags          | Флаги текста. 1 - без тени.                               |
 | Time      | milliseconds   | Время отображения на экране.                              |
-
+| Style     | flags          | Стиль элемента. 0-9
 
 ## Пояснения к некоторым элементам
 
@@ -124,3 +125,8 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 - Doublebar - включить двойную полосу
 - Direction - Направление полосы
 
+### Obituary1 - Obituary8
+
+- Размер иконки зависит от размера шрифта
+- style 1 - цвет команды на фоне ника
+- style 2 - цвет команды полосой под ником
