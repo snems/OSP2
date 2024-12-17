@@ -621,7 +621,6 @@ void CG_TransitionPlayerState(playerState_t* ps, playerState_t* ops)
 	CG_CheckAmmo();
 
 	// run events
-	CG_SHUDEventTempAccGetStats(ps, ops);
 	CG_CheckPlayerstateEvents(ps, ops);
 
 	// smooth the ducking viewheight change

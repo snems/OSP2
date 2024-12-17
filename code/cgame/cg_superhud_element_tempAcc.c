@@ -12,6 +12,19 @@ shudElementTempAccType_t;
 
 typedef struct
 {
+	float accuracy;
+	float currentAccuracy;
+	float lastAccuracy;
+	int totalAmmoUsed;
+	int lastTotalAmmoUsed;
+	int totalHits;
+	int lastTotalHits;
+} shudElementTempAccCounters_t;
+
+static shudElementTempAccCounters_t tempAccCounters;
+
+typedef struct
+{
 	superhudConfig_t config;
 	superhudTextContext_t ctx;
 	shudElementTempAccType_t type;
@@ -61,21 +74,22 @@ void CG_SHUDElementTempAccRoutine(void* context)
 	vec4_t color;
 
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
-	superhudTempAccEntry_t* tempAcc = &ctx->tempAcc;
+
+	CG_SHUDEventTempAccUpdateAndCalc(&tempAccCounters);
 
 	switch (element->type)
 	{
 		case SHUD_ELEMENT_TEMPACC_CURRENT:
-			accuracy = tempAcc->currentAccuracy;
+			accuracy = tempAccCounters.currentAccuracy;
 			break;
 		case SHUD_ELEMENT_TEMPACC_LAST:
-			accuracy = tempAcc->lastAccuracy;
+			accuracy = tempAccCounters.lastAccuracy;
 			break;
 		default:
 			return;
 	}
 
-	if (accuracy == 0.0f)
+	if (accuracy == 0)
 	{
 		element->ctx.text = "";
 	}
@@ -95,9 +109,106 @@ void CG_SHUDElementTempAccRoutine(void* context)
 	}
 
 	Vector4Copy(color, element->config.color.value.rgba);
+
 	CG_SHUDFill(&element->config);
 	CG_SHUDTextPrint(&element->config, &element->ctx);
 }
+
+void CG_SHUDEventTempAccUpdateAndCalc(shudElementTempAccCounters_t* counters)
+{
+	static float lastAccuracy = 0.0f;
+	static int lastHitCount = 0;
+	static int lastFireTime = 0;
+	static int lastWeapon = WP_NONE;
+	static int detectedDamage = 0;
+	static int currentHits;
+	static int lastAmmoCount = 0;
+	int weapon = cg.snap->ps.weapon;
+	int newHits;
+	int currentAmmoCount;
+	int ammoUsed;
+
+	if ((weapon != WP_LIGHTNING && lastWeapon == WP_LIGHTNING) || (cg.time - lastFireTime > 1000) || (cg.snap->ps.stats[STAT_HEALTH] <= 0))
+	{
+		if (counters->totalAmmoUsed > 0 || counters->totalHits > 0)
+		{
+			lastAccuracy = counters->totalHits > 0 ? ((float)counters->totalHits / (float)counters->totalAmmoUsed) * 100.0f : 0.0f;
+
+			counters->lastAccuracy = (lastAccuracy != 0.0f) ? lastAccuracy : counters->lastAccuracy;
+			counters->lastTotalAmmoUsed = counters->totalAmmoUsed;
+			counters->lastTotalHits = counters->totalHits;
+
+			counters->totalAmmoUsed = 0;
+			counters->totalHits = 0;
+			counters->accuracy = 0.0f;
+			counters->currentAccuracy = 0.0f;
+		}
+		lastHitCount = cg.snap->ps.persistant[PERS_HITS];
+		detectedDamage = 0;
+
+		if (lastWeapon != weapon)
+		{
+			lastAmmoCount = cg.snap->ps.ammo[weapon];
+		}
+	}
+
+	lastWeapon = weapon;
+
+	if (weapon != WP_LIGHTNING)
+	{
+		return;
+	}
+
+	if (cg.snap->ps.weaponstate == WEAPON_FIRING)
+	{
+		lastFireTime = cg.time;
+
+		currentAmmoCount = cg.snap->ps.ammo[weapon];
+
+		if (currentAmmoCount < lastAmmoCount || (lastAmmoCount == currentAmmoCount && counters->totalAmmoUsed == 0))
+		{
+			ammoUsed = lastAmmoCount - currentAmmoCount;
+			counters->totalAmmoUsed += ammoUsed;
+			lastAmmoCount = currentAmmoCount;
+
+			currentHits = cg.snap->ps.persistant[PERS_HITS];
+			if (currentHits > lastHitCount)
+			{
+				int delta = currentHits - lastHitCount;
+
+				if (detectedDamage == 0)
+				{
+					detectedDamage = delta;
+				}
+
+				newHits = detectedDamage > 0 ? delta / detectedDamage : 1;
+
+				counters->totalHits += newHits;
+				lastHitCount = currentHits;
+			}
+
+			counters->accuracy = counters->totalHits > 0 ? ((float)counters->totalHits / (float)counters->totalAmmoUsed) * 100.0f : 0.0f;
+			counters->currentAccuracy = counters->accuracy;
+			if (lastAccuracy != 0.0f)
+			{
+				counters->lastAccuracy = lastAccuracy;
+			}
+		}
+	}
+
+	// Вывод для отладки
+	// CG_Printf("Reset: Ammo: %d, Hits: %d\n", lastAmmoCount, lastHitCount);
+	// CG_Printf("NewHits: %d\n", newHits);
+	// CG_Printf("Ammo Used: %d / %d\n", ammoUsed, currentAmmoCount);
+	// CG_Printf("total Ammo Used: %d, Hits: %d, Accuracy: %.2f%%\n", counters->totalAmmoUsed, counters->totalHits, counters->accuracy);
+}
+
+
+
+
+
+
+
 
 static void CG_SHUDEStylesTempAcc_Color(vec4_t color, int style, const superhudConfig_t* config, float accuracy)
 {

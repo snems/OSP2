@@ -663,16 +663,16 @@ typedef struct
 	int mod;
 } superhudObituariesEntry_t;
 
-typedef struct
-{
-	float accuracy;
-	float currentAccuracy;
-	float lastAccuracy;
-	int totalAmmoUsed;
-	int lastTotalAmmoUsed;
-	int totalHits;
-	int lastTotalHits;
-} superhudTempAccEntry_t; // не уверен что это так должно быть 1
+// typedef struct
+// {
+//  float accuracy;
+//  float currentAccuracy;
+//  float lastAccuracy;
+//  int totalAmmoUsed;
+//  int lastTotalAmmoUsed;
+//  int totalHits;
+//  int lastTotalHits;
+// } superhudTempAccEntry_t; // не уверен что это так должно быть 1
 
 #define SHUD_MAX_OBITUARIES_LINES 8
 #define SHUD_MAX_CHAT_LINES 16
@@ -700,7 +700,7 @@ typedef struct
 		superhudObituariesEntry_t line[SHUD_MAX_OBITUARIES_LINES];
 		unsigned int index;
 	} obituaries;
-	superhudTempAccEntry_t tempAcc; // не уверен что это так должно быть 2
+	// superhudTempAccEntry_t tempAcc; // не уверен что это так должно быть 2
 	struct superhudPowerupsCache_t
 	{
 		struct superhudPowerupElement_t
