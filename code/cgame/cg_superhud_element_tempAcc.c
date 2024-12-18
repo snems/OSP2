@@ -196,23 +196,11 @@ void CG_SHUDEventTempAccUpdateAndCalc(shudElementTempAccCounters_t* counters)
 		}
 	}
 
-	// Вывод для отладки
-	// CG_Printf("Reset: Ammo: %d, Hits: %d\n", lastAmmoCount, lastHitCount);
-	// CG_Printf("NewHits: %d\n", newHits);
-	// CG_Printf("Ammo Used: %d / %d\n", ammoUsed, currentAmmoCount);
-	// CG_Printf("total Ammo Used: %d, Hits: %d, Accuracy: %.2f%%\n", counters->totalAmmoUsed, counters->totalHits, counters->accuracy);
 }
-
-
-
-
-
-
-
 
 static void CG_SHUDEStylesTempAcc_Color(vec4_t color, int style, const superhudConfig_t* config, float accuracy)
 {
-	if (style == SUPERHUD_STYLE_1)
+	if (style == 1)
 	{
 		const vec4_t colors[] =
 		{

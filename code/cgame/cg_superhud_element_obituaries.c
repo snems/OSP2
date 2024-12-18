@@ -102,10 +102,31 @@ void CG_SHUDElementObituariesRoutine(void* context)
 	CG_SHUDObituarySetTeamColor(attackerColor, entry->attackerTeam);
 	CG_SHUDObituarySetTeamColor(targetColor, entry->targetTeam);
 
-	attackerVisibleChars = (entry->attacker == 1022) ? (strcpy(truncatedAttacker, "^1world"), 5) : CG_TruncateStringWithCodes(cgs.clientinfo[entry->attacker].name, truncatedAttacker, maxVisibleChars);
-	attackerWidth = element->config.fontsize.value[0] * attackerVisibleChars;
+	if (entry->attacker == 1022)
+	{
+		strcpy(truncatedAttacker, "^1world");
+		attackerVisibleChars = 5;
+	}
+	else if (entry->attacker >= 0 && entry->attacker < MAX_CLIENTS)
+	{
+		attackerVisibleChars = CG_TruncateStringWithCodes(cgs.clientinfo[entry->attacker].name, truncatedAttacker, maxVisibleChars);
+	}
+	else
+	{
+		attackerVisibleChars = 0;
+	}
 
-	targetVisibleChars = CG_TruncateStringWithCodes(cgs.clientinfo[entry->target].name, truncatedTarget, maxVisibleChars);
+
+	if (entry->target >= 0 && entry->target < MAX_CLIENTS)
+	{
+		targetVisibleChars = CG_TruncateStringWithCodes(cgs.clientinfo[entry->target].name, truncatedTarget, maxVisibleChars);
+	}
+	else
+	{
+		targetVisibleChars = 0;
+	}
+
+	attackerWidth = element->config.fontsize.value[0] * attackerVisibleChars;
 	targetWidth = element->config.fontsize.value[0] * targetVisibleChars;
 
 	if (element->config.alignH.value == SUPERHUD_ALIGNH_LEFT)
@@ -231,19 +252,22 @@ static void CG_SHUDStylesObituaries_Bars(float x, float y, float width, float he
 	{
 		return;
 	}
-	switch (style)
+
+	if (style == 1)  // colored background
 	{
-		case SUPERHUD_STYLE_1:  // colored background
-			color[3] = 0.1f;
-			CG_FillRect(x - 2, y - height - 2, width + 4, height + 4, color);
-			break;
-		case SUPERHUD_STYLE_2:  // colored underline
-			CG_FillRect(x, y + 2, width, 1, color);
-			break;
-		default:
-			break;
+		color[3] = 0.1f;
+		CG_FillRect(x - 2, y - height - 2, width + 4, height + 4, color);
+	}
+	else if (style == 2)  // colored underline
+	{
+		CG_FillRect(x, y + 2, width, 1, color);
+	}
+	else
+	{
+		return;
 	}
 }
+
 
 qhandle_t CG_SHUDObituaryGetModIcon(int mod)
 {

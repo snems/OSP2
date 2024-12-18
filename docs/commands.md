@@ -31,21 +31,9 @@
 
 ---
 
-    cg_switchUniqueColors
-
-Выбор таблицы цветов для cg_enemyModelColorsUnique
-
-`0` стандартная
-
-`1` светлые цвета
-
-
----
-
     cg_enemyRailColors
     cg_teamRailColors
     cg_playerRailColors
-
 
 Цвета рельсы.
 Цвета имеют приоритет над командами `color1,color2`
@@ -569,6 +557,16 @@
 `0` звука нет
 
 `1` звук есть
+
+---
+
+    cg_teamFrozenFoe 0..1 
+
+Показывать снежинку в режиме freezeTag
+
+`0` обычный foe tag
+
+`1` снежинка если заморожен
 
 ---
 

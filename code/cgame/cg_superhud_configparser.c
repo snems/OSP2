@@ -1294,24 +1294,18 @@ void CG_SHUDParserInit(void)
 
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseStyle(configFileInfo_t* finfo, superhudConfig_t* config)
 {
-	char c;
 	superhudConfigParseStatus_t status;
 
 	config->style.isSet = qfalse;
 
-	status = CG_SHUDConfigSkipSCN(finfo);
-	if (status != SUPERHUD_CONFIG_OK) return status;
-
-	c = tolower(CG_SHUD_CONFIG_INFO_GET_CHAR(finfo));
-	if (c >= '0' && c <= '9')
+	// Парсим целочисленное значение для стиля
+	status = CG_SHUDParseInt(finfo, &config->style.value);
+	if (status != SUPERHUD_CONFIG_OK)
 	{
-		config->style.value = SUPERHUD_STYLE_0 + (c - '0');
-	}
-	else
-	{
-		return SUPERHUD_CONFIG_UNEXPECTED_CHARACTER;
+		return status;
 	}
 
 	config->style.isSet = qtrue;
 	return SUPERHUD_CONFIG_OK;
 }
+
