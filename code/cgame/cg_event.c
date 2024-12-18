@@ -149,7 +149,6 @@ void CG_OSPObituaryFreeze(entityState_t* es, char* targetName)
 	const char* actionStr;
 	const char* endStr = "";
 	const char* cs;
-	int mod = 1337; // for superhud obituaries
 
 	targetId = es->otherEntityNum;
 	actorId = es->otherEntityNum2;
@@ -180,7 +179,7 @@ void CG_OSPObituaryFreeze(entityState_t* es, char* targetName)
 				break;
 		}
 	}
-	CG_SHUDEventObituaries(actorId, targetId, mod);
+	CG_SHUDEventObituaries(actorId, targetId, MOD_UNKNOWN, qtrue);
 	if (actorId == cg.snap->ps.clientNum)
 	{
 		CG_ObituaryFragmessage(va("You thawed %s", targetName));
@@ -272,7 +271,7 @@ static void CG_Obituary(entityState_t* ent)
 		CG_OSPObituaryFreeze(ent, targetName);
 		return;
 	}
-	CG_SHUDEventObituaries(attacker, target, mod);
+	CG_SHUDEventObituaries(attacker, target, mod, qfalse);
 	// check for single client messages
 	switch (mod)
 	{

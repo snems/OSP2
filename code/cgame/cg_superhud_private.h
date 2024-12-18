@@ -636,12 +636,26 @@ typedef struct
 typedef struct
 {
 	int time;
-	qhandle_t iconShader;
 	int attacker;
 	int target;
 	int attackerTeam;
 	int targetTeam;
 	int mod;
+	qboolean unfrozen;
+	struct
+	{
+		qboolean isInitialized;
+		qhandle_t iconShader;
+		vec4_t attackerColor;
+		vec4_t targetColor;
+		char truncatedAttacker[MAX_QPATH];
+		char truncatedTarget[MAX_QPATH];
+		int maxVisibleChars;
+		float baseX;
+		float attackerWidth;
+		float targetWidth;
+		float spacing;
+	} runtime;
 } superhudObituariesEntry_t;
 
 #define SHUD_MAX_OBITUARIES_LINES 8
