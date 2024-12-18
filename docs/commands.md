@@ -35,7 +35,6 @@
     cg_teamRailColors
     cg_playerRailColors
 
-
 Цвета рельсы.
 Цвета имеют приоритет над командами `color1,color2`
 
@@ -561,6 +560,16 @@
 
 ---
 
+    cg_teamFrozenFoe 0..1 
+
+Показывать снежинку в режиме freezeTag
+
+`0` обычный foe tag
+
+`1` снежинка если заморожен
+
+---
+
     cg_damageIndicatorOpaque 0..1 
 
 Прозрачность указателя при `cg_damageDraw 2`
@@ -570,16 +579,6 @@
     cg_damageIndicatorScale 0..1 
 
 Размер указателя при `cg_damageDraw 2`
-
----
-
-    cg_teamFrozenFoe 0..1 
-
-Показывать снежинку в режиме freezeTag
-
-`0` обычный foe tag
-
-`1` снежинка если заморожен
 
 ---
 
@@ -600,6 +599,16 @@
     cg_dlightBFG <color>
 
 Задает оттенок динамического освещения для оружия
+
+---
+
+    cg_conObituaries 0/1
+
+Вывод сообщений об убийствах/размороке в консоль. 
+
+`0` не выводится
+
+`1` выводится
 
 ---
 

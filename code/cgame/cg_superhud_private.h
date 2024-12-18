@@ -160,6 +160,11 @@ typedef struct
 	} rect;
 	struct
 	{
+		int value;
+		qboolean isSet;
+	} style;
+	struct
+	{
 		char value[MAX_QPATH];
 		qboolean isSet;
 	} text;
@@ -518,6 +523,16 @@ void* CG_SHUDElementWeaponListCreate(const superhudConfig_t* config);
 void CG_SHUDElementWeaponListRoutine(void* context);
 void CG_SHUDElementWeaponListDestroy(void* context);
 
+void* CG_SHUDElementObituaries1Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries2Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries3Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries4Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries5Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries6Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries7Create(const superhudConfig_t* config);
+void* CG_SHUDElementObituaries8Create(const superhudConfig_t* config);
+void CG_SHUDElementObituariesRoutine(void* context);
+void CG_SHUDElementObituariesDestroy(void* context);
 
 /*
  * cg_superhud_util.c
@@ -618,6 +633,18 @@ typedef struct
 	int time;
 } superhudChatEntry_t;
 
+typedef struct
+{
+	int time;
+	qhandle_t iconShader;
+	int attacker;
+	int target;
+	int attackerTeam;
+	int targetTeam;
+	int mod;
+} superhudObituariesEntry_t;
+
+#define SHUD_MAX_OBITUARIES_LINES 8
 #define SHUD_MAX_CHAT_LINES 16
 #define SHUD_MAX_POWERUPS 8
 
@@ -638,6 +665,11 @@ typedef struct
 		superhudChatEntry_t line[SHUD_MAX_CHAT_LINES];
 		unsigned int index;
 	} chat;
+	struct
+	{
+		superhudObituariesEntry_t line[SHUD_MAX_OBITUARIES_LINES];
+		unsigned int index;
+	} obituaries;
 	struct superhudPowerupsCache_t
 	{
 		struct superhudPowerupElement_t

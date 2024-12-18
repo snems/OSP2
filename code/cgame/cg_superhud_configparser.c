@@ -31,6 +31,7 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseTime(configFileInfo_
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseVisFlags(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseHlColor(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseHlSize(configFileInfo_t* finfo, superhudConfig_t* config);
+static superhudConfigParseStatus_t CG_SHUDConfigCommandParseStyle(configFileInfo_t* finfo, superhudConfig_t* config);
 
 static superHUDConfigCommand_t superHUDConfigItemCommands[] =
 {
@@ -62,6 +63,7 @@ static superHUDConfigCommand_t superHUDConfigItemCommands[] =
 	{ "time", CG_SHUDConfigCommandParseTime },
 	{ "visflags", CG_SHUDConfigCommandParseVisFlags},
 	{ "hlsize", CG_SHUDConfigCommandParseHlSize },
+	{ "style", CG_SHUDConfigCommandParseStyle },
 	{ NULL, NULL, NULL },
 };
 
@@ -1288,5 +1290,22 @@ void CG_SHUDParserInit(void)
 	}
 
 	initialized = qtrue;
+}
+
+static superhudConfigParseStatus_t CG_SHUDConfigCommandParseStyle(configFileInfo_t* finfo, superhudConfig_t* config)
+{
+	superhudConfigParseStatus_t status;
+
+	config->style.isSet = qfalse;
+
+	// Парсим целочисленное значение для стиля
+	status = CG_SHUDParseInt(finfo, &config->style.value);
+	if (status != SUPERHUD_CONFIG_OK)
+	{
+		return status;
+	}
+
+	config->style.isSet = qtrue;
+	return SUPERHUD_CONFIG_OK;
 }
 
