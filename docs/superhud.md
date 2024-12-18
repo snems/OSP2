@@ -103,7 +103,7 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | Textalign | L/C/R          | Выравнивание текста лево/центр/право.                     |
 | Textstyle | flags          | Флаги текста. 1 - без тени.                               |
 | Time      | milliseconds   | Время отображения на экране.                              |
-| Style     | flags          | Стиль элемента. 0-9
+| Style     | flags          | Стиль элемента - цифра
 
 ## Пояснения к некоторым элементам
 
