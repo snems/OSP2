@@ -572,6 +572,16 @@
 
 ---
 
+    cg_teamFrozenFoe 0..1 
+
+Показывать снежинку в режиме freezeTag
+
+`0` обычный foe tag
+
+`1` снежинка если заморожен
+
+---
+
     cg_damageIndicatorOpaque 0..1 
 
 Прозрачность указателя при `cg_damageDraw 2`
