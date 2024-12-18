@@ -47,20 +47,6 @@ typedef enum
 
 typedef enum
 {
-	SUPERHUD_STYLE_0,
-	SUPERHUD_STYLE_1,
-	SUPERHUD_STYLE_2,
-	SUPERHUD_STYLE_3,
-	SUPERHUD_STYLE_4,
-	SUPERHUD_STYLE_5,
-	SUPERHUD_STYLE_6,
-	SUPERHUD_STYLE_7,
-	SUPERHUD_STYLE_8,
-	SUPERHUD_STYLE_9,
-} superhudStyle_t;
-
-typedef enum
-{
 	SUPERHUD_ITTEAM_BLUE,
 	SUPERHUD_ITTEAM_RED,
 	SUPERHUD_ITTEAM_NEUTRAL,
@@ -174,7 +160,7 @@ typedef struct
 	} rect;
 	struct
 	{
-		superhudStyle_t value;
+		int value;
 		qboolean isSet;
 	} style;
 	struct
