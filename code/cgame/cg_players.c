@@ -806,7 +806,7 @@ static qboolean CG_PlayerNameIsInvisible(clientInfo_t* ci)
 {
 	int i;
 	int len = strlen(ci->name_clean);
-	if (len == 0) return qfalse;
+	if (len == 0) return qtrue;
 	for (i = 0; i < len; ++i)
 	{
 		if (ci->name_clean[i] != ' ')
