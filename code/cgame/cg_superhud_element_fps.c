@@ -2,7 +2,7 @@
 #include "cg_superhud_private.h"
 #include "../qcommon/qcommon.h"
 
-#define FPS_MAX_FRAMES  32
+#define FPS_MAX_FRAMES  4
 typedef struct
 {
 	superhudConfig_t config;
