@@ -29,6 +29,12 @@ static void* CG_SHUDElementObituariesCreate(const superhudConfig_t* config, int 
 
 	memcpy(&lcfg, config, sizeof(superhudConfig_t));
 
+	if (!lcfg.alignV.isSet)
+	{
+		lcfg.alignV.value = SUPERHUD_ALIGNV_CENTER;
+		lcfg.alignV.isSet = qtrue;
+	}
+
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxAttacker);
 	CG_SHUDDrawMakeContext(&lcfg, &element->ctxMod);
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxTarget);
@@ -79,7 +85,7 @@ void* CG_SHUDElementObituaries8Create(const superhudConfig_t* config)
 static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* element, superhudObituariesEntry_t* entry)
 {
 	entry->runtime.maxVisibleChars = 13;
-	entry->runtime.spacing = 8.0f;
+	entry->runtime.spacing = element->config.rect.value[3]/2.0f;
 
 	entry->runtime.iconShader = CG_SHUDObituaryGetModIcon(entry->mod, entry->unfrozen);
 
@@ -137,8 +143,8 @@ void CG_SHUDElementObituariesRoutine(void* context)
 		return;
 	}
 
-	element->ctxMod.coord.named.w = element->config.fontsize.value[0] * 1.6f;   // icon size scaling
-	element->ctxMod.coord.named.h = element->config.fontsize.value[1] * 1.6f;
+	element->ctxMod.coord.named.w = element->config.rect.value[3];   // icon size scaling
+	element->ctxMod.coord.named.h = element->config.rect.value[3];
 
 	if (!entry->runtime.isInitialized)
 	{
@@ -152,21 +158,21 @@ void CG_SHUDElementObituariesRoutine(void* context)
 		element->ctxAttacker.text = entry->runtime.truncatedAttacker;
 		element->ctxAttacker.coord.named.x = currentX;
 		CG_SHUDTextPrint(&element->config, &element->ctxAttacker);
-		CG_SHUDStylesObituaries_Bars(currentX, element->ctxAttacker.coord.named.y + element->config.fontsize.value[1], entry->runtime.attackerWidth, element->config.fontsize.value[1], entry->runtime.attackerColor, element->config.style.value, entry->attackerTeam);
+		CG_SHUDStylesObituaries_Bars(currentX, element->ctxAttacker.coord.named.y, entry->runtime.attackerWidth, element->config.fontsize.value[1], entry->runtime.attackerColor, element->config.style.value, entry->attackerTeam);
 		currentX += entry->runtime.attackerWidth;
 	}
 	if (entry->runtime.iconShader)
 	{
 		element->ctxMod.image = entry->runtime.iconShader;
 		element->ctxMod.coord.named.x = currentX + entry->runtime.spacing;
-		element->ctxMod.coord.named.y = element->ctxAttacker.coord.named.y + (element->config.fontsize.value[0] - element->ctxMod.coord.named.w) / 2; // Центрирование по вертикали
+		//element->ctxMod.coord.named.y = element->ctxAttacker.coord.named.y + (element->config.fontsize.value[0] - element->ctxMod.coord.named.w) / 2; // Центрирование по вертикали
 		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctxMod);
 		currentX += element->ctxMod.coord.named.w + entry->runtime.spacing * 2;
 	}
 	element->ctxTarget.text = entry->runtime.truncatedTarget;
 	element->ctxTarget.coord.named.x = currentX;
 	CG_SHUDTextPrint(&element->config, &element->ctxTarget);
-	CG_SHUDStylesObituaries_Bars(currentX, element->ctxTarget.coord.named.y + element->config.fontsize.value[1], entry->runtime.targetWidth, element->config.fontsize.value[1], entry->runtime.targetColor, element->config.style.value, entry->targetTeam);
+	CG_SHUDStylesObituaries_Bars(currentX, element->ctxTarget.coord.named.y, entry->runtime.targetWidth, element->config.fontsize.value[1], entry->runtime.targetColor, element->config.style.value, entry->targetTeam);
 }
 
 
