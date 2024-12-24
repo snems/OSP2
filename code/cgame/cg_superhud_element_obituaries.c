@@ -85,7 +85,7 @@ void* CG_SHUDElementObituaries8Create(const superhudConfig_t* config)
 static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* element, superhudObituariesEntry_t* entry)
 {
 	entry->runtime.maxVisibleChars = 13;
-	entry->runtime.spacing = element->config.rect.value[3]/2.0f;
+	entry->runtime.spacing = element->config.rect.value[3] / 2.0f;
 
 	entry->runtime.iconShader = CG_SHUDObituaryGetModIcon(entry->mod, entry->unfrozen);
 

@@ -634,7 +634,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_gunOpaque,      "cg_gunOpaque",      "0.15", CVAR_ARCHIVE },
 	{ &cg_conObituaries,  "cg_conObituaries",   "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_conObituaries },
 
-	{ &cg_lightningHitsoundRateFix, "cg_lightningHitsoundRateFix",      "1", CVAR_ARCHIVE },                                         
+	{ &cg_lightningHitsoundRateFix, "cg_lightningHitsoundRateFix",      "1", CVAR_ARCHIVE },
 	{ &cg_stackHitSounds,           "cg_stackHitSounds",   "0", CVAR_ARCHIVE },
 
 };
