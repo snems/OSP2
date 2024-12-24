@@ -1479,6 +1479,9 @@ extern vmCvar_t           cg_dlightBFG;
 extern vmCvar_t           cg_gunColor;
 extern vmCvar_t           cg_gunOpaque;
 extern vmCvar_t           cg_conObituaries;
+
+extern vmCvar_t           cg_lightningHitsoundRateFix;
+extern vmCvar_t           cg_stackHitSounds;
 //
 // cg_main.c
 //
@@ -1902,6 +1905,7 @@ void CG_StringMakeEscapeCharRAW(const char* in, char* out, int max);
 //
 // cg_playerstate.c
 //
+#define CG_HITSOUND_STACK_PERIOD 500
 void CG_Respawn(void);
 void CG_TransitionPlayerState(playerState_t* ps, playerState_t* ops);
 void CG_CheckChangedPredictableEvents(playerState_t* ps);
