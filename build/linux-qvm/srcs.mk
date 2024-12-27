@@ -42,6 +42,7 @@ CG_SRC = \
  cg_superhud_element_team \
  cg_superhud_element_weaponlist \
  cg_superhud_element_obituaries \
+ cg_superhud_element_warmupinfo cg_superhud_element_gametype \
  l_crc \
  cg_chatfilter cg_crosshair\
 

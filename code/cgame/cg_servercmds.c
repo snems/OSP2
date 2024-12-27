@@ -611,7 +611,7 @@ static void CG_MapRestart(void)
 	if (cg.warmup == 0 /* && cgs.gametype == GT_TOURNAMENT */)
 	{
 		trap_S_StartLocalSound(cgs.media.countFightSound, CHAN_ANNOUNCER);
-		CG_CenterPrint("^1FIGHT!", 20, GIANTCHAR_WIDTH * 2);
+		if (!cg_shud.integer) CG_CenterPrint("^1FIGHT!", 20, GIANTCHAR_WIDTH * 2);
 	}
 	trap_Cvar_Set("cg_thirdPerson", "0");
 }

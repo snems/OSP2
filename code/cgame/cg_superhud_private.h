@@ -534,6 +534,13 @@ void* CG_SHUDElementObituaries8Create(const superhudConfig_t* config);
 void CG_SHUDElementObituariesRoutine(void* context);
 void CG_SHUDElementObituariesDestroy(void* context);
 
+void* CG_SHUDElementWarmupInfoCreate(const superhudConfig_t* config);
+void CG_SHUDElementWarmupInfoRoutine(void* context);
+void CG_SHUDElementWarmupInfoDestroy(void* context);
+void* CG_SHUDElementGameTypeCreate(const superhudConfig_t* config);
+void CG_SHUDElementGameTypeRoutine(void* context);
+void CG_SHUDElementGameTypeDestroy(void* context);
+
 /*
  * cg_superhud_util.c
  */
