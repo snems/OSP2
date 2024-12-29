@@ -265,11 +265,11 @@ static void CG_SHUDStylesObituaries_Bars(float x, float y, float width, float he
 	if (style == 1)  // colored background
 	{
 		color[3] = 0.1f;
-		CG_FillRect(x - 2, y - height - 2, width + 4, height + 4, color);
+		CG_FillRect(x - 2, y - ((height + 4) / 2), width + 4, height + 4, color);
 	}
 	else if (style == 2)  // colored underline
 	{
-		CG_FillRect(x, y + 2, width, 1, color);
+		CG_FillRect(x, y + (height / 2), width, 1, color);
 	}
 	else
 	{
