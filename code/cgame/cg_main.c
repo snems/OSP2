@@ -361,6 +361,7 @@ vmCvar_t           cg_gunOpaque;
 vmCvar_t           cg_conObituaries;
 vmCvar_t           cg_lightningHitsoundRateFix;
 vmCvar_t           cg_stackHitSounds;
+vmCvar_t           cg_drawCenterMessages;
 
 static cvarTable_t cvarTable[] =
 {
@@ -636,7 +637,7 @@ static cvarTable_t cvarTable[] =
 
 	{ &cg_lightningHitsoundRateFix, "cg_lightningHitsoundRateFix",      "1", CVAR_ARCHIVE },
 	{ &cg_stackHitSounds,           "cg_stackHitSounds",   "1", CVAR_ARCHIVE },
-
+	{ &cg_drawCenterMessages, "cg_drawCenterMessages", "1", CVAR_ARCHIVE },
 };
 
 #define CG_VARS_HASH_SIZE 512
