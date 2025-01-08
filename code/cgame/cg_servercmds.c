@@ -378,7 +378,7 @@ static void CG_ConfigStringModified(void)
 	{
 		CG_OSPConfigMaxTimenudgeSet(atoi(str));
 	}
-	else if (num == CS_OSP_0x368)
+	else if (num == CS_OSP_AUTH)
 	{
 		CG_OSPConfig0x368Set(atoi(str) & 1);
 	}
