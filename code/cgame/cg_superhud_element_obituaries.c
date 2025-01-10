@@ -17,7 +17,6 @@ shudElementObituaries_t cg_obituaries;
 static qhandle_t CG_SHUDObituaryGetModIcon(int mod, qboolean unfrozen);
 static void CG_SHUDObituarySetTeamColor(vec4_t color, int team);
 static int CG_TruncateStringWithCodes(const char* input, char* output, int maxVisibleChars);
-static void CG_SHUDStylesObituaries_Bars(float x, float y, float width, float height, vec4_t color, int style, int team);
 
 static void* CG_SHUDElementObituariesCreate(const superhudConfig_t* config, int line)
 {
@@ -92,6 +91,12 @@ static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* e
 	CG_SHUDObituarySetTeamColor(entry->runtime.attackerColor, entry->attackerTeam);
 	CG_SHUDObituarySetTeamColor(entry->runtime.targetColor, entry->targetTeam);
 
+	if (element->config.bgcolor.isSet)
+	{
+		entry->runtime.attackerColor[3] = element->config.bgcolor.value[3];
+		entry->runtime.targetColor[3] = element->config.bgcolor.value[3];
+	}
+
 	if (entry->attacker == ENTITYNUM_WORLD)
 	{
 		strcpy(entry->runtime.truncatedAttacker, "^1world");
@@ -131,7 +136,6 @@ void CG_SHUDElementObituariesRoutine(void* context)
 	shudElementObituaries_t* element = (shudElementObituaries_t*)context;
 	superhudObituariesEntry_t* entry;
 	int index;
-	//float currentX, baseX, attackerWidth, targetWidth;
 	float currentX;
 
 	index = (element->gctx->obituaries.index - element->index) % SHUD_MAX_OBITUARIES_LINES;
@@ -157,22 +161,37 @@ void CG_SHUDElementObituariesRoutine(void* context)
 	{
 		element->ctxAttacker.text = entry->runtime.truncatedAttacker;
 		element->ctxAttacker.coord.named.x = currentX;
+
+		if ((entry->attackerTeam == TEAM_RED || entry->attackerTeam == TEAM_BLUE) && element->config.style.isSet && element->config.style.value)
+		{
+			Vector4Copy(entry->runtime.attackerColor, element->ctxAttacker.background);
+		}
+		else
+		{
+			element->ctxAttacker.background[3] = 0;
+		}
+
 		CG_SHUDTextPrint(&element->config, &element->ctxAttacker);
-		CG_SHUDStylesObituaries_Bars(currentX, element->ctxAttacker.coord.named.y, entry->runtime.attackerWidth, element->config.fontsize.value[1], entry->runtime.attackerColor, element->config.style.value, entry->attackerTeam);
 		currentX += entry->runtime.attackerWidth;
 	}
 	if (entry->runtime.iconShader)
 	{
 		element->ctxMod.image = entry->runtime.iconShader;
 		element->ctxMod.coord.named.x = currentX + entry->runtime.spacing;
-		//element->ctxMod.coord.named.y = element->ctxAttacker.coord.named.y + (element->config.fontsize.value[0] - element->ctxMod.coord.named.w) / 2; // Центрирование по вертикали
 		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctxMod);
 		currentX += element->ctxMod.coord.named.w + entry->runtime.spacing * 2;
 	}
 	element->ctxTarget.text = entry->runtime.truncatedTarget;
 	element->ctxTarget.coord.named.x = currentX;
+	if ((entry->targetTeam == TEAM_RED || entry->targetTeam == TEAM_BLUE) && element->config.style.isSet && element->config.style.value)
+	{
+		Vector4Copy(entry->runtime.targetColor, element->ctxTarget.background);
+	}
+	else
+	{
+		element->ctxTarget.background[3] = 0;
+	}
 	CG_SHUDTextPrint(&element->config, &element->ctxTarget);
-	CG_SHUDStylesObituaries_Bars(currentX, element->ctxTarget.coord.named.y, entry->runtime.targetWidth, element->config.fontsize.value[1], entry->runtime.targetColor, element->config.style.value, entry->targetTeam);
 }
 
 
@@ -243,40 +262,18 @@ static void CG_SHUDObituarySetTeamColor(vec4_t color, int team)
 {
 	switch (team)
 	{
-		case 1:
-			Vector4Set(color, 1.0f, 0.0f, 0.0f, 0.75f);
+		case TEAM_RED:
+			VectorCopy(colorRed, color);
 			break;
-		case 2:
-			Vector4Set(color, 0.0f, 0.0f, 1.0f, 0.75f);
+		case TEAM_BLUE:
+			VectorCopy(colorBlue, color);
 			break;
 		default:
-			Vector4Set(color, 0.5f, 0.5f, 0.5f, 1.0f);
+			VectorCopy(colorWhite, color);
 			break;
 	}
+	color[3] = 0.25f;
 }
-
-static void CG_SHUDStylesObituaries_Bars(float x, float y, float width, float height, vec4_t color, int style, int team)
-{
-	if (team != 1 && team != 2)
-	{
-		return;
-	}
-
-	if (style == 1)  // colored background
-	{
-		color[3] = 0.1f;
-		CG_FillRect(x - 2, y - ((height + 4) / 2), width + 4, height + 4, color);
-	}
-	else if (style == 2)  // colored underline
-	{
-		CG_FillRect(x, y + (height / 2), width, 1, color);
-	}
-	else
-	{
-		return;
-	}
-}
-
 
 static qhandle_t CG_SHUDObituaryGetModIcon(int mod, qboolean unfrozen)
 {

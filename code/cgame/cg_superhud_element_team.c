@@ -214,7 +214,8 @@ void CG_SHUDElementTeamRoutine(void* context)
 	                 element->ctxHealthArmor.coord.named.w,
 	                 element->ctxHealthArmor.coord.named.h,
 	                 element->ctxHealthArmor.maxchars,
-	                 element->ctxHealthArmor.flags);
+	                 element->ctxHealthArmor.flags,
+	                 NULL);
 
 	// draw weapon
 	element->ctxWeapon.image = cg_weapons[ci->curWeapon].ammoIcon ?  cg_weapons[ci->curWeapon].ammoIcon : cgs.media.deferShader;

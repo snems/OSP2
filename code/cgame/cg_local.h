@@ -1575,7 +1575,7 @@ float CG_OSPDrawStringLength(const char* string, float ax, float aw, float max_a
 int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, int flags);
 
 void CG_OSPDrawStringPrepare(const char* from, char* to, int size);
-void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
+void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags, vec4_t background);
 void CG_FontSelect(int index);
 int CG_FontIndexFromName(const char* name);
 
