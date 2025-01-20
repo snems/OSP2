@@ -1480,6 +1480,7 @@ extern vmCvar_t           cg_gunColor;
 extern vmCvar_t           cg_gunOpaque;
 extern vmCvar_t           cg_conObituaries;
 extern vmCvar_t           cg_drawCenterMessages;
+extern vmCvar_t           cg_itemsRespawnAnimation;
 //
 // cg_main.c
 //

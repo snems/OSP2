@@ -340,6 +340,16 @@
 
 ---
 
+    cg_itemsRespawnAnimation 0/1
+
+Анимация появления 3D предметов.
+
+`0` выключено
+
+`1` включено
+
+---
+
     crossnext
     crossprev
     crossdecornext
