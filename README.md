@@ -5,7 +5,7 @@ OSP2-BE is a project aimed at reviving the classic OSP mod, bringing it back to 
 ## 🔧 Contributions
 
 OSP2-BE incorporates code from several notable Quake mods and projects:
-
+- **OSP2 by snems**: [Github Link](https://github.com/snems/OSP2)
 - **baseq3a by Cyrax**: [GitHub Link](https://github.com/ec-/baseq3a)
 - **XQ3E Engine**: [GitHub Link](https://github.com/xq3e/engine)
 - **Unlagged Mod by Nail Toronto**
