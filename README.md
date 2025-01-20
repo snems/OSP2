@@ -16,7 +16,11 @@ OSP2-BE incorporates code from several notable Quake mods and projects:
 OSP2-BE features:
 
 - Obituary messages for superhud
-- Temporal LG Accuracy for superhud 
+- Temporal LG Accuracy for superhud
+
+- cg_itemsRespawnAnimation 1 - disable respawn animations for 3D items
+- cg_drawCenterMessages 0 - disable center messages (welcome server msg, frag msg etc.)
+- cg_drawDamage 3/4 - enable red border when damage recieve. (3 - classic + border, 4 - border only)
 
 ![shot-Dec-17-2024_17 11 28](https://github.com/user-attachments/assets/97452e84-d981-4458-8fb8-92b88cd6dad1)
 
