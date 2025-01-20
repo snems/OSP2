@@ -131,5 +131,4 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 ### Obituary1 - Obituary8
 
 - Размер иконки зависит от размера шрифта
-- style 1 - цвет команды на фоне ника
-- style 2 - цвет команды полосой под ником
+- style 1 - цвет команды на фоне ника, при этом можно задать прозрачность фона через BgColor.

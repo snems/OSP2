@@ -1739,7 +1739,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			CG_OSPConfigCustomClient2Set(CS_OSP_CUSTOM_CLIENT2_DEFAULT);
 		}
 
-		CG_OSPConfig0x368Set(atoi(CG_ConfigString(CS_OSP_0x368)) & 1);
+		CG_OSPConfig0x368Set(atoi(CG_ConfigString(CS_OSP_AUTH)) & 1);
 		CG_OSPConfigPmoveSet(atoi(CG_ConfigString(CS_OSP_ALLOW_PMOVE)));
 
 		CG_OSPConfigMinMaxPacketsSet(atoi(CG_ConfigString(CS_OSP_MAXPACKETS_MIN)));

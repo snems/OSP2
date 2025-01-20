@@ -435,7 +435,8 @@ void CG_SHUDTextPrint(const superhudConfig_t* cfg, superhudTextContext_t* ctx)
 	                 ctx->coord.named.w,
 	                 ctx->coord.named.h,
 	                 ctx->maxchars,
-	                 ctx->flags);
+	                 ctx->flags,
+	                 ctx->background);
 }
 
 
