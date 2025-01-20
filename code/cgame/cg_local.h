@@ -1482,6 +1482,8 @@ extern vmCvar_t           cg_conObituaries;
 
 extern vmCvar_t           cg_lightningHitsoundRateFix;
 extern vmCvar_t           cg_stackHitSounds;
+extern vmCvar_t           cg_drawCenterMessages;
+
 //
 // cg_main.c
 //
@@ -2338,7 +2340,6 @@ void CG_LocalEventCvarChanged_cg_dlightRG(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_dlightPG(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_dlightBFG(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_conObituaries(cvarTable_t* cvart);
-
 #ifdef __cplusplus
 }
 #endif

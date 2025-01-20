@@ -2710,9 +2710,14 @@ void CG_OSPDrawCenterString(void)
 	float* fadeColor;
 	char* to_print;
 	int y;
+	if (cg_drawCenterMessages.value == 0)
+	{
+		return;
+	}
 	if (!cg.centerPrintTime) return;
-
 	fadeColor = CG_FadeColor(cg.centerPrintTime, 1000.0 * cg_centertime.value);
+
+
 	if (!fadeColor) return;
 
 	trap_R_SetColor(fadeColor);
