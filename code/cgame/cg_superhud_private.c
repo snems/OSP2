@@ -116,7 +116,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "team15", SE_TEAM_ONLY, CG_SHUDElementTeam15Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
 	{ "team16", SE_TEAM_ONLY, CG_SHUDElementTeam16Create, CG_SHUDElementTeamRoutine, CG_SHUDElementTeamDestroy },
 	{ "votemessagearena", 0, },
-	{ "votemessageworld", 0, CG_SHUDElementVMWCreate, CG_SHUDElementVMWRoutine, CG_SHUDElementVMWDestroy },
+	{ "votemessageworld", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementVMWCreate, CG_SHUDElementVMWRoutine, CG_SHUDElementVMWDestroy },
 	{ "warmupinfo", 0, CG_SHUDElementWarmupInfoCreate, CG_SHUDElementWarmupInfoRoutine, CG_SHUDElementWarmupInfoDestroy },
 	{ "weaponlist", 0, CG_SHUDElementWeaponListCreate, CG_SHUDElementWeaponListRoutine, CG_SHUDElementWeaponListDestroy },
 	{ "weaponselection", 0, },
