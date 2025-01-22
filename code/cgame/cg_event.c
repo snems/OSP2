@@ -149,6 +149,7 @@ void CG_OSPObituaryFreeze(entityState_t* es, char* targetName)
 	const char* actionStr;
 	const char* endStr = "";
 	const char* cs;
+	int mod = 1337; // for superhud obituaries
 
 	targetId = es->otherEntityNum;
 	actorId = es->otherEntityNum2;

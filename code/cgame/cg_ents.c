@@ -369,14 +369,22 @@ static void CG_Item(centity_t* cent)
 	ent.nonNormalizedAxes = qfalse;
 
 	// if just respawned, slowly scale up
-	msec = cg.time - cent->miscTime;
-	if (msec >= 0 && msec < ITEM_SCALEUP_TIME)
+	
+		if (cg_itemsRespawnAnimation.value == 1)
 	{
-		frac = (float)msec / ITEM_SCALEUP_TIME;
-		VectorScale(ent.axis[0], frac, ent.axis[0]);
-		VectorScale(ent.axis[1], frac, ent.axis[1]);
-		VectorScale(ent.axis[2], frac, ent.axis[2]);
-		ent.nonNormalizedAxes = qtrue;
+		msec = cg.time - cent->miscTime;
+		if (msec >= 0 && msec < ITEM_SCALEUP_TIME)
+		{
+			frac = (float)msec / ITEM_SCALEUP_TIME;
+			VectorScale(ent.axis[0], frac, ent.axis[0]);
+			VectorScale(ent.axis[1], frac, ent.axis[1]);
+			VectorScale(ent.axis[2], frac, ent.axis[2]);
+			ent.nonNormalizedAxes = qtrue;
+		}
+		else
+		{
+			frac = 1.0;
+		}
 	}
 	else
 	{

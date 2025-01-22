@@ -72,6 +72,8 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | TeamCount_NME                 | Количество живых игроков во вражеской команде (только фриз). |
 | TeamCount_OWN                 | Количество живых игроков в своей команде (только фриз).      |
 | Team1-Team16                  | Тимоверлей.                                                  |
+| tempAcc_current               | Временная точность LG. Текущая                               |
+| tempAcc_last                  | Временная точность LG. Последняя                             |
 | VoteMessageWorld              | Строка голосования.                                          |
 | WeaponList                    | Список доступного оружия.                                    |
 | RewardIcons                   | Изображение полученной медали.                               |
@@ -106,7 +108,9 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | Textalign | L/C/R          | Выравнивание текста лево/центр/право.                     |
 | Textstyle | flags          | Флаги текста. 1 - без тени.                               |
 | Time      | milliseconds   | Время отображения на экране.                              |
-| Style     | flags          | Стиль элемента - цифра
+| Style     | flags          | Стиль элемента - цифра                                    |
+
+
 
 ## Пояснения к некоторым элементам
 
@@ -130,5 +134,9 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 
 ### Obituary1 - Obituary8
 
-- Размер иконки зависит от размера шрифта
-- style 1 - цвет команды на фоне ника, при этом можно задать прозрачность фона через BgColor.
+- Размер иконки зависит от высоты элемента (rect)
+- - style 1 - цвет команды на фоне ника, при этом можно задать прозрачность фона через BgColor.
+
+## tempAcc_current, tempAcc_last
+
+- style 1 - цвета значения точности по границам (<30, <50, <60, >60)

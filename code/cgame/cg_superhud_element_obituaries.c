@@ -33,7 +33,7 @@ static void* CG_SHUDElementObituariesCreate(const superhudConfig_t* config, int 
 		lcfg.alignV.value = SUPERHUD_ALIGNV_CENTER;
 		lcfg.alignV.isSet = qtrue;
 	}
-
+  
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxAttacker);
 	CG_SHUDDrawMakeContext(&lcfg, &element->ctxMod);
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxTarget);
@@ -109,7 +109,8 @@ static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* e
 
 	if (entry->target >= 0 && entry->target < MAX_CLIENTS)
 	{
-		(void)CG_TruncateStringWithCodes(cgs.clientinfo[entry->target].name, entry->runtime.truncatedTarget, entry->runtime.maxVisibleChars);
+
+    (void)CG_TruncateStringWithCodes(cgs.clientinfo[entry->target].name, entry->runtime.truncatedTarget, entry->runtime.maxVisibleChars);
 	}
 
 	entry->runtime.attackerWidth = CG_OSPDrawStringLenPix(entry->runtime.truncatedAttacker, element->config.fontsize.value[0], MAX_QPATH, element->ctxAttacker.flags);
