@@ -292,6 +292,30 @@ void CG_SHUDLoadConfig(void)
 	}
 }
 
+void CG_SHUDFreezeFight(void)
+{
+	static qboolean is_spectator = qfalse;
+	const clientInfo_t *ourPlayer;
+	qboolean current_spec;
+
+	if (cgs.osp.gameTypeFreeze == 0)
+	{
+		is_spectator = qfalse;
+		return;
+	}
+
+	ourPlayer = &cgs.clientinfo[cg.clientNum];
+	current_spec = ourPlayer->rt == TEAM_SPECTATOR || ourPlayer->team == TEAM_SPECTATOR || cg.clientNum != cg.snap->ps.clientNum || ourPlayer->health <= 0;
+
+	if (is_spectator && !current_spec)
+	{
+			trap_S_StartLocalSound(cgs.media.countFightSound, CHAN_ANNOUNCER);
+	}
+
+	is_spectator = current_spec;
+
+}
+
 void CG_SHUDRoutine(void)
 {
 	superhudElement_t* last = elementsHead;
@@ -308,6 +332,8 @@ void CG_SHUDRoutine(void)
 	{
 		CG_OSPDrawCenterString();
 	}
+
+	CG_SHUDFreezeFight();
 
 	while (last)
 	{
