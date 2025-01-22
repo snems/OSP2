@@ -538,6 +538,13 @@ void* CG_SHUDElementTempAccCurrentCreate(const superhudConfig_t* config);
 void* CG_SHUDElementTempAccLastCreate(const superhudConfig_t* config);
 void CG_SHUDElementTempAccRoutine(void* context);
 void CG_SHUDElementTempAccDestroy(void* context);
+  
+void* CG_SHUDElementWarmupInfoCreate(const superhudConfig_t* config);
+void CG_SHUDElementWarmupInfoRoutine(void* context);
+void CG_SHUDElementWarmupInfoDestroy(void* context);
+void* CG_SHUDElementGameTypeCreate(const superhudConfig_t* config);
+void CG_SHUDElementGameTypeRoutine(void* context);
+void CG_SHUDElementGameTypeDestroy(void* context);
 
 /*
  * cg_superhud_util.c
@@ -560,6 +567,7 @@ typedef struct
 	int flags;
 	vec4_t color_origin;
 	vec4_t color;
+	vec4_t background;
 	int maxchars;
 	int fontIndex;
 	const char* text;
@@ -641,12 +649,26 @@ typedef struct
 typedef struct
 {
 	int time;
-	qhandle_t iconShader;
 	int attacker;
 	int target;
 	int attackerTeam;
 	int targetTeam;
 	int mod;
+	qboolean unfrozen;
+	struct
+	{
+		qboolean isInitialized;
+		qhandle_t iconShader;
+		vec4_t attackerColor;
+		vec4_t targetColor;
+		char truncatedAttacker[MAX_QPATH];
+		char truncatedTarget[MAX_QPATH];
+		int maxVisibleChars;
+		float baseX;
+		float attackerWidth;
+		float targetWidth;
+		float spacing;
+	} runtime;
 } superhudObituariesEntry_t;
 
 #define SHUD_MAX_OBITUARIES_LINES 8

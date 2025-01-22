@@ -1479,8 +1479,11 @@ extern vmCvar_t           cg_dlightBFG;
 extern vmCvar_t           cg_gunColor;
 extern vmCvar_t           cg_gunOpaque;
 extern vmCvar_t           cg_conObituaries;
+extern vmCvar_t           cg_lightningHitsoundRateFix;
+extern vmCvar_t           cg_stackHitSounds;
 extern vmCvar_t           cg_drawCenterMessages;
 extern vmCvar_t           cg_itemsRespawnAnimation;
+
 //
 // cg_main.c
 //
@@ -1574,7 +1577,7 @@ float CG_OSPDrawStringLength(const char* string, float ax, float aw, float max_a
 int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, int flags);
 
 void CG_OSPDrawStringPrepare(const char* from, char* to, int size);
-void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
+void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags, vec4_t background);
 void CG_FontSelect(int index);
 int CG_FontIndexFromName(const char* name);
 
@@ -1904,6 +1907,7 @@ void CG_StringMakeEscapeCharRAW(const char* in, char* out, int max);
 //
 // cg_playerstate.c
 //
+#define CG_HITSOUND_STACK_PERIOD 500
 void CG_Respawn(void);
 void CG_TransitionPlayerState(playerState_t* ps, playerState_t* ops);
 void CG_CheckChangedPredictableEvents(playerState_t* ps);

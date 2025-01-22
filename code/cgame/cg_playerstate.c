@@ -347,20 +347,26 @@ static void CG_PlayHitSound(sfxHandle_t sound, playerState_t* ps, playerState_t*
 
 void CG_HitSound(playerState_t* ps, playerState_t* ops)
 {
-	const int hits = ps->persistant[PERS_HITS] - ops->persistant[PERS_HITS];
-	if (!hits)
+	static int delayedDmg = 0;
+	static int stackedDmg = 0;
+
+	int deltaTime  = cg.time - cgs.osp.lastHitTime;
+	int hits    = ps->persistant[PERS_HITS] - ops->persistant[PERS_HITS];
+	int lgcd    = ops->powerups[PW_HASTE] ? 25 : 50; //lg ms cooldown, do we really need 25ms for haste?
+
+	if (!hits && !delayedDmg)
 	{
 		return;
 	}
-
-	cgs.osp.lastHitTime = cg.time;
 
 	if (hits < 0)
 	{
 		//frendly fire
+		cgs.osp.lastHitTime = cg.time;
 		CG_PlayHitSound(cgs.media.hitTeamSound, ps, ops);
 		return;
 	}
+
 	//hits > 0 here
 	{
 		const int atta = ps->persistant[PERS_ATTACKEE_ARMOR];
@@ -373,8 +379,30 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 		else
 		{
 			damage = atta & 0x00FF;
+
 		}
 
+		if (cg_lightningHitsoundRateFix.integer && ops->weapon == WP_LIGHTNING && deltaTime < lgcd) //no need lg collisions < cooldown ms
+		{
+			delayedDmg += hits ? damage : 0; // if hit then transfer him to the future
+			return;
+		}
+
+		if (cg_stackHitSounds.integer && deltaTime < CG_HITSOUND_STACK_PERIOD) // why 500? what's the optimal value?
+		{
+			stackedDmg += damage;
+			damage = stackedDmg + delayedDmg;
+		}
+		else
+		{
+			stackedDmg = 0;
+			damage += delayedDmg;
+		}
+		delayedDmg = 0;
+
+		cgs.osp.lastHitTime = cg.time;
+		// TODO we need some solution when we take quad cuz sometimes with LG dmg + delayedDMG > 25
+		//damage = ops->powerups[PW_QUAD] ? 26 : damage; // for a homogeneous sound with quad
 
 		if ((OSP_CUSTOM_CLIENT_2_IS_DMG_INFO_ALLOWED()
 		        && cg_hitSounds.integer) || cgs.osp.server_mode == OSP_SERVER_MODE_PROMODE || cgs.osp.server_mode == OSP_SERVER_MODE_CQ3)
@@ -388,7 +416,7 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 			if (cg_hitSounds.integer > 1)   // reversed: higher damage - higher tone
 				index = 3 - index;
 
-			CG_PlayHitSound(cgs.media.hitSounds[ index ], ps, ops);
+			CG_PlayHitSound(cgs.media.hitSounds[index], ps, ops);
 		}
 		else
 		{

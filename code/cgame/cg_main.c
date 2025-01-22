@@ -359,10 +359,10 @@ vmCvar_t           cg_dlightBFG;
 vmCvar_t           cg_gunColor;
 vmCvar_t           cg_gunOpaque;
 vmCvar_t           cg_conObituaries;
+vmCvar_t           cg_lightningHitsoundRateFix;
+vmCvar_t           cg_stackHitSounds;
 vmCvar_t           cg_drawCenterMessages;
 vmCvar_t           cg_itemsRespawnAnimation;
-
-
 
 static cvarTable_t cvarTable[] =
 {
@@ -635,9 +635,10 @@ static cvarTable_t cvarTable[] =
 	{ &cg_gunColor,       "cg_gunColor",      "white", CVAR_ARCHIVE },
 	{ &cg_gunOpaque,      "cg_gunOpaque",      "0.15", CVAR_ARCHIVE },
 	{ &cg_conObituaries,  "cg_conObituaries",   "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_conObituaries },
+	{ &cg_lightningHitsoundRateFix, "cg_lightningHitsoundRateFix",      "1", CVAR_ARCHIVE },
+	{ &cg_stackHitSounds,           "cg_stackHitSounds",   "1", CVAR_ARCHIVE },
 	{ &cg_drawCenterMessages, "cg_drawCenterMessages", "1", CVAR_ARCHIVE },
-	{ &cg_itemsRespawnAnimation, "cg_itemsRespawnAnimation", "1", CVAR_ARCHIVE },
-
+  { &cg_itemsRespawnAnimation, "cg_itemsRespawnAnimation", "1", CVAR_ARCHIVE },
 };
 
 #define CG_VARS_HASH_SIZE 512
@@ -1739,7 +1740,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			CG_OSPConfigCustomClient2Set(CS_OSP_CUSTOM_CLIENT2_DEFAULT);
 		}
 
-		CG_OSPConfig0x368Set(atoi(CG_ConfigString(CS_OSP_0x368)) & 1);
+		CG_OSPConfig0x368Set(atoi(CG_ConfigString(CS_OSP_AUTH)) & 1);
 		CG_OSPConfigPmoveSet(atoi(CG_ConfigString(CS_OSP_ALLOW_PMOVE)));
 
 		CG_OSPConfigMinMaxPacketsSet(atoi(CG_ConfigString(CS_OSP_MAXPACKETS_MIN)));

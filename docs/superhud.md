@@ -79,6 +79,9 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | RewardIcons                   | Изображение полученной медали.                               |
 | RewardNumbers                 | Счетчик полученных медалей.                                  |
 | PostDecorate                  | Отрисовка разделителей и т.п.                                |
+| Obituary1-Obituary8           | Некролог.                                                    |
+| WarmupInfo                    | Обратный отсчет/"waiting for players".                       |
+| GameType                      | Режим игры(только во время warmup).                          |
 
 ## Команды
 
@@ -107,6 +110,8 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | Time      | milliseconds   | Время отображения на экране.                              |
 | Style     | flags          | Стиль элемента - цифра                                    |
 
+
+
 ## Пояснения к некоторым элементам
 
 ### !DEFAULT
@@ -129,9 +134,8 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 
 ### Obituary1 - Obituary8
 
-- Размер иконки зависит от размера шрифта
-- style 1 - цвет команды на фоне ника
-- style 2 - цвет команды полосой под ником
+- Размер иконки зависит от высоты элемента (rect)
+- - style 1 - цвет команды на фоне ника, при этом можно задать прозрачность фона через BgColor.
 
 ## tempAcc_current, tempAcc_last
 

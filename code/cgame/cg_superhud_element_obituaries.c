@@ -14,6 +14,10 @@ typedef struct
 
 shudElementObituaries_t cg_obituaries;
 
+static qhandle_t CG_SHUDObituaryGetModIcon(int mod, qboolean unfrozen);
+static void CG_SHUDObituarySetTeamColor(vec4_t color, int team);
+static int CG_TruncateStringWithCodes(const char* input, char* output, int maxVisibleChars);
+
 static void* CG_SHUDElementObituariesCreate(const superhudConfig_t* config, int line)
 {
 	shudElementObituaries_t* element;
@@ -24,6 +28,12 @@ static void* CG_SHUDElementObituariesCreate(const superhudConfig_t* config, int 
 
 	memcpy(&lcfg, config, sizeof(superhudConfig_t));
 
+	if (!lcfg.alignV.isSet)
+	{
+		lcfg.alignV.value = SUPERHUD_ALIGNV_CENTER;
+		lcfg.alignV.isSet = qtrue;
+	}
+  
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxAttacker);
 	CG_SHUDDrawMakeContext(&lcfg, &element->ctxMod);
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxTarget);
@@ -71,19 +81,63 @@ void* CG_SHUDElementObituaries8Create(const superhudConfig_t* config)
 	return CG_SHUDElementObituariesCreate(config, 8);
 }
 
+static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* element, superhudObituariesEntry_t* entry)
+{
+	entry->runtime.maxVisibleChars = 13;
+	entry->runtime.spacing = element->config.rect.value[3] / 2.0f;
+
+	entry->runtime.iconShader = CG_SHUDObituaryGetModIcon(entry->mod, entry->unfrozen);
+
+	CG_SHUDObituarySetTeamColor(entry->runtime.attackerColor, entry->attackerTeam);
+	CG_SHUDObituarySetTeamColor(entry->runtime.targetColor, entry->targetTeam);
+
+	if (element->config.bgcolor.isSet)
+	{
+		entry->runtime.attackerColor[3] = element->config.bgcolor.value[3];
+		entry->runtime.targetColor[3] = element->config.bgcolor.value[3];
+	}
+
+	if (entry->attacker == ENTITYNUM_WORLD)
+	{
+		strcpy(entry->runtime.truncatedAttacker, "^1world");
+	}
+	else if (entry->attacker >= 0 && entry->attacker < MAX_CLIENTS)
+	{
+		(void)CG_TruncateStringWithCodes(cgs.clientinfo[entry->attacker].name, entry->runtime.truncatedAttacker, entry->runtime.maxVisibleChars);
+	}
+
+
+	if (entry->target >= 0 && entry->target < MAX_CLIENTS)
+	{
+
+    (void)CG_TruncateStringWithCodes(cgs.clientinfo[entry->target].name, entry->runtime.truncatedTarget, entry->runtime.maxVisibleChars);
+	}
+
+	entry->runtime.attackerWidth = CG_OSPDrawStringLenPix(entry->runtime.truncatedAttacker, element->config.fontsize.value[0], MAX_QPATH, element->ctxAttacker.flags);
+	entry->runtime.targetWidth = CG_OSPDrawStringLenPix(entry->runtime.truncatedTarget, element->config.fontsize.value[0], MAX_QPATH, element->ctxTarget.flags);
+
+	if (element->config.alignH.value == SUPERHUD_ALIGNH_LEFT)
+	{
+		entry->runtime.baseX = element->config.rect.value[0];
+	}
+	else if (element->config.alignH.value == SUPERHUD_ALIGNH_RIGHT)
+	{
+		entry->runtime.baseX = element->config.rect.value[0] + element->config.rect.value[2] - (entry->runtime.attackerWidth + element->ctxMod.coord.named.w + entry->runtime.targetWidth + 2 * entry->runtime.spacing);
+	}
+	else // SUPERHUD_ALIGNH_CENTER
+	{
+		entry->runtime.baseX = (element->config.rect.value[2] / 2) - (element->ctxMod.coord.named.w / 2) - entry->runtime.attackerWidth;
+	}
+
+	entry->runtime.isInitialized = qtrue;
+}
+
 void CG_SHUDElementObituariesRoutine(void* context)
 {
 	shudElementObituaries_t* element = (shudElementObituaries_t*)context;
 	superhudObituariesEntry_t* entry;
-	qhandle_t iconShader;
 	int index;
-	float currentX, baseX, attackerWidth, targetWidth;
-	const float spacing = 8.0f;
-	char truncatedAttacker[MAX_QPATH];
-	char truncatedTarget[MAX_QPATH];
-	int maxVisibleChars = 13;
-	int attackerVisibleChars, targetVisibleChars;
-	vec4_t attackerColor, targetColor;
+	float currentX;
 
 	index = (element->gctx->obituaries.index - element->index) % SHUD_MAX_OBITUARIES_LINES;
 	entry = &element->gctx->obituaries.line[index];
@@ -94,80 +148,55 @@ void CG_SHUDElementObituariesRoutine(void* context)
 		return;
 	}
 
-	element->ctxMod.coord.named.w = element->config.fontsize.value[0] * 1.6f;   // icon size scaling
-	element->ctxMod.coord.named.h = element->config.fontsize.value[1] * 1.6f;
+	element->ctxMod.coord.named.w = element->config.rect.value[3];   // icon size scaling
+	element->ctxMod.coord.named.h = element->config.rect.value[3];
 
-	iconShader = CG_SHUDObituaryGetModIcon(entry->mod);
-
-	CG_SHUDObituarySetTeamColor(attackerColor, entry->attackerTeam);
-	CG_SHUDObituarySetTeamColor(targetColor, entry->targetTeam);
-
-	if (entry->attacker == 1022)
+	if (!entry->runtime.isInitialized)
 	{
-		strcpy(truncatedAttacker, "^1world");
-		attackerVisibleChars = 5;
-	}
-	else if (entry->attacker >= 0 && entry->attacker < MAX_CLIENTS)
-	{
-		attackerVisibleChars = CG_TruncateStringWithCodes(cgs.clientinfo[entry->attacker].name, truncatedAttacker, maxVisibleChars);
-	}
-	else
-	{
-		attackerVisibleChars = 0;
+		CG_SHUDElementObituariesInitializeRuntime(element, entry);
 	}
 
-
-	if (entry->target >= 0 && entry->target < MAX_CLIENTS)
-	{
-		targetVisibleChars = CG_TruncateStringWithCodes(cgs.clientinfo[entry->target].name, truncatedTarget, maxVisibleChars);
-	}
-	else
-	{
-		targetVisibleChars = 0;
-	}
-
-	attackerWidth = element->config.fontsize.value[0] * attackerVisibleChars;
-	targetWidth = element->config.fontsize.value[0] * targetVisibleChars;
-
-	if (element->config.alignH.value == SUPERHUD_ALIGNH_LEFT)
-	{
-		baseX = element->config.rect.value[0];
-	}
-	else if (element->config.alignH.value == SUPERHUD_ALIGNH_RIGHT)
-	{
-		baseX = element->config.rect.value[0] + element->config.rect.value[2] - (attackerWidth + element->ctxMod.coord.named.w + targetWidth + 2 * spacing);
-	}
-	else // SUPERHUD_ALIGNH_CENTER
-	{
-		baseX = (element->config.rect.value[2] / 2) - (element->ctxMod.coord.named.w / 2) - attackerWidth;
-	}
-
-	currentX = baseX;
+	currentX = entry->runtime.baseX;
 
 	if (entry->attacker != entry->target)
 	{
-		element->ctxAttacker.text = truncatedAttacker;
+		element->ctxAttacker.text = entry->runtime.truncatedAttacker;
 		element->ctxAttacker.coord.named.x = currentX;
+
+		if ((entry->attackerTeam == TEAM_RED || entry->attackerTeam == TEAM_BLUE) && element->config.style.isSet && element->config.style.value)
+		{
+			Vector4Copy(entry->runtime.attackerColor, element->ctxAttacker.background);
+		}
+		else
+		{
+			element->ctxAttacker.background[3] = 0;
+		}
+
 		CG_SHUDTextPrint(&element->config, &element->ctxAttacker);
-		CG_SHUDStylesObituaries_Bars(currentX, element->ctxAttacker.coord.named.y + element->config.fontsize.value[1], attackerWidth, element->config.fontsize.value[1], attackerColor, element->config.style.value, entry->attackerTeam);
-		currentX += attackerWidth;
+		currentX += entry->runtime.attackerWidth;
 	}
-	if (iconShader)
+	if (entry->runtime.iconShader)
 	{
-		element->ctxMod.image = iconShader;
-		element->ctxMod.coord.named.x = currentX + spacing;
-		element->ctxMod.coord.named.y = element->ctxAttacker.coord.named.y + (element->config.fontsize.value[0] - element->ctxMod.coord.named.w) / 2; // Центрирование по вертикали
+		element->ctxMod.image = entry->runtime.iconShader;
+		element->ctxMod.coord.named.x = currentX + entry->runtime.spacing;
 		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctxMod);
-		currentX += element->ctxMod.coord.named.w + spacing * 2;
+		currentX += element->ctxMod.coord.named.w + entry->runtime.spacing * 2;
 	}
-	element->ctxTarget.text = truncatedTarget;
+	element->ctxTarget.text = entry->runtime.truncatedTarget;
 	element->ctxTarget.coord.named.x = currentX;
+	if ((entry->targetTeam == TEAM_RED || entry->targetTeam == TEAM_BLUE) && element->config.style.isSet && element->config.style.value)
+	{
+		Vector4Copy(entry->runtime.targetColor, element->ctxTarget.background);
+	}
+	else
+	{
+		element->ctxTarget.background[3] = 0;
+	}
 	CG_SHUDTextPrint(&element->config, &element->ctxTarget);
-	CG_SHUDStylesObituaries_Bars(currentX, element->ctxTarget.coord.named.y + element->config.fontsize.value[1], targetWidth, element->config.fontsize.value[1], targetColor, element->config.style.value, entry->targetTeam);
 }
 
 
-int CG_TruncateStringWithCodes(const char* input, char* output, int maxVisibleChars)
+static int CG_TruncateStringWithCodes(const char* input, char* output, int maxVisibleChars)
 {
 	int visibleCount = 0, actualCount = 0;
 	int maxVisible = 0, currentVisibleCount = 0;
@@ -234,126 +263,76 @@ static void CG_SHUDObituarySetTeamColor(vec4_t color, int team)
 {
 	switch (team)
 	{
-		case 1:
-			Vector4Set(color, 1.0f, 0.0f, 0.0f, 0.75f);
+		case TEAM_RED:
+			VectorCopy(colorRed, color);
 			break;
-		case 2:
-			Vector4Set(color, 0.0f, 0.0f, 1.0f, 0.75f);
+		case TEAM_BLUE:
+			VectorCopy(colorBlue, color);
 			break;
 		default:
-			Vector4Set(color, 0.5f, 0.5f, 0.5f, 1.0f);
+			VectorCopy(colorWhite, color);
 			break;
 	}
+	color[3] = 0.25f;
 }
 
-static void CG_SHUDStylesObituaries_Bars(float x, float y, float width, float height, vec4_t color, int style, int team)
+static qhandle_t CG_SHUDObituaryGetModIcon(int mod, qboolean unfrozen)
 {
-	if (team != 1 && team != 2)
+	if (unfrozen)
 	{
-		return;
+		return cgs.media.frozenFoeTagShader;
 	}
 
-	if (style == 1)  // colored background
-	{
-		color[3] = 0.1f;
-		CG_FillRect(x - 2, y - height - 2, width + 4, height + 4, color);
-	}
-	else if (style == 2)  // colored underline
-	{
-		CG_FillRect(x, y + 2, width, 1, color);
-	}
-	else
-	{
-		return;
-	}
-}
-
-
-qhandle_t CG_SHUDObituaryGetModIcon(int mod)
-{
-	qhandle_t iconShader = 0;
 	switch (mod)
 	{
-		case 0: // MOD_UNKOWN
-			iconShader = trap_R_RegisterShader("ObituariesSkull");
-			break;
-		case 1:  // MOD_SHOTGUN
-			iconShader = cg_weapons[WP_SHOTGUN].ammoIcon;
-			break;
-		case 2:  // MOD_GAUNTLET
-			iconShader = cg_weapons[WP_GAUNTLET].ammoIcon;
-			break;
-		case 3:  // MOD_MACHINEGUN
-			iconShader = cg_weapons[WP_MACHINEGUN].ammoIcon;
-			break;
-		case 4:  // MOD_GRENADE
-			iconShader = trap_R_RegisterShader("ObituariesGrenadeDirect");
-			break;
-		case 5:  // MOD_GRENADE_SPLASH
-			iconShader = cg_weapons[WP_GRENADE_LAUNCHER].ammoIcon;
-			break;
-		case 6:  // MOD_ROCKET
-			iconShader = trap_R_RegisterShader("ObituariesRocketDirect");
-			break;
-		case 7:  // MOD_ROCKET_SPLASH
-			iconShader = cg_weapons[WP_ROCKET_LAUNCHER].ammoIcon;
-			break;
-		case 8:  // MOD_PLASMA
-			iconShader = cg_weapons[WP_PLASMAGUN].ammoIcon;
-			break;
-		case 9:  // MOD_PLASMA_SPLASH
-			iconShader = cg_weapons[WP_PLASMAGUN].ammoIcon;
-			break;
-		case 10: // MOD_RAILGUN
-			iconShader = cg_weapons[WP_RAILGUN].ammoIcon;
-			break;
-		case 11: // MOD_LIGHTNING
-			iconShader = cg_weapons[WP_LIGHTNING].ammoIcon;
-			break;
-		case 12: // MOD_BFG
-			iconShader = trap_R_RegisterShader("ObituariesBFGDirect");
-			break;
-		case 13: // MOD_BFG_SPLASH
-			iconShader = cg_weapons[WP_BFG].ammoIcon;
-			break;
-		case 14: // drowned
-			iconShader = trap_R_RegisterShader("ObituariesDrowned");
-			break;
-		case 15: // melted
-			iconShader = trap_R_RegisterShader("ObituariesMelted");
-			break;
-		case 16: // LAVA
-			iconShader = trap_R_RegisterShader("ObituariesLava");
-			break;
-		case 17: // CRUSH
-			iconShader = trap_R_RegisterShader("ObituariesSkull");
-			break;
-		case 18: // telefrag
-			iconShader = trap_R_RegisterShader("ObituariesTelefrag");
-			break;
-		case 19: // Fallen (crashed)
-			iconShader = trap_R_RegisterShader("ObituariesFallenCrashed");
-			break;
-		case 20: // /kill
-			iconShader = trap_R_RegisterShader("ObituariesSkull");
-			break;
-		case 21: // LASER
-			iconShader = trap_R_RegisterShader("ObituariesSkull");
-			break;
-		case 22: // fell off the map
-			iconShader = trap_R_RegisterShader("ObituariesFalling");
-			break;
-		case 23: // grapple...
-			iconShader = trap_R_RegisterShader("ObituariesSkull");
-			break;
-		case 1337: // thawed
-			iconShader = cgs.media.frozenFoeTagShader;
-			break;
+		case MOD_SHOTGUN:
+			return cg_weapons[WP_SHOTGUN].ammoIcon;
+		case MOD_GAUNTLET:
+			return cg_weapons[WP_GAUNTLET].ammoIcon;
+		case MOD_MACHINEGUN:
+			return cg_weapons[WP_MACHINEGUN].ammoIcon;
+		case MOD_GRENADE:
+			return trap_R_RegisterShader("ObituariesGrenadeDirect");
+		case MOD_GRENADE_SPLASH:
+			return cg_weapons[WP_GRENADE_LAUNCHER].ammoIcon;
+		case MOD_ROCKET:
+			return trap_R_RegisterShader("ObituariesRocketDirect");
+		case MOD_ROCKET_SPLASH:
+			return cg_weapons[WP_ROCKET_LAUNCHER].ammoIcon;
+		case MOD_PLASMA:
+			return cg_weapons[WP_PLASMAGUN].ammoIcon;
+		case MOD_PLASMA_SPLASH:
+			return cg_weapons[WP_PLASMAGUN].ammoIcon;
+		case MOD_RAILGUN:
+			return cg_weapons[WP_RAILGUN].ammoIcon;
+		case MOD_LIGHTNING:
+			return cg_weapons[WP_LIGHTNING].ammoIcon;
+		case MOD_BFG:
+			return trap_R_RegisterShader("ObituariesBFGDirect");
+		case MOD_BFG_SPLASH:
+			return cg_weapons[WP_BFG].ammoIcon;
+		case MOD_WATER:
+			return trap_R_RegisterShader("ObituariesDrowned");
+		case MOD_SLIME:
+			return trap_R_RegisterShader("ObituariesMelted");
+		case MOD_LAVA:
+			return trap_R_RegisterShader("ObituariesLava");
+		case MOD_TELEFRAG:
+			return trap_R_RegisterShader("ObituariesTelefrag");
+		case MOD_FALLING:
+			return trap_R_RegisterShader("ObituariesFallenCrashed");
+		case MOD_TRIGGER_HURT:
+			return trap_R_RegisterShader("ObituariesFalling");
+		case MOD_SUICIDE:
+		case MOD_TARGET_LASER:
+		case MOD_GRAPPLE:
+		case MOD_UNKNOWN:
+		case MOD_CRUSH:
+			return trap_R_RegisterShader("ObituariesSkull");
 		default:
-			iconShader = 0;
 			break;
 	}
-	return iconShader;
+	return 0;// no shader
 }
 
 void CG_SHUDElementObituariesDestroy(void* context)

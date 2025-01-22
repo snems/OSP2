@@ -54,7 +54,8 @@ void CG_SHUDElementSBHCRoutine(void* context)
 	                 element->ctx.coord.named.w,
 	                 element->ctx.coord.named.h,
 	                 element->ctx.maxchars,
-	                 element->ctx.flags);
+	                 element->ctx.flags,
+	                 NULL);
 }
 
 void CG_SHUDElementSBHCDestroy(void* context)

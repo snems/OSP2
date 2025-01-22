@@ -352,7 +352,7 @@ void CG_DrawBigString(int x, int y, const char* s, const float alpha, int flags,
 	color[3] = alpha;
 
 	CG_FontSelect(font);
-	CG_OSPDrawString(x, y, s, color, BIGCHAR_WIDTH, BIGCHAR_HEIGHT, 256, flags);
+	CG_OSPDrawString(x, y, s, color, BIGCHAR_WIDTH, BIGCHAR_HEIGHT, 256, flags, NULL);
 }
 
 
@@ -363,13 +363,13 @@ void CG_DrawSmallString(int x, int y, const char* s, float alpha, int flags, int
 	color[3] = alpha;
 
 	CG_FontSelect(font);
-	CG_OSPDrawString(x, y, s, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 256, flags);
+	CG_OSPDrawString(x, y, s, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 256, flags, NULL);
 }
 
 void CG_DrawSmallStringColor(int x, int y, const char* s, vec4_t color, int flags, int font)
 {
 	CG_FontSelect(font);
-	CG_OSPDrawString(x, y, s, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 256, flags);
+	CG_OSPDrawString(x, y, s, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 256, flags, NULL);
 }
 
 /*
@@ -2279,7 +2279,7 @@ int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, in
 	return DrawCompiledStringLength(text_commands, charWidth, max_ax, flags & DS_PROPORTIONAL);
 }
 
-void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags)
+void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags, vec4_t background)
 {
 	const font_metric_t* fm;
 	const float*     tc; // texture coordinates for char
@@ -2295,6 +2295,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	int             proportional;
 	text_command_t* text_commands;
 	text_command_t* curr;
+	float           expectedLenght = 0;
 
 	if (!string)
 		return;
@@ -2326,16 +2327,21 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 
 	proportional = (flags & DS_PROPORTIONAL);
 
+	if (background || (flags & (DS_HCENTER | DS_HRIGHT)))
+	{
+		expectedLenght = DrawCompiledStringLength(text_commands, aw, max_ax, proportional);
+	}
+
+
 	if (flags & (DS_HCENTER | DS_HRIGHT))
 	{
-		float tmp = DrawCompiledStringLength(text_commands, aw, max_ax, proportional);
 		if (flags & DS_HCENTER)
 		{
-			ax -= 0.5f * tmp;
+			ax -= 0.5f * expectedLenght;
 		}
 		else
 		{
-			ax -= tmp;
+			ax -= expectedLenght;
 		}
 	}
 
@@ -2357,6 +2363,13 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		{
 			sh = font->shader[i];
 		}
+	}
+
+	if (background)
+	{
+		trap_R_SetColor(background);
+		trap_R_DrawStretchPic(ax, ay, expectedLenght, ah, 0, 0, 0, 0, cgs.media.whiteShader);
+		trap_R_SetColor(colorWhite);
 	}
 
 	if (flags & DS_SHADOW)
