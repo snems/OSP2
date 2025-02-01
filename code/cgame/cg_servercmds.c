@@ -421,8 +421,6 @@ void CG_AddToTeamChat(char* str, int size)
 	int len;
 	int w;
 	int h;
-	char* loc_start;
-	char* loc_end;
 	int chatHeight;
 	char* p, *ls;
 	int lastcolor;
@@ -443,50 +441,6 @@ void CG_AddToTeamChat(char* str, int size)
 		// team chat disabled, dump into normal chat
 		cgs.teamChatPos = cgs.teamLastChatPos = 0;
 		return;
-	}
-
-	if (customLocationsEnabled != 0)
-	{
-		char* cloc_begin, *cloc_end;
-		int free_left;
-		vec3_t cloc;
-		if (CG_CustomLocationsTeamChatCode(str, cloc, &cloc_begin, &cloc_end))
-		{
-			int location_len;
-			const char* location_name;
-			char* tmp;
-
-			location_name = CG_CustomLocationsGetName(cloc);
-			location_len = strlen(location_name); //size of message without location
-
-			tmp = Z_Malloc(size);
-			OSP_MEMORY_CHECK(tmp);
-
-			Q_strncpyz(tmp, cloc_end, size);
-			free_left = size - (cloc_begin - str);
-			Q_strncpyz(cloc_begin, location_name, free_left);
-			free_left -= location_len;
-			Q_strncpyz(cloc_begin + location_len, tmp, free_left);
-
-			Z_Free(tmp);
-		}
-	}
-
-	if (ch_FilterLocationsTeamchat.integer)
-	{
-		loc_start = strchr(str, '(');
-		if (loc_start)
-		{
-			loc_start = strchr(loc_start + 1, '(');
-			if (loc_start)
-			{
-				loc_end = strchr(loc_start, ')');
-				if (loc_end)
-				{
-					strcpy(loc_start - 1, loc_end + 1);
-				}
-			}
-		}
 	}
 
 	len = 0;
@@ -1018,6 +972,63 @@ static void CG_ServerCommandStuff(void)
 
 /*
 =================
+CG_InjectCustomLoc
+
+Replace location coordinates with location name
+=================
+*/
+static void CG_InjectCustomLoc(char *str, int size)
+{
+	char* loc_start;
+	char* loc_end;
+
+	if (customLocationsEnabled != 0)
+	{
+		char* cloc_begin, *cloc_end;
+		int free_left;
+		vec3_t cloc;
+		if (CG_CustomLocationsTeamChatCode(str, cloc, &cloc_begin, &cloc_end))
+		{
+			int location_len;
+			const char* location_name;
+			char* tmp;
+
+			location_name = CG_CustomLocationsGetName(cloc);
+			location_len = strlen(location_name); //size of message without location
+
+			tmp = Z_Malloc(size);
+			OSP_MEMORY_CHECK(tmp);
+
+			Q_strncpyz(tmp, cloc_end, size);
+			free_left = size - (cloc_begin - str);
+			Q_strncpyz(cloc_begin, location_name, free_left);
+			free_left -= location_len;
+			Q_strncpyz(cloc_begin + location_len, tmp, free_left);
+
+			Z_Free(tmp);
+		}
+	}
+
+	if (ch_FilterLocationsTeamchat.integer)
+	{
+		loc_start = strchr(str, '(');
+		if (loc_start)
+		{
+			loc_start = strchr(loc_start + 1, '(');
+			if (loc_start)
+			{
+				loc_end = strchr(loc_start, ')');
+				if (loc_end)
+				{
+					strcpy(loc_start - 1, loc_end + 1);
+				}
+			}
+		}
+	}
+}
+
+/*
+=================
 CG_ServerCommand
 
 The string has been tokenized and can be retrieved with
@@ -1133,6 +1144,8 @@ void CG_ServerCommand(void)
 		}
 
 		CG_RemoveChatEscapeChar(text);
+		CG_InjectCustomLoc(text, 1024);
+
 		if (isVanilaChatEnabled)
 		{
 			CG_AddToTeamChat(text, 1024);
