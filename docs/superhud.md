@@ -80,6 +80,7 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | Obituary1-Obituary8           | Некролог.                                                    |
 | WarmupInfo                    | Обратный отсчет/"waiting for players".                       |
 | GameType                      | Режим игры(только во время warmup).                          |
+| Location                      | Сообщение с названием локации при ее изменении.              |
 
 ## Команды
 

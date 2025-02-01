@@ -142,6 +142,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "obituary6", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries6Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
 	{ "obituary7", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries7Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
 	{ "obituary8", SE_IM | SE_SPECT | SE_DEAD, CG_SHUDElementObituaries8Create, CG_SHUDElementObituariesRoutine, CG_SHUDElementObituariesDestroy },
+	{ "location",  0, CG_SHUDElementLocationCreate, CG_SHUDElementLocationRoutine, CG_SHUDElementLocationDestroy },
 	{ NULL },
 };
 

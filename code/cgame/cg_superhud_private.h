@@ -541,6 +541,10 @@ void* CG_SHUDElementGameTypeCreate(const superhudConfig_t* config);
 void CG_SHUDElementGameTypeRoutine(void* context);
 void CG_SHUDElementGameTypeDestroy(void* context);
 
+void* CG_SHUDElementLocationCreate(const superhudConfig_t* config);
+void CG_SHUDElementLocationRoutine(void* context);
+void CG_SHUDElementLocationDestroy(void* context);
+
 /*
  * cg_superhud_util.c
  */
