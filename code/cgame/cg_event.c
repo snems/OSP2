@@ -186,6 +186,10 @@ void CG_OSPObituaryFreeze(entityState_t* es, char* targetName)
 	}
 	else if (targetId == cg.snap->ps.clientNum)
 	{
+		if (cg_unfreezeAlert.integer && targetId == cg.clientNum)
+		{
+			trap_S_StartLocalSound(cgs.media.countFightSound, CHAN_ANNOUNCER);
+		}
 		CG_ObituaryFragmessage(va("%s ^7unfroze you", actorName));
 	}
 	if (actorName[0] && targetName)
