@@ -714,7 +714,7 @@ static void CG_DamageBlendBlob(void)
 
 	if (cg_damageDraw.integer == 2)
 	{
-		float opaque = 1.0f - cg_damageIndicatorOpaque.value;
+		float opaque = cg_damageIndicatorOpaque.value;
 		float phi = atan2(cg.damageY, cg.damageX);
 		phi = phi / M_PI * 180;
 		if (phi < 0)
