@@ -463,8 +463,11 @@ static void CG_OffsetFirstPersonView(void)
 		cg.refdef.vieworg[2] += cg.landChange * f;
 	}
 
+	if (cg_predictStepOffset.integer)
+	{
 	// add step offset
-	CG_StepOffset();
+	 CG_StepOffset();
+	}
 
 	// add kick offset
 
