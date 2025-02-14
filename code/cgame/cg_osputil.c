@@ -151,10 +151,10 @@ void CG_OSPColorFromNumber(int number, float* vector)
 			VectorSet(vector, 0.2, 0.2, 1.0);
 			break;
 		case 5:
-			VectorSet(vector, 1.0, 0.1, 1.0);
+			VectorSet(vector, 0.1, 1.0, 1.0);
 			break;
 		case 6:
-			VectorSet(vector, 0.1, 1.0, 1.0);
+			VectorSet(vector, 1.0, 0.1, 1.0);
 			break;
 		case 7:
 			VectorSet(vector, 1.0, 0.59, 0.12);
