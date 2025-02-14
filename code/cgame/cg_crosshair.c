@@ -177,7 +177,7 @@ static float CG_CrosshairGetOpaque(void)
 {
 	float value;
 
-	value = 1.0f - ch_crosshairOpaque.value;
+	value = ch_crosshairOpaque.value;
 	if (ch_crosshairAction.integer & CG_CROSSHAIR_DECOR_SHOW)
 	{
 		value = CG_CrosshairGetHitVisibilty(value, ch_crosshairActionTime.value);
@@ -190,7 +190,7 @@ static float CG_CrosshairDecorGetOpaque(void)
 {
 	float value;
 
-	value = 1.0f - ch_crosshairDecorOpaque.value;
+	value = ch_crosshairDecorOpaque.value;
 	if (ch_crosshairDecorAction.integer & CG_CROSSHAIR_DECOR_SHOW)
 	{
 		value = CG_CrosshairGetHitVisibilty(value, ch_crosshairDecorActionTime.value);
