@@ -291,11 +291,11 @@ static qhandle_t CG_SHUDObituaryGetModIcon(int mod, qboolean unfrozen)
 		case MOD_MACHINEGUN:
 			return cg_weapons[WP_MACHINEGUN].ammoIcon;
 		case MOD_GRENADE:
-			return trap_R_RegisterShader("ObituariesGrenadeDirect");
+			return cgs.media.obituariesGrenadeDirect;
 		case MOD_GRENADE_SPLASH:
 			return cg_weapons[WP_GRENADE_LAUNCHER].ammoIcon;
 		case MOD_ROCKET:
-			return trap_R_RegisterShader("ObituariesRocketDirect");
+			return cgs.media.obituariesRocketDirect;
 		case MOD_ROCKET_SPLASH:
 			return cg_weapons[WP_ROCKET_LAUNCHER].ammoIcon;
 		case MOD_PLASMA:
@@ -307,27 +307,27 @@ static qhandle_t CG_SHUDObituaryGetModIcon(int mod, qboolean unfrozen)
 		case MOD_LIGHTNING:
 			return cg_weapons[WP_LIGHTNING].ammoIcon;
 		case MOD_BFG:
-			return trap_R_RegisterShader("ObituariesBFGDirect");
+			return cgs.media.obituariesBFGDirect;
 		case MOD_BFG_SPLASH:
 			return cg_weapons[WP_BFG].ammoIcon;
 		case MOD_WATER:
-			return trap_R_RegisterShader("ObituariesDrowned");
+			return cgs.media.obituariesDrowned;
 		case MOD_SLIME:
-			return trap_R_RegisterShader("ObituariesMelted");
+			return cgs.media.obituariesMelted;
 		case MOD_LAVA:
-			return trap_R_RegisterShader("ObituariesLava");
+			return cgs.media.obituariesLava;
 		case MOD_TELEFRAG:
-			return trap_R_RegisterShader("ObituariesTelefrag");
+			return cgs.media.obituariesTelefrag;
 		case MOD_FALLING:
-			return trap_R_RegisterShader("ObituariesFallenCrashed");
+			return cgs.media.obituariesFallenCrashed;
 		case MOD_TRIGGER_HURT:
-			return trap_R_RegisterShader("ObituariesFalling");
+			return cgs.media.obituariesFalling;
 		case MOD_SUICIDE:
 		case MOD_TARGET_LASER:
 		case MOD_GRAPPLE:
 		case MOD_UNKNOWN:
 		case MOD_CRUSH:
-			return trap_R_RegisterShader("ObituariesSkull");
+			return cgs.media.obituariesSkull;
 		default:
 			break;
 	}

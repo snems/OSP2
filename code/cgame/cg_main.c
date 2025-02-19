@@ -1397,6 +1397,18 @@ static void CG_RegisterGraphics(void)
 	cgs.media.medalAssist = trap_R_RegisterShaderNoMip("medal_assist");
 	cgs.media.medalCapture = trap_R_RegisterShaderNoMip("medal_capture");
 
+	// superhud
+	cgs.media.obituariesGrenadeDirect = trap_R_RegisterShader("ObituariesGrenadeDirect");
+	cgs.media.obituariesRocketDirect = trap_R_RegisterShader("ObituariesRocketDirect");
+	cgs.media.obituariesBFGDirect = trap_R_RegisterShader("ObituariesBFGDirect");
+	cgs.media.obituariesDrowned = trap_R_RegisterShader("ObituariesDrowned");
+	cgs.media.obituariesMelted = trap_R_RegisterShader("ObituariesMelted");
+	cgs.media.obituariesLava = trap_R_RegisterShader("ObituariesLava");
+	cgs.media.obituariesTelefrag = trap_R_RegisterShader("ObituariesTelefrag");
+	cgs.media.obituariesFallenCrashed = trap_R_RegisterShader("ObituariesFallenCrashed");
+	cgs.media.obituariesFalling = trap_R_RegisterShader("ObituariesFalling");
+	cgs.media.obituariesSkull = trap_R_RegisterShader("ObituariesSkull");
+
 
 	memset(cg_items, 0, sizeof(cg_items));
 	memset(cg_weapons, 0, sizeof(cg_weapons));
