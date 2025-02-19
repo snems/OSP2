@@ -1412,8 +1412,7 @@ static void CG_UpdateGunShaderRGBA(refEntity_t* gun)
 
 	if (!CG_ParseColorStr(cg_gunColor.string, color))
 	{
-		Com_Printf("^1Invalid color in cg_gunColor. Using default.\n");
-		VectorSet(color, 1.0f, 1.0f, 1.0f);
+		trap_Cvar_Set("cg_gunColor", "7");
 	}
 
 	color[3] = atof(cg_gunOpaque.string);
