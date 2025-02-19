@@ -1495,7 +1495,7 @@ void CG_GetColorForHealth(int health, int armor, vec4_t hcolor, char* ccolor)
 			*ccolor = COLOR_RED;
 		}
 	}
-	else if (health > cg_healthMid.integer)
+	else if (health >= cg_healthMid.integer)
 	{
 		if (hcolor)
 		{
