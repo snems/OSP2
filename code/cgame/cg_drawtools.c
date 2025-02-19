@@ -2377,7 +2377,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		xx = ax;
 
 		// calculate shadow offsets
-		scale = charWidth * 0.020f; // charWidth/15
+		scale = charWidth * 0.040f; // charWidth/15
 		xx_add = scale * cgs.screenXScale;
 		yy_add = scale * cgs.screenYScale;
 
