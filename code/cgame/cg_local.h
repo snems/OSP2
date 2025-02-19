@@ -871,6 +871,18 @@ typedef struct
 	qhandle_t   medalCapture;
 	qhandle_t   blender180Shader;
 
+	//superhud
+	qhandle_t	obituariesGrenadeDirect;
+	qhandle_t	obituariesRocketDirect;
+	qhandle_t	obituariesBFGDirect;
+	qhandle_t	obituariesDrowned;
+	qhandle_t	obituariesMelted;
+	qhandle_t	obituariesLava;
+	qhandle_t	obituariesTelefrag;
+	qhandle_t	obituariesFallenCrashed;
+	qhandle_t	obituariesFalling;
+	qhandle_t	obituariesSkull;
+	
 	// sounds
 	sfxHandle_t quadSound;
 	sfxHandle_t tracerSound;
