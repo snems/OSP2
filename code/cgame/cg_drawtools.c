@@ -2376,10 +2376,8 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	{
 		xx = ax;
 
-		// calculate shadow offsets
-		scale = charWidth * 0.040f; // charWidth/15
-		xx_add = scale * cgs.screenXScale;
-		yy_add = scale * cgs.screenYScale;
+  // calculate shadow offsets
+  yy_add = xx_add = charWidth/10.0f;
 
 		VectorCopy(colorBlack, color);
 		color[3] = fade;
