@@ -666,14 +666,24 @@ cvarTable_t* CG_GetCgCvarByName(const char* name)
 	{
 		target = target->next;
 	}
-	return target;
+	return Q_stricmp(name, target->cvarName) == 0 ? target : NULL;
 }
 
 void CG_CvarTouch(const char* name)
 {
 	cvarTable_t* cvart;
 	cvart = CG_GetCgCvarByName(name);
+	if (!cvart) CG_Error("CG_CvarTouch couldn't find cvar %s", name);
 	++cvart->forceModelModificationCount;
+}
+
+void CG_CvarResetToDefault(const char* name)
+{
+	cvarTable_t* cvart;
+	cvart = CG_GetCgCvarByName(name);
+	if (!cvart) CG_Error("CG_CvarResetToDefault couldn't find cvar %s", name);
+	CG_Printf("^1Reset ^3%s ^1to default value: ^3%s\n", cvart->cvarName, cvart->defaultString);
+	Q_strncpyz(cvart->vmCvar->string, cvart->defaultString, MAX_CVAR_VALUE_STRING);
 }
 
 /*

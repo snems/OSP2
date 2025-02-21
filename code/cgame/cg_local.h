@@ -1541,6 +1541,7 @@ void CG_BuildSpectatorString(void);
 char* CG_OSPGetCvarName(vmCvar_t* cvar) ;
 cvarTable_t* CG_GetCgCvarByName(const char* name);
 void CG_CvarTouch(const char* name);
+void CG_CvarResetToDefault(const char* name);
 
 qhandle_t CG_GetFragSound(void);
 

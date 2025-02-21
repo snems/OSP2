@@ -1412,7 +1412,7 @@ static void CG_UpdateGunShaderRGBA(refEntity_t* gun)
 
 	if (!CG_ParseColorStr(cg_gunColor.string, color))
 	{
-		trap_Cvar_Set("cg_gunColor", "7");
+		CG_CvarResetToDefault("cg_guncolor");
 	}
 
 	color[3] = atof(cg_gunOpaque.string);
