@@ -24,10 +24,27 @@ void CG_SHUDElementSBABRoutine(void* context)
 	shudElementStatusbarArmorBar* element = (shudElementStatusbarArmorBar*)context;
 	float ap = cg.snap->ps.stats[STAT_ARMOR];
 
-
 	CG_SHUDFill(&element->config);
-	CG_ColorForHealth(element->ctx.color_top, NULL);
+
+	if (element->config.style.value == 1) // default
+	{
+		CG_ColorForHealth(element->ctx.color_top, NULL);
+	}
+	else if (element->config.style.value == 2)
+	{
+		Vector4Copy(element->config.color.value.rgba, element->ctx.color_top);
+		if (!element->config.color2.isSet) // set same color if color2 isn't set
+		{
+			Vector4Copy(element->ctx.color_top, element->ctx.color2_top);
+			element->ctx.color2_top[3] *= 3; // make more visible
+		}
+		else
+		{
+			Vector4Copy(element->config.color2.value.rgba, element->ctx.color2_top);
+		}
+	}
 	CG_SHUDBarPrint(&element->config, &element->ctx, ap);
+
 }
 
 void CG_SHUDElementSBABDestroy(void* context)

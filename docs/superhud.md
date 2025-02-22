@@ -91,6 +91,7 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | AlignV    | T/C/B          | Выравнивание по вертикали верх/центр/низ                  |
 | BgColor   | r g b a        | Цвет фона.                                                |
 | Color     | r g b a        | Базовый цвет.                                             |
+| Color1    | r g b a        | Второстепенный цвет.                                      |
 | Color     | T              | Цвет команды.                                             |
 | Color     | E              | Цвет вражеской команды.                                   |
 | Direction | L/R/T/B        | Направление: лево->право/право->лево/верх->низ/низ->верх. |
@@ -129,7 +130,5 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 - Doublebar - включить двойную полосу
 - Direction - Направление полосы
 
-### Obituary1 - Obituary8
-
-- Размер иконки зависит от размера шрифта
-- style 1 - цвет команды на фоне ника, при этом можно задать прозрачность фона через BgColor.
+Только для здоровья и брони:
+- Style 1 - цвет зависит от хп, 2 - обе полосы в одном месте, цвет задаётся через color и color2,  
