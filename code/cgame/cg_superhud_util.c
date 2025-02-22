@@ -276,6 +276,10 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 		config.style.isSet = qtrue;
 		config.style.value = 1;
 	}
+	else if (config.style.value < 1 || config.style.value > 2)
+	{
+		config.style.value = 1;
+	}
 
 	out->direction = config.direction.value;
 
@@ -341,9 +345,6 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 				out->bar[1][1] = out->bar[0][1] = y; // y
 				out->bar[1][2] = out->bar[0][2] = config.rect.value[2]; // w
 				out->bar[1][3] = out->bar[0][3] = config.rect.value[3]; // h
-			}
-			{
-				out->bar[1][0] = x;
 			}
 			CG_AdjustFrom640(&out->bar[1][0], &out->bar[1][1], &out->bar[1][2], &out->bar[1][3]);
 			CG_AdjustFrom640(&out->bar[0][0], &out->bar[0][1], &out->bar[0][2], &out->bar[0][3]);
