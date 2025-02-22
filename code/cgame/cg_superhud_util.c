@@ -258,6 +258,7 @@ void CG_SHUDDrawMakeContext(const superhudConfig_t* in, superhudDrawContext_t* o
 void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out, float max)
 {
 	float x = 0, y = 0;
+	float bar_height, bar_width;
 	superhudConfig_t config;
 	memset(out, 0, sizeof(*out));
 	memcpy(&config, in, sizeof(config));
@@ -270,6 +271,16 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 		config.direction.value = SUPERHUD_DIR_LEFT_TO_RIGHT;
 	}
 
+	if (!config.style.isSet) // set default style
+	{
+		config.style.isSet = qtrue;
+		config.style.value = 1;
+	}
+	else if (config.style.value < 1 || config.style.value > 2)
+	{
+		config.style.value = 1;
+	}
+
 	out->direction = config.direction.value;
 
 	x = config.rect.value[0];
@@ -279,22 +290,32 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 	{
 		static const float bar_gap = 4;
 		out->two_bars = qtrue;
-		//split into two bars
 		if (out->direction == SUPERHUD_DIR_LEFT_TO_RIGHT || out->direction == SUPERHUD_DIR_RIGHT_TO_LEFT)
 		{
-			//split horizontal
-			const float bar_height = config.rect.value[3] / 2 - bar_gap / 2;
-			const float bar_width = config.rect.value[2];
+			if (config.style.value == 1)    // style 1 - default: split into two bars
+			{
 
-			out->bar[0][0] = x;//x
-			out->bar[0][1] = y;//y
-			out->bar[0][2] = bar_width;//w
-			out->bar[0][3] = bar_height;   // height is half of rect and minus half of the gap between two bars
-			//
-			out->bar[1][0] = x;//x
-			out->bar[1][1] = y + bar_height + bar_gap;//y starts after first bar and gap
-			out->bar[1][2] = bar_width;//w
-			out->bar[1][3] = bar_height;//h height is same as in first bar
+				bar_height = config.rect.value[3] / 2 - bar_gap / 2; //split horizontal
+				bar_width = config.rect.value[2];
+
+				out->bar[0][0] = x;//x
+				out->bar[0][1] = y;//y
+				out->bar[0][2] = bar_width;//w
+				out->bar[0][3] = bar_height;   // height is half of rect and minus half of the gap between two bars
+				//
+				out->bar[1][0] = x;//x
+				out->bar[1][1] = y + bar_height + bar_gap;
+				out->bar[1][2] = bar_width;//w
+				out->bar[1][3] = bar_height;//h height is same as in first bar
+			}
+			else if (config.style.value == 2) // style 2 - same start point for both bars
+			{
+				// all the same for same bars
+				out->bar[1][0] = out->bar[0][0] = x; // x
+				out->bar[1][1] = out->bar[0][1] = y; // y
+				out->bar[1][2] = out->bar[0][2] = config.rect.value[2]; // w
+				out->bar[1][3] = out->bar[0][3] = config.rect.value[3]; // h
+			}
 			CG_AdjustFrom640(&out->bar[1][0], &out->bar[1][1], &out->bar[1][2], &out->bar[1][3]);
 			CG_AdjustFrom640(&out->bar[0][0], &out->bar[0][1], &out->bar[0][2], &out->bar[0][3]);
 			out->max = out->bar[1][2];
@@ -302,19 +323,29 @@ void CG_SHUDBarMakeContext(const superhudConfig_t* in, superhudBarContext_t* out
 		}
 		else
 		{
-			//split vertical
-			const float bar_height = config.rect.value[3];
-			const float bar_width = config.rect.value[2] / 2 - bar_gap / 2;
+			if (config.style.value == 1)    // style 1 - default: split into two bars
+			{
+				bar_height = config.rect.value[3];
+				bar_width = config.rect.value[2] / 2 - bar_gap / 2;
 
-			out->bar[0][0] = x;//x
-			out->bar[0][1] = y;//y
-			out->bar[0][2] = bar_width;//w
-			out->bar[0][3] = bar_height;   //h
-			//
-			out->bar[1][0] = x + bar_width + bar_gap;//x
-			out->bar[1][1] = y;//y
-			out->bar[1][2] = bar_width;//w
-			out->bar[1][3] = bar_height;//h
+				out->bar[0][0] = x;//x
+				out->bar[0][1] = y;//y
+				out->bar[0][2] = bar_width;//w
+				out->bar[0][3] = bar_height;   //h
+				//
+				out->bar[1][0] = x + bar_width + bar_gap;
+				out->bar[1][1] = y;//y
+				out->bar[1][2] = bar_width;//w
+				out->bar[1][3] = bar_height;//h
+			}
+			else if (config.style.value == 2)   // style 2 - same start point for both bars
+			{
+				// all the same for same bars
+				out->bar[1][0] = out->bar[0][0] = x; // x
+				out->bar[1][1] = out->bar[0][1] = y; // y
+				out->bar[1][2] = out->bar[0][2] = config.rect.value[2]; // w
+				out->bar[1][3] = out->bar[0][3] = config.rect.value[3]; // h
+			}
 			CG_AdjustFrom640(&out->bar[1][0], &out->bar[1][1], &out->bar[1][2], &out->bar[1][3]);
 			CG_AdjustFrom640(&out->bar[0][0], &out->bar[0][1], &out->bar[0][2], &out->bar[0][3]);
 			out->max = out->bar[1][3];
@@ -603,6 +634,11 @@ void CG_SHUDBarPrint(const superhudConfig_t* cfg, superhudBarContext_t* ctx, flo
 	                      cgs.media.whiteShader);
 	if (ctx->two_bars)
 	{
+		if (cfg->style.value == 2)
+		{
+			trap_R_SetColor(ctx->color2_top); // 2nd bar color
+		}
+
 		trap_R_DrawStretchPic(coords.bar2_value[0], coords.bar2_value[1], coords.bar2_value[2], coords.bar2_value[3],
 		                      0, 0, 0, 0,
 		                      cgs.media.whiteShader);

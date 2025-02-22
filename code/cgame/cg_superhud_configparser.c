@@ -4,6 +4,7 @@
 
 
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseColor(configFileInfo_t* finfo, superhudConfig_t* config);
+static superhudConfigParseStatus_t CG_SHUDConfigCommandParseColor2(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAlighH(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAlighV(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseAngles(configFileInfo_t* finfo, superhudConfig_t* config);
@@ -41,6 +42,7 @@ static superHUDConfigCommand_t superHUDConfigItemCommands[] =
 	{ "bgcolor", CG_SHUDConfigCommandParseBgColor },
 	{ "hlcolor", CG_SHUDConfigCommandParseHlColor },
 	{ "color", CG_SHUDConfigCommandParseColor },
+	{ "color2", CG_SHUDConfigCommandParseColor2 },
 	{ "direction", CG_SHUDConfigCommandParseDirection },
 	{ "doublebar", CG_SHUDConfigCommandParseDoublebar },
 	{ "fade", CG_SHUDConfigCommandParseFade },
@@ -898,6 +900,46 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseDirection(configFile
 	if (status == SUPERHUD_CONFIG_OK) config->direction.isSet = qtrue;
 	return status;
 
+}
+
+/*
+ * parse color2 command: rgba/t/e/I
+ */
+static superhudConfigParseStatus_t CG_SHUDConfigCommandParseColor2(configFileInfo_t* finfo, superhudConfig_t* config)
+{
+	char c;
+	superhudConfigParseStatus_t status;
+
+	config->color2.isSet = qfalse;
+
+	/* skip to value */
+	status = CG_SHUDConfigSkipSCN(finfo);
+
+	if (status != SUPERHUD_CONFIG_OK) return status;
+
+	c = tolower(CG_SHUD_CONFIG_INFO_GET_CHAR(finfo));
+	switch (c)
+	{
+		case 't':
+			config->color2.value.type = SUPERHUD_COLOR_T;
+			CG_SHUD_CONFIG_INFO_NEXT_CHAR(finfo);
+			break;
+		case 'e':
+			config->color2.value.type = SUPERHUD_COLOR_E;
+			CG_SHUD_CONFIG_INFO_NEXT_CHAR(finfo);
+			break;
+		case 'i':
+			config->color2.value.type = SUPERHUD_COLOR_I;
+			CG_SHUD_CONFIG_INFO_NEXT_CHAR(finfo);
+			break;
+		default:
+			config->color2.value.type = SUPERHUD_COLOR_RGBA;
+			status = CG_SHUDParseVec4t(finfo, config->color2.value.rgba);
+			break;
+	}
+
+	if (status == SUPERHUD_CONFIG_OK) config->color2.isSet = qtrue;
+	return status;
 }
 
 /*
