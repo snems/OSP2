@@ -147,7 +147,7 @@ qboolean CG_SHUDLoadConfigPrivate(const char* filename)
 						goto error_exit;
 					case SUPERHUD_CONFIG_WRONG_COMMAND_NAME:
 						CG_Printf("^3SuperHUD: found unknown command name: file %s, line %d, pos %d.\n", superhudFilename, finfo.last_line->line_number, finfo.pos);
-						continue;
+						goto error_exit;
 				}
 				if (statusCommand.status == SUPERHUD_CONFIG_OK)
 				{
