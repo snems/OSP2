@@ -9,6 +9,10 @@ typedef struct
 	char name[MAX_QPATH];
 } customLocation_t;
 
+#define MAX_CTF_LOCATION_LENGTH 17
+char ctfLocationsColors[MAX_LOCATIONS][MAX_CTF_LOCATION_LENGTH];
+
+
 static customLocation_t customLocationEntry[OSP_CUSTOM_LOCATIONS_MAX];
 static int numberOfCustomLocations;
 qboolean customLocationsEnabled = qfalse;
@@ -242,5 +246,43 @@ void CG_CustomLocationsAddEntry(vec3_t pos, const char* str)
 	}
 }
 
+void CG_InitCTFLocations (void)
+{
+	int i;
+	const char *locStrCS;
+	char *locStr;
+	char tmp[5];
+
+	for (i = 0; i < MAX_LOCATIONS; ++i)
+	{
+		locStrCS = CG_ConfigString(CS_LOCATIONS + i);
+		if (cgs.gametype == GT_CTF)
+		{
+			if(Q_stricmpn("blue", locStrCS, 4) == 0) 
+			{
+				Q_strncpyz(&ctfLocationsColors[i][0], S_COLOR_CYAN, MAX_CTF_LOCATION_LENGTH);
+				Q_strncpyz(&ctfLocationsColors[i][2], locStrCS, MAX_CTF_LOCATION_LENGTH-2);
+			}
+			else if(Q_stricmpn("red", locStrCS, 3) == 0) 
+			{
+				Q_strncpyz(&ctfLocationsColors[i][0], S_COLOR_RED, MAX_CTF_LOCATION_LENGTH);
+				Q_strncpyz(&ctfLocationsColors[i][2], locStrCS, MAX_CTF_LOCATION_LENGTH-2);
+			}
+			else
+			{
+				Q_strncpyz(&ctfLocationsColors[i][0], locStrCS, MAX_CTF_LOCATION_LENGTH);
+			}
+		}
+		else
+		{
+			Q_strncpyz(&ctfLocationsColors[i][0], locStrCS, MAX_CTF_LOCATION_LENGTH);
+		}
+	}
+}
+
+const char* CG_GetCTFLocation (int loc)
+{
+	return &ctfLocationsColors[loc%MAX_LOCATIONS][0];
+}
 
 

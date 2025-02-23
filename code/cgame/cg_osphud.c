@@ -2138,9 +2138,9 @@ static float CG_OSPDrawTeamOverlay(float y, qboolean right, qboolean upper)
 					}
 					else
 					{
-						if (qfalse && ch_ColorLocations.integer != 0 && cgs.gametype == GT_CTF)
+						if (ch_ColorLocations.integer != 0 && cgs.gametype == GT_CTF)
 						{
-							//location = osp_get_something(ci->location);
+							location = CG_GetCTFLocation(ci->location);
 						}
 						else
 						{

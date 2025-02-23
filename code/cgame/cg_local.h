@@ -1936,6 +1936,8 @@ const char* CG_CustomLocationsGetName(const float* pos);
 void CG_CustomLocationsSetLocation(const char* info, vec3_t loc);
 qboolean CG_CustomLocationsTeamChatCode(const char* str, vec3_t cloc, char** cloc_begin, char** cloc_end);
 void CG_CustomLocationsAddEntry(vec3_t pos, const char* str);
+void CG_InitCTFLocations(void);
+const char* CG_GetCTFLocation(int loc);
 //===============================================
 
 //
