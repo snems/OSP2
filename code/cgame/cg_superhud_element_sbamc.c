@@ -49,7 +49,7 @@ void CG_SHUDElementSBAmCRoutine(void* context)
 
 	if (wp == WP_NONE || wp == WP_GAUNTLET) return;
 
-	ammo = cg.snap->ps.ammo[wp];
+	ammo = CG_SHUDGetAmmo(wp);
 
 	element->ctx.text = va(element->config.text.value, ammo > 0 ? ammo : 0);
 

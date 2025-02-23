@@ -723,6 +723,8 @@ superhudGlobalContext_t* CG_SHUDGetContext(void);
 void CG_SHUDAvailableElementsInit(void);
 const superHUDConfigElement_t* CG_SHUDAvailableElementsGet(void);
 
+int CG_SHUDGetAmmo(int wpi);
+
 
 #ifdef __cplusplus
 }

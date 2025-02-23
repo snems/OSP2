@@ -799,3 +799,12 @@ void CG_SHUDDrawStretchPicCtx(const superhudConfig_t* cfg, superhudDrawContext_t
 	CG_SHUDDrawStretchPic(ctx->coord, ctx->coordPicture, ctx->color, ctx->image);
 }
 
+int CG_SHUDGetAmmo(int wpi)
+{
+	int ammo = cg.snap->ps.ammo[wpi];
+	
+	if (ammo < 0) ammo = 0;
+	if (ammo > 999) ammo = 999;
+	return ammo;
+}
+

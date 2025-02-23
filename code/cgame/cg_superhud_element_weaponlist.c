@@ -68,9 +68,10 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 	{
 		if ((statWeapons & (1 << wpi)) != 0)
 		{
-			if (ammo_max < cg.snap->ps.ammo[wpi])
+			int ammo = CG_SHUDGetAmmo(wpi);
+			if (ammo_max < ammo)
 			{
-				ammo_max = cg.snap->ps.ammo[wpi];
+				ammo_max = ammo;
 			}
 		}
 	}
@@ -187,11 +188,11 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 
 			if (align != SUPERHUD_ALIGNH_RIGHT)
 			{
-				Com_sprintf(&element->ammo[element->weaponNum][0], 8, " %i", cg.snap->ps.ammo[wpi]);
+				Com_sprintf(&element->ammo[element->weaponNum][0], 8, " %i", CG_SHUDGetAmmo(wpi));
 			}
 			else
 			{
-				Com_sprintf(&element->ammo[element->weaponNum][0], 8, "%i ", cg.snap->ps.ammo[wpi]);
+				Com_sprintf(&element->ammo[element->weaponNum][0], 8, "%i ", CG_SHUDGetAmmo(wpi));
 			}
 
 			if (align == SUPERHUD_ALIGNH_CENTER)
