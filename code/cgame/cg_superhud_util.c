@@ -10,11 +10,11 @@ typedef struct
 } drawBarCoords_t;
 
 
-static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float* color, qboolean alphaOverride)
-{
+static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float* color, qboolean alphaOverride) {
 	clientInfo_t* ci;
 	const superhudColor_t* in = &config->color.value;
 	const float* target;
+	team_t team;
 
 	if (!config->color.isSet)
 	{
@@ -35,13 +35,13 @@ static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float* color,
 			target = in->rgba;
 			break;
 		case SUPERHUD_COLOR_T:
-			ci = &cgs.clientinfo[ cg.clientNum ];
-			if (ci->rt == TEAM_RED)
+			team = CG_SHUDGetOurActiveTeam();
+			if (team == TEAM_RED)
 			{
 				target = colorRed;
 				break;
 			}
-			else if (ci->rt == TEAM_BLUE)
+			else if (team == TEAM_BLUE)
 			{
 				target = colorBlue;
 				break;
@@ -49,13 +49,13 @@ static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float* color,
 			target = colorRed;
 			break;
 		case SUPERHUD_COLOR_E:
-			ci = &cgs.clientinfo[ cg.clientNum ];
-			if (ci->rt == TEAM_RED)
+			team = CG_SHUDGetOurActiveTeam();
+			if (team == TEAM_RED)
 			{
 				target = colorBlue;
 				break;
 			}
-			else if (ci->rt == TEAM_BLUE)
+			else if (team == TEAM_BLUE)
 			{
 				target = colorRed;
 				break;
