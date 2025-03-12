@@ -157,6 +157,17 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 					memset(element->back[element->weaponNum].color, 0, sizeof(element->back[element->weaponNum].color));
 				}
 			}
+			else 
+			{
+				if (element->config.color2.isSet)
+				{
+					Vector4Copy(element->tmp_config.color2.value.rgba, element->back[element->weaponNum].color);
+				}
+				else
+				{
+					memset(element->back[element->weaponNum].color, 0, sizeof(element->back[element->weaponNum].color));
+				}
+			}
 
 			//ammo
 			// For right ammo is left to icon

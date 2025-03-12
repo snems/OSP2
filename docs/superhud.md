@@ -91,7 +91,7 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | AlignV    | T/C/B          | Выравнивание по вертикали верх/центр/низ                  |
 | BgColor   | r g b a        | Цвет фона.                                                |
 | Color     | r g b a        | Базовый цвет.                                             |
-| Color1    | r g b a        | Второстепенный цвет.                                      |
+| Color2    | r g b a        | Второстепенный цвет.                                      |
 | Color     | T              | Цвет команды.                                             |
 | Color     | E              | Цвет вражеской команды.                                   |
 | Direction | L/R/T/B        | Направление: лево->право/право->лево/верх->низ/низ->верх. |
