@@ -718,7 +718,7 @@ float CG_DrawTimer(float y)
 	CG_OSPGetClientFontSize(&cf_timer, &w, &h);
 
 	CG_FontSelect(0);
-	CG_OSPDrawString(SCREEN_WIDTH - 5, y + 2, s, color, w, h, 256, DS_HRIGHT | DS_SHADOW, NULL);
+	CG_OSPDrawString(SCREEN_WIDTH - 5, y + 2, s, color, w, h, SCREEN_WIDTH, DS_HRIGHT | DS_SHADOW, NULL);
 
 	return y + h + 4;
 }
@@ -744,7 +744,7 @@ void CG_DrawTimer2(void)
 
 	CG_OSPGetClientFontSize(&cf_timer, &w, &h);
 	CG_FontSelect(0);
-	CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 2, s, color, w, h, 256, DS_HCENTER | DS_SHADOW, NULL);
+	CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 2, s, color, w, h, SCREEN_WIDTH, DS_HCENTER | DS_SHADOW, NULL);
 }
 
 
@@ -2278,7 +2278,7 @@ static void CG_DrawTestFont(const char* font)
 			to_print[0] = (char)c;
 			c++;
 			if (to_print[0] == 0) to_print[0] = ' ';
-			CG_OSPDrawString(offs_x + x * 20, offs_y + y * 20, to_print, colorWhite, 16, 16, 4, DS_HCENTER | DS_PROPORTIONAL, NULL);
+			CG_OSPDrawString(offs_x + x * 20, offs_y + y * 20, to_print, colorWhite, 16, 16, 4*16, DS_HCENTER | DS_PROPORTIONAL, NULL);
 		}
 	}
 
@@ -2616,7 +2616,7 @@ void CG_OSPDrawLeftSlidingWindowsRoutine(OSP_SlidingPrintContext_t* context)
 		                 colorWhite,
 		                 context->charWidth,
 		                 context->charHeight,
-		                 256,
+		                 SCREEN_WIDTH,
 		                 DS_HLEFT,
 		                 NULL);
 	}
@@ -2763,7 +2763,7 @@ void CG_OSPDrawCenterString(void)
 		                 fadeColor,
 		                 cg.centerPrintCharWidth,
 		                 1.5f * (float)cg.centerPrintCharWidth,
-		                 256,
+		                 SCREEN_WIDTH,
 		                 DS_HCENTER | DS_PROPORTIONAL,
 		                 NULL);
 

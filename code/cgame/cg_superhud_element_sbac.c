@@ -29,7 +29,6 @@ void* CG_SHUDElementSBACCreate(const superhudConfig_t* config)
 	}
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
-	element->ctx.maxchars = 6;
 	element->ctx.flags |= DS_FORCE_COLOR;
 
 	return element;

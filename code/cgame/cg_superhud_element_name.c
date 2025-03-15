@@ -24,7 +24,6 @@ static void* CG_SHUDElementNameCreate(const superhudConfig_t* config, enum shudE
 	element->type = type;
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
-	element->ctx.maxchars = MAX_QPATH;
 
 	return element;
 }

@@ -1,3 +1,4 @@
+#include "cg_local.h"
 #include "cg_superhud_private.h"
 #include "../qcommon/qcommon.h"
 
@@ -18,7 +19,7 @@ static void* CG_SHUDElementChatCreate(const superhudConfig_t* config, int line)
 	element->gctx = CG_SHUDGetContext();
 	element->index = line;
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
-	element->ctx.maxchars = MAX_SAY_TEXT;
+	element->ctx.width = (int)config->rect.value[2];
 
 	return element;
 }

@@ -29,7 +29,6 @@ void* CG_SHUDElementSBAmCCreate(const superhudConfig_t* config)
 	}
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
-	element->ctx.maxchars = 6;
 
 	return element;
 }

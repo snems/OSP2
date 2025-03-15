@@ -16,7 +16,6 @@ void* CG_SHUDElementGameTimeCreate(const superhudConfig_t* config)
 	SHUD_ELEMENT_INIT(element, config);
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
-	element->ctx.maxchars = 9;
 
 	return element;
 }

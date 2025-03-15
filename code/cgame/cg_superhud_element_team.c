@@ -49,13 +49,13 @@ static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.nameOffsetPix;
 	lcfg.rect.value[2] = teamOverlay.nameLenPix;
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxName);
-	element->ctxName.maxchars = teamOverlay.nameLenChar;
+	element->ctxName.width = teamOverlay.nameLenPix;
 
 	// setup health and armor
 	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.healthAndArmorOffsetPix;
 	lcfg.rect.value[2] = teamOverlay.healthAndArmorLenPix;
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxHealthArmor);
-	element->ctxHealthArmor.maxchars = teamOverlay.healthAndArmorLenChar;
+	element->ctxHealthArmor.width = teamOverlay.healthAndArmorLenPix;
 	element->ctxHealthArmor.flags |= DS_FORCE_COLOR;
 
 	// setup weapon
@@ -67,7 +67,7 @@ static void* CG_SHUDElementTeamCreate(const superhudConfig_t* config, int line)
 	lcfg.rect.value[0] = config->rect.value[0] + teamOverlay.locationOffsetPix;
 	lcfg.rect.value[2] = teamOverlay.locationLenPix;
 	CG_SHUDTextMakeContext(&lcfg, &element->ctxLocation);
-	element->ctxLocation.maxchars = teamOverlay.locationLenChar;
+	element->ctxLocation.width = teamOverlay.locationLenPix;
 
 	// setup width of element
 	element->config.rect.value[2] = teamOverlay.overlayWidthPix;
@@ -213,7 +213,7 @@ void CG_SHUDElementTeamRoutine(void* context)
 	                 element->ctxHealthArmor.color,
 	                 element->ctxHealthArmor.coord.named.w,
 	                 element->ctxHealthArmor.coord.named.h,
-	                 element->ctxHealthArmor.maxchars,
+	                 SCREEN_WIDTH,
 	                 element->ctxHealthArmor.flags,
 	                 NULL);
 

@@ -53,7 +53,7 @@ static void CG_OSPDrawSpectator(void)
 	if (global_viewlistFirstOption) return;
 	persOpt = CG_OSPGetPresistantTeam();
 
-	CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 440, "^BSPECTATOR", colorYellow, 18, 18, 256, DS_HCENTER | DS_SHADOW, NULL);
+	CG_OSPDrawString(SCREEN_WIDTH / 2.0f, 440, "^BSPECTATOR", colorYellow, 18, 18, SCREEN_WIDTH, DS_HCENTER | DS_SHADOW, NULL);
 	if (cgs.gametype != 1 && (cgs.osp.gameTypeFreeze != 0 || persOpt == 3))
 	{
 		if (cgs.gametype >= GT_TEAM && (cgs.osp.gameTypeFreeze == OSP_SERVER_MODE_VQ3 || persOpt == 3))

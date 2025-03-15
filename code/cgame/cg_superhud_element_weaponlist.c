@@ -79,7 +79,7 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 	if (ammo_max > element->ammoMax)
 	{
 		element->ammoMax = ammo_max;
-		element->ammoWidth = CG_OSPDrawStringLenPix(va(" %d", ammo_max), element->ammoCount[0].coord.named.w, element->ammoCount[0].maxchars, element->ammoCount[0].flags);
+		element->ammoWidth = CG_OSPDrawStringLenPix(va(" %d", ammo_max), element->ammoCount[0].coord.named.w, element->ammoCount[0].flags);
 	}
 
 

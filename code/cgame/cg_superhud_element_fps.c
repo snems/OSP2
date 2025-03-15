@@ -19,7 +19,6 @@ void* CG_SHUDElementFPSCreate(const superhudConfig_t* config)
 	SHUD_ELEMENT_INIT(element, config);
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
-	element->ctx.maxchars = 6;
 
 	return element;
 }

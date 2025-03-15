@@ -29,7 +29,6 @@ void* CG_SHUDElementSBHCCreate(const superhudConfig_t* config)
 	}
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
-	element->ctx.maxchars = 6;
 	element->ctx.flags |= DS_FORCE_COLOR;
 
 	return element;
@@ -53,7 +52,7 @@ void CG_SHUDElementSBHCRoutine(void* context)
 	                 element->ctx.color,
 	                 element->ctx.coord.named.w,
 	                 element->ctx.coord.named.h,
-	                 element->ctx.maxchars,
+	                 SCREEN_WIDTH,
 	                 element->ctx.flags,
 	                 NULL);
 }

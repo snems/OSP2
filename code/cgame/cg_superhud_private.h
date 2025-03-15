@@ -577,7 +577,7 @@ typedef struct
 	vec4_t color_origin;
 	vec4_t color;
 	vec4_t background;
-	int maxchars;
+	int width;
 	int fontIndex;
 	const char* text;
 } superhudTextContext_t;

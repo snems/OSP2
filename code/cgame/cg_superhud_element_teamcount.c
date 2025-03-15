@@ -30,7 +30,6 @@ void* CG_SHUDElementTeamCountCreate(const superhudConfig_t* config, qboolean ene
 	}
 
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
-	element->ctx.maxchars = 6;
 
 	element->enemy = enemy;
 

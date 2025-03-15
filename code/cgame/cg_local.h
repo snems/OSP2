@@ -1590,11 +1590,11 @@ void CG_FillRect(float x, float y, float width, float height, const float* color
 void CG_DrawPicOld(float x, float y, float width, float height, qhandle_t hShader);
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader);
 
-float CG_OSPDrawStringLength(const char* string, float ax, float aw, float max_ax, int proportional);
-int CG_OSPDrawStringLenPix(const char* string, float charWidth, int maxChars, int flags);
+float CG_OSPDrawStringLength(const char* string, float ax, float aw, int proportional);
+int CG_OSPDrawStringLenPix(const char* string, float charWidth, int flags);
 
 void CG_OSPDrawStringPrepare(const char* from, char* to, int size);
-void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags, vec4_t background);
+void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxWidth, int flags, vec4_t background);
 void CG_FontSelect(int index);
 int CG_FontIndexFromName(const char* name);
 

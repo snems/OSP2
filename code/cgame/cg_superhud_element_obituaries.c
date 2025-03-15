@@ -112,8 +112,8 @@ static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* e
 		(void)CG_TruncateStringWithCodes(cgs.clientinfo[entry->target].name, entry->runtime.truncatedTarget, entry->runtime.maxVisibleChars);
 	}
 
-	entry->runtime.attackerWidth = CG_OSPDrawStringLenPix(entry->runtime.truncatedAttacker, element->config.fontsize.value[0], MAX_QPATH, element->ctxAttacker.flags);
-	entry->runtime.targetWidth = CG_OSPDrawStringLenPix(entry->runtime.truncatedTarget, element->config.fontsize.value[0], MAX_QPATH, element->ctxTarget.flags);
+	entry->runtime.attackerWidth = CG_OSPDrawStringLenPix(entry->runtime.truncatedAttacker, element->config.fontsize.value[0], element->ctxAttacker.flags);
+	entry->runtime.targetWidth = CG_OSPDrawStringLenPix(entry->runtime.truncatedTarget, element->config.fontsize.value[0], element->ctxTarget.flags);
 
 	if (element->config.alignH.value == SUPERHUD_ALIGNH_LEFT)
 	{
