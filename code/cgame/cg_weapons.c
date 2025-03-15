@@ -447,7 +447,7 @@ static void CG_RocketTrail(centity_t* ent, const weaponInfo_t* wi)
 	{
 		if (cg_smokeradius_gl.value >= 0)
 		{
-			radius = cg_smokeradius_rl.value;
+			radius = cg_smokeradius_gl.value;
 		}
 		else
 		{
