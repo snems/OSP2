@@ -376,7 +376,7 @@ CG_RocketTrail
 */
 static void CG_RocketTrail(centity_t* ent, const weaponInfo_t* wi)
 {
-	int     step;
+	int     step = 50;
 	vec3_t  origin, lastPos;
 	int     t;
 	int     startTime, contents;
@@ -395,7 +395,23 @@ static void CG_RocketTrail(centity_t* ent, const weaponInfo_t* wi)
 	up[1] = 0;
 	up[2] = 0;
 
-	step = 50;
+	if (wi->missileTrailFunc == CG_RocketTrail)
+	{
+		step = cg_smokedensity_rl.integer;
+	}
+	else if (wi->missileTrailFunc == CG_GrenadeTrail)
+	{
+		step = cg_smokedensity_gl.integer;
+	}
+
+	if (step < 5)
+	{
+		step = 5;
+	}
+	else if (step > 100)
+	{
+		step = 100;
+	}
 
 	es = &ent->currentState;
 	startTime = ent->trailTime;
@@ -426,6 +442,10 @@ static void CG_RocketTrail(centity_t* ent, const weaponInfo_t* wi)
 	}
 	else if (wi->missileTrailFunc == CG_RocketTrail)
 	{
+		if (cg_smokedensity_rl.integer >= 1 && cg_smokedensity_rl.integer <= 100)
+		{
+			step = cg_smokedensity_rl.integer;
+		}
 		if (cg_smokeradius_rl.value >= 0)
 		{
 			radius = cg_smokeradius_rl.value;
@@ -445,6 +465,10 @@ static void CG_RocketTrail(centity_t* ent, const weaponInfo_t* wi)
 	}
 	else if (wi->missileTrailFunc == CG_GrenadeTrail)
 	{
+		if (cg_smokedensity_gl.integer >= 1 && cg_smokedensity_gl.integer <= 100)
+		{
+			step = cg_smokedensity_gl.integer;
+		}
 		if (cg_smokeradius_gl.value >= 0)
 		{
 			radius = cg_smokeradius_gl.value;

@@ -1364,6 +1364,8 @@ extern vmCvar_t           cg_smokegrowth_gl;
 extern vmCvar_t           cg_smokegrowth_rl;
 extern vmCvar_t           cg_smokeradius_gl;
 extern vmCvar_t           cg_smokeradius_rl;
+extern vmCvar_t           cg_smokedensity_gl;
+extern vmCvar_t           cg_smokedensity_rl;
 extern vmCvar_t           cg_swapSkins;
 extern vmCvar_t           cg_teamRails;
 extern vmCvar_t           cg_trueLightning;

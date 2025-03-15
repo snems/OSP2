@@ -661,6 +661,13 @@
 
 ---
 
+    cg_smokedensity_gl 5..100
+    cg_smokedensity_rl 5..100
+
+Кучность дыма.
+
+---
+
     ch_fragMessage
     cg_fallKick
     cg_smokegrowth_gl
