@@ -2252,24 +2252,20 @@ float CG_OSPDrawStringLengthNew(const char* string, float ax, float aw, float ma
 	return (ax - xx);
 }
 
-int CG_OSPDrawStringLenPix(const char* string, float charWidth, int flags)
+static float GetSymbolSize(char sym, qboolean proportional, float charWidth)
 {
-	float           max_ax;
-	text_command_t* text_commands;
+	const font_metric_t* fm;
+	fm = &metrics[sym];
 
-	if (!string)
-		return 0;
-
-	text_commands = CG_CompileText(string);
-	if (!text_commands)
+	if (proportional)
 	{
-		return 0;
+		return (fm->space1 + fm->space2) * charWidth;
 	}
 
-	return DrawCompiledStringLength(text_commands, charWidth, flags & DS_PROPORTIONAL);
+	return charWidth;
 }
 
-static float RestrictCompiledString(text_command_t* cmd, float aw, int proportional, float toWidth)
+static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboolean proportional, float toWidth)
 {
 	const font_metric_t* fm;
 	float           x_end;
@@ -2278,7 +2274,7 @@ static float RestrictCompiledString(text_command_t* cmd, float aw, int proportio
 	text_command_t* curr;
 	qboolean restricted = qfalse;
 
-	if (!cmd)
+	if (!cmd || toWidth == 0)
 		return 0;
 
 	for (i = 0; i < OSP_TEXT_CMD_MAX; ++i)
@@ -2290,19 +2286,18 @@ static float RestrictCompiledString(text_command_t* cmd, float aw, int proportio
 			fm = &metrics[(unsigned char)curr->value.character ];
 			if (proportional)
 			{
-				ax += fm->space1 * aw;          // add extra space if required by metrics
-				x_end = ax + fm->space2 * aw;   // final position
+				ax += fm->space1 * charWidth;          // add extra space if required by metrics
+				x_end = ax + fm->space2 * charWidth;   // final position
 			}
 			else
 			{
-				x_end = ax + aw;
+				x_end = ax + charWidth;
 			}
 
 			ax = x_end;
 			if (ax >= toWidth)
 			{
 				restricted = qtrue;
-				curr->type = OSP_TEXT_CMD_STOP;
 				break;
 			}
 		}
@@ -2316,7 +2311,21 @@ static float RestrictCompiledString(text_command_t* cmd, float aw, int proportio
 	if (restricted)
 	{
 		int replacedWithDots;
-		for (replacedWithDots = 0; (i > 0) && (replacedWithDots < 3); --i)
+		float three_dot_size = GetSymbolSize('.', proportional, charWidth) * 3;
+		float erased_size;
+
+		/* first, erase characters is enough to insert "..." */
+		for (erased_size = 0; (i > 0) && (erased_size < three_dot_size); --i)
+		{
+			curr = &cmd[i];
+			if (curr->type == OSP_TEXT_CMD_CHAR)
+			{
+				erased_size += GetSymbolSize(curr->value.character, proportional, charWidth);
+			}
+		}
+
+		/* second, insert "..." */
+		for (replacedWithDots = 0; (i < (OSP_TEXT_CMD_MAX-1)) && (replacedWithDots < 3); ++i)
 		{
 			curr = &cmd[i];
 			if (curr->type == OSP_TEXT_CMD_CHAR)
@@ -2325,9 +2334,32 @@ static float RestrictCompiledString(text_command_t* cmd, float aw, int proportio
 				++replacedWithDots;
 			}
 		}
+
+		/* set stop of text */
+		cmd[i].type = OSP_TEXT_CMD_STOP;
 	}
 
 	return ax;
+}
+
+int CG_OSPDrawStringLenPix(const char* string, float charWidth, int flags, int toWidth)
+{
+	float           max_ax;
+	int rez;
+	text_command_t* text_commands;
+
+	if (!string)
+	{
+		return 0;
+	}
+
+	text_commands = CG_CompileText(string);
+	if (!text_commands)
+	{
+		return 0;
+	}
+  RestrictCompiledString(text_commands, charWidth, flags&DS_PROPORTIONAL, toWidth);
+  return DrawCompiledStringLength(text_commands, charWidth, flags & DS_PROPORTIONAL);
 }
 
 

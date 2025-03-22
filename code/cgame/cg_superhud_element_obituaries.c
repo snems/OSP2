@@ -86,6 +86,8 @@ static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* e
 	entry->runtime.maxVisibleChars = 13;
 	entry->runtime.spacing = element->config.rect.value[3] / 2.0f;
 
+	entry->runtime.maxNameLenPix = (element->config.rect.value[2] - (element->config.rect.value[3] + entry->runtime.spacing * 2))/2;
+
 	entry->runtime.iconShader = CG_SHUDObituaryGetModIcon(entry->mod, entry->unfrozen);
 
 	CG_SHUDObituarySetTeamColor(entry->runtime.attackerColor, entry->attackerTeam);
@@ -99,21 +101,22 @@ static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* e
 
 	if (entry->attacker == ENTITYNUM_WORLD)
 	{
-		strcpy(entry->runtime.truncatedAttacker, "^1world");
+		strcpy(entry->runtime.attackerName, "^1world");
 	}
 	else if (entry->attacker >= 0 && entry->attacker < MAX_CLIENTS)
-	{
-		(void)CG_TruncateStringWithCodes(cgs.clientinfo[entry->attacker].name, entry->runtime.truncatedAttacker, entry->runtime.maxVisibleChars);
-	}
+  {
+  	Q_strncpyz(entry->runtime.attackerName, cgs.clientinfo[entry->attacker].name, MAX_QPATH);
+  }
 
 
-	if (entry->target >= 0 && entry->target < MAX_CLIENTS)
-	{
-		(void)CG_TruncateStringWithCodes(cgs.clientinfo[entry->target].name, entry->runtime.truncatedTarget, entry->runtime.maxVisibleChars);
-	}
+  if (entry->target >= 0 && entry->target < MAX_CLIENTS)
+  {
+  	Q_strncpyz(entry->runtime.targetName, cgs.clientinfo[entry->target].name, MAX_QPATH);
+  }
 
-	entry->runtime.attackerWidth = CG_OSPDrawStringLenPix(entry->runtime.truncatedAttacker, element->config.fontsize.value[0], element->ctxAttacker.flags);
-	entry->runtime.targetWidth = CG_OSPDrawStringLenPix(entry->runtime.truncatedTarget, element->config.fontsize.value[0], element->ctxTarget.flags);
+
+	entry->runtime.attackerWidth = CG_OSPDrawStringLenPix(entry->runtime.attackerName, element->config.fontsize.value[0], element->ctxAttacker.flags, entry->runtime.maxNameLenPix);
+	entry->runtime.targetWidth = CG_OSPDrawStringLenPix(entry->runtime.targetName, element->config.fontsize.value[0], element->ctxTarget.flags, entry->runtime.maxNameLenPix);
 
 	if (element->config.alignH.value == SUPERHUD_ALIGNH_LEFT)
 	{
@@ -159,7 +162,7 @@ void CG_SHUDElementObituariesRoutine(void* context)
 
 	if (entry->attacker != entry->target)
 	{
-		element->ctxAttacker.text = entry->runtime.truncatedAttacker;
+		element->ctxAttacker.text = entry->runtime.attackerName;
 		element->ctxAttacker.coord.named.x = currentX;
 
 		if ((entry->attackerTeam == TEAM_RED || entry->attackerTeam == TEAM_BLUE) && element->config.style.isSet && element->config.style.value)
@@ -171,6 +174,7 @@ void CG_SHUDElementObituariesRoutine(void* context)
 			element->ctxAttacker.background[3] = 0;
 		}
 
+		element->ctxAttacker.width = entry->runtime.maxNameLenPix;
 		CG_SHUDTextPrint(&element->config, &element->ctxAttacker);
 		currentX += entry->runtime.attackerWidth;
 	}
@@ -181,7 +185,7 @@ void CG_SHUDElementObituariesRoutine(void* context)
 		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctxMod);
 		currentX += element->ctxMod.coord.named.w + entry->runtime.spacing * 2;
 	}
-	element->ctxTarget.text = entry->runtime.truncatedTarget;
+	element->ctxTarget.text = entry->runtime.targetName;
 	element->ctxTarget.coord.named.x = currentX;
 	if ((entry->targetTeam == TEAM_RED || entry->targetTeam == TEAM_BLUE) && element->config.style.isSet && element->config.style.value)
 	{
@@ -191,71 +195,8 @@ void CG_SHUDElementObituariesRoutine(void* context)
 	{
 		element->ctxTarget.background[3] = 0;
 	}
+	element->ctxTarget.width = entry->runtime.maxNameLenPix;
 	CG_SHUDTextPrint(&element->config, &element->ctxTarget);
-}
-
-
-static int CG_TruncateStringWithCodes(const char* input, char* output, int maxVisibleChars)
-{
-	int visibleCount = 0, actualCount = 0;
-	int maxVisible = 0, currentVisibleCount = 0;
-	qboolean mode = qfalse;
-	const char* src = input;
-	char* dst = output;
-	int i;
-
-	while (*src && visibleCount < maxVisibleChars)
-	{
-		if (*src == '^')
-		{
-			const char* next = src + 1;
-
-			if (*next == 'x' || *next == 'X')
-			{
-				*dst++ = *src++;
-				*dst++ = *src++;
-				for (i = 0; i < 6 && ((*src >= '0' && *src <= '9') || (*src >= 'a' && *src <= 'f') || (*src >= 'A' && *src <= 'F')); i++)
-				{
-					*dst++ = *src++;
-				}
-			}
-			else if (*next == 'f' || *next == 'F' || *next == 'b' || *next == 'B')
-			{
-				mode = qtrue;
-				src += 2;
-				currentVisibleCount = 0;
-			}
-
-			else if ((*next >= '0' && *next <= '9') || *next == 'n' || *next == 'N' || *next == '#')
-			{
-				*dst++ = *src++;
-				*dst++ = *src++;
-			}
-			else
-			{
-				*dst++ = *src++;
-				*dst++ = *src++;
-			}
-		}
-		else if (*src == '\x19')
-		{
-			*dst++ = *src++;
-		}
-		else
-		{
-			*dst++ = *src++;
-			visibleCount++;
-			actualCount++;
-			currentVisibleCount++;
-
-			if (mode && currentVisibleCount > maxVisible)
-			{
-				maxVisible = currentVisibleCount;
-			}
-		}
-	}
-	*dst = '\0';
-	return maxVisible > actualCount ? maxVisible : actualCount;
 }
 
 static void CG_SHUDObituarySetTeamColor(vec4_t color, int team)

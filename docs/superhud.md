@@ -77,7 +77,6 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | RewardIcons                   | Изображение полученной медали.                               |
 | RewardNumbers                 | Счетчик полученных медалей.                                  |
 | PostDecorate                  | Отрисовка разделителей и т.п.                                |
-| Obituary1-Obituary8           | Некролог.                                                    |
 | WarmupInfo                    | Обратный отсчет/"waiting for players".                       |
 | GameType                      | Режим игры(только во время warmup).                          |
 | Location                      | Сообщение с названием локации при ее изменении.              |

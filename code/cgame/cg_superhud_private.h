@@ -671,13 +671,14 @@ typedef struct
 		qhandle_t iconShader;
 		vec4_t attackerColor;
 		vec4_t targetColor;
-		char truncatedAttacker[MAX_QPATH];
-		char truncatedTarget[MAX_QPATH];
+		char attackerName[MAX_QPATH];
+		char targetName[MAX_QPATH];
 		int maxVisibleChars;
 		float baseX;
 		float attackerWidth;
 		float targetWidth;
 		float spacing;
+		int maxNameLenPix;
 	} runtime;
 } superhudObituariesEntry_t;
 

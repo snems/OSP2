@@ -436,6 +436,7 @@ void CG_SHUDEventTeamChat(const char* message)
 
 void CG_SHUDEventObituaries(int attacker, int target, int mod, qboolean unfrozen)
 {
+	int i;
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
 	superhudObituariesEntry_t* entry = &ctx->obituaries.line[ctx->obituaries.index % SHUD_MAX_OBITUARIES_LINES];
 
@@ -452,3 +453,4 @@ void CG_SHUDEventObituaries(int attacker, int target, int mod, qboolean unfrozen
 
 	++ctx->obituaries.index;
 }
+

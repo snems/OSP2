@@ -1591,7 +1591,7 @@ void CG_DrawPicOld(float x, float y, float width, float height, qhandle_t hShade
 void CG_DrawPic(float x, float y, float width, float height, qhandle_t hShader);
 
 float CG_OSPDrawStringLength(const char* string, float ax, float aw, int proportional);
-int CG_OSPDrawStringLenPix(const char* string, float charWidth, int flags);
+int CG_OSPDrawStringLenPix(const char* string, float charWidth, int flags, int toWidth);
 
 void CG_OSPDrawStringPrepare(const char* from, char* to, int size);
 void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxWidth, int flags, vec4_t background);
