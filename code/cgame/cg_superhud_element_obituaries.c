@@ -128,7 +128,7 @@ static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* e
 	}
 	else // SUPERHUD_ALIGNH_CENTER
 	{
-		entry->runtime.baseX = (element->config.rect.value[2] / 2) - (element->ctxMod.coord.named.w / 2) - entry->runtime.attackerWidth;
+		entry->runtime.baseX = element->config.rect.value[0]+ (element->config.rect.value[2] / 2) - (element->ctxMod.coord.named.w / 2) - entry->runtime.attackerWidth;
 	}
 
 	entry->runtime.isInitialized = qtrue;
