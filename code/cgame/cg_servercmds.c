@@ -977,7 +977,7 @@ CG_InjectCustomLoc
 Replace location coordinates with location name
 =================
 */
-static void CG_InjectCustomLoc(char *str, int size)
+static void CG_InjectCustomLoc(char* str, int size)
 {
 	char* loc_start;
 	char* loc_end;

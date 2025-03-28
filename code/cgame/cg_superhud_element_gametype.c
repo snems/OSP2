@@ -57,7 +57,7 @@ void CG_SHUDElementGameTypeRoutine(void* context)
 			if (player1Name && player2Name)
 			{
 				Com_sprintf(str, 512, "%s^7 vs %s", player1Name, player2Name);
-			  element->ctx.text = str;
+				element->ctx.text = str;
 			}
 		}
 		else

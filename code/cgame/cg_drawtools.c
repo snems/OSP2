@@ -352,7 +352,7 @@ void CG_DrawBigString(int x, int y, const char* s, const float alpha, int flags,
 	color[3] = alpha;
 
 	CG_FontSelect(font);
-	CG_OSPDrawString(x, y, s, color, BIGCHAR_WIDTH, BIGCHAR_HEIGHT, SCREEN_WIDTH,flags, NULL);
+	CG_OSPDrawString(x, y, s, color, BIGCHAR_WIDTH, BIGCHAR_HEIGHT, SCREEN_WIDTH, flags, NULL);
 }
 
 
@@ -363,13 +363,13 @@ void CG_DrawSmallString(int x, int y, const char* s, float alpha, int flags, int
 	color[3] = alpha;
 
 	CG_FontSelect(font);
-	CG_OSPDrawString(x, y, s, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, SCREEN_WIDTH,flags, NULL);
+	CG_OSPDrawString(x, y, s, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, SCREEN_WIDTH, flags, NULL);
 }
 
 void CG_DrawSmallStringColor(int x, int y, const char* s, vec4_t color, int flags, int font)
 {
 	CG_FontSelect(font);
-	CG_OSPDrawString(x, y, s, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, SCREEN_WIDTH,flags, NULL);
+	CG_OSPDrawString(x, y, s, color, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, SCREEN_WIDTH, flags, NULL);
 }
 
 /*
@@ -1017,7 +1017,7 @@ static float DrawCompiledStringLength(const text_command_t* cmd, float aw, int p
 			}
 
 			if (x_end >= cgs.glconfig.vidWidth)
-					break;
+				break;
 
 			ax = x_end;
 		}
@@ -2325,7 +2325,7 @@ static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboole
 		}
 
 		/* second, insert "..." */
-		for (replacedWithDots = 0; (i < (OSP_TEXT_CMD_MAX-1)) && (replacedWithDots < 3); ++i)
+		for (replacedWithDots = 0; (i < (OSP_TEXT_CMD_MAX - 1)) && (replacedWithDots < 3); ++i)
 		{
 			curr = &cmd[i];
 			if (curr->type == OSP_TEXT_CMD_CHAR)
@@ -2358,8 +2358,8 @@ int CG_OSPDrawStringLenPix(const char* string, float charWidth, int flags, int t
 	{
 		return 0;
 	}
-  RestrictCompiledString(text_commands, charWidth, flags&DS_PROPORTIONAL, toWidth);
-  return DrawCompiledStringLength(text_commands, charWidth, flags & DS_PROPORTIONAL);
+	RestrictCompiledString(text_commands, charWidth, flags & DS_PROPORTIONAL, toWidth);
+	return DrawCompiledStringLength(text_commands, charWidth, flags & DS_PROPORTIONAL);
 }
 
 
@@ -2456,8 +2456,8 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	{
 		xx = ax;
 
-  // calculate shadow offsets
-  yy_add = xx_add = charWidth/10.0f;
+		// calculate shadow offsets
+		yy_add = xx_add = charWidth / 10.0f;
 
 		VectorCopy(colorBlack, color);
 		color[3] = fade;

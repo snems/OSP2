@@ -32,7 +32,7 @@ void CG_SHUDElementLocationRoutine(void* context)
 {
 	shudElementLocation_t* element = (shudElementLocation_t*)context;
 	clientInfo_t* ci;
-	const char *newLocation;
+	const char* newLocation;
 
 	ci = &cgs.clientinfo[cg.snap->ps.clientNum];
 

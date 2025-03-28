@@ -52,7 +52,7 @@ void CG_SHUDElementItemPickupRoutine(void* context)
 			}
 			else
 			{
-			element->ctx.text = va("%i:%i%i %s", mins, tens, seconds, bg_itemlist[cg.itemPickup].pickup_name);
+				element->ctx.text = va("%i:%i%i %s", mins, tens, seconds, bg_itemlist[cg.itemPickup].pickup_name);
 			}
 			CG_SHUDTextPrint(&element->config, &element->ctx);
 		}

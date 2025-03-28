@@ -157,7 +157,7 @@ static void CG_SHUDElementWeaponListSetup(shudElementWeaponList_t* element, supe
 					memset(element->back[element->weaponNum].color, 0, sizeof(element->back[element->weaponNum].color));
 				}
 			}
-			else 
+			else
 			{
 				if (element->config.color2.isSet)
 				{
