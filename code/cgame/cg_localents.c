@@ -272,7 +272,15 @@ void CG_ReflectVelocity(localEntity_t* le, trace_t* trace)
 
 	}
 }
-
+void CG_AddFragmentHideFrozen(localEntity_t* le)
+{
+	if (le->refEntity.customShader == cgs.media.frozenShader)
+	{
+		le->refEntity.customShader = 0;
+		trap_R_AddRefEntityToScene(&le->refEntity);
+		le->refEntity.customShader = cgs.media.frozenShader;
+	}
+}
 /*
 ================
 CG_AddFragment
@@ -299,11 +307,19 @@ void CG_AddFragment(localEntity_t* le)
 			le->refEntity.renderfx |= RF_LIGHTING_ORIGIN;
 			oldZ = le->refEntity.origin[2];
 			le->refEntity.origin[2] -= 16 * (1.0 - (float)t / SINK_TIME);
+			if (cgs.osp.gameTypeFreeze)
+			{
+				CG_AddFragmentHideFrozen(le);
+			}
 			trap_R_AddRefEntityToScene(&le->refEntity);
 			le->refEntity.origin[2] = oldZ;
 		}
 		else
 		{
+			if (cgs.osp.gameTypeFreeze)
+			{
+				CG_AddFragmentHideFrozen(le);
+			}
 			trap_R_AddRefEntityToScene(&le->refEntity);
 		}
 
@@ -328,6 +344,10 @@ void CG_AddFragment(localEntity_t* le)
 			AnglesToAxis(angles, le->refEntity.axis);
 		}
 
+		if (cgs.osp.gameTypeFreeze)
+		{
+			CG_AddFragmentHideFrozen(le);
+		}
 		trap_R_AddRefEntityToScene(&le->refEntity);
 
 		// add a blood trail

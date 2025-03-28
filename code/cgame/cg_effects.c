@@ -398,6 +398,21 @@ void CG_LaunchGib(vec3_t origin, vec3_t velocity, qhandle_t hModel)
 
 	le->leBounceSoundType = LEBS_BLOOD;
 	le->leMarkType = LEMT_BLOOD;
+
+	if (cgs.osp.gameTypeFreeze)
+	{
+		int i;
+		centity_t* cent;
+		for (i = 0; i < cg.snap->numEntities; ++i)
+		{
+			cent = &cg_entities[cg.snap->entities[i].number];
+			if ((cent->currentState.eventParm == 255) && VectorCompare(cent->lerpOrigin, origin))
+			{
+				re->customShader = cgs.media.freezeShader;
+				break;
+			}
+		}
+	}
 }
 
 /*
