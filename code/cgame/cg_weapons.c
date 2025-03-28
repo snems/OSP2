@@ -1017,7 +1017,7 @@ void CG_RegisterItemVisuals(int itemNum)
 
 	itemInfo->models[0] = trap_R_RegisterModel(item->world_model[0]);
 
-	itemInfo->icon = trap_R_RegisterShader(item->icon);
+	itemInfo->icon = item->icon ? trap_R_RegisterShader(item->icon) : 0;
 
 	if (item->giType == IT_WEAPON)
 	{
