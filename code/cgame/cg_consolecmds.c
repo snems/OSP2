@@ -686,6 +686,51 @@ void CG_ShowFont_f(void)
 	}
 }
 
+void CG_DPI_f(void)
+{
+	float local_yaw;
+	float local_sens;
+	float local_dpi;
+	float local_360;
+	char var[MAX_TOKEN_CHARS];
+
+	if (trap_Argc() < 2 || trap_Argc() > 4)
+	{
+		CG_Printf("\n^1Usage:\n");
+		CG_Printf("\n^1dpi ^2<dpi_value> ^3[sens] [m_yaw]\n");
+		return;
+	}
+
+	local_dpi = atof(CG_Argv(1));
+
+	if (trap_Argc() > 2)
+	{
+		local_sens = atof(CG_Argv(2));
+	}
+	else
+	{
+		trap_Cvar_VariableStringBuffer("sensitivity", var, sizeof(var));
+		local_sens = atof(var);
+	}
+
+	if (trap_Argc() > 3)
+	{
+		local_yaw = atof(CG_Argv(3));
+	}
+	else
+	{
+		trap_Cvar_VariableStringBuffer("m_yaw", var, sizeof(var));
+		local_yaw = atof(var);
+	}
+
+	local_360 = (360.0f / (local_yaw * local_sens * local_dpi)) * 2.54f;
+
+	CG_Printf("\n^1DPI:          ^2%d\n", (int)local_dpi);
+	CG_Printf("^1sensitivity:  ^2%.3f\n", local_sens);
+	CG_Printf("^1m_yaw:        ^2%.3f\n", local_yaw);
+	CG_Printf("^1cm/360:       ^2%.2f\n", local_360);
+}
+
 void CG_Stub_f(void) { }
 
 typedef struct
@@ -774,6 +819,7 @@ static consoleCommand_t commands[] =
 	{ "mute", CG_Mute_f },
 	{ "unmute", CG_UnMute_f },
 	{ "showfont", CG_ShowFont_f },
+	{ "dpi", CG_DPI_f },
 };
 
 
