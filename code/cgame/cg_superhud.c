@@ -305,7 +305,7 @@ void CG_SHUDFreezeFight(void)
 	}
 
 	ourPlayer = &cgs.clientinfo[cg.clientNum];
-	current_spec = ourPlayer->rt == TEAM_SPECTATOR || ourPlayer->team == TEAM_SPECTATOR || cg.clientNum != cg.snap->ps.clientNum || ourPlayer->health <= 0 || cg.warmup;
+	current_spec = ourPlayer->rt == TEAM_SPECTATOR || ourPlayer->team == TEAM_SPECTATOR || cg.clientNum != cg.snap->ps.clientNum || ourPlayer->health <= 0;
 
 	if (is_spectator && !current_spec)
 	{
