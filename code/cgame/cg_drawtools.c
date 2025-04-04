@@ -624,7 +624,7 @@ typedef struct
 	int             shaderCount;
 } font_t;
 
-static font_t fonts[] = {{"id"}, {"idblock"}, {"sansman"}, {"cpma"}, {"m1rage"}, {"elite_emoji"}, {"diablo"}, {"eternal"},};
+static font_t fonts[] = {{"id"}, {"idblock"}, {"sansman"}, {"cpma"}, {"m1rage"}, {"elite_emoji"}, {"diablo"}, {"eternal"}, {"qlnumbers"}};
 static int fonts_num = sizeof(fonts) / sizeof(fonts[0]);
 static const font_t* font = &fonts[0];
 static const font_metric_t* metrics = &fonts[0].metrics[0];
@@ -934,6 +934,7 @@ void CG_LoadFonts(void)
 	CG_LoadFont(&fonts[5], "gfx/2d/elite_emoji.cfg");
 	CG_LoadFont(&fonts[6], "gfx/2d/diablo.cfg");
 	CG_LoadFont(&fonts[7], "gfx/2d/eternal.cfg");
+	CG_LoadFont(&fonts[8], "gfx/2d/qlnumbers.cfg");
 }
 
 
