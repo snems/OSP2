@@ -43,7 +43,6 @@ CG_SRC = \
  cg_superhud_element_weaponlist \
  cg_superhud_element_obituaries \
  cg_superhud_element_warmupinfo cg_superhud_element_gametype cg_superhud_element_location\
- cg_superhud_element_holdableItem \
  l_crc \
  cg_chatfilter cg_crosshair\
 
@@ -58,4 +57,3 @@ UI_SRC = \
  ui_cdkey ui_mods \
  bg_misc bg_lib \
  q_math q_shared \
-
