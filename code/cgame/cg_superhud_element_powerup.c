@@ -148,7 +148,7 @@ static void CG_SHUDElementPwUpdateState(struct superhudPowerupsCache_t* pw)
 			continue;
 		}
 
-		// insert into the list
+		// insert with sort by time
 		for (j = 0 ; j < pw->numberOfActive ; j++)
 		{
 			if (pw->element[j].time >= t)
@@ -157,22 +157,44 @@ static void CG_SHUDElementPwUpdateState(struct superhudPowerupsCache_t* pw)
 				{
 					pw->element[k + 1].powerup = pw->element[k].powerup;
 					pw->element[k + 1].time = pw->element[k].time;
+					pw->element[k + 1].isHoldable = pw->element[k].isHoldable;
 				}
 				break;
 			}
 		}
 		pw->element[j].powerup = i;
 		pw->element[j].time = t;
+		pw->element[j].isHoldable = qfalse;
 		++pw->numberOfActive;
+	}
+
+  {
+		int hi = cg.snap->ps.stats[STAT_HOLDABLE_ITEM];
+		if (hi)
+		{
+			pw->element[pw->numberOfActive].powerup = hi;
+			pw->element[pw->numberOfActive].time = SUPERHUD_UPDATE_TIME * 2;
+			pw->element[pw->numberOfActive].isHoldable = qtrue;
+			++pw->numberOfActive;
+		}
 	}
 
 	for (i = 0 ; i < pw->numberOfActive ; i++)
 	{
-		item = BG_FindItemForPowerup(pw->element[i].powerup);
-		if (item)
+		if (pw->element[i].isHoldable)
 		{
-			pw->element[i].powerup = trap_R_RegisterShader(item->icon);
+			CG_RegisterItemVisuals(pw->element[i].powerup);
+			pw->element[i].powerup = cg_items[pw->element[i].powerup].icon;
 			pw->element[i].time /= 1000;
+		}
+		else
+		{
+			item = BG_FindItemForPowerup(pw->element[i].powerup);
+			if (item)
+			{
+				pw->element[i].powerup = trap_R_RegisterShader(item->icon);
+				pw->element[i].time /= 1000;
+			}
 		}
 	}
 }
@@ -201,8 +223,11 @@ void CG_SHUDElementPwRoutine(void* context)
 
 	if (element->pwType == SHUDPWTYPE_TIME)
 	{
-		element->textCtx.text = va("%d", pwElement->time);
-		CG_SHUDTextPrint(&element->config, &element->textCtx);
+		if (!pwElement->isHoldable)
+		{
+			element->textCtx.text = va("%d", pwElement->time);
+			CG_SHUDTextPrint(&element->config, &element->textCtx);
+		}
 	}
 	else
 	{
