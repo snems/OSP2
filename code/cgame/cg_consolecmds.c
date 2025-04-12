@@ -26,6 +26,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "cg_local.h"
 #include "cg_superhud.h"
 
+#define MODIFSTR_SIZE 256
+qboolean modifState[5];
+char modifStrDown[5][MODIFSTR_SIZE];
+char modifStrUp[5][MODIFSTR_SIZE];
 
 
 void CG_TargetCommand_f(void)
@@ -487,44 +491,127 @@ void CG_OSPPrintTime_f(void)
 	trap_RealTime(&qtime);
 	CG_Printf("\nCurrent time: ^3%02d:%02d:%02d (%02d %s %d)\n\n", qtime.tm_hour, qtime.tm_min, qtime.tm_sec, qtime.tm_mday, monthName[qtime.tm_mon], qtime.tm_year + 1900);
 }
+
+
+void CG_OSPModifDown (int layout) 
+{
+	if (!modifState[layout] && trap_Argc() >= 2 && atoi(CG_Argv(1)))
+	{
+		if (modifStrDown[layout][0])
+		{
+			trap_SendConsoleCommand(&modifStrDown[layout][0]);
+		}
+		else
+		{
+			CG_Printf("^3*** %s not set.\n", CG_Argv(0));
+		}
+		modifState[layout] = qtrue;
+	}
+	else if (trap_Argc() >= 2 && !atoi(CG_Argv(1)))
+	{
+		if (Q_stricmp(CG_Argv(1), "?") == 0)
+		{
+			if (modifStrDown[layout][0])
+			{
+				CG_Printf("^5%s is set to: ^7%s\n", CG_Argv(0), modifStrDown[layout][0]);
+			}
+			else
+			{
+				CG_Printf("^3*** %s not set.\n", CG_Argv(0));
+			}
+		}
+		else
+		{
+			char msg[256];
+			trap_Args(&modifStrDown[layout][0], MODIFSTR_SIZE);
+			trap_Args(&msg[0], MODIFSTR_SIZE);
+		}
+	}
+}
+
+void CG_OSPModifUp (int layout) 
+{
+	if (modifState[layout] && trap_Argc() >= 2 && atoi(CG_Argv(1)))
+	{
+		if (modifStrUp[layout][0])
+		{
+			trap_SendConsoleCommand(&modifStrUp[layout][0]);
+		}
+		else
+		{
+			CG_Printf("^3*** %s not set.\n", CG_Argv(0));
+		}
+		modifState[layout] = qfalse;
+	}
+	else if (trap_Argc() >= 2 && !atoi(CG_Argv(1)))
+	{
+		if (Q_stricmp(CG_Argv(1), "?") == 0)
+		{
+			if (modifStrUp[layout][0])
+			{
+				CG_Printf("^5%s is set to: ^7%s\n", CG_Argv(0), modifStrUp[layout][0]);
+			}
+			else
+			{
+				CG_Printf("^3*** %s not set.\n", CG_Argv(0));
+			}
+		}
+		else
+		{
+			trap_Args(&modifStrUp[layout][0], MODIFSTR_SIZE);
+		}
+	}
+}
+
+
 void CG_OSPModif1Down_f(void)
 {
+	CG_OSPModifDown(0);
 }
 
 void CG_OSPModif1Up_f(void)
 {
+	CG_OSPModifUp(0);
 }
 
 void CG_OSPModif2Down_f(void)
 {
+	CG_OSPModifDown(1);
 }
 
 void CG_OSPModif2Up_f(void)
 {
+	CG_OSPModifUp(1);
 }
 
 void CG_OSPModif3Down_f(void)
 {
+	CG_OSPModifDown(2);
 }
 
 void CG_OSPModif3Up_f(void)
 {
+	CG_OSPModifUp(2);
 }
 
 void CG_OSPModif4Down_f(void)
 {
+	CG_OSPModifDown(3);
 }
 
 void CG_OSPModif4Up_f(void)
 {
+	CG_OSPModifUp(3);
 }
 
 void CG_OSPModif5Down_f(void)
 {
+	CG_OSPModifDown(4);
 }
 
 void CG_OSPModif5Up_f(void)
 {
+	CG_OSPModifUp(4);
 }
 
 void CG_OSPActionDown_f(void)
