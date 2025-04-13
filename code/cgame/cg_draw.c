@@ -2714,7 +2714,7 @@ void CG_OSPDrawCenterString(void)
 	float* fadeColor;
 	char* to_print;
 	int y;
-	if (cg_drawCenterMessages.value == 0)
+	if (!cg_drawCenterMessages.integer)
 	{
 		return;
 	}
