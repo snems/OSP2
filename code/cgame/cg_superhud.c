@@ -21,6 +21,14 @@ static void CG_SHUDRoutenesDestroy(superhudElement_t* shud)
 
 }
 
+static void CG_SHUDUpdateVisflags(superHUDConfigElement_t* element, const superhudConfig_t* config)
+{
+	if (element && config && config->visflags.isSet)
+	{
+		element->visibility = config->visflags.value;
+	}
+}
+
 qboolean CG_SHUDLoadConfigPrivate(const char* filename)
 {
 	fileHandle_t fileHandle;
@@ -206,6 +214,9 @@ qboolean CG_SHUDLoadConfigPrivate(const char* filename)
 			if (newElementLast->element.create)
 			{
 				newElementLast->element.context = newElementLast->element.create(&newElementLast->config);
+
+				CG_SHUDUpdateVisflags(&newElementLast->element, &newElementLast->config);
+
 				if (newElementLast->element.context)
 				{
 					++numberOfElementsCreated;
@@ -301,6 +312,7 @@ void CG_SHUDRoutine(void)
 	const qboolean is_intermission = cg.predictedPlayerState.pm_type == PM_INTERMISSION;
 	const qboolean is_team_game = cgs.gametype >= GT_TEAM;
 	const qboolean is_spectator = CG_IsSpectator();
+	const qboolean is_scores = cg.showScores;
 
 	CG_DrawCrosshair();
 
@@ -318,7 +330,12 @@ void CG_SHUDRoutine(void)
 		       ((vflags & SE_TEAM_ONLY) && (!is_team_game)) ||
 		       (!(vflags & SE_DEAD) && is_dead) ||
 		       (!(vflags & SE_SPECT) && is_spectator) ||
-		       ((vflags & SE_DEMO_HIDE) && cg.demoPlayback)
+		       ((vflags & SE_SCORES_HIDE) && is_scores) ||
+		       ((vflags & SE_DEMO_HIDE) && cg.demoPlayback) ||
+		       ((vflags & SE_KEY1_SHOW) && !cgs.osp.shud.key[0]) ||
+		       ((vflags & SE_KEY2_SHOW) && !cgs.osp.shud.key[1]) ||
+		       ((vflags & SE_KEY3_SHOW) && !cgs.osp.shud.key[2]) ||
+		       ((vflags & SE_KEY4_SHOW) && !cgs.osp.shud.key[3])
 		       ;
 
 		if (!skip && last->element.routine)

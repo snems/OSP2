@@ -666,6 +666,15 @@ yaw value - значение yaw, если не указано, будет вз�
 
 ---
 
+    +shudkey1
+    +shudkey2
+    +shudkey3
+    +shudkey4
+
+Команды для суперхуда (см. superhud.md)
+
+---
+
     ch_fragMessage
     cg_fallKick
     cg_smokegrowth_gl

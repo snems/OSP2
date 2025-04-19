@@ -33,6 +33,7 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseVisFlags(configFileI
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseHlColor(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseHlSize(configFileInfo_t* finfo, superhudConfig_t* config);
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseStyle(configFileInfo_t* finfo, superhudConfig_t* config);
+static superhudConfigParseStatus_t CG_SHUDConfigCommandParseColor2(configFileInfo_t* finfo, superhudConfig_t* config);
 
 static superHUDConfigCommand_t superHUDConfigItemCommands[] =
 {
@@ -357,9 +358,81 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseTime(configFileInfo_
 	return SUPERHUD_CONFIG_OK;
 }
 
+static qboolean CG_SHUDConfigCommandParseVisFlagsVariant(configFileInfo_t* finfo, const char* token, int mask, int* flags)
+{
+	qboolean isFound = qfalse;
+	const char *str = finfo->last_line->line + finfo->pos;
+	char c;
+
+	if (Q_stricmpn(str, token, strlen(token)) == 0)
+	{
+		*flags |= mask;
+		isFound = qtrue;
+	}
+
+	return isFound;
+}
+
 static superhudConfigParseStatus_t CG_SHUDConfigCommandParseVisFlags(configFileInfo_t* finfo, superhudConfig_t* config)
 {
+	qboolean skip;
+	superhudConfigParseStatus_t status;
+	int flagsFound = 0;
+	char c;
+	int flags = 0;
+
 	config->visflags.isSet = qfalse;
+
+	do
+	{
+		status = CG_SHUDConfigSkipSCN(finfo);
+		if (status != SUPERHUD_CONFIG_OK)
+		{
+			break;
+		}
+
+		c = *(finfo->last_line->line + finfo->pos);
+		if (c == 0 || c == '#' || c == '\n' || c == ';' || c == '}')
+		{
+			break; // end of command
+		}
+
+		if (CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_IM_STR, SE_IM, &flags) ||
+		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_TEAM_ONLY_STR, SE_TEAM_ONLY, &flags) ||
+		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_SPECT_STR, SE_SPECT, &flags) ||
+		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_DEAD_STR, SE_DEAD, &flags) ||
+		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_DEMO_HIDE_STR, SE_DEMO_HIDE, &flags) ||
+		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_SCORES_HIDE_STR, SE_SCORES_HIDE, &flags) ||
+		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY1_SHOW_STR, SE_KEY1_SHOW, &flags)||
+		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY2_SHOW_STR, SE_KEY2_SHOW, &flags)||
+		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY3_SHOW_STR, SE_KEY3_SHOW, &flags)||
+		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY4_SHOW_STR, SE_KEY4_SHOW, &flags)
+				)
+		{
+			++flagsFound;
+		}
+		//skip word
+		do
+		{
+			c = CG_SHUD_CONFIG_INFO_GET_CHAR(finfo);
+
+			skip = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
+
+			if (skip)
+			{
+				CG_SHUD_CONFIG_INFO_NEXT_CHAR(finfo);
+			}
+		}
+		while (skip);
+	}
+	while (qtrue);
+
+	if (flagsFound > 0)
+	{
+		config->visflags.isSet = qtrue;
+		config->visflags.value = flags;
+	}
+
 	return SUPERHUD_CONFIG_OK;
 }
 
