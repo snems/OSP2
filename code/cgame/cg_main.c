@@ -177,6 +177,7 @@ vmCvar_t           cg_damageIndicatorOpaque;
 vmCvar_t           cg_damageKick;
 vmCvar_t           cg_deadBodyFilter;
 vmCvar_t           cg_deadBodyBlack;
+vmCvar_t           cg_deadBodyInvisible;
 vmCvar_t           cg_drawDecals;
 vmCvar_t           cg_drawPing;
 vmCvar_t           cg_enableOSPHUD;
@@ -480,6 +481,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_damageIndicatorOpaque, "cg_damageIndicatorOpaque", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_damageIndicatorOpaque},
 	{ &cg_damageKick, "cg_damageKick", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyFilter, "cg_deadBodyFilter", "0", CVAR_ARCHIVE },
+	{ &cg_deadBodyInvisible, "cg_deadBodyInvisible", "0", CVAR_ARCHIVE },
 	{ &cg_drawDecals, "cg_drawDecals", "1", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
 	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "1", CVAR_ARCHIVE },

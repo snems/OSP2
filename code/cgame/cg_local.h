@@ -1333,6 +1333,7 @@ extern vmCvar_t           cg_damageIndicatorOpaque;
 extern vmCvar_t           cg_damageKick;
 extern vmCvar_t           cg_deadBodyFilter;
 extern vmCvar_t           cg_deadBodyBlack;
+extern vmCvar_t           cg_deadBodyInvisible;
 extern vmCvar_t           cg_drawDecals;
 extern vmCvar_t           cg_drawPing;
 extern vmCvar_t           cg_enableOSPHUD;
