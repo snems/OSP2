@@ -2329,11 +2329,8 @@ static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboole
 		for (replacedWithDots = 0; (i < (OSP_TEXT_CMD_MAX - 1)) && (replacedWithDots < 3); ++i)
 		{
 			curr = &cmd[i];
-			if (curr->type == OSP_TEXT_CMD_CHAR)
-			{
-				curr->value.character = '.';
-				++replacedWithDots;
-			}
+			curr->value.character = '.';
+			++replacedWithDots;
 		}
 
 		/* set stop of text */
