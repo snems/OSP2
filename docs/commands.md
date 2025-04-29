@@ -2,12 +2,18 @@
 
 ---
 
+    cg_teamColors
+
+Аналогично команде `cg_enemyColors`
+
+---
+
     cg_enemyModelColors
     cg_teamModelColors
     cg_playerModelColors
 
 Цвет cответствующей модели. Модель должна быть со скином pm.
-Цвета имеют приоритет над командами `color1,color2,cg_enemyColors`
+Цвета имеют приоритет над командами `color1,color2,cg_enemyColors,cg_teamColors`
 
 Аргумент: 
 
