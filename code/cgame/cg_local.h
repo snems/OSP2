@@ -373,6 +373,7 @@ typedef struct
 	char            modelName[MAX_QPATH];
 	char            skinName[MAX_QPATH];
 	qboolean        isPmSkin;
+	qboolean		isFbSkin;
 	char            headModelName[MAX_QPATH];
 	char            headSkinName[MAX_QPATH];
 	char            redTeam[MAX_TEAMNAME];
