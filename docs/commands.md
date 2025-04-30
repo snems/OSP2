@@ -2,12 +2,18 @@
 
 ---
 
+    cg_teamColors
+
+Аналогично команде `cg_enemyColors`
+
+---
+
     cg_enemyModelColors
     cg_teamModelColors
     cg_playerModelColors
 
 Цвет cответствующей модели. Модель должна быть со скином pm.
-Цвета имеют приоритет над командами `color1,color2,cg_enemyColors`
+Цвета имеют приоритет над командами `color1,color2,cg_enemyColors,cg_teamColors`
 
 Аргумент: 
 
@@ -312,6 +318,16 @@
     cg_noTeamChatBeep 0/1
 
 Отключает звук при приеме командных сообщений.
+
+`0` звук есть
+
+`1` звука нет
+
+---
+
+    cg_noVoteBeep 0/1
+
+Отключает звук при голосовании.
 
 `0` звук есть
 
