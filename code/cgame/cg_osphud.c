@@ -3883,7 +3883,10 @@ static void CG_OSPDrawVote(void)
 	if (cgs.voteModified)
 	{
 		cgs.voteModified = 0;
-		trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
+		if (!cg_noVoteBeep.integer)
+		{
+			trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
+		}
 	}
 
 	time = (30000 - (cg.time - cgs.voteTime)) / 1000;
