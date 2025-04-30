@@ -485,6 +485,46 @@ void CG_ShudChatUp_f(void)
 	cgs.osp.shud.forceChat = qfalse;
 }
 
+void CG_ShudKey1Down_f(void)
+{
+	cgs.osp.shud.key[0] = qtrue;
+}
+
+void CG_ShudKey1Up_f(void)
+{
+	cgs.osp.shud.key[0] = qfalse;
+}
+
+void CG_ShudKey2Down_f(void)
+{
+	cgs.osp.shud.key[1] = qtrue;
+}
+
+void CG_ShudKey2Up_f(void)
+{
+	cgs.osp.shud.key[1] = qfalse;
+}
+
+void CG_ShudKey3Down_f(void)
+{
+	cgs.osp.shud.key[2] = qtrue;
+}
+
+void CG_ShudKey3Up_f(void)
+{
+	cgs.osp.shud.key[2] = qfalse;
+}
+
+void CG_ShudKey4Down_f(void)
+{
+	cgs.osp.shud.key[3] = qtrue;
+}
+
+void CG_ShudKey4Up_f(void)
+{
+	cgs.osp.shud.key[3] = qfalse;
+}
+
 void CG_OSPPrintTime_f(void)
 {
 	qtime_t qtime;
@@ -886,6 +926,14 @@ static consoleCommand_t commands[] =
 	{ "-action", CG_OSPActionUp_f },
 	{ "+shudchat", CG_ShudChatDown_f },
 	{ "-shudchat", CG_ShudChatUp_f },
+	{ "+shudkey1", CG_ShudKey1Down_f },
+	{ "-shudkey1", CG_ShudKey1Up_f },
+	{ "+shudkey2", CG_ShudKey2Down_f },
+	{ "-shudkey2", CG_ShudKey2Up_f },
+	{ "+shudkey3", CG_ShudKey3Down_f },
+	{ "-shudkey3", CG_ShudKey3Up_f },
+	{ "+shudkey4", CG_ShudKey4Down_f },
+	{ "-shudkey4", CG_ShudKey4Up_f },
 	{ "cg_dynamicmem", CG_OSPDynamicMem_f },
 	{ "addpos", CG_OSPAddPos_f },
 	{ "decaladd", CG_OSPDecalAdd_f },

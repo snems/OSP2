@@ -92,6 +92,33 @@ static void CG_PlayerColorsFromEnemyColors(playerColors_t* colors, playerColorsO
 
 }
 
+static void CG_PlayerColorsFromTeamColors(playerColors_t* colors, playerColorsOverride_t* override, const char* color1)
+{
+	int color1Len = color1 ? strlen(color1) : 0;
+
+	if (color1Len >= 4)
+	{
+		if (cg_teamRails.integer == 2 && color1[0] != '0')
+		{
+			if (override) override->isRailColorSet = qtrue;
+			CG_OSPColorFromChar(color1[0], colors->railCore);
+		}
+
+		if (override) override->isModelColorSet = qtrue;
+		CG_OSPColorFromChar(color1[1], colors->head);
+		CG_OSPColorFromChar(color1[2], colors->torso);
+		CG_OSPColorFromChar(color1[3], colors->legs);
+	}
+	else if (color1Len == 3)
+	{
+		if (override) override->isModelColorSet = qtrue;
+		CG_OSPColorFromChar(color1[0], colors->head);
+		CG_OSPColorFromChar(color1[1], colors->torso);
+		CG_OSPColorFromChar(color1[2], colors->legs);
+	}
+
+}
+
 void CG_PlayerColorsLoadDefault(playerColors_t* colors)
 {
 	VectorCopy(colorGreen, colors->head);
@@ -213,6 +240,7 @@ void CG_RebuildPlayerColors(void)
 	/* Team colors */
 	/* Do not load default */
 	memset(&cgs.osp.teamColorsOverride, 0, sizeof(cgs.osp.teamColorsOverride));
+	CG_PlayerColorsFromTeamColors(&cgs.osp.teamColors, &cgs.osp.teamColorsOverride, cg_teamColors.string);
 	CG_PlayerColorsLoadOverrides(&cgs.osp.teamColors,
 	                             &cgs.osp.teamColorsOverride,
 	                             &cg_teamModelColors,

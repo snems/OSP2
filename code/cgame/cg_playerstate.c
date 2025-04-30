@@ -388,7 +388,7 @@ void CG_HitSound(playerState_t* ps, playerState_t* ops)
 			return;
 		}
 
-		if (cg_stackHitSounds.integer && deltaTime < CG_HITSOUND_STACK_PERIOD) // why 500? what's the optimal value?
+		if (cg_stackHitSounds.integer && deltaTime < cg_stackHitSoundsTimeout.integer)
 		{
 			stackedDmg += damage;
 			damage = stackedDmg + delayedDmg;

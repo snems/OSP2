@@ -1106,7 +1106,7 @@ typedef struct cgs_osp_s
 	struct
 	{
 		qboolean forceChat;
-
+		qboolean key[4];
 	} shud;
 } cgs_osp_t;
 
@@ -1333,6 +1333,7 @@ extern vmCvar_t           cg_damageIndicatorOpaque;
 extern vmCvar_t           cg_damageKick;
 extern vmCvar_t           cg_deadBodyFilter;
 extern vmCvar_t           cg_deadBodyBlack;
+extern vmCvar_t           cg_deadBodyInvisible;
 extern vmCvar_t           cg_drawDecals;
 extern vmCvar_t           cg_drawPing;
 extern vmCvar_t           cg_enableOSPHUD;
@@ -1340,6 +1341,7 @@ extern vmCvar_t           cg_shud;
 extern vmCvar_t           cg_enableBreath;
 extern vmCvar_t           cg_enemyColors;
 extern vmCvar_t           cg_enemyModel;
+extern vmCvar_t           cg_teamColors;
 extern vmCvar_t           cg_teamModel;
 extern vmCvar_t           cg_execVstr;
 extern vmCvar_t           cg_fallKick;
@@ -1496,6 +1498,7 @@ extern vmCvar_t           cg_conObituaries;
 
 extern vmCvar_t           cg_lightningHitsoundRateFix;
 extern vmCvar_t           cg_stackHitSounds;
+extern vmCvar_t           cg_stackHitSoundsTimeout;
 extern vmCvar_t           cg_drawCenterMessages;
 extern vmCvar_t           cg_predictStepOffset;
 
@@ -1923,7 +1926,6 @@ void CG_StringMakeEscapeCharRAW(const char* in, char* out, int max);
 //
 // cg_playerstate.c
 //
-#define CG_HITSOUND_STACK_PERIOD 500
 void CG_Respawn(void);
 void CG_TransitionPlayerState(playerState_t* ps, playerState_t* ops);
 void CG_CheckChangedPredictableEvents(playerState_t* ps);
@@ -2314,6 +2316,7 @@ void CG_LocalEventCvarChanged_r_fullbright(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_swapSkins(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_enemyModel(cvarTable_t* cvart);
+void CG_LocalEventCvarChanged_cg_teamColors(cvarTable_t* cvart);
 void CG_LocalEventCvarChanged_cg_teamModel(cvarTable_t* cvart);
 
 void CG_LocalEventCvarChanged_handicap(cvarTable_t* cvart);

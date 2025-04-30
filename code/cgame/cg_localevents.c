@@ -171,6 +171,12 @@ void CG_LocalEventCvarChanged_cg_enemyModel(cvarTable_t* cvart)
 	CG_UpdateAllClientsInfo();
 }
 
+void CG_LocalEventCvarChanged_cg_teamColors(cvarTable_t* cvart)
+{
+	CG_RebuildPlayerColors();
+	CG_UpdateAllClientsInfo();
+}
+
 void CG_LocalEventCvarChanged_cg_teamModel(cvarTable_t* cvart)
 {
 	CG_RebuildPlayerColors();

@@ -107,7 +107,8 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 | Textalign | L/C/R          | Выравнивание текста лево/центр/право.                     |
 | Textstyle | flags          | Флаги текста. 1 - без тени.                               |
 | Time      | milliseconds   | Время отображения на экране.                              |
-| Style     | flags          | Стиль элемента - цифра
+| Style     | flags          | Стиль элемента - цифра                                    |
+| VisFlags  | string         | Изменить дефолтные настройки видимости                    |
 
 ## Пояснения к некоторым элементам
 
@@ -118,6 +119,21 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 ### Chat1 - Chat16
 
 Сообщение появляется сначала в Сhat1 и по мере поступления новых сообщений сдвигается в следующие элементы.
+
+### Font
+
+Доступные шрифты:
+
+- id
+- idblock
+- sansman
+- m1rage
+- elite_emoji
+- diablo
+- eternal
+- qlnumbers
+- elite
+- elitebigchars
 
 ### WeaponList 
 
@@ -131,3 +147,21 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 
 Только для здоровья и брони:
 - Style 1 - цвет зависит от хп, 2 - обе полосы в одном месте, цвет задаётся через color и color2,  
+
+### VisFlags 
+
+Варианты: 
+- im - видно в режиме intermission
+- teamonly - видно в только в командных режимах
+- spectator - видно в режиме спектатора
+- dead - видно если игрок мертв
+- demohide - скрывать в режиме просмотра демо
+- scoreshide - скрывать в режиме просмотра счета
+- key1show - скрывать если не нажата кнопка +shudkey1
+- key2show - скрывать если не нажата кнопка +shudkey2
+- key3show - скрывать если не нажата кнопка +shudkey3
+- key4show - скрывать если не нажата кнопка +shudkey4
+
+Можно указывать несколько вариантов через пробел:
+
+    visflags teamonly key1show;

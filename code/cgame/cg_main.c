@@ -177,6 +177,7 @@ vmCvar_t           cg_damageIndicatorOpaque;
 vmCvar_t           cg_damageKick;
 vmCvar_t           cg_deadBodyFilter;
 vmCvar_t           cg_deadBodyBlack;
+vmCvar_t           cg_deadBodyInvisible;
 vmCvar_t           cg_drawDecals;
 vmCvar_t           cg_drawPing;
 vmCvar_t           cg_enableOSPHUD;
@@ -184,6 +185,7 @@ vmCvar_t           cg_shud;
 vmCvar_t           cg_enableBreath;
 vmCvar_t           cg_enemyColors;
 vmCvar_t           cg_enemyModel;
+vmCvar_t           cg_teamColors;
 vmCvar_t           cg_teamModel;
 vmCvar_t           cg_execVstr;
 vmCvar_t           cg_fallKick;
@@ -363,6 +365,7 @@ vmCvar_t           cg_gunOpaque;
 vmCvar_t           cg_conObituaries;
 vmCvar_t           cg_lightningHitsoundRateFix;
 vmCvar_t           cg_stackHitSounds;
+vmCvar_t           cg_stackHitSoundsTimeout;
 vmCvar_t           cg_drawCenterMessages;
 vmCvar_t           cg_predictStepOffset;
 
@@ -480,6 +483,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_damageIndicatorOpaque, "cg_damageIndicatorOpaque", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_damageIndicatorOpaque},
 	{ &cg_damageKick, "cg_damageKick", "0", CVAR_ARCHIVE },
 	{ &cg_deadBodyFilter, "cg_deadBodyFilter", "0", CVAR_ARCHIVE },
+	{ &cg_deadBodyInvisible, "cg_deadBodyInvisible", "0", CVAR_ARCHIVE },
 	{ &cg_drawDecals, "cg_drawDecals", "1", CVAR_ARCHIVE | CVAR_LATCH },
 	{ &cg_drawPing, "cg_drawPing", "0", CVAR_ARCHIVE },
 	{ &cg_enableOSPHUD, "cg_enableOSPHUD", "1", CVAR_ARCHIVE },
@@ -487,6 +491,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_enableBreath, "cg_enableBreath", "1",  CVAR_ARCHIVE},
 	{ &cg_enemyColors, "cg_enemyColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyColors},
 	{ &cg_enemyModel, "cg_enemyModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_enemyModel},
+	{ &cg_teamColors, "cg_teamColors", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_teamColors},
 	{ &cg_teamModel, "cg_teamModel", "", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_teamModel},
 	{ &cg_execVstr, "cg_execVstr", "", CVAR_ARCHIVE },
 	{ &cg_fallKick, "cg_fallKick", "0", CVAR_ARCHIVE },
@@ -642,6 +647,7 @@ static cvarTable_t cvarTable[] =
 
 	{ &cg_lightningHitsoundRateFix, "cg_lightningHitsoundRateFix",      "1", CVAR_ARCHIVE },
 	{ &cg_stackHitSounds,           "cg_stackHitSounds",   "1", CVAR_ARCHIVE },
+	{ &cg_stackHitSoundsTimeout,    "cg_stackHitSoundsTimeout",   "500", CVAR_ARCHIVE },
 	{ &cg_drawCenterMessages, "cg_drawCenterMessages", "1", CVAR_ARCHIVE },
 	{ &cg_predictStepOffset, "cg_predictStepOffset", "1", CVAR_ARCHIVE },
 

@@ -195,7 +195,7 @@ typedef struct
 	} time;
 	struct
 	{
-		char value[MAX_QPATH];
+		int value;
 		qboolean isSet;
 	} visflags;
 	struct
@@ -253,12 +253,27 @@ typedef enum
 	SUPERHUD_CONFIG_LOST_ELEMENT_BODY,
 } superhudConfigParseStatus_t;
 
-
 #define SE_IM         0x00000001 // available in intermission view
+#define SE_IM_STR "im"
 #define SE_TEAM_ONLY  0x00000002 // team only
+#define SE_TEAM_ONLY_STR "teamonly" 
 #define SE_SPECT      0x00000004 // available in spectator and not folowing view
+#define SE_SPECT_STR      "spectator"
 #define SE_DEAD       0x00000008 // available if dead or freeze
+#define SE_DEAD_STR       "dead"
 #define SE_DEMO_HIDE  0x00000010 // hide when playing demo
+#define SE_DEMO_HIDE_STR  "demohide"
+#define SE_SCORES_HIDE  0x00000020 // hide when scores visible
+#define SE_SCORES_HIDE_STR  "scoreshide"
+
+#define SE_KEY1_SHOW  0x00000040 // show if key pressed
+#define SE_KEY1_SHOW_STR  "key1show"
+#define SE_KEY2_SHOW  0x00000080 // show if key pressed
+#define SE_KEY2_SHOW_STR  "key2show"
+#define SE_KEY3_SHOW  0x00000100 // show if key pressed
+#define SE_KEY3_SHOW_STR  "key3show"
+#define SE_KEY4_SHOW  0x00000200 // show if key pressed
+#define SE_KEY4_SHOW_STR  "key4show"
 
 typedef struct superHUDConfigElement_s
 {

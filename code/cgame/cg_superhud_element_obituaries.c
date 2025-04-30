@@ -81,6 +81,27 @@ void* CG_SHUDElementObituaries8Create(const superhudConfig_t* config)
 	return CG_SHUDElementObituariesCreate(config, 8);
 }
 
+static void CG_SHUDElementObituariesUpdatePosition(shudElementObituaries_t* element, superhudObituariesEntry_t* entry)
+{
+	CG_FontSelect(element->ctxAttacker.fontIndex); // update font metrics to make right calculation
+	entry->runtime.attackerWidth = CG_OSPDrawStringLenPix(entry->runtime.attackerName, element->config.fontsize.value[0], element->ctxAttacker.flags, entry->runtime.maxNameLenPix);
+	CG_FontSelect(element->ctxTarget.fontIndex);
+	entry->runtime.targetWidth = CG_OSPDrawStringLenPix(entry->runtime.targetName, element->config.fontsize.value[0], element->ctxTarget.flags, entry->runtime.maxNameLenPix);
+
+	if (element->config.alignH.value == SUPERHUD_ALIGNH_LEFT)
+	{
+		entry->runtime.baseX = element->config.rect.value[0];
+	}
+	else if (element->config.alignH.value == SUPERHUD_ALIGNH_RIGHT)
+	{
+		entry->runtime.baseX = element->config.rect.value[0] + element->config.rect.value[2] - (entry->runtime.attackerWidth + element->ctxMod.coord.named.w + entry->runtime.targetWidth + 2 * entry->runtime.spacing);
+	}
+	else // SUPERHUD_ALIGNH_CENTER
+	{
+		entry->runtime.baseX = element->config.rect.value[0] + (element->config.rect.value[2] / 2) - (element->ctxMod.coord.named.w / 2) - entry->runtime.attackerWidth;
+	}
+}
+
 static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* element, superhudObituariesEntry_t* entry)
 {
 	entry->runtime.maxVisibleChars = 13;
@@ -114,25 +135,6 @@ static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* e
 		Q_strncpyz(entry->runtime.targetName, cgs.clientinfo[entry->target].name, MAX_QPATH);
 	}
 
-
-	CG_FontSelect(element->ctxAttacker.fontIndex); // update font metrics to make right calculation
-	entry->runtime.attackerWidth = CG_OSPDrawStringLenPix(entry->runtime.attackerName, element->config.fontsize.value[0], element->ctxAttacker.flags, entry->runtime.maxNameLenPix);
-	CG_FontSelect(element->ctxTarget.fontIndex);
-	entry->runtime.targetWidth = CG_OSPDrawStringLenPix(entry->runtime.targetName, element->config.fontsize.value[0], element->ctxTarget.flags, entry->runtime.maxNameLenPix);
-
-	if (element->config.alignH.value == SUPERHUD_ALIGNH_LEFT)
-	{
-		entry->runtime.baseX = element->config.rect.value[0];
-	}
-	else if (element->config.alignH.value == SUPERHUD_ALIGNH_RIGHT)
-	{
-		entry->runtime.baseX = element->config.rect.value[0] + element->config.rect.value[2] - (entry->runtime.attackerWidth + element->ctxMod.coord.named.w + entry->runtime.targetWidth + 2 * entry->runtime.spacing);
-	}
-	else // SUPERHUD_ALIGNH_CENTER
-	{
-		entry->runtime.baseX = element->config.rect.value[0] + (element->config.rect.value[2] / 2) - (element->ctxMod.coord.named.w / 2) - entry->runtime.attackerWidth;
-	}
-
 	entry->runtime.isInitialized = qtrue;
 }
 
@@ -159,6 +161,8 @@ void CG_SHUDElementObituariesRoutine(void* context)
 	{
 		CG_SHUDElementObituariesInitializeRuntime(element, entry);
 	}
+
+	CG_SHUDElementObituariesUpdatePosition(element, entry);
 
 	currentX = entry->runtime.baseX;
 
