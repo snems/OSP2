@@ -1870,6 +1870,12 @@ void CG_DrawCrosshairNames(void)
 	}
 
 	color = CG_FadeColor(cg.crosshairClientTime, 1000);
+	if ( !color )
+	{
+		// no valid color, clear the crosshair client number
+		cg.crosshairClientNum = -1;
+		return;
+	}
 	name = cgs.clientinfo[ cg.crosshairClientNum ].name;
 	CG_DrawBigString(SCREEN_WIDTH / 2.0f, 170, name, 0.5f * color[3], DS_HCENTER | DS_SHADOW, 0);
 }
