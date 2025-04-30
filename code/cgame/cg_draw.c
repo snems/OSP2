@@ -1872,8 +1872,6 @@ void CG_DrawCrosshairNames(void)
 	color = CG_FadeColor(cg.crosshairClientTime, 1000);
 	if ( !color )
 	{
-		// no valid color, clear the crosshair client number
-		cg.crosshairClientNum = -1;
 		return;
 	}
 	name = cgs.clientinfo[ cg.crosshairClientNum ].name;
