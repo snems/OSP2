@@ -368,6 +368,8 @@ vmCvar_t           cg_stackHitSounds;
 vmCvar_t           cg_stackHitSoundsTimeout;
 vmCvar_t           cg_drawCenterMessages;
 vmCvar_t           cg_predictStepOffset;
+vmCvar_t           cg_noVoteBeep;
+
 
 static cvarTable_t cvarTable[] =
 {
@@ -650,6 +652,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_stackHitSoundsTimeout,    "cg_stackHitSoundsTimeout",   "500", CVAR_ARCHIVE },
 	{ &cg_drawCenterMessages, "cg_drawCenterMessages", "1", CVAR_ARCHIVE },
 	{ &cg_predictStepOffset, "cg_predictStepOffset", "1", CVAR_ARCHIVE },
+	{ &cg_noVoteBeep, "cg_noVoteBeep", "0", CVAR_ARCHIVE },
 
 };
 

@@ -1896,7 +1896,10 @@ static void CG_DrawVote(void)
 	if (cgs.voteModified)
 	{
 		cgs.voteModified = qfalse;
-		trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
+		if (!cg_noVoteBeep.integer)
+		{
+			trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
+		}
 	}
 
 	sec = (VOTE_TIME - (cg.time - cgs.voteTime)) / 1000;
