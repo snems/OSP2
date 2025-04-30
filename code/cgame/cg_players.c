@@ -695,7 +695,7 @@ static void CG_UpdateModelFromString(char *modelName, char *skinName, const char
 	else if (cgs.gametype >= GT_TEAM)
 	{
 		// in team games users able to set pm skin only
-		if (!nameSkin || !isPmSkin || !isFbSkin)
+		if (!nameSkin || (!isPmSkin && !isFbSkin))
 		{
 			if (team == TEAM_BLUE)
 			{
