@@ -6,11 +6,11 @@ typedef struct
 {
 	superhudConfig_t config;
 	superhudTextContext_t ctx;
-} shudElementStatusbarHealthCount;
+} shudElementStatusbarArmorCount;
 
 void* CG_SHUDElementSBACCreate(const superhudConfig_t* config)
 {
-	shudElementStatusbarHealthCount* element;
+	shudElementStatusbarArmorCount* element;
 
 	SHUD_ELEMENT_INIT(element, config);
 
@@ -36,7 +36,7 @@ void* CG_SHUDElementSBACCreate(const superhudConfig_t* config)
 
 void CG_SHUDElementSBACRoutine(void* context)
 {
-	shudElementStatusbarHealthCount* element = (shudElementStatusbarHealthCount*)context;
+	shudElementStatusbarArmorCount* element = (shudElementStatusbarArmorCount*)context;
 	int ap = cg.snap->ps.stats[STAT_ARMOR];
 
 	if (ap <= 0) return;
