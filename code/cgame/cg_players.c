@@ -447,6 +447,7 @@ static qboolean CG_RegisterClientModelname(clientInfo_t* ci, const char* modelNa
 		}
 	}
 
+
 	if (headName[0] == '*')
 	{
 		Com_sprintf(filename, sizeof(filename), "models/players/heads/%s/%s.md3", &headModelName[1], &headModelName[1]);
@@ -634,30 +635,91 @@ static void CG_LoadClientInfo(clientInfo_t* ci)
 
 static void CG_ForceNewClientInfo(clientInfo_t* old, clientInfo_t* new)
 {
-	Q_strncpyz(new->headSkinName, new->skinName, MAX_QPATH);
-	Q_strncpyz(new->headModelName, new->modelName, MAX_QPATH);
-
 	CG_LoadClientInfo(new);
 
 	new->infoValid = qtrue;
 	memcpy(old, new, sizeof(clientInfo_t));
 }
 
+
+static void CG_UpdateModelFromString(char *modelName, char *skinName, const char *resultModelString, qboolean isOurClient, team_t team)
+{
+	const char* nameModel;
+	const char* nameSkin = NULL;
+	qboolean isPmSkin = qfalse;
+	char* ptr;
+
+	char tmpStr[MAX_QPATH];
+	Q_strncpyz(tmpStr, resultModelString, MAX_QPATH);
+
+	nameModel = tmpStr;
+
+	ptr = strchr(tmpStr, '/');
+	if (ptr && ptr[1])
+	{
+		*ptr = 0;
+		nameSkin = ++ptr;
+	}
+
+	isPmSkin = (nameSkin && (Q_stricmp(nameSkin, "pm") == 0)) ? qtrue : qfalse;
+
+	if (isOurClient)
+	{
+		// our player only pm or default
+		if (qfalse && !isPmSkin)
+		{
+			nameSkin = "default";
+		}
+	}
+	else if (cgs.gametype >= GT_TEAM)
+	{
+		// in team games users able to set pm skin only
+		if (!nameSkin || !isPmSkin)
+		{
+			if (team == TEAM_BLUE)
+			{
+				nameSkin = cg_swapSkins.integer ? "red" : "blue";
+			}
+			else if (team == TEAM_RED)
+			{
+				nameSkin = cg_swapSkins.integer ? "blue" : "red";
+			}
+			else
+			{
+				nameSkin = "default";
+			}
+		}
+	}
+	else if (!isPmSkin)
+	{
+		nameSkin = "default";
+	}
+
+	Q_strncpyz(modelName, nameModel, MAX_QPATH);
+	Q_strncpyz(skinName, nameSkin ? nameSkin : "default", MAX_QPATH);
+}
+
 static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qboolean isTeamGame, const char* config, int clientNum)
 {
 	char modelName[MAX_QPATH];
+	char headModelName[MAX_QPATH];
 	const char* resultModelString = "keel/pm";
+	const char* resultHModelString = "keel/pm";
 	const char* cfgModelString = Info_ValueForKey(config, "model");
+	const char* cfgHModelString = Info_ValueForKey(config, "hmodel");
 
 	// сначала решим какую строку модели использовать
 	if (isOurClient)
 	{
 		trap_Cvar_VariableStringBuffer("model", modelName, sizeof(modelName));
 		resultModelString = modelName;
+		trap_Cvar_VariableStringBuffer("headmodel", headModelName, sizeof(headModelName));
+		resultHModelString = headModelName;
 	}
 	else
 	{
 		const char* forceModelString = cg_forceModel.integer ? cfgModelString : NULL;
+		const char* forceHModelString = cg_forceModel.integer ? cfgHModelString : NULL;
 		const char* enemyModelString = NULL;
 		const qboolean useOriginal = cg_spectOrigModel.integer && CG_IsFollowing() && cg.snap->ps.clientNum == clientNum;
 
@@ -673,18 +735,22 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 			if (useOriginal)
 			{
 				resultModelString = cfgModelString;
+				resultHModelString = cfgHModelString;
 			}
 			else if (enemyModelString)
 			{
 				resultModelString = enemyModelString;
+				resultHModelString = enemyModelString;
 			}
 			else if (forceModelString)
 			{
 				resultModelString = forceModelString;
+				resultHModelString = forceModelString;
 			}
 			else
 			{
 				resultModelString = cfgModelString;
+				resultHModelString = cfgHModelString;
 			}
 		}
 		else
@@ -700,18 +766,22 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 				if (useOriginal)
 				{
 					resultModelString = cfgModelString;
+					resultHModelString = cfgHModelString;
 				}
 				else if (teamModelString)
 				{
 					resultModelString = teamModelString;
+					resultHModelString = teamModelString;
 				}
 				else if (forceModelString)
 				{
 					resultModelString = forceModelString;
+					resultHModelString = forceModelString;
 				}
 				else
 				{
 					resultModelString = cfgModelString;
+					resultHModelString = cfgHModelString;
 				}
 			}
 			else
@@ -719,84 +789,29 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 				if (useOriginal)
 				{
 					resultModelString = cfgModelString;
+					resultHModelString = cfgHModelString;
 				}
 				else if (enemyModelString)
 				{
 					resultModelString = enemyModelString;
+					resultHModelString = enemyModelString;
 				}
 				else if (forceModelString)
 				{
 					resultModelString = forceModelString;
+					resultHModelString = forceModelString;
 				}
 				else
 				{
 					resultModelString = cfgModelString;
+					resultHModelString = cfgHModelString;
 				}
 			}
-
-
 		}
 	}
-	// разделим строку на название модели + скин и обновим clientInfo_t
-	{
-		const char* nameModel;
-		const char* nameSkin = NULL;
-		qboolean isPmSkin = qfalse;
-		char* ptr;
-
-		char tmpStr[MAX_QPATH];
-		Q_strncpyz(tmpStr, resultModelString, MAX_QPATH);
-
-		nameModel = tmpStr;
-
-		ptr = strchr(tmpStr, '/');
-		if (ptr && ptr[1])
-		{
-			*ptr = 0;
-			nameSkin = ++ptr;
-		}
-
-		isPmSkin = (nameSkin && (Q_stricmp(nameSkin, "pm") == 0)) ? qtrue : qfalse;
-		ci->isPmSkin = isPmSkin;
-
-		if (isOurClient)
-		{
-			// our player only pm or default
-			if (qfalse && !isPmSkin)
-			{
-				nameSkin = "default";
-			}
-		}
-		else if (isTeamGame)
-		{
-			// in team games users able to set pm skin only
-			if (!nameSkin || !isPmSkin)
-			{
-				if (ci->rt == TEAM_BLUE)
-				{
-					nameSkin = cg_swapSkins.integer ? "red" : "blue";
-				}
-				else if (ci->rt == TEAM_RED)
-				{
-					nameSkin = cg_swapSkins.integer ? "blue" : "red";
-				}
-				else
-				{
-					nameSkin = "default";
-				}
-			}
-		}
-		else
-		{
-			if (!isPmSkin)
-			{
-				nameSkin = "default";
-			}
-		}
-
-		Q_strncpyz(ci->modelName, nameModel, MAX_QPATH);
-		Q_strncpyz(ci->skinName, nameSkin ? nameSkin : "default", MAX_QPATH);
-	}
+	CG_UpdateModelFromString(&ci->modelName[0], &ci->skinName[0], resultModelString, isOurClient, ci->rt);
+	CG_UpdateModelFromString(&ci->headModelName[0], &ci->headSkinName[0], resultHModelString, isOurClient, ci->rt);
+	ci->isPmSkin = (Q_stricmp(ci->skinName, "pm") == 0) ? qtrue : qfalse;
 }
 
 /*
