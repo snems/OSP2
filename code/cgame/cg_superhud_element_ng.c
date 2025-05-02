@@ -33,6 +33,8 @@ void* CG_SHUDElementNGCreate(const superhudConfig_t* config)
 	element->tctx.flags |= DS_HCENTER;
 	element->tctx.text = "^1Connection Interrupted";
 
+	Vector4Set(element->tctx.color, 1.0f, 1.0f, 1.0f, 1.0f);
+
 	return element;
 }
 
@@ -161,13 +163,20 @@ void CG_SHUDElementNGRoutine(void* context)
 	{
 		int         cmdNum;
 		usercmd_t   cmd;
+		static int  delay = 0;
 
 		// draw the phone jack if we are completely past our buffers
 		cmdNum = trap_GetCurrentCmdNumber() - CMD_BACKUP + 1;
 		trap_GetUserCmd(cmdNum, &cmd);
 		if (cmd.serverTime <= cg.snap->ps.commandTime || cmd.serverTime > cg.time)    // special check for map_restart // bk 0102165 - FIXME
 		{
+			delay = cg.time;
 			return ;
+		}
+
+		if (delay + 500 > cg.time)
+		{
+			return;
 		}
 
 		// also add text in center of screen
@@ -179,7 +188,7 @@ void CG_SHUDElementNGRoutine(void* context)
 			return;
 		}
 
-		trap_R_DrawStretchPic(ax + aw - a, ay + ah - range, 1, range, 0, 0, 1, 1, trap_R_RegisterShader("gfx/2d/net.tga"));
+		trap_R_DrawStretchPic(ax, ay, aw, ah, 0, 0, 1, 1, trap_R_RegisterShader("gfx/2d/net.png"));
 	}
 }
 
