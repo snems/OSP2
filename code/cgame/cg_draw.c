@@ -2767,7 +2767,8 @@ void CG_OSPDrawCenterString(void)
 			buf[i] = 0;
 			to_print += i + 1;
 		}
-
+		
+		CG_FontSelect(0);
 		CG_OSPDrawString(SCREEN_WIDTH / 2.0f,
 		                 y,
 		                 buf,
