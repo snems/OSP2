@@ -428,7 +428,7 @@ void CG_GibPlayer(vec3_t playerOrigin)
 {
 	vec3_t  origin, velocity;
 
-	if (!com_blood.integer)
+	if (!com_blood.integer || !cg_gibs.integer)
 	{
 		return;
 	}
