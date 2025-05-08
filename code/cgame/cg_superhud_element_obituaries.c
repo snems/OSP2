@@ -105,7 +105,7 @@ static void CG_SHUDElementObituariesUpdatePosition(shudElementObituaries_t* elem
 static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* element, superhudObituariesEntry_t* entry)
 {
 	entry->runtime.maxVisibleChars = 13;
-	entry->runtime.spacing = element->config.rect.value[3] / 2.0f;
+	entry->runtime.spacing = element->config.rect.value[3] / 4.0f;
 
 	entry->runtime.maxNameLenPix = (element->config.rect.value[2] - (element->config.rect.value[3] + entry->runtime.spacing * 2)) / 2;
 
