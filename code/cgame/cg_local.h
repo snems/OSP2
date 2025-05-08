@@ -1566,6 +1566,7 @@ void CG_AddBufferedSound(sfxHandle_t sfx);
 
 void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoPlayback);
 float CG_DrawLagometer(float pos);
+void CG_SetCvarDescription(const char *name, const char *description);
 
 
 //

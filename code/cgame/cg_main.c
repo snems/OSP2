@@ -2005,3 +2005,44 @@ char* CG_OSPGetCvarName(vmCvar_t* cvar)
 	return NULL;
 }
 
+static void trap_Cvar_SetDescription_local(const char *name, const char *description)
+{
+	(void)name;
+	(void)description;
+}
+typedef void (setCvarDescription_t)(const char *name, const char *description);
+typedef qboolean (trap_GetValue_t)( char *value, int valueSize, const char *key );
+
+void CG_SetCvarDescription(const char *name, const char *description)
+{
+	static setCvarDescription_t* setDescription = NULL;
+
+	if (!setDescription)
+	{
+		int addr;
+		char  value[MAX_CVAR_VALUE_STRING];
+		trap_GetValue_t* trap_GetValue;
+
+		setDescription = trap_Cvar_SetDescription_local;
+		trap_Cvar_VariableStringBuffer( "//trap_GetValue", value, sizeof( value ) );
+
+		if ( value[0] ) {
+			addr = atoi(value);
+#ifdef Q3_VM
+			addr = ~addr; 
+#endif
+			trap_GetValue = (trap_GetValue_t*)(addr);
+			if ( trap_GetValue( value, sizeof( value ), "trap_Cvar_SetDescription_Q3E" ) ) 
+			{
+				addr = atoi(value);
+#ifdef Q3_VM
+			addr = ~addr; 
+#endif
+				setDescription = (setCvarDescription_t*)addr;
+			}
+		}
+	}
+
+	setDescription(name, description);
+}
+
