@@ -45,10 +45,10 @@ qboolean CG_SHUDLoadConfigPrivate(const char* filename)
 	superhudConfigParseCommand_t statusCommand;
 	char superhudFilename[MAX_QPATH];
 	int numberOfElements = 0;
+	int numberOfElementsCreated = 0;
 
+	/* loading config file */
 	Com_sprintf(superhudFilename, MAX_QPATH, "hud/%s.cfg", filename);
-
-	CG_Printf("^3SuperHUD: loading config file: %s\n", superhudFilename);
 
 	rc = trap_FS_FOpenFile(superhudFilename, &fileHandle, FS_READ);
 	if (rc < 0 || !fileHandle)
@@ -196,7 +196,6 @@ qboolean CG_SHUDLoadConfigPrivate(const char* filename)
 	}
 	while (!eof);
 
-	CG_Printf("^3SuperHUD: loaded %d counfigured element%s\n", numberOfElements, numberOfElements > 1 ? "s" : "");
 	if (numberOfElements == 0)
 	{
 		CG_Printf("^3SuperHUD: ignored empty config file\n");
@@ -204,9 +203,8 @@ qboolean CG_SHUDLoadConfigPrivate(const char* filename)
 	}
 	else
 	{
-		int numberOfElementsCreated = 0;
 
-		CG_Printf("^3SuperHUD: creating HUD routines... ");
+		/* creating HUD routines */
 		newElementLast = newElementsHead;
 
 		while (newElementLast)
@@ -224,10 +222,9 @@ qboolean CG_SHUDLoadConfigPrivate(const char* filename)
 			}
 			newElementLast = newElementLast->next;
 		}
-		CG_Printf("^3%d drawable element%s\n", numberOfElementsCreated, numberOfElementsCreated > 1 ? "s" : "");
 	}
 
-	CG_Printf("^3SuperHUD: sorting HUD routines... \n");
+	/* sorting HUD routines... */
 	{
 		superhudElement_t* prev;
 		superhudElement_t* current;
@@ -271,12 +268,12 @@ qboolean CG_SHUDLoadConfigPrivate(const char* filename)
 
 	}
 
-	CG_Printf("^3SuperHUD: installing new routines... ");
+
 
 	CG_SHUDRoutenesDestroy(elementsHead);
 	elementsHead = newElementsHead;
 
-	CG_Printf("^3OK\n");
+	CG_Printf("^3SuperHUD: loaded config file: %s: %d drawable element%s.\n", superhudFilename, numberOfElementsCreated, numberOfElementsCreated > 1 ? "s" : "");
 
 	CG_SHUDFileInfoTeardown(&finfo);
 	return qtrue;
