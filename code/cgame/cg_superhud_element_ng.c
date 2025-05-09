@@ -50,6 +50,10 @@ void CG_SHUDElementNGRoutine(void* context)
 	int     color = 0;
 	float   vscale;
 
+	if (cg.snap->ps.pm_type == PM_INTERMISSION) {
+        return;
+    }
+
 	ax = element->config.rect.value[0];
 	ay = element->config.rect.value[1];
 	aw = element->config.rect.value[2];
