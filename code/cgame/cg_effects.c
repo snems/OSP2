@@ -428,7 +428,7 @@ void CG_GibPlayer(vec3_t playerOrigin)
 {
 	vec3_t  origin, velocity;
 
-	if (!com_blood.integer)
+	if (!com_blood.integer || !cg_gibs.integer)
 	{
 		return;
 	}
@@ -444,12 +444,6 @@ void CG_GibPlayer(vec3_t playerOrigin)
 	else
 	{
 		CG_LaunchGib(origin, velocity, cgs.media.gibBrain);
-	}
-
-	// allow gibs to be turned off for speed
-	if (!cg_gibs.integer)
-	{
-		return;
 	}
 
 	VectorCopy(playerOrigin, origin);
