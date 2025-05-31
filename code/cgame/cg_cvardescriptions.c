@@ -5,10 +5,6 @@ typedef struct {
 
 static cvarDescriptionTable_t cvarDescriptionTable[] = {
     /*
-        -=Forced by engine. Can't add description=-
-    { "cg_autoAction", "Automatically performs actions at certain points in the game. ^2Bitmask^7\n1 - Automatically save stats to a local text file at the end of a match. Logs will be stored in: <osp_root>/stats/<date>/<logname>.txt\n  2 - Automatically takes an end-level screenshot\n  4 - Automatically records a match (requires a full warmup server - ^3g_warmup = 0)\n  8 - Dump your team's weapon stats\n  16 - Dump all players' weapon stats" },
-    { "cg_enemyModel", "Setting this will force all players on the enemy team to\n appear to have this model.\nYour teammates will retain their\nmodels unless you specify ^3g_forcemodel^7 1, which will force\nall of your teammates to your current model\n <modelname> (default = - disabled)" },
-    
         -=useless=-
     { "osp_print_issues", "^1Useless command" },
     { "osp_debug", "^1Useless command" },
@@ -36,6 +32,8 @@ static cvarDescriptionTable_t cvarDescriptionTable[] = {
     { "ch_weaponListFlash", "" },
 
     */
+    { "cg_autoAction", "Automatically performs actions at certain points in the game. Bitmask:\n1 - Save stats to a local text file at the end of a match.\n  2 - End-level screenshot\n  4 - Automatically records a match\n  8 - Team's weapon stats\n  16 - All players' weapon stats" },
+    { "cg_enemyModel", "Select model for enemies. Use ^2/pm^7 (e.g. Sarge/pm) models to apply enemy colors." },
     { "cg_autoswitch", "Automatically switches to the picked-up weapon. Set ^20^7 to disable autoswitching." },
     { "cg_drawGun", "First person view weapon appearence.\n  ^20^7 - hidden\n  ^21^7 - default\n  ^22^7 - no movement animation\n  ^23^7 - qlive style (use ^3cg_gunColor^7 and ^3cg_gunOpaque^7 to setup.)" },
     { "cg_zoomfov", "Field of view while zooming - degrees" },
