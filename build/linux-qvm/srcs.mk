@@ -45,6 +45,7 @@ CG_SRC = \
  cg_superhud_element_warmupinfo cg_superhud_element_gametype cg_superhud_element_location\
  l_crc \
  cg_chatfilter cg_crosshair\
+ cg_cvardescriptions\
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

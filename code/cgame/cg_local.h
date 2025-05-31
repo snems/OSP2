@@ -1943,6 +1943,11 @@ qboolean CG_CustomLocationsTeamChatCode(const char* str, vec3_t cloc, char** clo
 void CG_CustomLocationsAddEntry(vec3_t pos, const char* str);
 void CG_InitCTFLocations(void);
 const char* CG_GetCTFLocation(int loc);
+
+//
+// cg_cvardescriptions.c
+//
+void CG_RegisterCvarDescriptions(void);
 //===============================================
 
 //

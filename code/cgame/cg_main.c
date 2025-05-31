@@ -1648,6 +1648,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 	cgs.media.charsetPropB        = trap_R_RegisterShaderNoMip("menu/art/font2_prop.tga");
 
 	CG_RegisterCvars();
+	CG_RegisterCvarDescriptions();
 
 	//init variables
 	CG_CvarTouch("ch_crosshairColor");
