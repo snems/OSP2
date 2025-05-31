@@ -2268,19 +2268,35 @@ static float GetSymbolSize(char sym, qboolean proportional, float charWidth)
 	return charWidth;
 }
 
+static int CompiledStringSize(const text_command_t* cmd)
+{
+	int size = 0;
+	if (!cmd)
+	{
+		return 0;
+	}
+
+	for (size = 0; size < OSP_TEXT_CMD_MAX && cmd[size].type != OSP_TEXT_CMD_STOP; ++size);
+
+	return size;
+}
+
 static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboolean proportional, float toWidth)
 {
 	const font_metric_t* fm;
 	float           x_end;
 	float           ax = 0;
 	int i;
+	int size;
 	text_command_t* curr;
 	qboolean restricted = qfalse;
+
+	size = CompiledStringSize(cmd);
 
 	if (!cmd || toWidth == 0)
 		return 0;
 
-	for (i = 0; i < OSP_TEXT_CMD_MAX; ++i)
+	for (i = 0; i < size; ++i)
 	{
 		curr = &cmd[i];
 
@@ -2316,9 +2332,10 @@ static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboole
 		int replacedWithDots;
 		float three_dot_size = GetSymbolSize('.', proportional, charWidth) * 3;
 		float erased_size;
+		int erased_cmds;
 
 		/* first, erase characters is enough to insert "..." */
-		for (erased_size = 0; (i > 0) && (erased_size < three_dot_size); --i)
+		for (erased_size = 0, erased_cmds = 0; (i > 0) && (erased_size < three_dot_size || erased_cmds < 4); --i, ++erased_cmds)
 		{
 			curr = &cmd[i];
 			if (curr->type == OSP_TEXT_CMD_CHAR)
@@ -2328,9 +2345,10 @@ static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboole
 		}
 
 		/* second, insert "..." */
-		for (replacedWithDots = 0; (i < (OSP_TEXT_CMD_MAX - 1)) && (replacedWithDots < 3); ++i)
+		for (replacedWithDots = 0; (i < (size - 1)) && (replacedWithDots < 3); ++i)
 		{
 			curr = &cmd[i];
+			curr->type = OSP_TEXT_CMD_CHAR;
 			curr->value.character = '.';
 			++replacedWithDots;
 		}
