@@ -188,7 +188,7 @@ void CG_SHUDElementNGRoutine(void* context)
 			return;
 		}
 
-		trap_R_DrawStretchPic(ax, ay, aw, ah, 0, 0, 1, 1, trap_R_RegisterShader("gfx/2d/net.png"));
+		trap_R_DrawStretchPic(ax, ay, aw, ah, 0, 0, 1, 1, cgs.media.connectionShader);
 	}
 }
 
