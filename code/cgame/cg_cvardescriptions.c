@@ -1,3 +1,5 @@
+#include "cg_local.h"
+
 typedef struct {
     const char* cvarName;
     const char* description;
