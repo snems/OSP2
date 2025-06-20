@@ -45,6 +45,20 @@ int PASSFLOAT(float x)
 	return *(int*)&floatTemp;
 }
 
+#ifndef Q3_VM
+
+// Wrappers for native builds
+
+int     trap_CG_GetValue_Q3E(int cmd, char* value, int valueSize, const char* key) {
+    return syscall(cmd, value, valueSize, key);
+}
+
+int     trap_CG_SetDescription_Q3E(int cmd, const char* name, const char* description) {
+    return syscall(cmd, name, description);
+}
+
+#endif
+
 void    trap_Print(const char* fmt)
 {
 	syscall(CG_PRINT, fmt);

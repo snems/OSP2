@@ -2015,6 +2015,18 @@ static void trap_Cvar_SetDescription_local(const char *name, const char *descrip
 typedef void (setCvarDescription_t)(const char *name, const char *description);
 typedef qboolean (trap_GetValue_t)( char *value, int valueSize, const char *key );
 
+
+// [meta]:
+// I have splitted this func for VM and non-VM ( native code ), 'cause
+// under native build ( non-vm ) it causes segmentation fault. The
+// reason is `addr` var: it's used as function address, but function
+// address is valid only for VM build, so it crashes. Call through
+// syscall instead should handle it correctly.
+
+// The code differs too much to place it in one function.
+
+#ifdef Q3_VM
+
 void CG_SetCvarDescription(const char *name, const char *description)
 {
 	static setCvarDescription_t* setDescription = NULL;
@@ -2030,16 +2042,17 @@ void CG_SetCvarDescription(const char *name, const char *description)
 
 		if ( value[0] ) {
 			addr = atoi(value);
-#ifdef Q3_VM
-			addr = ~addr; 
-#endif
+
+			addr = ~addr;
+
 			trap_GetValue = (trap_GetValue_t*)(addr);
-			if ( trap_GetValue( value, sizeof( value ), "trap_Cvar_SetDescription_Q3E" ) ) 
+
+			if ( trap_GetValue( value, sizeof( value ), "trap_Cvar_SetDescription_Q3E" ) )
 			{
 				addr = atoi(value);
-#ifdef Q3_VM
-			addr = ~addr; 
-#endif
+
+				addr = ~addr;
+
 				setDescription = (setCvarDescription_t*)addr;
 			}
 		}
@@ -2048,3 +2061,35 @@ void CG_SetCvarDescription(const char *name, const char *description)
 	setDescription(name, description);
 }
 
+#else
+
+void CG_SetCvarDescription(const char *name, const char *description)
+{
+	static int setDescriptionFuncId = 0;
+
+	if (!setDescriptionFuncId)
+	{
+		int getValueFuncId;
+		char  value[MAX_CVAR_VALUE_STRING];
+
+		// -1 treats as dummy function
+		setDescriptionFuncId = -1;
+
+		trap_Cvar_VariableStringBuffer( "//trap_GetValue", value, sizeof( value ) );
+
+		if ( value[0] ) {
+			getValueFuncId = atoi(value);
+
+			if ( trap_CG_GetValue_Q3E( getValueFuncId, value, sizeof( value ), "trap_Cvar_SetDescription_Q3E" ) ) 
+			{
+				setDescriptionFuncId = atoi(value);
+			}
+		}
+	}
+
+	if (setDescriptionFuncId == -1) return;
+
+	trap_CG_SetDescription_Q3E((int)setDescriptionFuncId, name, description);
+}
+
+#endif
