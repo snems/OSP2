@@ -333,6 +333,9 @@ makedirs:
 
 CGOBJ_ = \
   $(B)/$(MOD)/cgame/cg_main.o \
+  $(B)/$(MOD)/cgame/cg_cvardescriptions.o \
+  $(B)/$(MOD)/cgame/cg_crosshair.o \
+  $(B)/$(MOD)/cgame/cg_chatfilter.o \
   $(B)/$(MOD)/cgame/cg_consolecmds.o \
   $(B)/$(MOD)/cgame/cg_customloc.o \
   $(B)/$(MOD)/cgame/cg_draw.o \
@@ -368,12 +371,15 @@ CGOBJ_ = \
   $(B)/$(MOD)/cgame/cg_superhud_element_fps.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_fragmessage.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_gametime.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_gametype.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_itempickup.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_itempickupicon.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_localtime.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_location.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_name.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_ng.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_ngp.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_obituaries.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_powerup.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_pred.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_rankmessage.o \
@@ -395,6 +401,7 @@ CGOBJ_ = \
   $(B)/$(MOD)/cgame/cg_superhud_element_team.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_teamcount.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_vmw.o \
+  $(B)/$(MOD)/cgame/cg_superhud_element_warmupinfo.o \
   $(B)/$(MOD)/cgame/cg_superhud_element_weaponlist.o \
   $(B)/$(MOD)/cgame/cg_superhud_private.o \
   $(B)/$(MOD)/cgame/cg_superhud_util.o \
@@ -404,6 +411,7 @@ CGOBJ_ = \
   $(B)/$(MOD)/game/bg_pmove.o \
   $(B)/$(MOD)/game/bg_slidemove.o \
   \
+  $(B)/$(MOD)/qcommon/l_crc.o \
   $(B)/$(MOD)/qcommon/common.o \
   $(B)/$(MOD)/qcommon/q_math.o \
   $(B)/$(MOD)/qcommon/q_shared.o 

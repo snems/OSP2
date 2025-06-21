@@ -1958,6 +1958,16 @@ void CG_RegisterCvarDescriptions(void);
 // print message on the local console
 void        trap_Print(const char* fmt);
 
+#ifndef Q3_VM
+
+// Special functions to call from native VM. Fixes segmentation fault in Q3E.
+
+// Use them as wrappers, pass acquired function address to `cmd` to make actual call.
+int     trap_CG_GetValue_Q3E(int cmd, char* value, int valueSize, const char* key);
+int     trap_CG_SetDescription_Q3E(int cmd, const char* name, const char* description);
+
+#endif
+
 // abort the game
 void        trap_Error(const char* fmt);
 

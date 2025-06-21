@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 static int (QDECL* syscall)(int arg, ...) = (int (QDECL*)(int, ...)) - 1;
 
 
+Q_EXPORT
 void dllEntry(int (QDECL*  syscallptr)(int arg, ...))
 {
 	syscall = syscallptr;
@@ -43,6 +44,20 @@ int PASSFLOAT(float x)
 	floatTemp = x;
 	return *(int*)&floatTemp;
 }
+
+#ifndef Q3_VM
+
+// Wrappers for native builds
+
+int     trap_CG_GetValue_Q3E(int cmd, char* value, int valueSize, const char* key) {
+    return syscall(cmd, value, valueSize, key);
+}
+
+int     trap_CG_SetDescription_Q3E(int cmd, const char* name, const char* description) {
+    return syscall(cmd, name, description);
+}
+
+#endif
 
 void    trap_Print(const char* fmt)
 {
