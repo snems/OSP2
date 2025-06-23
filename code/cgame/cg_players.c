@@ -2453,10 +2453,12 @@ void CG_Player(centity_t* cent)
 		}
 	}
 
-	if (cent->currentState.eFlags & EF_DEAD && cg_deadBodyInvisible.integer) {
-		legs.customShader = cgs.media.invisShader;
-		torso.customShader = cgs.media.invisShader;
-		head.customShader = cgs.media.invisShader;
+	if ((cent->currentState.eFlags & EF_DEAD) && cg_deadBodyInvisible.integer) {
+		if (cent->currentState.weapon == WP_NONE) { // show player model with weapon during intermission vote - don't make it invisible
+			legs.customShader = cgs.media.invisShader;
+			torso.customShader = cgs.media.invisShader;
+			head.customShader = cgs.media.invisShader;
+		}
 	}
 	//
 	// add the legs
