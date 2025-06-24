@@ -59,6 +59,12 @@ extern "C" {
 #pragma warning(disable : 4220)     // varargs matches remaining parameters
 #endif
 
+#if ((__GNUC__ >= 3) && (!__EMX__) && (!sun))
+#define Q_EXPORT __attribute__((visibility("default")))
+#else
+#define Q_EXPORT
+#endif
+
 /**********************************************************************
   VM Considerations
 
