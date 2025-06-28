@@ -2007,13 +2007,13 @@ char* CG_OSPGetCvarName(vmCvar_t* cvar)
 	return NULL;
 }
 
-static void trap_Cvar_SetDescription_local(const char *name, const char *description)
+static void trap_Cvar_SetDescription_local(const char* name, const char* description)
 {
 	(void)name;
 	(void)description;
 }
-typedef void (setCvarDescription_t)(const char *name, const char *description);
-typedef qboolean (trap_GetValue_t)( char *value, int valueSize, const char *key );
+typedef void (setCvarDescription_t)(const char* name, const char* description);
+typedef qboolean(trap_GetValue_t)(char* value, int valueSize, const char* key);
 
 
 // [meta]:
@@ -2027,7 +2027,7 @@ typedef qboolean (trap_GetValue_t)( char *value, int valueSize, const char *key 
 
 #ifdef Q3_VM
 
-void CG_SetCvarDescription(const char *name, const char *description)
+void CG_SetCvarDescription(const char* name, const char* description)
 {
 	static setCvarDescription_t* setDescription = NULL;
 
@@ -2038,16 +2038,17 @@ void CG_SetCvarDescription(const char *name, const char *description)
 		trap_GetValue_t* trap_GetValue;
 
 		setDescription = trap_Cvar_SetDescription_local;
-		trap_Cvar_VariableStringBuffer( "//trap_GetValue", value, sizeof( value ) );
+		trap_Cvar_VariableStringBuffer("//trap_GetValue", value, sizeof(value));
 
-		if ( value[0] ) {
+		if (value[0])
+		{
 			addr = atoi(value);
 
 			addr = ~addr;
 
 			trap_GetValue = (trap_GetValue_t*)(addr);
 
-			if ( trap_GetValue( value, sizeof( value ), "trap_Cvar_SetDescription_Q3E" ) )
+			if (trap_GetValue(value, sizeof(value), "trap_Cvar_SetDescription_Q3E"))
 			{
 				addr = atoi(value);
 
@@ -2063,7 +2064,7 @@ void CG_SetCvarDescription(const char *name, const char *description)
 
 #else
 
-void CG_SetCvarDescription(const char *name, const char *description)
+void CG_SetCvarDescription(const char* name, const char* description)
 {
 	static int setDescriptionFuncId = 0;
 
@@ -2075,12 +2076,13 @@ void CG_SetCvarDescription(const char *name, const char *description)
 		// -1 treats as dummy function
 		setDescriptionFuncId = -1;
 
-		trap_Cvar_VariableStringBuffer( "//trap_GetValue", value, sizeof( value ) );
+		trap_Cvar_VariableStringBuffer("//trap_GetValue", value, sizeof(value));
 
-		if ( value[0] ) {
+		if (value[0])
+		{
 			getValueFuncId = atoi(value);
 
-			if ( trap_CG_GetValue_Q3E( getValueFuncId, value, sizeof( value ), "trap_Cvar_SetDescription_Q3E" ) ) 
+			if (trap_CG_GetValue_Q3E(getValueFuncId, value, sizeof(value), "trap_Cvar_SetDescription_Q3E"))
 			{
 				setDescriptionFuncId = atoi(value);
 			}

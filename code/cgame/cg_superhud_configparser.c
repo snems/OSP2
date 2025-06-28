@@ -361,7 +361,7 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseTime(configFileInfo_
 static qboolean CG_SHUDConfigCommandParseVisFlagsVariant(configFileInfo_t* finfo, const char* token, int mask, int* flags)
 {
 	qboolean isFound = qfalse;
-	const char *str = finfo->last_line->line + finfo->pos;
+	const char* str = finfo->last_line->line + finfo->pos;
 	char c;
 
 	if (Q_stricmpn(str, token, strlen(token)) == 0)
@@ -398,16 +398,16 @@ static superhudConfigParseStatus_t CG_SHUDConfigCommandParseVisFlags(configFileI
 		}
 
 		if (CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_IM_STR, SE_IM, &flags) ||
-		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_TEAM_ONLY_STR, SE_TEAM_ONLY, &flags) ||
-		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_SPECT_STR, SE_SPECT, &flags) ||
-		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_DEAD_STR, SE_DEAD, &flags) ||
-		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_DEMO_HIDE_STR, SE_DEMO_HIDE, &flags) ||
-		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_SCORES_HIDE_STR, SE_SCORES_HIDE, &flags) ||
-		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY1_SHOW_STR, SE_KEY1_SHOW, &flags)||
-		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY2_SHOW_STR, SE_KEY2_SHOW, &flags)||
-		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY3_SHOW_STR, SE_KEY3_SHOW, &flags)||
-		    CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY4_SHOW_STR, SE_KEY4_SHOW, &flags)
-				)
+		        CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_TEAM_ONLY_STR, SE_TEAM_ONLY, &flags) ||
+		        CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_SPECT_STR, SE_SPECT, &flags) ||
+		        CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_DEAD_STR, SE_DEAD, &flags) ||
+		        CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_DEMO_HIDE_STR, SE_DEMO_HIDE, &flags) ||
+		        CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_SCORES_HIDE_STR, SE_SCORES_HIDE, &flags) ||
+		        CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY1_SHOW_STR, SE_KEY1_SHOW, &flags) ||
+		        CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY2_SHOW_STR, SE_KEY2_SHOW, &flags) ||
+		        CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY3_SHOW_STR, SE_KEY3_SHOW, &flags) ||
+		        CG_SHUDConfigCommandParseVisFlagsVariant(finfo, SE_KEY4_SHOW_STR, SE_KEY4_SHOW, &flags)
+		   )
 		{
 			++flagsFound;
 		}

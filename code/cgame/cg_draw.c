@@ -1870,7 +1870,7 @@ void CG_DrawCrosshairNames(void)
 	}
 
 	color = CG_FadeColor(cg.crosshairClientTime, 1000);
-	if ( !color )
+	if (!color)
 	{
 		return;
 	}
@@ -2767,7 +2767,7 @@ void CG_OSPDrawCenterString(void)
 			buf[i] = 0;
 			to_print += i + 1;
 		}
-		
+
 		CG_FontSelect(0);
 		CG_OSPDrawString(SCREEN_WIDTH / 2.0f,
 		                 y,

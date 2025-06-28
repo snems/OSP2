@@ -60,12 +60,15 @@ void* CG_SHUDElementScoreMAXCreate(const superhudConfig_t* config)
 
 static qboolean CG_SHUDScoresGetMax(int* scores)
 {
-	if (cgs.gametype == GT_CTF) {
-        *scores = cgs.capturelimit;
-    } else {
-        *scores = cgs.fraglimit;
-    }
-	
+	if (cgs.gametype == GT_CTF)
+	{
+		*scores = cgs.capturelimit;
+	}
+	else
+	{
+		*scores = cgs.fraglimit;
+	}
+
 	return *scores > 0;
 }
 

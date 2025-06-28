@@ -256,7 +256,7 @@ typedef enum
 #define SE_IM         0x00000001 // available in intermission view
 #define SE_IM_STR "im"
 #define SE_TEAM_ONLY  0x00000002 // team only
-#define SE_TEAM_ONLY_STR "teamonly" 
+#define SE_TEAM_ONLY_STR "teamonly"
 #define SE_SPECT      0x00000004 // available in spectator and not folowing view
 #define SE_SPECT_STR      "spectator"
 #define SE_DEAD       0x00000008 // available if dead or freeze

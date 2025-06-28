@@ -533,7 +533,7 @@ void CG_OSPPrintTime_f(void)
 }
 
 
-void CG_OSPModifDown (int layout) 
+void CG_OSPModifDown(int layout)
 {
 	if (!modifState[layout] && trap_Argc() >= 2 && atoi(CG_Argv(1)))
 	{
@@ -569,7 +569,7 @@ void CG_OSPModifDown (int layout)
 	}
 }
 
-void CG_OSPModifUp (int layout) 
+void CG_OSPModifUp(int layout)
 {
 	if (modifState[layout] && trap_Argc() >= 2 && atoi(CG_Argv(1)))
 	{

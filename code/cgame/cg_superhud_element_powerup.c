@@ -168,7 +168,7 @@ static void CG_SHUDElementPwUpdateState(struct superhudPowerupsCache_t* pw)
 		++pw->numberOfActive;
 	}
 
-  {
+	{
 		int hi = cg.snap->ps.stats[STAT_HOLDABLE_ITEM];
 		if (hi)
 		{
