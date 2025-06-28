@@ -56,7 +56,7 @@ static cvarDescriptionTable_t cvarDescriptionTable[] =
 	{ "cg_draw3dIcons", "Display 3D icons on the HUD. Set ^20^7 to disable." },
 	{ "cg_drawIcons", "Draw icons on the HUD. Set ^20^7 to disable." },
 	{ "cg_ammoCheck", "Disables the ability to switch to a weapon that doesn't have any ammo (^6?^7)" }, // not sure
-	{ "cg_drawAmmoWarning", "Show ammo warning indicator. Set ^20^7 to hide." },
+	{ "cg_drawAmmoWarning", "Show ammo warning indicator. Set ^20^7 to hide.\n  ^21^7 - new counting system\n  ^22^7 - old(default)" },
 	{ "cg_drawAttacker", "Display last attacker information. Set ^20^7 to hide." },
 	{ "cg_drawCrosshair", "Select crosshair\n  ^20^7 - none\n  ^21^7, ^22^7, ^23^7... - different crosshairs." },
 	{ "cg_drawCrosshairGauntlet", "Select crosshair for Gauntlet\n  ^20^7 - none\n  ^21^7, ^22^7, ^23^7... - different crosshairs." },
