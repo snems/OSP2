@@ -34,58 +34,145 @@ CG_CheckAmmo
 If the ammo has gone low enough to generate the warning, play a sound
 ==============
 */
+
+static int lowAmmoThresholds[WP_NUM_WEAPONS] =
+{
+	/* WP_NONE */            0,
+	/* WP_GAUNTLET */        0,
+	/* WP_MACHINEGUN */      30,
+	/* WP_SHOTGUN */         5,
+	/* WP_GRENADE_LAUNCHER */5,
+	/* WP_ROCKET_LAUNCHER */ 5,
+	/* WP_LIGHTNING */       30,
+	/* WP_RAILGUN */         5,
+	/* WP_PLASMAGUN */       30,
+	/* WP_BFG */             5,
+	/* WP_GRAPPLING_HOOK */  0
+};
+
 void CG_CheckAmmo(void)
 {
-	int     i;
-	int     total;
-	int     previous;
-	int     weapons;
+	int weapon;
+	int ammo;
+	int threshold;
+	int i;
+	int weapons;
+	int total;
+	int previous;
+	int currentWarning;
 
-	// see about how many seconds of ammo we have remaining
-	weapons = cg.snap->ps.stats[ STAT_WEAPONS ];
-	total = 0;
-	for (i = WP_MACHINEGUN ; i < WP_NUM_WEAPONS ; i++)
+	static int lowAmmoWarningPrev[WP_NUM_WEAPONS] = {0};
+	static int lastWeapon = WP_NONE;
+
+	static int prevWeaponState = WEAPON_READY;
+	static int prevAmmo = 0;
+
+	if (cg.snap->ps.weapon == WP_NONE || !cg_drawAmmoWarning.integer)
 	{
-		if (!(weapons & (1 << i)))
+		cg.lowAmmoWarning = 0;
+		prevWeaponState = WEAPON_READY;
+		prevAmmo = 0;
+		return;
+	}
+
+	// no ammo sounds when trying to shot without ammo
+	weapon = cg.snap->ps.weapon;
+	ammo = cg.snap->ps.ammo[weapon];
+	{
+		int currentWeaponState = cg.snap->ps.weaponstate;
+
+		if (currentWeaponState == WEAPON_FIRING && ammo == 0 &&
+		        !(prevWeaponState == WEAPON_FIRING && prevAmmo == 0))
 		{
-			continue;
+			trap_S_StartLocalSound(cgs.media.noAmmoSound, CHAN_LOCAL_SOUND);
 		}
-		switch (i)
+
+		prevWeaponState = currentWeaponState;
+		prevAmmo = ammo;
+	}
+
+	if (cg_drawAmmoWarning.integer == 1)
+	{
+		threshold = lowAmmoThresholds[weapon];
+		currentWarning = 0;
+
+		if (ammo == 0)
+			currentWarning = 2;
+		else if (threshold > 0 && ammo <= threshold)
+			currentWarning = 1;
+
+		cg.lowAmmoWarning = currentWarning;
+
+		if (currentWarning != lowAmmoWarningPrev[weapon] || (currentWarning != 0 && weapon != lastWeapon))
 		{
-			case WP_ROCKET_LAUNCHER:
-			case WP_GRENADE_LAUNCHER:
-			case WP_RAILGUN:
-			case WP_SHOTGUN:
-				total += cg.snap->ps.ammo[i] * 1000;
-				break;
-			default:
-				total += cg.snap->ps.ammo[i] * 200;
-				break;
+			if (currentWarning == 1)
+			{
+				trap_S_StartLocalSound(cgs.media.lowAmmoSound, CHAN_LOCAL_SOUND);
+			}
+			else if (currentWarning == 2)
+			{
+				trap_S_StartLocalSound(cgs.media.noAmmoSound, CHAN_LOCAL_SOUND);
+			}
 		}
-		if (total >= 5000)
+
+		lastWeapon = weapon;
+		lowAmmoWarningPrev[weapon] = currentWarning;
+
+		return;
+	}
+	// default osp
+	if (cg_drawAmmoWarning.integer == 2)
+	{
+		weapons = cg.snap->ps.stats[STAT_WEAPONS];
+		total = 0;
+
+		for (i = WP_MACHINEGUN; i < WP_NUM_WEAPONS; i++)
 		{
-			cg.lowAmmoWarning = 0;
-			return;
+			if (!(weapons & (1 << i)))
+			{
+				continue;
+			}
+			switch (i)
+			{
+				case WP_ROCKET_LAUNCHER:
+				case WP_GRENADE_LAUNCHER:
+				case WP_RAILGUN:
+				case WP_SHOTGUN:
+					total += cg.snap->ps.ammo[i] * 1000;
+					break;
+				default:
+					total += cg.snap->ps.ammo[i] * 200;
+					break;
+			}
+			if (total >= 5000)
+			{
+				cg.lowAmmoWarning = 0;
+				return;
+			}
 		}
+
+		previous = cg.lowAmmoWarning;
+
+		if (total == 0)
+		{
+			cg.lowAmmoWarning = 2;
+		}
+		else
+		{
+			cg.lowAmmoWarning = 1;
+		}
+
+		if (cg.lowAmmoWarning != previous)
+		{
+			trap_S_StartLocalSound(cgs.media.noAmmoSound, CHAN_LOCAL_SOUND);
+		}
+
+		return;
 	}
 
-	previous = cg.lowAmmoWarning;
-
-	if (total == 0)
-	{
-		cg.lowAmmoWarning = 2;
-	}
-	else
-	{
-		cg.lowAmmoWarning = 1;
-	}
-
-	// play a sound on transitions
-	if (cg.lowAmmoWarning != previous)
-	{
-		trap_S_StartLocalSound(cgs.media.noAmmoSound, CHAN_LOCAL_SOUND);
-	}
+	cg.lowAmmoWarning = 0;
 }
+
 
 /*
 ==============
