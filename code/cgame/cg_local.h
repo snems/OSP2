@@ -1503,6 +1503,8 @@ extern vmCvar_t           cg_stackHitSoundsTimeout;
 extern vmCvar_t           cg_drawCenterMessages;
 extern vmCvar_t           cg_predictStepOffset;
 extern vmCvar_t           cg_noVoteBeep;
+extern vmCvar_t           cg_itemFx;
+
 
 //
 // cg_main.c

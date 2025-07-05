@@ -269,6 +269,7 @@ static cvarDescriptionTable_t cvarDescriptionTable[] =
 	{ "cg_drawRewards", "Draw rewards (e.g. excellent, impressive etc). Set ^20^7 to disable." },
 	{ "cg_drawFriend", "Show marker above teammate. Set ^20^7 to hide." },
 	{ "cg_shadows", "Sets the shadow detail level.\n  0 - disabled\n  1 - enabled\n  2 - stencil buffered\n  3 - simple stencil buffered if ^3r_stencilbits^7 is not ^20^7" },
+	{ "cg_itemFx", "Changes how items are rendered in the world. Bitmask:\n  ^20^7 - static\n  ^21^7 - bounce\n  ^22^7 - rotating\n  ^24^7 - scale"},
 };
 
 
