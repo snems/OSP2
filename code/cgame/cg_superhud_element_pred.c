@@ -5,7 +5,8 @@
 typedef struct
 {
 	superhudConfig_t config;
-	superhudDrawContext_t ctx;
+	superhudDrawContext_t drawCtx;
+	superhudTextContext_t textCtx;
 } shudElementStatusbarDecorate;
 
 void* CG_SHUDElementDecorCreate(const superhudConfig_t* config)
@@ -14,15 +15,21 @@ void* CG_SHUDElementDecorCreate(const superhudConfig_t* config)
 
 	SHUD_ELEMENT_INIT(element, config);
 
-	CG_SHUDDrawMakeContext(&element->config, &element->ctx);
+	CG_SHUDDrawMakeContext(&element->config, &element->drawCtx);
 
 	if (config->image.isSet)
 	{
-		element->ctx.image = trap_R_RegisterShader(element->config.image.value);
-		if (!element->ctx.image)
+		element->drawCtx.image = trap_R_RegisterShader(config->image.value);
+		if (!element->drawCtx.image)
 		{
-			CG_Printf("^2Decorate image %s is not found\n", element->config.image.value);
+			CG_Printf("^2Decorate image %s is not found\n", config->image.value);
 		}
+	}
+
+	if (config->text.isSet)
+	{
+		CG_SHUDTextMakeContext(&element->config, &element->textCtx);
+		element->textCtx.text = config->text.value;
 	}
 
 	return element;
@@ -32,9 +39,16 @@ void CG_SHUDElementDecorRoutine(void* context)
 {
 	shudElementStatusbarDecorate* element = (shudElementStatusbarDecorate*)context;
 
-	if (!CG_SHUDFill(&element->config) && element->ctx.image)
+	if (!CG_SHUDFill(&element->config))
 	{
-		CG_SHUDDrawStretchPicCtx(&element->config, &element->ctx);
+		if (element->drawCtx.image)
+		{
+			CG_SHUDDrawStretchPicCtx(&element->config, &element->drawCtx);
+		}
+		if (element->textCtx.text)
+		{
+			CG_SHUDTextPrint(&element->config, &element->textCtx);
+		}
 	}
 }
 
