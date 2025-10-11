@@ -137,8 +137,14 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 
 ### WeaponList 
 
-Список оружия. Командой `Rect` указывается размер иконки одного оружия. Размер текстового поля определяется автоматически исходя из размера шрифта. 
-Для выбора типа списка (левый/правый/горизонтальный) используется команда `TextAlign`.
+### ObituaryN 
+
+Стили фона для командных режимов:
+
+- style 0 - без фона 
+- style 1 - фон в цвет команды
+- style 2 - фон в цвет команды только для врагов 
+- style 3 - фон в цвет enemy colors (legs)
 
 ### StatusBar_HealthBar StatusBar_ArmorBar StatusBar_AmmoBar
 

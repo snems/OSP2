@@ -686,6 +686,7 @@ typedef struct
 		qhandle_t iconShader;
 		vec4_t attackerColor;
 		vec4_t targetColor;
+		vec4_t enemyColor;
 		char attackerName[MAX_QPATH];
 		char targetName[MAX_QPATH];
 		int maxVisibleChars;

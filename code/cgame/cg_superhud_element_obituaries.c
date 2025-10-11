@@ -113,6 +113,9 @@ static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* e
 
 	CG_SHUDObituarySetTeamColor(entry->runtime.attackerColor, entry->attackerTeam);
 	CG_SHUDObituarySetTeamColor(entry->runtime.targetColor, entry->targetTeam);
+	CG_SHUDObituarySetTeamColor(entry->runtime.targetColor, entry->targetTeam);
+	Vector4Copy(cgs.osp.enemyColors.legs, entry->runtime.enemyColor);
+
 
 	if (element->config.bgcolor.isSet)
 	{
@@ -173,7 +176,32 @@ void CG_SHUDElementObituariesRoutine(void* context)
 
 		if ((entry->attackerTeam == TEAM_RED || entry->attackerTeam == TEAM_BLUE) && element->config.style.isSet && element->config.style.value)
 		{
-			Vector4Copy(entry->runtime.attackerColor, element->ctxAttacker.background);
+			if (element->config.style.value == 1 || cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR)
+			{
+				Vector4Copy(entry->runtime.attackerColor, element->ctxAttacker.background);
+			}
+			else if (element->config.style.value == 2)
+			{
+				if (cgs.clientinfo[cg.snap->ps.clientNum].team == entry->attackerTeam)
+				{
+					element->ctxAttacker.background[3] = 0;
+				}
+				else
+				{
+					Vector4Copy(entry->runtime.attackerColor, element->ctxAttacker.background);
+				}
+			}
+			else if (element->config.style.value == 3)
+			{
+				if (cgs.clientinfo[cg.snap->ps.clientNum].team == entry->attackerTeam)
+				{
+					element->ctxAttacker.background[3] = 0;
+				}
+				else
+				{
+					Vector4Copy(entry->runtime.enemyColor, element->ctxAttacker.background);
+				}
+			}
 		}
 		else
 		{
@@ -195,7 +223,32 @@ void CG_SHUDElementObituariesRoutine(void* context)
 	element->ctxTarget.coord.named.x = currentX;
 	if ((entry->targetTeam == TEAM_RED || entry->targetTeam == TEAM_BLUE) && element->config.style.isSet && element->config.style.value)
 	{
-		Vector4Copy(entry->runtime.targetColor, element->ctxTarget.background);
+		if (element->config.style.value == 1|| cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR)
+		{
+			Vector4Copy(entry->runtime.targetColor, element->ctxTarget.background);
+		}
+		else if (element->config.style.value == 2)
+		{
+			if (cgs.clientinfo[cg.snap->ps.clientNum].team == entry->targetTeam)
+			{
+				element->ctxTarget.background[3] = 0;
+			}
+			else
+			{
+				Vector4Copy(entry->runtime.targetColor, element->ctxTarget.background);
+			}
+		}
+		else if (element->config.style.value == 3)
+		{
+			if (cgs.clientinfo[cg.snap->ps.clientNum].team == entry->targetTeam)
+			{
+				element->ctxTarget.background[3] = 0;
+			}
+			else
+			{
+				Vector4Copy(entry->runtime.enemyColor, element->ctxTarget.background);
+			}
+		}
 	}
 	else
 	{
