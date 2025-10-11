@@ -436,7 +436,7 @@ void CG_OSPCredits_f(void)
 
 	strcpy(&string[0],   "    ^BSpecial thanks to:  ");
 	strcpy(&string[128], "    ^BQ3MSK.ru        http://q3msk.ru  ");
-	strcpy(&string[256], "    ^BMrX, Paragon, Zenx");
+	strcpy(&string[256], "    ^BMrX, Paragon, Zenx, Diwoc");
 	CG_OSPDrawLeftSlidingWindow(0.7f, 0.9f, 12.0f, 0.4f, 3, 128, 10, 10, string, 310.0f, colorWhite, colorRed);
 }
 
