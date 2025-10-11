@@ -202,6 +202,17 @@ void CG_SHUDElementObituariesRoutine(void* context)
 					Vector4Copy(entry->runtime.enemyColor, element->ctxAttacker.background);
 				}
 			}
+			else if (element->config.style.value == 4)
+			{
+				if (cgs.clientinfo[cg.snap->ps.clientNum].team == entry->attackerTeam)
+				{
+					Vector4Copy(entry->runtime.attackerColor, element->ctxAttacker.background);
+				}
+				else
+				{
+					element->ctxAttacker.background[3] = 0;
+				}
+			}
 		}
 		else
 		{
@@ -247,6 +258,17 @@ void CG_SHUDElementObituariesRoutine(void* context)
 			else
 			{
 				Vector4Copy(entry->runtime.enemyColor, element->ctxTarget.background);
+			}
+		}
+		else if (element->config.style.value == 4)
+		{
+			if (cgs.clientinfo[cg.snap->ps.clientNum].team == entry->targetTeam)
+			{
+				Vector4Copy(entry->runtime.targetColor, element->ctxTarget.background);
+			}
+			else
+			{
+				element->ctxTarget.background[3] = 0;
 			}
 		}
 	}

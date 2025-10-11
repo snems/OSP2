@@ -145,6 +145,7 @@ ELEMENT { ELEMENT_COMMAND VALUE; ELEMENT_COMMAND VALUE; }
 - style 1 - фон в цвет команды
 - style 2 - фон в цвет команды только для врагов 
 - style 3 - фон в цвет enemy colors (legs)
+- style 4 - фон в цвет команды для команды игрока
 
 ### StatusBar_HealthBar StatusBar_ArmorBar StatusBar_AmmoBar
 
