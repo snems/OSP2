@@ -361,13 +361,6 @@ void CG_SHUDEventFrag(const char* message)
 	}
 }
 
-static void CG_SHUDChatLineSave(const char* message, int line)
-{
-	char cvar_name[MAX_QPATH];
-	Com_sprintf(cvar_name, MAX_QPATH, "cg_shud_chatmsg%d", line);
-	trap_Cvar_Set(cvar_name, message);
-}
-
 void CG_SHUDEventChat(const char* message)
 {
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
@@ -375,9 +368,6 @@ void CG_SHUDEventChat(const char* message)
 
 	index = ctx->chat.index % SHUD_MAX_CHAT_LINES;
 	Q_strncpyz(ctx->chat.line[index].message, message, MAX_SAY_TEXT);
-
-	CG_SHUDChatLineSave(message, index);
-
 	ctx->chat.line[index].time = cg.time;
 	++ctx->chat.index;
 }
@@ -453,8 +443,6 @@ void CG_SHUDEventTeamChat(const char* message)
 	}
 
 	*p = 0;
-
-	CG_SHUDChatLineSave(ctx->chat.line[index].message, index);
 
 	ctx->chat.line[index].time = cg.time;
 	++ctx->chat.index;

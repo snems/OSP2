@@ -669,7 +669,6 @@ typedef struct
 {
 	char message[MAX_SAY_TEXT];
 	int time;
-	qboolean starting;
 } superhudChatEntry_t;
 
 typedef struct
