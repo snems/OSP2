@@ -1505,6 +1505,23 @@ extern vmCvar_t           cg_predictStepOffset;
 extern vmCvar_t           cg_noVoteBeep;
 extern vmCvar_t           cg_itemFx;
 
+extern vmCvar_t           cg_shud_chatmsg0;
+extern vmCvar_t           cg_shud_chatmsg1;
+extern vmCvar_t           cg_shud_chatmsg2;
+extern vmCvar_t           cg_shud_chatmsg3;
+extern vmCvar_t           cg_shud_chatmsg4;
+extern vmCvar_t           cg_shud_chatmsg5;
+extern vmCvar_t           cg_shud_chatmsg6;
+extern vmCvar_t           cg_shud_chatmsg7;
+extern vmCvar_t           cg_shud_chatmsg8;
+extern vmCvar_t           cg_shud_chatmsg9;
+extern vmCvar_t           cg_shud_chatmsg10;
+extern vmCvar_t           cg_shud_chatmsg11;
+extern vmCvar_t           cg_shud_chatmsg12;
+extern vmCvar_t           cg_shud_chatmsg13;
+extern vmCvar_t           cg_shud_chatmsg14;
+extern vmCvar_t           cg_shud_chatmsg15;
+
 
 //
 // cg_main.c

@@ -13,6 +13,9 @@ typedef struct
 static void* CG_SHUDElementChatCreate(const superhudConfig_t* config, int line)
 {
 	shudElementChat_t* element;
+	superhudChatEntry_t* entry;
+	char cvar_name[MAX_QPATH];
+	int index;
 
 	SHUD_ELEMENT_INIT(element, config);
 
@@ -20,6 +23,14 @@ static void* CG_SHUDElementChatCreate(const superhudConfig_t* config, int line)
 	element->index = line;
 	CG_SHUDTextMakeContext(&element->config, &element->ctx);
 	element->ctx.width = (int)config->rect.value[2];
+
+	index = ((element->gctx->chat.index - 1) - (element->index - 1)) % SHUD_MAX_CHAT_LINES;
+
+	entry = &element->gctx->chat.line[index];
+	entry->starting = qtrue;
+	
+	Com_sprintf(cvar_name, MAX_QPATH, "cg_shud_chatmsg%d", index);
+	trap_Cvar_VariableStringBuffer(cvar_name, entry->message, sizeof(entry->message));
 
 	return element;
 }
@@ -113,6 +124,12 @@ void CG_SHUDElementChatRoutine(void* context)
 	index = ((element->gctx->chat.index - 1) - (element->index - 1)) % SHUD_MAX_CHAT_LINES;
 
 	entry = &element->gctx->chat.line[index];
+
+	if (entry->starting && cg.time)
+	{
+		entry->starting = qfalse;
+		entry->time = cg.time;
+	}
 
 	if (entry->message[0] == 0)
 	{
