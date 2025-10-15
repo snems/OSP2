@@ -66,6 +66,7 @@ void CG_CheckAmmo(void)
 
 	static int prevWeaponState = WEAPON_READY;
 	static int prevAmmo = 0;
+	static int prevTotal = 0;
 
 	if (cg.snap->ps.weapon == WP_NONE || !cg_drawAmmoWarning.integer)
 	{
@@ -93,10 +94,12 @@ void CG_CheckAmmo(void)
 
 	if (cg_drawAmmoWarning.integer == 1)
 	{
-		threshold = lowAmmoThresholds[weapon];
-		currentWarning = 0;
-
-		if (ammo == 0)
+	threshold = lowAmmoThresholds[weapon];
+	if (ammo > prevAmmo) {
+		cg.lowAmmoWarning = 0;
+		lowAmmoWarningPrev[weapon] = 0;
+	}
+	currentWarning = 0;		if (ammo == 0)
 			currentWarning = 2;
 		else if (threshold > 0 && ammo <= threshold)
 			currentWarning = 1;
@@ -151,6 +154,7 @@ void CG_CheckAmmo(void)
 			}
 		}
 
+		if (total > prevTotal) cg.lowAmmoWarning = 0;
 		previous = cg.lowAmmoWarning;
 
 		if (total == 0)
@@ -167,6 +171,7 @@ void CG_CheckAmmo(void)
 			trap_S_StartLocalSound(cgs.media.noAmmoSound, CHAN_LOCAL_SOUND);
 		}
 
+		prevTotal = total;
 		return;
 	}
 
