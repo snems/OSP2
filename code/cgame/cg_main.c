@@ -372,6 +372,23 @@ vmCvar_t           cg_predictStepOffset;
 vmCvar_t           cg_noVoteBeep;
 vmCvar_t           cg_itemFx;
 
+vmCvar_t           cg_shud_chatindex;
+vmCvar_t           cg_shud_chatmsg0;
+vmCvar_t           cg_shud_chatmsg1;
+vmCvar_t           cg_shud_chatmsg2;
+vmCvar_t           cg_shud_chatmsg3;
+vmCvar_t           cg_shud_chatmsg4;
+vmCvar_t           cg_shud_chatmsg5;
+vmCvar_t           cg_shud_chatmsg6;
+vmCvar_t           cg_shud_chatmsg7;
+vmCvar_t           cg_shud_chatmsg8;
+vmCvar_t           cg_shud_chatmsg9;
+vmCvar_t           cg_shud_chatmsg10;
+vmCvar_t           cg_shud_chatmsg11;
+vmCvar_t           cg_shud_chatmsg12;
+vmCvar_t           cg_shud_chatmsg13;
+vmCvar_t           cg_shud_chatmsg14;
+vmCvar_t           cg_shud_chatmsg15;
 
 
 static cvarTable_t cvarTable[] =
@@ -657,7 +674,24 @@ static cvarTable_t cvarTable[] =
 	{ &cg_predictStepOffset, "cg_predictStepOffset", "1", CVAR_ARCHIVE },
 	{ &cg_noVoteBeep, "cg_noVoteBeep", "0", CVAR_ARCHIVE },
 	{ &cg_itemFx, "cg_itemFx", "7", CVAR_ARCHIVE },
-
+  
+  { &cg_shud_chatindex, "cg_shud_chatindex", "0",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg0, "cg_shud_chatmsg0", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg1, "cg_shud_chatmsg1", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg2, "cg_shud_chatmsg2", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg3, "cg_shud_chatmsg3", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg4, "cg_shud_chatmsg4", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg5, "cg_shud_chatmsg5", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg6, "cg_shud_chatmsg6", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg7, "cg_shud_chatmsg7", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg8, "cg_shud_chatmsg8", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg9, "cg_shud_chatmsg9", "",   CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg10, "cg_shud_chatmsg10", "", CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg11, "cg_shud_chatmsg11", "", CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg12, "cg_shud_chatmsg12", "", CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg13, "cg_shud_chatmsg13", "", CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg14, "cg_shud_chatmsg14", "", CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
+  { &cg_shud_chatmsg15, "cg_shud_chatmsg15", "", CVAR_INIT|CVAR_NORESTART|CVAR_TEMP|CVAR_NOTABCOMPLETE },
 };
 
 #define CG_VARS_HASH_SIZE 512

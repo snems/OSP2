@@ -283,6 +283,29 @@ error_exit:
 	CG_SHUDFileInfoTeardown(&finfo);
 	return qfalse;
 }
+/*
+ * Restore chat state.
+ */
+void CG_SHUDChatRestore(void)
+{
+  char cvar_name[MAX_QPATH];
+  char index_str[MAX_QPATH];
+  int i;
+  int index;
+	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
+
+  trap_Cvar_VariableStringBuffer("cg_shud_chatindex", index_str, sizeof(index_str));
+  ctx->chat.index = atoi(index_str);
+
+	for (i = 0; i < SHUD_MAX_CHAT_LINES; ++i)
+	{
+		index = (ctx->chat.index + i) % SHUD_MAX_CHAT_LINES;
+  	Com_sprintf(cvar_name, MAX_QPATH, "cg_shud_chatmsg%d", index);
+  	trap_Cvar_VariableStringBuffer(cvar_name, ctx->chat.line[index].message, sizeof(ctx->chat.line[index].message));
+	}
+  trap_Cvar_VariableStringBuffer("cg_shud_chatindex", index_str, sizeof(index_str));
+  ctx->chat.index = atoi(index_str);
+}
 
 /*
  * Load SuperHUD config
@@ -297,6 +320,10 @@ void CG_SHUDLoadConfig(void)
 			CG_Printf("^1SuperHUD: couldn't default config, going to disable SuperHUD\n", ch_file.string);
 			trap_Cvar_Set("cg_shud", "0");
 		}
+	}
+	else
+	{
+		CG_SHUDChatRestore();
 	}
 }
 
@@ -361,6 +388,19 @@ void CG_SHUDEventFrag(const char* message)
 	}
 }
 
+static void CG_SHUDChatLineSave(const char* message, int index)
+{
+	char cvar_name[MAX_QPATH];
+	Com_sprintf(cvar_name, MAX_QPATH, "cg_shud_chatmsg%d", index);
+	trap_Cvar_Set(cvar_name, message);
+}
+
+static void CG_SHUDChatIndexSave(int index)
+{
+	char cvar_name[MAX_QPATH];
+	trap_Cvar_Set("cg_shud_chatindex", va("%d", index));
+}
+
 void CG_SHUDEventChat(const char* message)
 {
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
@@ -368,8 +408,10 @@ void CG_SHUDEventChat(const char* message)
 
 	index = ctx->chat.index % SHUD_MAX_CHAT_LINES;
 	Q_strncpyz(ctx->chat.line[index].message, message, MAX_SAY_TEXT);
+	CG_SHUDChatLineSave(message, index);
 	ctx->chat.line[index].time = cg.time;
 	++ctx->chat.index;
+	CG_SHUDChatIndexSave(ctx->chat.index);
 }
 
 void CG_SHUDEventTeamChat(const char* message)
@@ -443,9 +485,12 @@ void CG_SHUDEventTeamChat(const char* message)
 	}
 
 	*p = 0;
+	CG_SHUDChatLineSave(ctx->chat.line[index].message, index);
 
 	ctx->chat.line[index].time = cg.time;
 	++ctx->chat.index;
+
+	CG_SHUDChatIndexSave(ctx->chat.index);
 }
 
 void CG_SHUDEventObituaries(int attacker, int target, int mod, qboolean unfrozen)
