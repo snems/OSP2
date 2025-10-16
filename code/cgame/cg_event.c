@@ -1039,7 +1039,7 @@ void CG_EntityEvent(centity_t* cent, vec3_t position)
 			cent->currentState.weapon = WP_RAILGUN;
 			// if the end was on a nomark surface, don't make an explosion
 			if (es->clientNum == cg.predictedPlayerState.clientNum &&
-			        (cg_delag.integer & 1 || cg_delag.integer & 4))
+			        (cg_delag.integer & 1 || cg_delag.integer & 4) && !cg.demoPlayback)
 			{
 				// do nothing, because it was already predicted
 				//Com_Printf("Ignoring rail trail event\n");

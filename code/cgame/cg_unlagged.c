@@ -44,7 +44,7 @@ void CG_PredictWeaponEffects(centity_t* cent)
 
 
 	// was it a rail attack?
-	if (ent->weapon == WP_RAILGUN && (cg_delag.integer & 1 || cg_delag.integer & 4))
+	if (ent->weapon == WP_RAILGUN && (cg_delag.integer & 1 || cg_delag.integer & 4) && !cg.demoPlayback)
 	{
 		vec3_t      muzzlePoint, forward, right, up;
 		trace_t trace;
