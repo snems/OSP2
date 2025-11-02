@@ -114,12 +114,6 @@ void CG_SHUDElementChatRoutine(void* context)
 
 	entry = &element->gctx->chat.line[index];
 
-	if (entry->started == qfalse && cg.time)
-	{
-		entry->started = qtrue;
-		entry->time = cg.time;
-	}
-
 	if (entry->message[0] == 0)
 	{
 		return;
