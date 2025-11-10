@@ -2202,7 +2202,7 @@ TEST_CASE("Test SuperHUD: parse VISFLAGS command", "[cgame][cg_superhud_configpa
 
     CHECK(comResult.item->parse(&info, &config) == SUPERHUD_CONFIG_OK);
     CHECK(config.visflags.isSet == qtrue);
-    CHECK(strncmp(config.visflags.value,"123",5) == 0);
+    CHECK(config.visflags.value == 123);
   }
 
   if (0){

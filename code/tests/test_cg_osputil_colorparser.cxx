@@ -79,8 +79,9 @@ TEST_CASE("Test Util: color parser, 12 bit ", "[cgame][CG_ParseColorStr]")
   CHECK(VectorCompare(colorBlack, result));
 
   //one char, blue
+  vec4_t blue = {0, 0, 1, 0};
   CHECK(CG_ParseColorStr("0xF", result) == qtrue);
-  CHECK(VectorCompare((vec4_t){0, 0, 1}, result));
+  CHECK(VectorCompare(blue, result));
   CHECK(CG_ParseColorStr("0XF", result) == qtrue);
   CHECK(VectorCompare(colorBlue, result));
   CHECK(CG_ParseColorStr("xF", result) == qtrue);
