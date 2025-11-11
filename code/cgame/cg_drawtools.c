@@ -567,7 +567,7 @@ text_command_t* CG_CompileText(const char* in)
 						VectorCopy(g_color_table[color_index], commands[i].value.color); //-V557
 						commands[i].type = OSP_TEXT_CMD_TEXT_COLOR;
 						++i;
-						top_color_was_set = qtrue;
+						//top_color_was_set = qtrue;
 					}
 					text += 2;
 					break;
@@ -2540,7 +2540,10 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	}
 
 
-	Vector4Copy(setColor, color);
+	if (setColor)
+	{
+		Vector4Copy(setColor, color);
+	}
 	trap_R_SetColor(color);
 	fade = 1.0f;
 
