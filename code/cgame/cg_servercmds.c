@@ -1030,6 +1030,103 @@ static void CG_InjectCustomLoc(char* str, int size)
 
 /*
 =================
+CG_OSPAstats
+
+Print topshots weapon or bottomshots weapon
+=================
+*/
+static void CG_OSPAstats(qboolean top)
+{
+	int a = 1;
+	int s = 0;
+	float average;
+	int number_of_entries;
+	int atts;
+	float acc;
+	int hits;
+	char* color_code;
+	int client_num;
+	int kills;
+	int deaths;
+	float level;
+	float treshold;
+
+	number_of_entries = atoi(CG_Argv(a++));
+	if (number_of_entries == 0)
+	{
+		return;
+	}
+
+	average = atoi(CG_Argv(a++));
+
+	CG_Printf("\n^3  Acc Hits/Atts Kills Deaths\n");
+	CG_Printf("----------------------------------------------------------\n");
+	for (s = 0; s < number_of_entries; ++s)
+	{
+		client_num = atoi(CG_Argv(a++));
+		atts = atoi(CG_Argv(a++));
+		hits = atoi(CG_Argv(a++));
+		kills = atoi(CG_Argv(a++));
+		deaths = atoi(CG_Argv(a++));
+
+		acc = atts > 0 ? (float)(100 * atts) / (float)hits : 0;
+		level = top ? acc : (float)average + 0.999f;
+		treshold = top ? average : acc;
+		color_code = level >= treshold ? "^3" : "^7";
+
+		CG_Printf(va("%s%5.1f ^5%4d/%-4d ^2%5d ^1%6d %s%s\n", color_code, acc, hits, atts, kills, deaths, color_code, cgs.clientinfo[client_num].name_clean));
+	}
+	CG_Printf("\n\n");
+}
+
+/*
+=================
+CG_OSPBstats
+
+Print topshots weapon or bottomshots weapon
+=================
+*/
+static void CG_OSPBstats(qboolean top)
+{
+	int a = 1;
+	int number_of_weapon;
+	int hits;
+	int atts;
+	int client_num;
+	int kills;
+	int deaths;
+	float acc;
+
+	number_of_weapon = atoi(CG_Argv(a++));
+	if (number_of_weapon == 0)
+	{
+		CG_Printf("\n^3No qualifying %sshot info available.\n\n", top ? "top" : "bottom");
+		return;
+	}
+
+	CG_Printf("\n^2%sst Match Accuracies:\n", top ? "Be" : "Wor");
+	CG_Printf("^3WP   Acc Hits/Atts Kills Deaths\n");
+	CG_Printf("-------------------------------------------------------------\n");
+
+	while (number_of_weapon)
+	{
+		client_num = atoi(CG_Argv(a++));
+		atts = atoi(CG_Argv(a++));
+		hits = atoi(CG_Argv(a++));
+		kills = atoi(CG_Argv(a++));
+		deaths = atoi(CG_Argv(a++));
+
+		acc = atts > 0 ? (float)(100 * atts) / (float)hits : 0;
+
+		CG_Printf(va("^3%s ^7%5.1f ^5%4d/%-4d ^2%5d ^1%6d ^7%s\n", weaponShortNames[number_of_weapon], acc, atts, hits, kills, deaths, cgs.clientinfo[client_num].name_clean));
+
+		number_of_weapon = atoi(CG_Argv(a++));
+	}
+	CG_Printf("\n\n");
+}
+
+/*
+=================
 CG_ServerCommand
 
 The string has been tokenized and can be retrieved with
@@ -1242,21 +1339,25 @@ void CG_ServerCommand(void)
 //astats
 	if (Q_stricmp(cmd, "astats") == 0)
 	{
+		CG_OSPAstats(qtrue);
 		return;
 	}
 //astatsb
 	if (Q_stricmp(cmd, "astatsb") == 0)
 	{
+		CG_OSPAstats(qfalse);
 		return;
 	}
 //bstats
 	if (Q_stricmp(cmd, "bstats") == 0)
 	{
+		CG_OSPBstats(qtrue);
 		return;
 	}
 //bstatsb
 	if (Q_stricmp(cmd, "bstatsb") == 0)
 	{
+		CG_OSPBstats(qfalse);
 		return;
 	}
 //clientLevelShot

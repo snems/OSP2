@@ -23,6 +23,7 @@ const struct crosshairColors_s crosshairColors[11] =
 };
 
 const char* weaponNames[10] = { "None", "Gauntlet", "MachineGun", "Shotgun", "G.Launcher", "R.Launcher", "LightningGun", "Railgun", "Plasmagun", "BFG" };
+const char* weaponShortNames[10] = { "", "GAUNTLET", "MG", "SG", "GL", "RL", "LG", "RG", "PG", "BFG" };
 
 // very unsafe
 void CG_OSPNormalizeText(char* src, int size, char* dst)

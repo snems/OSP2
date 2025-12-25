@@ -2198,6 +2198,7 @@ extern float modeShotgunKoeff;
 extern int wstatsWndId;
 extern qboolean wstatsEnabled;
 extern const char* weaponNames[10];
+extern const char* weaponShortNames[10];
 extern int global_viewlistFirstOption;
 extern int statsInfo[24];
 
