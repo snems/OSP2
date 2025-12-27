@@ -543,7 +543,7 @@ static cvarTable_t cvarTable[] =
 	{ &cg_swapSkins, "cg_swapSkins", "0", 0, CG_LocalEventCvarChanged_cg_swapSkins},
 	{ &cg_teamRails, "cg_teamRails", "0", CVAR_ARCHIVE },
 	{ &cg_trueLightning, "cg_trueLightning", "1.0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_trueLightning},
-	{ &cg_useScreenShotJPEG, "cg_useScreenShotJPEG", "0", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_useScreenShotJPEG},
+	{ &cg_useScreenShotJPEG, "cg_useScreenShotJPEG", "1", CVAR_ARCHIVE, CG_LocalEventCvarChanged_cg_useScreenShotJPEG},
 	{ &ch_3waveFont, "ch_3waveFont", "0", CVAR_ARCHIVE },
 	{ &ch_ColorLocations, "ch_ColorLocations", "1", CVAR_ARCHIVE },
 	{ &ch_CrosshairColor, "ch_crosshairColor", "White", CVAR_ARCHIVE, CG_LocalEventCvarChanged_ch_crosshairColor},

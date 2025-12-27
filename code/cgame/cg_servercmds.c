@@ -302,7 +302,7 @@ static void CG_ConfigStringModified(void)
 	}
 	else if (num == CS_VOTE_YES)
 	{
-		CG_OSPWStatsUp_f();                                                                                     /* Address : 0xf046 Type : Interium */
+		CG_OSPWStatsUp_f();
 		cgs.voteYes = atoi(str);
 		cgs.voteModified = qtrue;
 	}
@@ -553,11 +553,16 @@ static void CG_MapRestart(void)
 
 	cg.scoreFadeTime = 0;
 
-	CG_OSPWStatsUp_f();                                                             /* Address : 0xf5df Type : Interium */
+	CG_OSPWStatsUp_f();
 
 	CG_StartMusic();
 
 	trap_S_ClearLoopingSounds(qtrue);
+
+	if (cgs.osp.isOSPv1)
+	{
+		CG_OSPUpdateUserInfo(qtrue);
+	}
 
 	// we really should clear more parts of cg here and stop sounds
 
