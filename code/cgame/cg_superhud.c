@@ -288,23 +288,23 @@ error_exit:
  */
 void CG_SHUDChatRestore(void)
 {
-  char cvar_name[MAX_QPATH];
-  char index_str[MAX_QPATH];
-  int i;
-  int index;
+	char cvar_name[MAX_QPATH];
+	char index_str[MAX_QPATH];
+	int i;
+	int index;
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
 
-  trap_Cvar_VariableStringBuffer("cg_shud_chatindex", index_str, sizeof(index_str));
-  ctx->chat.index = atoi(index_str);
+	trap_Cvar_VariableStringBuffer("cg_shud_chatindex", index_str, sizeof(index_str));
+	ctx->chat.index = atoi(index_str);
 
 	for (i = 0; i < SHUD_MAX_CHAT_LINES; ++i)
 	{
 		index = (ctx->chat.index + i) % SHUD_MAX_CHAT_LINES;
-  	Com_sprintf(cvar_name, MAX_QPATH, "cg_shud_chatmsg%d", index);
-  	trap_Cvar_VariableStringBuffer(cvar_name, ctx->chat.line[index].message, sizeof(ctx->chat.line[index].message));
+		Com_sprintf(cvar_name, MAX_QPATH, "cg_shud_chatmsg%d", index);
+		trap_Cvar_VariableStringBuffer(cvar_name, ctx->chat.line[index].message, sizeof(ctx->chat.line[index].message));
 	}
-  trap_Cvar_VariableStringBuffer("cg_shud_chatindex", index_str, sizeof(index_str));
-  ctx->chat.index = atoi(index_str);
+	trap_Cvar_VariableStringBuffer("cg_shud_chatindex", index_str, sizeof(index_str));
+	ctx->chat.index = atoi(index_str);
 }
 
 /*
