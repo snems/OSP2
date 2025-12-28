@@ -25,10 +25,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Install dependencies
+      run: sudo apt install -y astyle
 
     - uses: actions/checkout@v4
       with:
         submodules: recursive
+
+    - name: check_format
+      working-directory: ./
+      run: ./format.sh --dry
 
     - name: build
       working-directory: build/linux-qvm

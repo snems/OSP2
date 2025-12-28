@@ -94,12 +94,14 @@ void CG_CheckAmmo(void)
 
 	if (cg_drawAmmoWarning.integer == 1)
 	{
-	threshold = lowAmmoThresholds[weapon];
-	if (ammo > prevAmmo) {
-		cg.lowAmmoWarning = 0;
-		lowAmmoWarningPrev[weapon] = 0;
-	}
-	currentWarning = 0;		if (ammo == 0)
+		threshold = lowAmmoThresholds[weapon];
+		if (ammo > prevAmmo)
+		{
+			cg.lowAmmoWarning = 0;
+			lowAmmoWarningPrev[weapon] = 0;
+		}
+		currentWarning = 0;
+		if (ammo == 0)
 			currentWarning = 2;
 		else if (threshold > 0 && ammo <= threshold)
 			currentWarning = 1;

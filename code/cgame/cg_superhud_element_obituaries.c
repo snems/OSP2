@@ -234,7 +234,7 @@ void CG_SHUDElementObituariesRoutine(void* context)
 	element->ctxTarget.coord.named.x = currentX;
 	if ((entry->targetTeam == TEAM_RED || entry->targetTeam == TEAM_BLUE) && element->config.style.isSet && element->config.style.value)
 	{
-		if (element->config.style.value == 1|| cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR)
+		if (element->config.style.value == 1 || cgs.clientinfo[cg.snap->ps.clientNum].team == TEAM_SPECTATOR)
 		{
 			Vector4Copy(entry->runtime.targetColor, element->ctxTarget.background);
 		}
