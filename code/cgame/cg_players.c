@@ -882,6 +882,42 @@ static void CG_PlayerXIDCalc(const char* cmd, clientInfo_t* ci)
 	ci->xidStr[4] = 0;
 }
 
+/*
+===================
+CG_IsOnlyTeamTaskChanged
+
+Check if only teamTask field changed in client info.
+Returns qtrue if only teamTask changed, qfalse otherwise.
+===================
+*/
+static qboolean CG_IsOnlyTeamTaskChanged(const clientInfo_t* ci, const clientInfo_t* newInfo)
+{
+	if (!ci->infoValid)
+	{
+		return qfalse;
+	}
+	
+	/* Compare all key fields except teamTask */
+	if (newInfo->xid == ci->xid &&
+	    Q_stricmp(newInfo->name_original, ci->name_original) == 0 &&
+	    newInfo->botSkill == ci->botSkill &&
+	    newInfo->handicap == ci->handicap &&
+	    newInfo->wins == ci->wins &&
+	    newInfo->losses == ci->losses &&
+	    newInfo->team == ci->team &&
+	    newInfo->rt == ci->rt)
+	{
+		/* All key fields match - check if teamTask actually changed */
+		if (newInfo->teamTask != ci->teamTask)
+		{
+			/* Only teamTask changed */
+			return qtrue;
+		}
+	}
+	
+	return qfalse;
+}
+
 void CG_NewClientInfo(int clientNum)
 {
 	clientInfo_t* ci;
@@ -1012,6 +1048,10 @@ void CG_NewClientInfo(int clientNum)
 		newInfo.rt = newInfo.team;
 	}
 
+	/* team task */
+	v = Info_ValueForKey(configstring, "tt");
+	newInfo.teamTask = atoi(v);
+
 	//st
 	v = Info_ValueForKey(configstring, "st");
 	if (v && v[0])
@@ -1026,6 +1066,15 @@ void CG_NewClientInfo(int clientNum)
 		{
 			newInfo.st = tmp & 7;
 		}
+	}
+
+	/* Check if only teamTask changed - if so, skip full reload */
+	if (CG_IsOnlyTeamTaskChanged(ci, &newInfo))
+	{
+		/* Only teamTask changed - update it without full reload */
+		ci->teamTask = newInfo.teamTask;
+		/* Don't reset team overlay, don't reload models, don't update other clients */
+		return;
 	}
 
 	CG_ClientInfoUpdateModel(&newInfo, isOurClient, isTeamGame, configstring, clientNum);
