@@ -882,6 +882,56 @@ static void CG_PlayerXIDCalc(const char* cmd, clientInfo_t* ci)
 	ci->xidStr[4] = 0;
 }
 
+/*
+===================
+CG_IsOnlyTeamTaskChanged
+
+Check if only teamTask field changed in client info.
+Returns qtrue if only teamTask changed, qfalse otherwise.
+===================
+*/
+static qboolean CG_IsOnlyTeamTaskChanged(const clientInfo_t* ci, const clientInfo_t* newInfo, const char* configstring)
+{
+	int clientNum;
+	const char* oldConfigstring;
+	char newCS[MAX_STRING_CHARS];
+	char oldCS[MAX_STRING_CHARS];
+
+	if (!ci->infoValid)
+	{
+		return qfalse;
+	}
+
+	/* Get old configstring */
+	clientNum = ci - cgs.clientinfo;
+	oldConfigstring = CG_ConfigString(clientNum + CS_PLAYERS);
+
+	if (!oldConfigstring || !oldConfigstring[0])
+	{
+		return qfalse;
+	}
+
+	/* Copy configstrings and remove "tt" field from both */
+	Q_strncpyz(newCS, configstring, sizeof(newCS));
+	Q_strncpyz(oldCS, oldConfigstring, sizeof(oldCS));
+
+	Info_RemoveKey(newCS, "tt");
+	Info_RemoveKey(oldCS, "tt");
+
+	/* Compare configstrings without "tt" field */
+	if (Q_stricmp(newCS, oldCS) == 0)
+	{
+		/* All fields except teamTask match - check if teamTask actually changed */
+		if (newInfo->teamTask != ci->teamTask)
+		{
+			/* Only teamTask changed */
+			return qtrue;
+		}
+	}
+
+	return qfalse;
+}
+
 void CG_NewClientInfo(int clientNum)
 {
 	clientInfo_t* ci;
@@ -1012,6 +1062,10 @@ void CG_NewClientInfo(int clientNum)
 		newInfo.rt = newInfo.team;
 	}
 
+	/* team task */
+	v = Info_ValueForKey(configstring, "tt");
+	newInfo.teamTask = atoi(v);
+
 	//st
 	v = Info_ValueForKey(configstring, "st");
 	if (v && v[0])
@@ -1026,6 +1080,15 @@ void CG_NewClientInfo(int clientNum)
 		{
 			newInfo.st = tmp & 7;
 		}
+	}
+
+	/* Check if only teamTask changed - if so, skip full reload */
+	if (CG_IsOnlyTeamTaskChanged(ci, &newInfo, configstring))
+	{
+		/* Only teamTask changed - update it without full reload */
+		ci->teamTask = newInfo.teamTask;
+		/* Don't reset team overlay, don't reload models, don't update other clients */
+		return;
 	}
 
 	CG_ClientInfoUpdateModel(&newInfo, isOurClient, isTeamGame, configstring, clientNum);
