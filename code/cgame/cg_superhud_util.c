@@ -12,9 +12,8 @@ typedef struct
 
 static void CG_SHUDConfigPickColor(const superhudConfig_t* config, float* color, qboolean alphaOverride)
 {
-	clientInfo_t* ci;
 	const superhudColor_t* in = &config->color.value;
-	const float* target;
+	const float* target = colorWhite;
 	team_t team;
 
 	if (!config->color.isSet)

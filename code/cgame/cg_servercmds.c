@@ -652,7 +652,6 @@ void CG_RemoveChatEscapeChar(char* text)
 void CG_StringMakeEscapeCharRAW(const char* in, char* out, int max)
 {
 	int i, l;
-	char command;
 	qboolean fix_color = qfalse;
 
 	l = 0;

@@ -16,8 +16,6 @@ static chatFilterTableNode_t* CG_ChatfilterFindName(const char* name)
 {
 	unsigned long hash;
 	chatFilterTableNode_t* target;
-	const char* splitter;
-	int len;
 	qboolean isNotFound = qfalse;
 
 	hash = Com_GenerateHashValue(name, CG_CHATFILTER_MAX);
@@ -62,7 +60,6 @@ void CG_ChatfilterDeleteName(const char* name)
 {
 	unsigned long hash;
 	chatFilterTableNode_t* target;
-	const char* splitter;
 	qboolean isNotFound = qfalse;
 
 	hash = Com_GenerateHashValue(name, CG_CHATFILTER_MAX);
@@ -136,13 +133,11 @@ void CG_ChatfilterAddName(const char* name)
 
 messageAllowed_t CG_ChatCheckMessageAllowed(const char* message)
 {
-	unsigned long hash;
 	const chatFilterTableNode_t* target;
 	const char* splitter;
 	const char* start = message;
 	char name[MAX_QPATH];
 	int len;
-	qboolean isNotFound = qfalse;
 
 	//check, is it tell command
 	if (start[0] == 25 && (start[1] == '(' || start[1] == '['))

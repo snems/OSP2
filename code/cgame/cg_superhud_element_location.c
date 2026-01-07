@@ -11,7 +11,6 @@ typedef struct
 void* CG_SHUDElementLocationCreate(const superhudConfig_t* config)
 {
 	shudElementLocation_t* element;
-	superhudGlobalContext_t* gctx;
 
 	SHUD_ELEMENT_INIT(element, config);
 
@@ -20,8 +19,6 @@ void* CG_SHUDElementLocationCreate(const superhudConfig_t* config)
 		element->config.time.isSet = qtrue;
 		element->config.time.value = 2000;
 	}
-
-	gctx = CG_SHUDGetContext();
 
 	CG_SHUDTextMakeContext(&element->config, &element->lastLocation);
 
