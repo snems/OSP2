@@ -2258,7 +2258,7 @@ float CG_OSPDrawStringLengthNew(const char* string, float ax, float aw, float ma
 static float GetSymbolSize(char sym, qboolean proportional, float charWidth)
 {
 	const font_metric_t* fm;
-	fm = &metrics[sym];
+	fm = &metrics[(unsigned char)sym];
 
 	if (proportional)
 	{
@@ -2362,7 +2362,6 @@ static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboole
 
 int CG_OSPDrawStringLenPix(const char* string, float charWidth, int flags, int toWidth)
 {
-	float           max_ax;
 	int rez;
 	text_command_t* text_commands;
 
@@ -2389,9 +2388,8 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 	const font_metric_t* fm;
 	const float*     tc; // texture coordinates for char
 	float           ax, ay, aw, aw1, ah; // absolute positions/dimensions
-	float           scale;
 	float           x_end, xx;
-	float                   fade = 1.0f;
+	float           fade = 1.0f;
 	vec4_t          color;
 	float           xx_add, yy_add;
 	int             i;

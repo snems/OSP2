@@ -745,7 +745,7 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 			else if (forceModelString)
 			{
 				resultModelString = forceModelString;
-				resultHModelString = forceModelString;
+				resultHModelString = forceHModelString;
 			}
 			else
 			{
@@ -776,7 +776,7 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 				else if (forceModelString)
 				{
 					resultModelString = forceModelString;
-					resultHModelString = forceModelString;
+					resultHModelString = forceHModelString;
 				}
 				else
 				{
@@ -799,7 +799,7 @@ static void CG_ClientInfoUpdateModel(clientInfo_t* ci, qboolean isOurClient, qbo
 				else if (forceModelString)
 				{
 					resultModelString = forceModelString;
-					resultHModelString = forceModelString;
+					resultHModelString = forceHModelString;
 				}
 				else
 				{
@@ -940,8 +940,6 @@ void CG_NewClientInfo(int clientNum)
 	const char*  v;
 	const qboolean isOurClient = clientNum == cg.clientNum;
 	const qboolean isTeamGame = cgs.gametype >= GT_TEAM;
-	qboolean forceAddXid = qfalse;
-
 
 	ci = &cgs.clientinfo[clientNum];
 

@@ -16,7 +16,6 @@ shudElementObituaries_t cg_obituaries;
 
 static qhandle_t CG_SHUDObituaryGetModIcon(int mod, qboolean unfrozen);
 static void CG_SHUDObituarySetTeamColor(vec4_t color, int team);
-static int CG_TruncateStringWithCodes(const char* input, char* output, int maxVisibleChars);
 
 static void* CG_SHUDElementObituariesCreate(const superhudConfig_t* config, int line)
 {
@@ -114,7 +113,7 @@ static void CG_SHUDElementObituariesInitializeRuntime(shudElementObituaries_t* e
 	CG_SHUDObituarySetTeamColor(entry->runtime.attackerColor, entry->attackerTeam);
 	CG_SHUDObituarySetTeamColor(entry->runtime.targetColor, entry->targetTeam);
 	CG_SHUDObituarySetTeamColor(entry->runtime.targetColor, entry->targetTeam);
-	Vector4Copy(cgs.osp.enemyColors.legs, entry->runtime.enemyColor);
+	VectorCopy(cgs.osp.enemyColors.legs, entry->runtime.enemyColor);
 
 
 	if (element->config.bgcolor.isSet)

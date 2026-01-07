@@ -1309,7 +1309,7 @@ static void CG_RegisterGraphics(void)
 		cgs.media.crosshairShader45[i] = trap_R_RegisterShader(va("gfx/2d/crosshair%i_r45", i));
 	}
 	// osp2 crosshairs
-	for (; i <= NUM_CROSSHAIRS ; i++)
+	for (; i < NUM_CROSSHAIRS ; i++)
 	{
 		cgs.media.crosshairShader[i] = trap_R_RegisterShader(va("gfx/2d/crosshair_%i",  i));
 		cgs.media.crosshairShader45[i] = trap_R_RegisterShaderNoMip(va("gfx/2d/crosshair_%i_r45",  i));
@@ -1318,7 +1318,7 @@ static void CG_RegisterGraphics(void)
 	cgs.media.numberOfCrosshairs = i;
 
 	// decors
-	for (i = 1; i <= NUM_DECORS ; i++)
+	for (i = 1; i < NUM_DECORS ; i++)
 	{
 		cgs.media.crosshairDecorShader[i] = trap_R_RegisterShader(va("gfx/2d/decor_%i",  i));
 		cgs.media.crosshairDecorShader45[i] = trap_R_RegisterShaderNoMip(va("gfx/2d/decor_%i_r45",  i));
@@ -2045,11 +2045,6 @@ char* CG_OSPGetCvarName(vmCvar_t* cvar)
 	return NULL;
 }
 
-static void trap_Cvar_SetDescription_local(const char* name, const char* description)
-{
-	(void)name;
-	(void)description;
-}
 typedef void (setCvarDescription_t)(const char* name, const char* description);
 typedef qboolean(trap_GetValue_t)(char* value, int valueSize, const char* key);
 
@@ -2064,6 +2059,12 @@ typedef qboolean(trap_GetValue_t)(char* value, int valueSize, const char* key);
 // The code differs too much to place it in one function.
 
 #ifdef Q3_VM
+
+static void trap_Cvar_SetDescription_local(const char* name, const char* description)
+{
+	(void)name;
+	(void)description;
+}
 
 void CG_SetCvarDescription(const char* name, const char* description)
 {

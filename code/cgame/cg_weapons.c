@@ -670,7 +670,7 @@ void CG_UpdateWeaponDlightColor(weapon_t weapon)
 		NULL,//WP_GRAPPLING_HOOK
 	};
 	const vmCvar_t* cvar;
-	vec3_t color;
+	vec4_t color;
 
 	if (weapon <= WP_NONE || weapon >= WP_NUM_WEAPONS || ((cvar = weaponCvars[weapon]) == NULL))
 	{
@@ -1758,7 +1758,7 @@ void CG_DrawWeaponSelect(void)
 	int     i;
 	int     bits;
 	int     count;
-	int     x, y, w;
+	int     x, y;
 	char*    name;
 	float*   color;
 

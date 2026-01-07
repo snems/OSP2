@@ -48,9 +48,29 @@ jobs:
         if-no-files-found: error
         retention-days: 5
 
+  linux-so:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: build
+      working-directory: build/linux
+      run: | 
+        make
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: so
+        path: build/linux/build/release-linux-x86_64/osp2/cgamex86_64.so
+        if-no-files-found: error
+        retention-days: 5
+
   create-latest:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    needs: [linux-qvm]
+    needs: [linux-qvm, linux-so]
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -66,6 +86,7 @@ jobs:
           title: Latest Build
           files: |
             qvm
+            so
 
 
 

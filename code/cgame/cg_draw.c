@@ -1588,7 +1588,6 @@ static float CG_DrawDisconnect(float pos)
 {
 	int         cmdNum;
 	usercmd_t   cmd;
-	const char*      s;
 
 	// draw the phone jack if we are completely past our buffers
 	cmdNum = trap_GetCurrentCmdNumber() - CMD_BACKUP + 1;
@@ -1798,7 +1797,6 @@ void CG_ScanForCrosshairEntity(void)
 	vec3_t      start, end;
 	int         content;
 	vec3_t      l;
-	int dist;
 
 	VectorCopy(cg.refdef.vieworg, start);
 	VectorMA(start, 131072, cg.refdef.viewaxis[0], end);
@@ -2026,7 +2024,6 @@ CG_DrawAmmoWarning
 void CG_DrawAmmoWarning(void)
 {
 	const char*  s;
-	int         w;
 
 	if (cg_drawAmmoWarning.integer == 0)
 	{
@@ -2046,7 +2043,6 @@ void CG_DrawAmmoWarning(void)
 	{
 		s = "LOW AMMO WARNING";
 	}
-	w = CG_DrawStrlen(s) * BIGCHAR_WIDTH;
 	CG_DrawBigString(SCREEN_WIDTH / 2.0f, 64, s, 1.0f, DS_HCENTER | DS_SHADOW, 0);
 }
 

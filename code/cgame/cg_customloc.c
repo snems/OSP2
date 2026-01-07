@@ -250,8 +250,6 @@ void CG_InitCTFLocations(void)
 {
 	int i;
 	const char* locStrCS;
-	char* locStr;
-	char tmp[5];
 
 	for (i = 0; i < MAX_LOCATIONS; ++i)
 	{

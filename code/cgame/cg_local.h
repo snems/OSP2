@@ -773,8 +773,8 @@ typedef struct
 	qhandle_t   tracerShader;
 	qhandle_t   crosshairShader[NUM_CROSSHAIRS];
 	qhandle_t   crosshairShader45[NUM_CROSSHAIRS];
-	qhandle_t   crosshairDecorShader[NUM_CROSSHAIRS];
-	qhandle_t   crosshairDecorShader45[NUM_CROSSHAIRS];
+	qhandle_t   crosshairDecorShader[NUM_DECORS];
+	qhandle_t   crosshairDecorShader45[NUM_DECORS];
 	int         numberOfCrosshairs;
 	int         numberOfCrosshairDecors;
 	qhandle_t   lagometerShader;
