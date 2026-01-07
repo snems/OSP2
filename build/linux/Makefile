@@ -24,7 +24,7 @@ endif
 -include Makefile.local
 
 ifndef MOD
-MOD=baseq3a
+MOD=osp2
 endif
 
 ifeq ($(COMPILE_PLATFORM),cygwin)
