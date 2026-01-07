@@ -118,7 +118,7 @@ ifeq ($(PLATFORM),linux)
     LIB=lib64
   endif
 
-  BASE_CFLAGS = -Wall -fno-strict-aliasing -Wimplicit -Wstrict-prototypes -pipe
+  BASE_CFLAGS = -Wall -Werror -fno-strict-aliasing -Wimplicit -Wstrict-prototypes -pipe
 
   OPTIMIZE = -O2 -fvisibility=hidden -fomit-frame-pointer -ffast-math
 
