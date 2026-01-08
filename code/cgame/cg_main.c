@@ -714,6 +714,10 @@ cvarTable_t* CG_GetCgCvarByName(const char* name)
 	{
 		target = target->next;
 	}
+	if (target == NULL)
+	{
+		return NULL;
+	}
 	return Q_stricmp(name, target->cvarName) == 0 ? target : NULL;
 }
 
@@ -870,6 +874,9 @@ void QDECL CG_Printf(const char* msg, ...)
 	trap_Print(text);
 }
 
+#ifdef __GNUC__
+__attribute__((noreturn))
+#endif
 void QDECL CG_Error(const char* msg, ...)
 {
 	va_list     argptr;
@@ -881,11 +888,17 @@ void QDECL CG_Error(const char* msg, ...)
 
 	CG_PrintLog(text);
 	trap_Error(text);
+#ifdef __GNUC__
+	while (1) {}
+#endif
 }
 
 #ifndef CGAME_HARD_LINKED
 // this is only here so the functions in q_shared.c and bg_*.c can link (FIXME)
 
+#ifdef __GNUC__
+__attribute__((noreturn))
+#endif
 void QDECL Com_Error(int level, const char* error, ...)
 {
 	va_list     argptr;

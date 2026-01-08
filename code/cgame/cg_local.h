@@ -1545,6 +1545,10 @@ const char* CG_ConfigString(int index);
 const char* CG_Argv(int arg);
 
 void QDECL CG_Printf(const char* msg, ...);
+
+#ifdef __GNUC__
+__attribute__((noreturn))
+#endif
 void QDECL CG_Error(const char* msg, ...);
 void CG_PrintLog(char* msg);
 

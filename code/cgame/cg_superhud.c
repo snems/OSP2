@@ -423,6 +423,11 @@ void CG_SHUDEventTeamChat(const char* message)
 	int index;
 	superhudGlobalContext_t* ctx = CG_SHUDGetContext();
 
+	if (message == NULL)
+	{
+		return;
+	}
+
 	if (customLocationsEnabled != 0)
 	{
 		char* cloc_begin, *cloc_end;
