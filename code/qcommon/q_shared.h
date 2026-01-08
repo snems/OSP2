@@ -593,7 +593,7 @@ extern  vec4_t      colorMdGrey;
 extern  vec4_t      colorDkGrey;
 
 #define Q_COLOR_ESCAPE  '^'
-#define Q_IsColorString(p)  ( p && *(p) == Q_COLOR_ESCAPE && *((p)+1) && *((p)+1) != Q_COLOR_ESCAPE )
+#define Q_IsColorString(p)  (*(p) == Q_COLOR_ESCAPE && *((p)+1) && *((p)+1) != Q_COLOR_ESCAPE )
 
 #define COLOR_BLACK     '0'
 #define COLOR_RED       '1'
@@ -996,6 +996,9 @@ qboolean Info_Validate(const char* s);
 void Info_NextPair(const char** s, char* key, char* value);
 
 // this is only here so the functions in q_shared.c and bg_*.c can link
+#ifdef __GNUC__
+    __attribute__ ((noreturn))
+#endif
 void    QDECL Com_Error(int level, const char* error, ...);
 void    QDECL Com_Printf(const char* msg, ...);
 

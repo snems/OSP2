@@ -2717,7 +2717,8 @@ static float CG_OSPHUDDrawScores(float y)
 		y -= fontScoresH + 8;
 		y1 = y;
 
-		fontStatusbarH = fontStatusbarW;
+		CG_OSPGetClientFontSize(&cf_Statusbar, &fontStatusbarW, &fontStatusbarH);
+
 		score = cg.snap->ps.persistant[PERS_SCORE];
 		spectator = (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR);
 

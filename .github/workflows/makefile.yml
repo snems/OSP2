@@ -26,15 +26,19 @@ jobs:
 
     steps:
     - name: Install dependencies
-      run: sudo apt install -y astyle
+      run: sudo apt install -y astyle cppcheck
 
     - uses: actions/checkout@v4
       with:
         submodules: recursive
 
-    - name: check_format
+    - name: format_check
       working-directory: ./
       run: ./format.sh --dry
+
+    - name: cpp_check
+      working-directory: ./
+      run: ./cpp_check.sh
 
     - name: build-qvm
       working-directory: build/qvm
@@ -62,6 +66,7 @@ jobs:
 
   mingw:
     name: MinGW GCC
+    needs: linux 
 
     runs-on: windows-2022
 

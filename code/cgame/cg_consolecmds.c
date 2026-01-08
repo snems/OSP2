@@ -354,11 +354,14 @@ void CG_OSPServerVersion_f(void)
 		Q_strncpyz(buf, ptr, 1024);
 		pos = buf;
 
-		while (pos != 0)
+		while (*pos != 0)
 		{
 			pack = pos;
 			pos = strchr(pos, ' ');
-			if (pos == NULL) return;
+			if (pos == NULL)
+			{
+				break;
+			}
 			*pos = 0;
 			CG_Printf("   ^7%s\n", pack);
 

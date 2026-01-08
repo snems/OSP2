@@ -62,9 +62,9 @@ void CG_OSPNormalizeText(char* src, int size, char* dst)
 int CG_OSPGetNormalizedStringSize(const char* str)
 {
 	int i = 0;
-	while (*str)
+	while (str && *str)
 	{
-		if (str && *str == '^' && *(str + 1) != 0 &&  *(str + 1) != '^')
+		if (*str == '^' && *(str + 1) != 0 &&  *(str + 1) != '^')
 		{
 			if (*(str + 1) == 'x' || *(str + 1) == 'X')
 			{

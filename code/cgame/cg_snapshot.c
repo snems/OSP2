@@ -166,7 +166,7 @@ static void CG_TransitionSnapshot(void)
 	CG_ExecuteNewServerCommands(cg.nextSnap->serverCommandSequence);
 
 	// clear the currentValid flag for all entities in the existing snapshot
-	for (i = 0 ; i < cg.snap->numEntities ; i++)
+	for (i = 0 ; i < cg.snap->numEntities ; ++i)
 	{
 		cent = &cg_entities[ cg.snap->entities[ i ].number ];
 		cent->currentValid = qfalse;
@@ -191,7 +191,6 @@ static void CG_TransitionSnapshot(void)
 	cg.nextSnap = NULL;
 
 	// check for playerstate transition events
-	if (oldFrame)
 	{
 		playerState_t*   ops, *ps;
 
@@ -256,7 +255,7 @@ static void CG_SetNextSnap(snapshot_t* snap)
 
 	// if the next frame is a teleport for the playerstate, we
 	// can't interpolate during demos
-	if (cg.snap && ((snap->ps.eFlags ^ cg.snap->ps.eFlags) & EF_TELEPORT_BIT))
+	if ((snap->ps.eFlags ^ cg.snap->ps.eFlags) & EF_TELEPORT_BIT)
 	{
 		cg.nextFrameTeleport = qtrue;
 	}
