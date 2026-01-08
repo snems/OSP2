@@ -45,15 +45,23 @@ Example config: OSP2.cfg inside mod.
 ## How to install
 
 - Install Quake3 and OSP mod v1.03
-- copy pack or library into `osp` folder
+- copy pk3 file (and so/dll library if you want) into `osp` folder
 
 ## How to build
 
-Only linux qvm, other builds are not supported yet.
+### Windows
 
-### Linux qvm
+Install [mingw](https://github.com/skeeto/w64devkit/releases) (just unzip and add bin folder to system PATH).
 
-   `cd build/linux-qvm`
+### pk3
+
+   `cd build/qvm`
+
+   `make` 
+
+### dll/so
+
+   `cd build/library`
 
    `make` 
 

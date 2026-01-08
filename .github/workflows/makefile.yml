@@ -21,7 +21,7 @@ on:
       - 'util/*'
 
 jobs:
-  linux-qvm:
+  linux:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,41 +36,65 @@ jobs:
       working-directory: ./
       run: ./format.sh --dry
 
-    - name: build
-      working-directory: build/linux-qvm
+    - name: build-qvm
+      working-directory: build/qvm
+      run: | 
+        make
+
+    - name: build-so
+      working-directory: build/library
       run: | 
         make
 
     - uses: actions/upload-artifact@v4
       with:
         name: qvm
-        path: build/linux-qvm/zz-osp-pak8.pk3
+        path: build/qvm/zz-osp-pak8.pk3
         if-no-files-found: error
         retention-days: 5
 
-  linux-so:
-    runs-on: ubuntu-latest
+    - uses: actions/upload-artifact@v4
+      with:
+        name: so
+        path: build/library/build/release-linux-x86_64/osp2/cgamex86_64.so
+        if-no-files-found: error
+        retention-days: 5
+
+  mingw:
+    name: MinGW GCC
+
+    runs-on: windows-2022
+
+    defaults:
+      run:
+        shell: bash
 
     steps:
+
     - uses: actions/checkout@v4
       with:
         submodules: recursive
 
-    - name: build
-      working-directory: build/linux
+    - name: build-qvm
+      working-directory: build/qvm
+      run: | 
+        make
+
+    - name: build-dll
+      working-directory: build/library
       run: | 
         make
 
     - uses: actions/upload-artifact@v4
       with:
-        name: so
-        path: build/linux/build/release-linux-x86_64/osp2/cgamex86_64.so
+        name: dll
+        path: build/library/build/release-mingw64-x86_64/osp2/cgamex86_64.dll
         if-no-files-found: error
         retention-days: 5
 
   create-latest:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    needs: [linux-qvm, linux-so]
+    needs: [linux, mingw]
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -87,6 +111,7 @@ jobs:
           files: |
             qvm
             so
+            dll
 
 
 

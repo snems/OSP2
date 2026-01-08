@@ -1,6 +1,4 @@
 #
-# edawn Makefile
-#
 # GNU Make required
 #
 
@@ -40,6 +38,9 @@ ifeq ($(PLATFORM),mingw32)
   MINGW=1
 endif
 ifeq ($(PLATFORM),mingw64)
+  MINGW=1
+endif
+ifeq ($(PLATFORM),windows)
   MINGW=1
 endif
 
