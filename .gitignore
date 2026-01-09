@@ -3,3 +3,6 @@ build/qvm/vm/
 build/qvm/zz-osp-pak8.pk3
 build/library/build/
 build/tests/build/
+osp/
+osp2_linux.tar.gz
+osp2_windows.zip
