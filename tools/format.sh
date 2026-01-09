@@ -12,7 +12,7 @@ declare -a FORMAT_PATHS=( \
 )
 DRY_RUN=0
 
-ASTYLE="astyle --formatted --errors-to-stdout --options=./astyle.conf"
+ASTYLE="astyle --formatted --errors-to-stdout --options=./tools/astyle.conf"
 
 if [[ $1 = "--dry" ]]; then
   ASTYLE=$ASTYLE" --dry-run"
