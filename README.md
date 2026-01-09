@@ -44,14 +44,16 @@ Example config: OSP2.cfg inside mod.
 
 ## How to install
 
-Unpack zip or tar.gz into your quake3 directory.
+- Install Quake3 and OSP mod v1.03
+- Unpack zip or tar.gz into your Quake3 directory.
 
 ## How to build
 
-Run 'make' from root directory.
+### Linux
+
+Run 'make' from OSP2 directory.
 
 ### Windows
 
-Install [mingw](https://github.com/skeeto/w64devkit/releases) (just unzip and add bin folder to system PATH).
-
+Install [mingw](https://github.com/skeeto/w64devkit/releases) (just unzip and add bin folder to system PATH) and run 'make' from OSP2 directory.
 
