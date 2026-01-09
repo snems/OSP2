@@ -38,30 +38,20 @@ Telegram [chat](https://t.me/q3_osp2).
 
 ## New commands
 
-See [docs/commands.md](docs/commands.md)
+See [docs/osp2-q3-ClientReadme.md](docs/osp2-q3-ClientReadme.md)
 
 Example config: OSP2.cfg inside mod.
 
 ## How to install
 
-- Install Quake3 and OSP mod v1.03
-- copy pk3 file (and so/dll library if you want) into `osp` folder
+Unpack zip or tar.gz into your quake3 directory.
 
 ## How to build
+
+Run 'make' from root directory.
 
 ### Windows
 
 Install [mingw](https://github.com/skeeto/w64devkit/releases) (just unzip and add bin folder to system PATH).
 
-### pk3
-
-   `cd build/qvm`
-
-   `make` 
-
-### dll/so
-
-   `cd build/library`
-
-   `make` 
 
