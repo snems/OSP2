@@ -34,40 +34,24 @@ jobs:
 
     - name: format_check
       working-directory: ./
-      run: ./format.sh --dry
+      run: ./tools/format.sh --dry
 
     - name: cpp_check
       working-directory: ./
-      run: ./cpp_check.sh
+      run: make cppcheck
 
     - name: unit_tests
-      working-directory: build/tests
-      run: | 
-        cmake -S . -B build
-        cmake --build build
-        ./build/osp2_tests
+      working-directory: ./
+      run: make tests
 
-    - name: build-qvm
-      working-directory: build/qvm
-      run: | 
-        make
-
-    - name: build-so
-      working-directory: build/library
-      run: | 
-        make
+    - name: release
+      working-directory: ./
+      run: make
 
     - uses: actions/upload-artifact@v4
       with:
-        name: qvm
-        path: build/qvm/zz-osp-pak8.pk3
-        if-no-files-found: error
-        retention-days: 5
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: so
-        path: build/library/build/release-linux-x86_64/osp2/cgamex86_64.so
+        name: osp2_linux
+        path: osp2_linux.tar.gz
         if-no-files-found: error
         retention-days: 5
 
@@ -87,20 +71,15 @@ jobs:
       with:
         submodules: recursive
 
-    - name: build-qvm
-      working-directory: build/qvm
-      run: | 
-        make
-
-    - name: build-dll
-      working-directory: build/library
+    - name: release
+      working-directory: ./
       run: | 
         make
 
     - uses: actions/upload-artifact@v4
       with:
-        name: dll
-        path: build/library/build/release-mingw64-x86_64/osp2/cgamex86_64.dll
+        name: osp2_windows
+        path: osp2_windows.zip
         if-no-files-found: error
         retention-days: 5
 
@@ -121,9 +100,8 @@ jobs:
           prerelease: false
           title: Latest Build
           files: |
-            qvm
-            so
-            dll
+            osp2_windows
+            osp2_linux
 
 
 

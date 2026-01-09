@@ -41,7 +41,7 @@ endif
 ifdef WINDOWS
 	LIB_CLIENT_FILE=cgamex86_64.dll
 	RELEASE_FILE=osp2_windows.zip
-	LIB_BUILD_CLIENT_DIR=$(LIB_BUILD_DIR)/release-windows-x86_64/osp2
+	LIB_BUILD_CLIENT_DIR=$(LIB_BUILD_DIR)/release-$(PLATFORM)-x86_64/osp2
 	MAKE_RELEASE_ARCHIVE=$(PK3_ROOT_DIR)/tools/7za.exe u $(RELEASE_FILE) $(MOD_ROOT_DIR)
 endif
 
