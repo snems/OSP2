@@ -59,7 +59,7 @@ static superHUDConfigElement_t superHUDConfigItemElements[] =
 	{ "multiview", 0, },
 	{ "name_nme", 0, CG_SHUDElementNameNMECreate, CG_SHUDElementNameRoutine, CG_SHUDElementNameDestroy  },
 	{ "name_own", 0, CG_SHUDElementNameOWNCreate, CG_SHUDElementNameRoutine, CG_SHUDElementNameDestroy  },
-	{ "netgraph", SE_IM | SE_SPECT | SE_DEAD | SE_DEMO_HIDE, CG_SHUDElementNGCreate, CG_SHUDElementNGRoutine, CG_SHUDElementNGDestroy },
+	{ "netgraph", SE_SPECT | SE_DEAD | SE_DEMO_HIDE, CG_SHUDElementNGCreate, CG_SHUDElementNGRoutine, CG_SHUDElementNGDestroy },
 	{ "netgraphping", SE_IM | SE_SPECT | SE_DEAD | SE_DEMO_HIDE, CG_SHUDElementNGPCreate, CG_SHUDElementNGPRoutine, CG_SHUDElementNGPDestroy },
 	{ "playerspeed", 0, CG_SHUDElementPlayerSpeedCreate, CG_SHUDElementPlayerSpeedRoutine, CG_SHUDElementPlayerSpeedDestroy },
 	{ "powerup1_icon", 0, CG_SHUDElementPwIcon1Create, CG_SHUDElementPwRoutine, CG_SHUDElementPwDestroy },
