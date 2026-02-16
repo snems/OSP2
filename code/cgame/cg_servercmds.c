@@ -187,8 +187,16 @@ void CG_SetConfigValues(void)
 {
 	const char* s;
 
-	cgs.scores1 = atoi(CG_ConfigString(CS_SCORES1));
-	cgs.scores2 = atoi(CG_ConfigString(CS_SCORES2));
+	s = CG_ConfigString(CS_SCORES1);
+	cgs.scores1 = atoi(s);
+	cgs.osp.osp_teamcount1 = -1;
+	Q_sscanf(s, "%i %i", &cgs.scores1, &cgs.osp.osp_teamcount1);
+
+	s = CG_ConfigString(CS_SCORES2);
+	cgs.scores2 = atoi(s);
+	cgs.osp.osp_teamcount2 = -1;
+	Q_sscanf(s, "%i %i", &cgs.scores2, &cgs.osp.osp_teamcount2);
+
 	cgs.levelStartTime = atoi(CG_ConfigString(CS_LEVEL_START_TIME));
 	if (cgs.gametype == GT_CTF)
 	{
