@@ -46,6 +46,7 @@ CG_SRC = \
  l_crc \
  cg_chatfilter cg_crosshair\
  cg_cvardescriptions\
+ cg_emoji\
 
 UI_SRC = \
  ui_main $(UIDIR)/ui_syscalls.asm \

@@ -1635,6 +1635,7 @@ typedef enum
 	OSP_TEXT_CMD_FADE,
 	OSP_TEXT_CMD_TEXT_COLOR,
 	OSP_TEXT_CMD_SHADOW_COLOR,
+	OSP_TEXT_CMD_SHADER,
 } text_command_type_t;
 
 typedef struct
@@ -1645,10 +1646,11 @@ typedef struct
 		char character;
 		float fade;
 		vec4_t color;
+		qhandle_t shader;
 	} value;
 } text_command_t;
 
-text_command_t* CG_CompileText(const char* text);
+text_command_t* CG_CompileText(const char* text, int flags);
 void CG_CompiledTextDestroy(text_command_t* root);
 
 // flags for CG_DrawString
@@ -1663,6 +1665,7 @@ enum
 	DS_HRIGHT       = 0x10,// horizontal right
 	DS_VTOP         = 0x20,// vertical top
 	DS_VCENTER      = 0x40,// vertical center
+	DS_EMOJI        = 0x80,// allow emoji
 };
 void CG_DrawString(float x, float y, const char* string, const vec4_t setColor, float charWidth, float charHeight, int maxChars, int flags);
 
@@ -1832,7 +1835,20 @@ void CG_PositionEntityOnTag(refEntity_t* entity, const refEntity_t* parent,
 void CG_PositionRotatedEntityOnTag(refEntity_t* entity, const refEntity_t* parent,
                                    qhandle_t parentModel, char* tagName);
 
+//
+// cg_emoji.c
+//
+//
+#define EMOJI_CHAR ':'
+typedef struct
+{
+	int len;
+	char name[MAX_NAME_LENGTH];
+	qhandle_t shader;
+} emoji_t;
 
+void CG_OSPLoadEmoji(void);
+const emoji_t* CG_OSPGetEmoji(const char* name);
 
 //
 // cg_weapons.c

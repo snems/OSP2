@@ -426,7 +426,7 @@ void CG_OSPDrawStringPrepare(const char* from, char* to, int size)
 }
 
 
-text_command_t* CG_CompileText(const char* in)
+text_command_t* CG_CompileText(const char* in, int flags)
 {
 	int b;
 	text_command_t* commands;
@@ -560,6 +560,7 @@ text_command_t* CG_CompileText(const char* in)
 					++i;
 					text += 8;
 					break;
+
 				default:
 					if ((text[1] >= '0') && (text[1] <= '9'))
 					{
@@ -571,6 +572,25 @@ text_command_t* CG_CompileText(const char* in)
 					}
 					text += 2;
 					break;
+			}
+		}
+		else if (flags & DS_EMOJI && text[0] == EMOJI_CHAR)
+		{
+			const emoji_t* emoji = CG_OSPGetEmoji(text);
+			if (emoji)
+			{
+
+				commands[i].type = OSP_TEXT_CMD_SHADER;
+				commands[i].value.shader = emoji->shader;
+				++i;
+				text += emoji->len;
+			}
+			else
+			{
+				commands[i].type = OSP_TEXT_CMD_CHAR;
+				commands[i].value.character = EMOJI_CHAR;
+				++i;
+				++text;
 			}
 		}
 		else
@@ -1008,9 +1028,9 @@ static float DrawCompiledStringLength(const text_command_t* cmd, float aw, int p
 
 		if (curr->type == OSP_TEXT_CMD_CHAR)
 		{
-			fm = &metrics[(unsigned char)curr->value.character ];
 			if (proportional)
 			{
+				fm = &metrics[(unsigned char)curr->value.character ];
 				ax += fm->space1 * aw;          // add extra space if required by metrics
 				x_end = ax + fm->space2 * aw;   // final position
 			}
@@ -1023,6 +1043,13 @@ static float DrawCompiledStringLength(const text_command_t* cmd, float aw, int p
 				break;
 
 			ax = x_end;
+		}
+		else if (curr->type == OSP_TEXT_CMD_SHADER)
+		{
+			x_end = ax + aw;
+
+			if (x_end >= cgs.glconfig.vidWidth)
+				break;
 		}
 		else if (curr->type == OSP_TEXT_CMD_STOP)
 		{
@@ -2302,9 +2329,9 @@ static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboole
 
 		if (curr->type == OSP_TEXT_CMD_CHAR)
 		{
-			fm = &metrics[(unsigned char)curr->value.character ];
 			if (proportional)
 			{
+				fm = &metrics[(unsigned char)curr->value.character ];
 				ax += fm->space1 * charWidth;          // add extra space if required by metrics
 				x_end = ax + fm->space2 * charWidth;   // final position
 			}
@@ -2314,14 +2341,19 @@ static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboole
 			}
 
 			ax = x_end;
-			if (ax >= toWidth)
-			{
-				restricted = qtrue;
-				break;
-			}
+		}
+		else if (curr->type == OSP_TEXT_CMD_SHADER)
+		{
+			ax += charWidth;
 		}
 		else if (curr->type == OSP_TEXT_CMD_STOP)
 		{
+			break;
+		}
+
+		if (ax >= toWidth)
+		{
+			restricted = qtrue;
 			break;
 		}
 	}
@@ -2342,6 +2374,11 @@ static float RestrictCompiledString(text_command_t* cmd, float charWidth, qboole
 			{
 				erased_size += GetSymbolSize(curr->value.character, proportional, charWidth);
 			}
+			else if (curr->type == OSP_TEXT_CMD_SHADER)
+			{
+				erased_size += charWidth;
+			}
+
 		}
 
 		/* second, insert "..." */
@@ -2370,7 +2407,7 @@ int CG_OSPDrawStringLenPix(const char* string, float charWidth, int flags, int t
 		return 0;
 	}
 
-	text_commands = CG_CompileText(string);
+	text_commands = CG_CompileText(string, flags);
 	if (!text_commands)
 	{
 		return 0;
@@ -2403,7 +2440,7 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		return;
 
 
-	text_commands = CG_CompileText(string);
+	text_commands = CG_CompileText(string, flags);
 	if (!text_commands)
 	{
 		return;
@@ -2486,6 +2523,13 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 			curr = &text_commands[i];
 			switch (curr->type)
 			{
+				case OSP_TEXT_CMD_SHADER:
+					// use height for width to make it square
+					aw1 = ah;
+					x_end = ax + ah;
+					trap_R_DrawStretchPic(ax + xx_add, ay + yy_add, aw1, ah, 0, 0, 1, 1, curr->value.shader);
+					ax = x_end;
+					break;
 				case OSP_TEXT_CMD_CHAR:
 					fm = &metrics[(unsigned char)curr->value.character ];
 					if (proportional)
@@ -2550,6 +2594,24 @@ void CG_OSPDrawString(float x, float y, const char* string, const vec4_t setColo
 		curr = &text_commands[i];
 		switch (curr->type)
 		{
+			case OSP_TEXT_CMD_SHADER:
+				// use height for width to make it square
+				aw1 = ah;
+				x_end = ax + ah;
+				if (ax >= cgs.glconfig.vidWidth)
+				{
+					break;
+				}
+				{
+					vec4_t tmp_color;
+					Vector4Copy(colorWhite, tmp_color);
+					tmp_color[3] = color[3];
+					trap_R_SetColor(tmp_color);
+				}
+				trap_R_DrawStretchPic(ax, ay, aw1, ah, 0, 0, 1, 1, curr->value.shader);
+				trap_R_SetColor(color);
+				ax = x_end;
+				break;
 			case OSP_TEXT_CMD_CHAR:
 			{
 				//avoid compiler bug

@@ -344,6 +344,7 @@ CGOBJ_ = \
   $(B)/$(MOD)/cgame/cg_effects.o \
   $(B)/$(MOD)/cgame/cg_ents.o \
   $(B)/$(MOD)/cgame/cg_event.o \
+  $(B)/$(MOD)/cgame/cg_emoji.o \
   $(B)/$(MOD)/cgame/cg_info.o \
   $(B)/$(MOD)/cgame/cg_localents.o \
   $(B)/$(MOD)/cgame/cg_localevents.o \
