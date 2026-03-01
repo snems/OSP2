@@ -52,11 +52,11 @@ TEST_CASE("Prepare string", "[cgame][cg_drawtools.c]")
 TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
 {
   Com_InitZoneMemory();
-  CHECK(CG_CompileText(NULL) == NULL);
-  CHECK(CG_CompileText("") == NULL);
+  CHECK(CG_CompileText(NULL, 0) == NULL);
+  CHECK(CG_CompileText("", 0) == NULL);
 
   {
-    text_command_t *commands = CG_CompileText("text");
+    text_command_t *commands = CG_CompileText("text", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);
@@ -77,7 +77,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
   }
 
   {
-    text_command_t *commands = CG_CompileText("te^fxt");
+    text_command_t *commands = CG_CompileText("te^fxt", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);
@@ -99,7 +99,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
 
   {
     cg.time = 1023;
-    text_command_t *commands = CG_CompileText("te^Fxt");
+    text_command_t *commands = CG_CompileText("te^Fxt", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);
@@ -120,7 +120,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
   }
 
   {
-    text_command_t *commands = CG_CompileText("te^bxt");
+    text_command_t *commands = CG_CompileText("te^bxt", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);
@@ -143,7 +143,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
   }
 
   {
-    text_command_t *commands = CG_CompileText("te^Bxt");
+    text_command_t *commands = CG_CompileText("te^Bxt", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);
@@ -166,7 +166,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
   }
 
   {
-    text_command_t *commands = CG_CompileText("te^Bxt^N");
+    text_command_t *commands = CG_CompileText("te^Bxt^N", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);
@@ -192,7 +192,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
     CG_CompiledTextDestroy(commands);
   }
   {
-    text_command_t *commands = CG_CompileText("^13");
+    text_command_t *commands = CG_CompileText("^13", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_TEXT_COLOR);
@@ -206,7 +206,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
   }
 
   {
-    text_command_t *commands = CG_CompileText("te^X00FF00x^Nt");
+    text_command_t *commands = CG_CompileText("te^X00FF00x^Nt", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);
@@ -233,7 +233,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
   }
 
   {
-    text_command_t *commands = CG_CompileText("^xfebd36^n^x800000Kerrazzy");
+    text_command_t *commands = CG_CompileText("^xfebd36^n^x800000Kerrazzy", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_SHADOW_COLOR);
@@ -250,7 +250,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
     CG_CompiledTextDestroy(commands);
   }
   {
-    text_command_t *commands = CG_CompileText("^x990000^bx0ry");
+    text_command_t *commands = CG_CompileText("^x990000^bx0ry", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_SHADOW_COLOR);
@@ -266,7 +266,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
     CG_CompiledTextDestroy(commands);
   }
   {
-    text_command_t *commands = CG_CompileText("^0test^7");
+    text_command_t *commands = CG_CompileText("^0test^7", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_TEXT_COLOR);
@@ -284,7 +284,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
   }
   
   {
-    text_command_t *commands = CG_CompileText("^b ^1x^2A^1");
+    text_command_t *commands = CG_CompileText("^b ^1x^2A^1", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_FADE);
@@ -308,7 +308,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
   }
 
   {
-    text_command_t *commands = CG_CompileText("Xaero");
+    text_command_t *commands = CG_CompileText("Xaero", 0);
     REQUIRE(commands);
 
     CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);
@@ -333,11 +333,11 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
 TEST_CASE("Text compiler: bug ^^0 ", "[API][cg_drawtools.c]")
 {
   Com_InitZoneMemory();
-  CHECK(CG_CompileText(NULL) == NULL);
-  CHECK(CG_CompileText("") == NULL);
+  CHECK(CG_CompileText(NULL, 0) == NULL);
+  CHECK(CG_CompileText("", 0) == NULL);
 
   {
-    text_command_t *commands = CG_CompileText("te^^0xt");
+    text_command_t *commands = CG_CompileText("te^^0xt", 0);
     REQUIRE(commands);
     
     CHECK(commands[0].type == OSP_TEXT_CMD_CHAR);

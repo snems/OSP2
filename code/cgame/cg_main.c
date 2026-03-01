@@ -1770,6 +1770,8 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 
 	// init fonts
 	CG_LoadFonts();
+	// init emoji
+	CG_OSPLoadEmoji();
 
 	// get the gamestate from the client system
 	trap_GetGameState(&cgs.gameState);
