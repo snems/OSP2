@@ -8,7 +8,7 @@ Also used code from :
 
  - baseq3a from Cyrax: https://github.com/ec-/baseq3a
  - XQ3E: https://github.com/xq3e/engine, 
- - unlagged mod written by Nail Toronto 
+ - unlagged mod written by Neil Toronto 
  - Ratmod https://github.com/rdntcntrl/ratoa_gamecode
 
 
