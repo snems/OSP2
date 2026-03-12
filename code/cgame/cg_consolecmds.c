@@ -31,6 +31,9 @@ qboolean modifState[5];
 char modifStrDown[5][MODIFSTR_SIZE];
 char modifStrUp[5][MODIFSTR_SIZE];
 
+extern void BG_OSPAuthInit(void);
+extern void BG_OSPAuthUpdateName(char* str);
+extern void BG_OSPAuthGetSecret(char* str);
 
 void CG_TargetCommand_f(void)
 {
@@ -533,6 +536,25 @@ void CG_OSPPrintTime_f(void)
 	qtime_t qtime;
 	trap_RealTime(&qtime);
 	CG_Printf("\nCurrent time: ^3%02d:%02d:%02d (%02d %s %d)\n\n", qtime.tm_hour, qtime.tm_min, qtime.tm_sec, qtime.tm_mday, monthName[qtime.tm_mon], qtime.tm_year + 1900);
+}
+
+void CG_OSPClientAuth_f(void)
+{
+	char secret_str[64];
+
+	trap_Argv(1, secret_str, sizeof(secret_str));
+	if (!atoi(secret_str))
+	{
+		CG_Printf("\n^3 >>>>> Warning: ^7Detected invalid authentication request! (NULL buf) <<<<<\n");
+		return;
+	}
+
+	BG_OSPAuthInit();
+	BG_OSPAuthUpdateName(cgs.clientinfo[cg.clientNum].name);
+	BG_OSPAuthUpdateName(secret_str);
+	memset(secret_str, 0, sizeof(secret_str));
+	BG_OSPAuthGetSecret(secret_str);
+	trap_SendClientCommand(va("htuatneilc %s", secret_str));
 }
 
 

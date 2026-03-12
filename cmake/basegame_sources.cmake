@@ -79,6 +79,7 @@ set(CGAME_SOURCES
     ${SOURCE_DIR}/game/bg_misc.c
     ${SOURCE_DIR}/game/bg_pmove.c
     ${SOURCE_DIR}/game/bg_slidemove.c
+    ${SOURCE_DIR}/game/bg_auth.c
 )
 
 # Those are tracked only, causing the whole project to recompile
@@ -111,3 +112,4 @@ set(GAME_MODULE_SHARED_SOURCES
 )
 
 set(CGAME_SOURCES_BASEGAME ${CGAME_SOURCES} ${GAME_MODULE_SHARED_SOURCES})
+
