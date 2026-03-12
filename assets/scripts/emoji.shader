@@ -1,483 +1,10 @@
 
-gfx/emoji/gauntlet
+gfx/emoji/sarge
 {
     nopicmip
     nomipmaps
   {
-    map icons/iconw_gauntlet.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/mg
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconw_machinegun.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/sg
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconw_shotgun.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/gl
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconw_grenade.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/rl
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconw_rocket.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/lg
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconw_lightning.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/rg
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconw_railgun.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/pg
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconw_plasma.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/bfg
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconw_bfg.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/hook
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconw_grapple.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/ga
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconr_green.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/ya
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconr_yellow.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/ra
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconr_red.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/shard
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconr_shard.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/mh
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconh_mega.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/50hp
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconh_red.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/25hp
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconh_yellow.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/5hp
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/iconh_green.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/quad
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/quad.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/regen
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/regen.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/invis
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/invis.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/battlesuit
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/envirosuit.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/flight
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/flight.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/haste
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/haste.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/medkit
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/medkit.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/teleporter
-{
-    nopicmip
-    nomipmaps
-  {
-    map icons/teleporter.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/accuracy
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/medals/medal_accuracy.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/assist
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/medals/medal_assist.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/capture
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/medals/medal_capture.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/defend
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/medals/medal_defend.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/excellent
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/medals/medal_excellent.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/frags
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/medals/medal_frags.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/humiliation
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/medals/medal_gauntlet.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/impressive
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/medals/medal_impressive.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/victory
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/medals/medal_victory.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/anarki
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/anarki/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/biker
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/biker/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/hossman
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/biker/icon_hossman.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/cadavre
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/biker/icon_cadavre.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/bitterman
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/bitterman/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/bones
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/bones/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/crash
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/crash/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/doom
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/doom/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/phobos
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/doom/icon_phobos.tga
+    map gfx/emoji/sarge.png
     blendfunc blend
     rgbgen vertex
   }
@@ -488,62 +15,7 @@ gfx/emoji/grunt
     nopicmip
     nomipmaps
   {
-    map models/players/grunt/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/stripe
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/grunt/icon_stripe.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/hunter
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/hunter/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/harpy
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/hunter/icon_harpy.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/keel
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/keel/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/keelpm
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/keel/icon_pm.tga
+    map gfx/emoji/grunt.png
     blendfunc blend
     rgbgen vertex
   }
@@ -554,249 +26,7 @@ gfx/emoji/klesk
     nopicmip
     nomipmaps
   {
-    map models/players/klesk/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/flisk
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/klesk/icon_flisk.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/lucy
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/lucy/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/angel
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/lucy/icon_angel.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/major
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/major/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/daemia
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/major/icon_daemia.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/mynx
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/mynx/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/orbb
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/orbb/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/ranger
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/ranger/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/wrack
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/ranger/icon_wrack.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/razor
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/razor/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/razor-patriot
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/razor/icon_patriot.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/razor-id
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/razor/icon_id.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/sarge
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/sarge/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/krusade
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/sarge/icon_krusade.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/roderic
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/sarge/icon_roderic.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/slash
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/slash/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/yuriko
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/slash/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/grrl
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/slash/icon_grrl.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/sorlag
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/sorlag/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/tankjr
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/tankjr/icon_default.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/tankjrpm
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/tankjr/icon_pm.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/uriel
-{
-    nopicmip
-    nomipmaps
-  {
-    map models/players/uriel/icon_default.tga
+    map gfx/emoji/klesk.png
     blendfunc blend
     rgbgen vertex
   }
@@ -807,62 +37,51 @@ gfx/emoji/zael
     nopicmip
     nomipmaps
   {
-    map models/players/uriel/icon_zael.tga
+    map gfx/emoji/zael.png
     blendfunc blend
     rgbgen vertex
   }
 }
 
-gfx/emoji/visor
+gfx/emoji/angel
 {
     nopicmip
     nomipmaps
   {
-    map models/players/visor/icon_default.tga
+    map gfx/emoji/angel.png
     blendfunc blend
     rgbgen vertex
   }
 }
 
-gfx/emoji/gorre
+gfx/emoji/bitterman
 {
     nopicmip
     nomipmaps
   {
-    map models/players/visor/icon_gorre.tga
+    map gfx/emoji/bitterman.png
     blendfunc blend
     rgbgen vertex
   }
 }
 
-gfx/emoji/xaero
+gfx/emoji/ranger
 {
     nopicmip
     nomipmaps
   {
-    map models/players/xaero/icon_default.tga
+    map gfx/emoji/ranger.png
     blendfunc blend
     rgbgen vertex
   }
 }
 
-gfx/emoji/quake3
+gfx/emoji/flight
 {
     nopicmip
     nomipmaps
   {
-    map menu/art/skill4.tga
-    blendfunc blend
-    rgbgen vertex
-  }
-}
-
-gfx/emoji/nightmare
-{
-    nopicmip
-    nomipmaps
-  {
-    map menu/art/skill5.tga
+    map gfx/emoji/flight.png
     blendfunc blend
     rgbgen vertex
   }
@@ -901,12 +120,45 @@ gfx/emoji/nails
   }
 }
 
+gfx/emoji/keel
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/keel.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/ra
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/ra.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/hi
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/hi.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/visor
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/visor.png
     blendfunc blend
     rgbgen vertex
   }
@@ -934,6 +186,39 @@ gfx/emoji/cringe
   }
 }
 
+gfx/emoji/bfg
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/bfg.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/ga
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/ga.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/regen
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/regen.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/nerd
 {
     nopicmip
@@ -956,6 +241,39 @@ gfx/emoji/fuck
   }
 }
 
+gfx/emoji/crash
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/crash.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/invis
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/invis.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/roderic
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/roderic.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/shit
 {
     nopicmip
@@ -967,12 +285,133 @@ gfx/emoji/shit
   }
 }
 
+gfx/emoji/biker
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/biker.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/pg
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/pg.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/gorre
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/gorre.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/grrl
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/grrl.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/pentagram
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/pentagram.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/hunter
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/hunter.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/gl
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/gl.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/lucy
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/lucy.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/mg
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/mg.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/keelpm
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/keelpm.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/medkit
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/medkit.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/krusade
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/krusade.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1000,12 +439,56 @@ gfx/emoji/osp2be
   }
 }
 
+gfx/emoji/phobos
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/phobos.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/excellent
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/excellent.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/orbb
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/orbb.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/doctor
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/doctor.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/daemia
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/daemia.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1022,12 +505,34 @@ gfx/emoji/clown
   }
 }
 
+gfx/emoji/uriel
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/uriel.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/Shhh
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/Shhh.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/major
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/major.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1055,6 +560,28 @@ gfx/emoji/upside-down
   }
 }
 
+gfx/emoji/stripe
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/stripe.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/5hp
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/5hp.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/stars
 {
     nopicmip
@@ -1066,12 +593,67 @@ gfx/emoji/stars
   }
 }
 
+gfx/emoji/accuracy
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/accuracy.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/cyber-arm
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/cyber-arm.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/hossman
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/hossman.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/yuriko
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/yuriko.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/defend
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/defend.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/harpy
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/harpy.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1110,12 +692,45 @@ gfx/emoji/brain
   }
 }
 
+gfx/emoji/humiliation
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/humiliation.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/fire
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/fire.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/bones
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/bones.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/lg
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/lg.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1143,12 +758,67 @@ gfx/emoji/hand-up
   }
 }
 
+gfx/emoji/flisk
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/flisk.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/eyes
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/eyes.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/50hp
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/50hp.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/wrack
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/wrack.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/shard
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/shard.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/xaero
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/xaero.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1165,12 +835,133 @@ gfx/emoji/hand-right
   }
 }
 
+gfx/emoji/frags
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/frags.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/blackheart
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/blackheart.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/anarki
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/anarki.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/mh
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/mh.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/nightmare
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/nightmare.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/gauntlet
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/gauntlet.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/mynx
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/mynx.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/teleporter
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/teleporter.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/sg
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/sg.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/doom
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/doom.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/quake3
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/quake3.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/razor-id
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/razor-id.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1198,6 +989,17 @@ gfx/emoji/smile2
   }
 }
 
+gfx/emoji/razor
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/razor.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/ROFL
 {
     nopicmip
@@ -1209,12 +1011,34 @@ gfx/emoji/ROFL
   }
 }
 
+gfx/emoji/impressive
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/impressive.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/thumbs-down
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/thumbs-down.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/haste
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/haste.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1253,6 +1077,17 @@ gfx/emoji/death
   }
 }
 
+gfx/emoji/ya
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/ya.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/prohibited
 {
     nopicmip
@@ -1286,12 +1121,67 @@ gfx/emoji/hand-left
   }
 }
 
+gfx/emoji/cadavre
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/cadavre.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/fist
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/fist.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/quad
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/quad.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/slash
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/slash.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/tankjrpm
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/tankjrpm.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/hook
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/hook.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1325,6 +1215,17 @@ gfx/emoji/wtf
     nomipmaps
   {
     map gfx/emoji/wtf.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/tankjr
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/tankjr.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1385,12 +1286,78 @@ gfx/emoji/thumbs-up
   }
 }
 
+gfx/emoji/victory
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/victory.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/sorlag
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/sorlag.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/assist
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/assist.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/you
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/you.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/razor-patriot
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/razor-patriot.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/25hp
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/25hp.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/battlesuit
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/battlesuit.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1407,12 +1374,45 @@ gfx/emoji/rainbow
   }
 }
 
+gfx/emoji/rg
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/rg.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
 gfx/emoji/smile
 {
     nopicmip
     nomipmaps
   {
     map gfx/emoji/smile.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/rl
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/rl.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/4ity
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/4ity.png
     blendfunc blend
     rgbgen vertex
   }
@@ -1435,6 +1435,17 @@ gfx/emoji/salut
     nomipmaps
   {
     map gfx/emoji/salut.png
+    blendfunc blend
+    rgbgen vertex
+  }
+}
+
+gfx/emoji/capture
+{
+    nopicmip
+    nomipmaps
+  {
+    map gfx/emoji/capture.png
     blendfunc blend
     rgbgen vertex
   }
