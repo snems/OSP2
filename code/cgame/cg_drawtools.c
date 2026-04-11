@@ -429,10 +429,9 @@ void CG_OSPDrawStringPrepare(const char* from, char* to, int size)
 text_command_t* CG_CompileText(const char* in, int flags)
 {
 	int b;
-	text_command_t* commands;
-	text_command_t* result = NULL;
+	static text_command_t commands[OSP_TEXT_CMD_MAX];
 	char* text;
-	char* dmem;
+	static char dmem[MAX_STRING_CHARS];
 	int i = 0;
 	int len;
 	vec4_t back_color;
@@ -448,17 +447,14 @@ text_command_t* CG_CompileText(const char* in, int flags)
 
 	Vector4Copy(colorWhite, back_color);
 
-	commands = Z_Malloc(sizeof(*commands) * OSP_TEXT_CMD_MAX) ;
-	OSP_MEMORY_CHECK(commands);
-
 	len = strlen(in) + 1;
-	dmem = Z_Malloc(len);
-	OSP_MEMORY_CHECK(dmem);
+	if (len > MAX_STRING_CHARS)
+		len = MAX_STRING_CHARS;
 	text = dmem;
 
 	CG_OSPDrawStringPrepare(in, text, len);
 
-	while (*text)
+	while (*text && i < OSP_TEXT_CMD_MAX - 1)
 	{
 		if (text[0] == '^' && text[1])
 		{
@@ -603,22 +599,12 @@ text_command_t* CG_CompileText(const char* in, int flags)
 	}
 	commands[i++].type = OSP_TEXT_CMD_STOP;
 
-	result = Z_Malloc(sizeof(text_command_t) * i);
-	OSP_MEMORY_CHECK(result);
-
-	memcpy(result, commands, sizeof(text_command_t) * i);
-
-	Z_Free(dmem);
-	Z_Free(commands);
-	return result;
+	return commands;
 }
 
 void CG_CompiledTextDestroy(text_command_t* root)
 {
-	if (root)
-	{
-		Z_Free(root);
-	}
+	(void)root; // static buffer, nothing to free
 }
 
 /*
@@ -1579,7 +1565,7 @@ void CG_OSPDrawPoly(float x, float y, float w, float h, vec4_t color)
 // bk001205 - code below duplicated in q3_ui/ui-atoms.c
 // bk001205 - FIXME: does this belong in ui_shared.c?
 // bk001205 - FIXME: HARD_LINKED flags not visible here
-#ifndef Q3_STATIC // bk001205 - q_shared defines not visible here 
+#ifndef Q3_STATIC // bk001205 - q_shared defines not visible here
 /*
 =================
 UI_DrawProportionalString2
