@@ -2,6 +2,7 @@
 gfx/2d/crosshair0
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshaira2.tga
        blendFunc blend
@@ -11,6 +12,7 @@ gfx/2d/crosshair0
 gfx/2d/crosshair0_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshaira2.tga
        blendFunc blend
@@ -23,6 +25,7 @@ gfx/2d/crosshair0_r45
 gfx/2d/crosshair1
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairb2.tga
        blendFunc blend
@@ -32,6 +35,7 @@ gfx/2d/crosshair1
 gfx/2d/crosshair1_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairb2.tga
        blendFunc blend
@@ -44,6 +48,7 @@ gfx/2d/crosshair1_r45
 gfx/2d/crosshair2
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairc2.tga
        blendFunc blend
@@ -53,6 +58,7 @@ gfx/2d/crosshair2
 gfx/2d/crosshair2_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairc2.tga
        blendFunc blend
@@ -65,6 +71,7 @@ gfx/2d/crosshair2_r45
 gfx/2d/crosshair3
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshaird2.tga
        blendFunc blend
@@ -74,6 +81,7 @@ gfx/2d/crosshair3
 gfx/2d/crosshair3_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshaird2.tga
        blendFunc blend
@@ -86,6 +94,7 @@ gfx/2d/crosshair3_r45
 gfx/2d/crosshair4
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshaire2.tga
        blendFunc blend
@@ -95,6 +104,7 @@ gfx/2d/crosshair4
 gfx/2d/crosshair4_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshaire2.tga
        blendFunc blend
@@ -107,6 +117,7 @@ gfx/2d/crosshair4_r45
 gfx/2d/crosshair5
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairf2.tga
        blendFunc blend
@@ -116,6 +127,7 @@ gfx/2d/crosshair5
 gfx/2d/crosshair5_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairf2.tga
        blendFunc blend
@@ -128,6 +140,7 @@ gfx/2d/crosshair5_r45
 gfx/2d/crosshair6
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairg2.tga
        blendFunc blend
@@ -137,6 +150,7 @@ gfx/2d/crosshair6
 gfx/2d/crosshair6_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairg2.tga
        blendFunc blend
@@ -149,6 +163,7 @@ gfx/2d/crosshair6_r45
 gfx/2d/crosshair7
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairh2.tga
        blendFunc blend
@@ -158,6 +173,7 @@ gfx/2d/crosshair7
 gfx/2d/crosshair7_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairh2.tga
        blendFunc blend
@@ -170,6 +186,7 @@ gfx/2d/crosshair7_r45
 gfx/2d/crosshair8
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairi2.tga
        blendFunc blend
@@ -179,6 +196,7 @@ gfx/2d/crosshair8
 gfx/2d/crosshair8_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairi2.tga
        blendFunc blend
@@ -191,6 +209,7 @@ gfx/2d/crosshair8_r45
 gfx/2d/crosshair9
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairj2.tga
        blendFunc blend
@@ -200,6 +219,7 @@ gfx/2d/crosshair9
 gfx/2d/crosshair9_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshairj2.tga
        blendFunc blend
@@ -212,6 +232,7 @@ gfx/2d/crosshair9_r45
 gfx/2d/crosshair_10
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_10.tga
        blendFunc blend
@@ -221,6 +242,7 @@ gfx/2d/crosshair_10
 gfx/2d/crosshair_10_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_10.tga
        blendFunc blend
@@ -233,6 +255,7 @@ gfx/2d/crosshair_10_r45
 gfx/2d/crosshair_11
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_11.tga
        blendFunc blend
@@ -242,6 +265,7 @@ gfx/2d/crosshair_11
 gfx/2d/crosshair_11_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_11.tga
        blendFunc blend
@@ -254,6 +278,7 @@ gfx/2d/crosshair_11_r45
 gfx/2d/crosshair_12
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_12.tga
        blendFunc blend
@@ -263,6 +288,7 @@ gfx/2d/crosshair_12
 gfx/2d/crosshair_12_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_12.tga
        blendFunc blend
@@ -275,6 +301,7 @@ gfx/2d/crosshair_12_r45
 gfx/2d/crosshair_13
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_13.tga
        blendFunc blend
@@ -284,6 +311,7 @@ gfx/2d/crosshair_13
 gfx/2d/crosshair_13_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_13.tga
        blendFunc blend
@@ -296,6 +324,7 @@ gfx/2d/crosshair_13_r45
 gfx/2d/crosshair_14
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_14.tga
        blendFunc blend
@@ -305,6 +334,7 @@ gfx/2d/crosshair_14
 gfx/2d/crosshair_14_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_14.tga
        blendFunc blend
@@ -317,6 +347,7 @@ gfx/2d/crosshair_14_r45
 gfx/2d/crosshair_15
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_15.tga
        blendFunc blend
@@ -326,6 +357,7 @@ gfx/2d/crosshair_15
 gfx/2d/crosshair_15_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_15.tga
        blendFunc blend
@@ -338,6 +370,7 @@ gfx/2d/crosshair_15_r45
 gfx/2d/crosshair_16
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_16.tga
        blendFunc blend
@@ -347,6 +380,7 @@ gfx/2d/crosshair_16
 gfx/2d/crosshair_16_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_16.tga
        blendFunc blend
@@ -359,6 +393,7 @@ gfx/2d/crosshair_16_r45
 gfx/2d/crosshair_17
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_17.tga
        blendFunc blend
@@ -368,6 +403,7 @@ gfx/2d/crosshair_17
 gfx/2d/crosshair_17_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_17.tga
        blendFunc blend
@@ -380,6 +416,7 @@ gfx/2d/crosshair_17_r45
 gfx/2d/crosshair_18
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_18.tga
        blendFunc blend
@@ -389,6 +426,7 @@ gfx/2d/crosshair_18
 gfx/2d/crosshair_18_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_18.tga
        blendFunc blend
@@ -401,6 +439,7 @@ gfx/2d/crosshair_18_r45
 gfx/2d/crosshair_19
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_19.tga
        blendFunc blend
@@ -410,6 +449,7 @@ gfx/2d/crosshair_19
 gfx/2d/crosshair_19_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_19.tga
        blendFunc blend
@@ -422,6 +462,7 @@ gfx/2d/crosshair_19_r45
 gfx/2d/crosshair_20
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_20.tga
        blendFunc blend
@@ -431,6 +472,7 @@ gfx/2d/crosshair_20
 gfx/2d/crosshair_20_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_20.tga
        blendFunc blend
@@ -443,6 +485,7 @@ gfx/2d/crosshair_20_r45
 gfx/2d/crosshair_21
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_21.tga
        blendFunc blend
@@ -452,6 +495,7 @@ gfx/2d/crosshair_21
 gfx/2d/crosshair_21_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_21.tga
        blendFunc blend
@@ -464,6 +508,7 @@ gfx/2d/crosshair_21_r45
 gfx/2d/crosshair_22
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_22.tga
        blendFunc blend
@@ -473,6 +518,7 @@ gfx/2d/crosshair_22
 gfx/2d/crosshair_22_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_22.tga
        blendFunc blend
@@ -485,6 +531,7 @@ gfx/2d/crosshair_22_r45
 gfx/2d/crosshair_23
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_23.tga
        blendFunc blend
@@ -494,6 +541,7 @@ gfx/2d/crosshair_23
 gfx/2d/crosshair_23_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_23.tga
        blendFunc blend
@@ -506,6 +554,7 @@ gfx/2d/crosshair_23_r45
 gfx/2d/crosshair_24
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_24.tga
        blendFunc blend
@@ -515,6 +564,7 @@ gfx/2d/crosshair_24
 gfx/2d/crosshair_24_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_24.tga
        blendFunc blend
@@ -527,6 +577,7 @@ gfx/2d/crosshair_24_r45
 gfx/2d/crosshair_25
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_25.tga
        blendFunc blend
@@ -536,6 +587,7 @@ gfx/2d/crosshair_25
 gfx/2d/crosshair_25_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_25.tga
        blendFunc blend
@@ -548,6 +600,7 @@ gfx/2d/crosshair_25_r45
 gfx/2d/crosshair_26
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_26.tga
        blendFunc blend
@@ -557,6 +610,7 @@ gfx/2d/crosshair_26
 gfx/2d/crosshair_26_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_26.tga
        blendFunc blend
@@ -569,6 +623,7 @@ gfx/2d/crosshair_26_r45
 gfx/2d/crosshair_27
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_27.tga
        blendFunc blend
@@ -578,6 +633,7 @@ gfx/2d/crosshair_27
 gfx/2d/crosshair_27_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_27.tga
        blendFunc blend
@@ -590,6 +646,7 @@ gfx/2d/crosshair_27_r45
 gfx/2d/crosshair_28
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_28.tga
        blendFunc blend
@@ -599,6 +656,7 @@ gfx/2d/crosshair_28
 gfx/2d/crosshair_28_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_28.tga
        blendFunc blend
@@ -611,6 +669,7 @@ gfx/2d/crosshair_28_r45
 gfx/2d/crosshair_29
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_29.tga
        blendFunc blend
@@ -620,6 +679,7 @@ gfx/2d/crosshair_29
 gfx/2d/crosshair_29_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_29.tga
        blendFunc blend
@@ -632,6 +692,7 @@ gfx/2d/crosshair_29_r45
 gfx/2d/crosshair_30
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_30.tga
        blendFunc blend
@@ -641,6 +702,7 @@ gfx/2d/crosshair_30
 gfx/2d/crosshair_30_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_30.tga
        blendFunc blend
@@ -653,6 +715,7 @@ gfx/2d/crosshair_30_r45
 gfx/2d/crosshair_31
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_31.tga
        blendFunc blend
@@ -662,6 +725,7 @@ gfx/2d/crosshair_31
 gfx/2d/crosshair_31_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_31.tga
        blendFunc blend
@@ -674,6 +738,7 @@ gfx/2d/crosshair_31_r45
 gfx/2d/crosshair_32
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_32.tga
        blendFunc blend
@@ -683,6 +748,7 @@ gfx/2d/crosshair_32
 gfx/2d/crosshair_32_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_32.tga
        blendFunc blend
@@ -695,6 +761,7 @@ gfx/2d/crosshair_32_r45
 gfx/2d/crosshair_33
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_33.tga
        blendFunc blend
@@ -704,6 +771,7 @@ gfx/2d/crosshair_33
 gfx/2d/crosshair_33_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_33.tga
        blendFunc blend
@@ -716,6 +784,7 @@ gfx/2d/crosshair_33_r45
 gfx/2d/crosshair_34
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_34.tga
        blendFunc blend
@@ -725,6 +794,7 @@ gfx/2d/crosshair_34
 gfx/2d/crosshair_34_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_34.tga
        blendFunc blend
@@ -737,6 +807,7 @@ gfx/2d/crosshair_34_r45
 gfx/2d/crosshair_35
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_35.tga
        blendFunc blend
@@ -746,6 +817,7 @@ gfx/2d/crosshair_35
 gfx/2d/crosshair_35_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_35.tga
        blendFunc blend
@@ -758,6 +830,7 @@ gfx/2d/crosshair_35_r45
 gfx/2d/crosshair_36
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_36.tga
        blendFunc blend
@@ -767,6 +840,7 @@ gfx/2d/crosshair_36
 gfx/2d/crosshair_36_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_36.tga
        blendFunc blend
@@ -779,6 +853,7 @@ gfx/2d/crosshair_36_r45
 gfx/2d/crosshair_37
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_37.tga
        blendFunc blend
@@ -788,6 +863,7 @@ gfx/2d/crosshair_37
 gfx/2d/crosshair_37_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_37.tga
        blendFunc blend
@@ -800,6 +876,7 @@ gfx/2d/crosshair_37_r45
 gfx/2d/crosshair_38
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_38.tga
        blendFunc blend
@@ -809,6 +886,7 @@ gfx/2d/crosshair_38
 gfx/2d/crosshair_38_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_38.tga
        blendFunc blend
@@ -821,6 +899,7 @@ gfx/2d/crosshair_38_r45
 gfx/2d/crosshair_39
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_39.tga
        blendFunc blend
@@ -830,6 +909,7 @@ gfx/2d/crosshair_39
 gfx/2d/crosshair_39_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_39.tga
        blendFunc blend
@@ -842,6 +922,7 @@ gfx/2d/crosshair_39_r45
 gfx/2d/crosshair_40
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_40.tga
        blendFunc blend
@@ -851,6 +932,7 @@ gfx/2d/crosshair_40
 gfx/2d/crosshair_40_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_40.tga
        blendFunc blend
@@ -863,6 +945,7 @@ gfx/2d/crosshair_40_r45
 gfx/2d/crosshair_41
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_41.tga
        blendFunc blend
@@ -872,6 +955,7 @@ gfx/2d/crosshair_41
 gfx/2d/crosshair_41_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_41.tga
        blendFunc blend
@@ -884,6 +968,7 @@ gfx/2d/crosshair_41_r45
 gfx/2d/crosshair_42
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_42.tga
        blendFunc blend
@@ -893,6 +978,7 @@ gfx/2d/crosshair_42
 gfx/2d/crosshair_42_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_42.tga
        blendFunc blend
@@ -905,6 +991,7 @@ gfx/2d/crosshair_42_r45
 gfx/2d/crosshair_43
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_43.tga
        blendFunc blend
@@ -914,6 +1001,7 @@ gfx/2d/crosshair_43
 gfx/2d/crosshair_43_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_43.tga
        blendFunc blend
@@ -926,6 +1014,7 @@ gfx/2d/crosshair_43_r45
 gfx/2d/crosshair_44
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_44.tga
        blendFunc blend
@@ -935,6 +1024,7 @@ gfx/2d/crosshair_44
 gfx/2d/crosshair_44_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_44.tga
        blendFunc blend
@@ -947,6 +1037,7 @@ gfx/2d/crosshair_44_r45
 gfx/2d/crosshair_45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_45.tga
        blendFunc blend
@@ -956,6 +1047,7 @@ gfx/2d/crosshair_45
 gfx/2d/crosshair_45_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_45.tga
        blendFunc blend
@@ -968,6 +1060,7 @@ gfx/2d/crosshair_45_r45
 gfx/2d/crosshair_46
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_46.tga
        blendFunc blend
@@ -977,6 +1070,7 @@ gfx/2d/crosshair_46
 gfx/2d/crosshair_46_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_46.tga
        blendFunc blend
@@ -989,6 +1083,7 @@ gfx/2d/crosshair_46_r45
 gfx/2d/crosshair_47
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_47.tga
        blendFunc blend
@@ -998,6 +1093,7 @@ gfx/2d/crosshair_47
 gfx/2d/crosshair_47_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_47.tga
        blendFunc blend
@@ -1010,6 +1106,7 @@ gfx/2d/crosshair_47_r45
 gfx/2d/crosshair_48
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_48.tga
        blendFunc blend
@@ -1019,6 +1116,7 @@ gfx/2d/crosshair_48
 gfx/2d/crosshair_48_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_48.tga
        blendFunc blend
@@ -1031,6 +1129,7 @@ gfx/2d/crosshair_48_r45
 gfx/2d/crosshair_49
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_49.tga
        blendFunc blend
@@ -1040,6 +1139,7 @@ gfx/2d/crosshair_49
 gfx/2d/crosshair_49_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_49.tga
        blendFunc blend
@@ -1052,6 +1152,7 @@ gfx/2d/crosshair_49_r45
 gfx/2d/crosshair_50
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_50.tga
        blendFunc blend
@@ -1061,6 +1162,7 @@ gfx/2d/crosshair_50
 gfx/2d/crosshair_50_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_50.tga
        blendFunc blend
@@ -1073,6 +1175,7 @@ gfx/2d/crosshair_50_r45
 gfx/2d/crosshair_51
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_51.tga
        blendFunc blend
@@ -1082,6 +1185,7 @@ gfx/2d/crosshair_51
 gfx/2d/crosshair_51_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_51.tga
        blendFunc blend
@@ -1094,6 +1198,7 @@ gfx/2d/crosshair_51_r45
 gfx/2d/crosshair_52
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_52.tga
        blendFunc blend
@@ -1103,6 +1208,7 @@ gfx/2d/crosshair_52
 gfx/2d/crosshair_52_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_52.tga
        blendFunc blend
@@ -1115,6 +1221,7 @@ gfx/2d/crosshair_52_r45
 gfx/2d/crosshair_53
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_53.tga
        blendFunc blend
@@ -1124,6 +1231,7 @@ gfx/2d/crosshair_53
 gfx/2d/crosshair_53_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_53.tga
        blendFunc blend
@@ -1136,6 +1244,7 @@ gfx/2d/crosshair_53_r45
 gfx/2d/crosshair_54
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_54.tga
        blendFunc blend
@@ -1145,6 +1254,7 @@ gfx/2d/crosshair_54
 gfx/2d/crosshair_54_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_54.tga
        blendFunc blend
@@ -1157,6 +1267,7 @@ gfx/2d/crosshair_54_r45
 gfx/2d/crosshair_55
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_55.tga
        blendFunc blend
@@ -1166,6 +1277,7 @@ gfx/2d/crosshair_55
 gfx/2d/crosshair_55_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_55.tga
        blendFunc blend
@@ -1178,6 +1290,7 @@ gfx/2d/crosshair_55_r45
 gfx/2d/crosshair_56
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_56.tga
        blendFunc blend
@@ -1187,6 +1300,7 @@ gfx/2d/crosshair_56
 gfx/2d/crosshair_56_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_56.tga
        blendFunc blend
@@ -1199,6 +1313,7 @@ gfx/2d/crosshair_56_r45
 gfx/2d/crosshair_57
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_57.tga
        blendFunc blend
@@ -1208,6 +1323,7 @@ gfx/2d/crosshair_57
 gfx/2d/crosshair_57_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_57.tga
        blendFunc blend
@@ -1220,6 +1336,7 @@ gfx/2d/crosshair_57_r45
 gfx/2d/crosshair_58
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_58.tga
        blendFunc blend
@@ -1229,6 +1346,7 @@ gfx/2d/crosshair_58
 gfx/2d/crosshair_58_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_58.tga
        blendFunc blend
@@ -1241,6 +1359,7 @@ gfx/2d/crosshair_58_r45
 gfx/2d/crosshair_59
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_59.tga
        blendFunc blend
@@ -1250,6 +1369,7 @@ gfx/2d/crosshair_59
 gfx/2d/crosshair_59_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_59.tga
        blendFunc blend
@@ -1262,6 +1382,7 @@ gfx/2d/crosshair_59_r45
 gfx/2d/crosshair_60
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_60.tga
        blendFunc blend
@@ -1271,6 +1392,7 @@ gfx/2d/crosshair_60
 gfx/2d/crosshair_60_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_60.tga
        blendFunc blend
@@ -1283,6 +1405,7 @@ gfx/2d/crosshair_60_r45
 gfx/2d/crosshair_61
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_61.tga
        blendFunc blend
@@ -1292,6 +1415,7 @@ gfx/2d/crosshair_61
 gfx/2d/crosshair_61_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_61.tga
        blendFunc blend
@@ -1304,6 +1428,7 @@ gfx/2d/crosshair_61_r45
 gfx/2d/crosshair_62
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_62.tga
        blendFunc blend
@@ -1313,6 +1438,7 @@ gfx/2d/crosshair_62
 gfx/2d/crosshair_62_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_62.tga
        blendFunc blend
@@ -1325,6 +1451,7 @@ gfx/2d/crosshair_62_r45
 gfx/2d/crosshair_63
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_63.tga
        blendFunc blend
@@ -1334,6 +1461,7 @@ gfx/2d/crosshair_63
 gfx/2d/crosshair_63_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_63.tga
        blendFunc blend
@@ -1346,6 +1474,7 @@ gfx/2d/crosshair_63_r45
 gfx/2d/crosshair_64
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_64.tga
        blendFunc blend
@@ -1355,6 +1484,7 @@ gfx/2d/crosshair_64
 gfx/2d/crosshair_64_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_64.tga
        blendFunc blend
@@ -1367,6 +1497,7 @@ gfx/2d/crosshair_64_r45
 gfx/2d/crosshair_65
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_65.tga
        blendFunc blend
@@ -1376,6 +1507,7 @@ gfx/2d/crosshair_65
 gfx/2d/crosshair_65_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_65.tga
        blendFunc blend
@@ -1388,6 +1520,7 @@ gfx/2d/crosshair_65_r45
 gfx/2d/crosshair_66
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_66.tga
        blendFunc blend
@@ -1397,6 +1530,7 @@ gfx/2d/crosshair_66
 gfx/2d/crosshair_66_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_66.tga
        blendFunc blend
@@ -1409,6 +1543,7 @@ gfx/2d/crosshair_66_r45
 gfx/2d/crosshair_67
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_67.tga
        blendFunc blend
@@ -1418,6 +1553,7 @@ gfx/2d/crosshair_67
 gfx/2d/crosshair_67_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_67.tga
        blendFunc blend
@@ -1430,6 +1566,7 @@ gfx/2d/crosshair_67_r45
 gfx/2d/crosshair_68
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_68.tga
        blendFunc blend
@@ -1439,6 +1576,7 @@ gfx/2d/crosshair_68
 gfx/2d/crosshair_68_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_68.tga
        blendFunc blend
@@ -1451,6 +1589,7 @@ gfx/2d/crosshair_68_r45
 gfx/2d/crosshair_69
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_69.tga
        blendFunc blend
@@ -1460,6 +1599,7 @@ gfx/2d/crosshair_69
 gfx/2d/crosshair_69_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_69.tga
        blendFunc blend
@@ -1472,6 +1612,7 @@ gfx/2d/crosshair_69_r45
 gfx/2d/crosshair_70
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_70.tga
        blendFunc blend
@@ -1481,6 +1622,7 @@ gfx/2d/crosshair_70
 gfx/2d/crosshair_70_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_70.tga
        blendFunc blend
@@ -1493,6 +1635,7 @@ gfx/2d/crosshair_70_r45
 gfx/2d/crosshair_71
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_71.tga
        blendFunc blend
@@ -1502,6 +1645,7 @@ gfx/2d/crosshair_71
 gfx/2d/crosshair_71_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_71.tga
        blendFunc blend
@@ -1514,6 +1658,7 @@ gfx/2d/crosshair_71_r45
 gfx/2d/crosshair_72
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_72.tga
        blendFunc blend
@@ -1523,6 +1668,7 @@ gfx/2d/crosshair_72
 gfx/2d/crosshair_72_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_72.tga
        blendFunc blend
@@ -1535,6 +1681,7 @@ gfx/2d/crosshair_72_r45
 gfx/2d/crosshair_73
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_73.tga
        blendFunc blend
@@ -1544,6 +1691,7 @@ gfx/2d/crosshair_73
 gfx/2d/crosshair_73_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_73.tga
        blendFunc blend
@@ -1556,6 +1704,7 @@ gfx/2d/crosshair_73_r45
 gfx/2d/crosshair_74
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_74.tga
        blendFunc blend
@@ -1565,6 +1714,7 @@ gfx/2d/crosshair_74
 gfx/2d/crosshair_74_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_74.tga
        blendFunc blend
@@ -1577,6 +1727,7 @@ gfx/2d/crosshair_74_r45
 gfx/2d/crosshair_75
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_75.tga
        blendFunc blend
@@ -1586,6 +1737,7 @@ gfx/2d/crosshair_75
 gfx/2d/crosshair_75_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_75.tga
        blendFunc blend
@@ -1598,6 +1750,7 @@ gfx/2d/crosshair_75_r45
 gfx/2d/crosshair_76
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_76.tga
        blendFunc blend
@@ -1607,6 +1760,7 @@ gfx/2d/crosshair_76
 gfx/2d/crosshair_76_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_76.tga
        blendFunc blend
@@ -1619,6 +1773,7 @@ gfx/2d/crosshair_76_r45
 gfx/2d/crosshair_77
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_77.tga
        blendFunc blend
@@ -1628,6 +1783,7 @@ gfx/2d/crosshair_77
 gfx/2d/crosshair_77_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_77.tga
        blendFunc blend
@@ -1640,6 +1796,7 @@ gfx/2d/crosshair_77_r45
 gfx/2d/crosshair_78
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_78.tga
        blendFunc blend
@@ -1649,6 +1806,7 @@ gfx/2d/crosshair_78
 gfx/2d/crosshair_78_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_78.tga
        blendFunc blend
@@ -1661,6 +1819,7 @@ gfx/2d/crosshair_78_r45
 gfx/2d/crosshair_79
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_79.tga
        blendFunc blend
@@ -1670,6 +1829,7 @@ gfx/2d/crosshair_79
 gfx/2d/crosshair_79_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_79.tga
        blendFunc blend
@@ -1682,6 +1842,7 @@ gfx/2d/crosshair_79_r45
 gfx/2d/crosshair_80
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_80.tga
        blendFunc blend
@@ -1691,6 +1852,7 @@ gfx/2d/crosshair_80
 gfx/2d/crosshair_80_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/crosshair_80.tga
        blendFunc blend
@@ -1703,6 +1865,7 @@ gfx/2d/crosshair_80_r45
 gfx/2d/decor_1
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_1.tga
        blendFunc blend
@@ -1712,6 +1875,7 @@ gfx/2d/decor_1
 gfx/2d/decor_1_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_1.tga
        blendFunc blend
@@ -1724,6 +1888,7 @@ gfx/2d/decor_1_r45
 gfx/2d/decor_2
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_2.tga
        blendFunc blend
@@ -1733,6 +1898,7 @@ gfx/2d/decor_2
 gfx/2d/decor_2_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_2.tga
        blendFunc blend
@@ -1745,6 +1911,7 @@ gfx/2d/decor_2_r45
 gfx/2d/decor_3
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_3.tga
        blendFunc blend
@@ -1754,6 +1921,7 @@ gfx/2d/decor_3
 gfx/2d/decor_3_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_3.tga
        blendFunc blend
@@ -1766,6 +1934,7 @@ gfx/2d/decor_3_r45
 gfx/2d/decor_4
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_4.tga
        blendFunc blend
@@ -1775,6 +1944,7 @@ gfx/2d/decor_4
 gfx/2d/decor_4_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_4.tga
        blendFunc blend
@@ -1787,6 +1957,7 @@ gfx/2d/decor_4_r45
 gfx/2d/decor_5
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_5.tga
        blendFunc blend
@@ -1796,6 +1967,7 @@ gfx/2d/decor_5
 gfx/2d/decor_5_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_5.tga
        blendFunc blend
@@ -1808,6 +1980,7 @@ gfx/2d/decor_5_r45
 gfx/2d/decor_6
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_6.tga
        blendFunc blend
@@ -1817,6 +1990,7 @@ gfx/2d/decor_6
 gfx/2d/decor_6_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_6.tga
        blendFunc blend
@@ -1829,6 +2003,7 @@ gfx/2d/decor_6_r45
 gfx/2d/decor_7
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_7.tga
        blendFunc blend
@@ -1838,6 +2013,7 @@ gfx/2d/decor_7
 gfx/2d/decor_7_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_7.tga
        blendFunc blend
@@ -1850,6 +2026,7 @@ gfx/2d/decor_7_r45
 gfx/2d/decor_8
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_8.tga
        blendFunc blend
@@ -1859,6 +2036,7 @@ gfx/2d/decor_8
 gfx/2d/decor_8_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_8.tga
        blendFunc blend
@@ -1871,6 +2049,7 @@ gfx/2d/decor_8_r45
 gfx/2d/decor_9
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_9.tga
        blendFunc blend
@@ -1880,6 +2059,7 @@ gfx/2d/decor_9
 gfx/2d/decor_9_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_9.tga
        blendFunc blend
@@ -1892,6 +2072,7 @@ gfx/2d/decor_9_r45
 gfx/2d/decor_10
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_10.tga
        blendFunc blend
@@ -1901,6 +2082,7 @@ gfx/2d/decor_10
 gfx/2d/decor_10_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_10.tga
        blendFunc blend
@@ -1913,6 +2095,7 @@ gfx/2d/decor_10_r45
 gfx/2d/decor_11
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_11.tga
        blendFunc blend
@@ -1922,6 +2105,7 @@ gfx/2d/decor_11
 gfx/2d/decor_11_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_11.tga
        blendFunc blend
@@ -1934,6 +2118,7 @@ gfx/2d/decor_11_r45
 gfx/2d/decor_12
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_12.tga
        blendFunc blend
@@ -1943,6 +2128,7 @@ gfx/2d/decor_12
 gfx/2d/decor_12_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_12.tga
        blendFunc blend
@@ -1955,6 +2141,7 @@ gfx/2d/decor_12_r45
 gfx/2d/decor_13
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_13.tga
        blendFunc blend
@@ -1964,6 +2151,7 @@ gfx/2d/decor_13
 gfx/2d/decor_13_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_13.tga
        blendFunc blend
@@ -1976,6 +2164,7 @@ gfx/2d/decor_13_r45
 gfx/2d/decor_14
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_14.tga
        blendFunc blend
@@ -1985,6 +2174,7 @@ gfx/2d/decor_14
 gfx/2d/decor_14_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_14.tga
        blendFunc blend
@@ -1997,6 +2187,7 @@ gfx/2d/decor_14_r45
 gfx/2d/decor_15
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_15.tga
        blendFunc blend
@@ -2006,6 +2197,7 @@ gfx/2d/decor_15
 gfx/2d/decor_15_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_15.tga
        blendFunc blend
@@ -2018,6 +2210,7 @@ gfx/2d/decor_15_r45
 gfx/2d/decor_16
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_16.tga
        blendFunc blend
@@ -2027,6 +2220,7 @@ gfx/2d/decor_16
 gfx/2d/decor_16_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_16.tga
        blendFunc blend
@@ -2039,6 +2233,7 @@ gfx/2d/decor_16_r45
 gfx/2d/decor_17
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_17.tga
        blendFunc blend
@@ -2048,6 +2243,7 @@ gfx/2d/decor_17
 gfx/2d/decor_17_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_17.tga
        blendFunc blend
@@ -2060,6 +2256,7 @@ gfx/2d/decor_17_r45
 gfx/2d/decor_18
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_18.tga
        blendFunc blend
@@ -2069,6 +2266,7 @@ gfx/2d/decor_18
 gfx/2d/decor_18_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_18.tga
        blendFunc blend
@@ -2081,6 +2279,7 @@ gfx/2d/decor_18_r45
 gfx/2d/decor_19
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_19.tga
        blendFunc blend
@@ -2090,6 +2289,7 @@ gfx/2d/decor_19
 gfx/2d/decor_19_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_19.tga
        blendFunc blend
@@ -2102,6 +2302,7 @@ gfx/2d/decor_19_r45
 gfx/2d/decor_20
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_20.tga
        blendFunc blend
@@ -2111,6 +2312,7 @@ gfx/2d/decor_20
 gfx/2d/decor_20_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_20.tga
        blendFunc blend
@@ -2123,6 +2325,7 @@ gfx/2d/decor_20_r45
 gfx/2d/decor_21
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_21.tga
        blendFunc blend
@@ -2132,6 +2335,7 @@ gfx/2d/decor_21
 gfx/2d/decor_21_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_21.tga
        blendFunc blend
@@ -2144,6 +2348,7 @@ gfx/2d/decor_21_r45
 gfx/2d/decor_22
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_22.tga
        blendFunc blend
@@ -2153,6 +2358,7 @@ gfx/2d/decor_22
 gfx/2d/decor_22_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_22.tga
        blendFunc blend
@@ -2165,6 +2371,7 @@ gfx/2d/decor_22_r45
 gfx/2d/decor_23
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_23.tga
        blendFunc blend
@@ -2174,6 +2381,7 @@ gfx/2d/decor_23
 gfx/2d/decor_23_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_23.tga
        blendFunc blend
@@ -2186,6 +2394,7 @@ gfx/2d/decor_23_r45
 gfx/2d/decor_24
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_24.tga
        blendFunc blend
@@ -2195,6 +2404,7 @@ gfx/2d/decor_24
 gfx/2d/decor_24_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_24.tga
        blendFunc blend
@@ -2207,6 +2417,7 @@ gfx/2d/decor_24_r45
 gfx/2d/decor_25
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_25.tga
        blendFunc blend
@@ -2216,6 +2427,7 @@ gfx/2d/decor_25
 gfx/2d/decor_25_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_25.tga
        blendFunc blend
@@ -2228,6 +2440,7 @@ gfx/2d/decor_25_r45
 gfx/2d/decor_26
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_26.tga
        blendFunc blend
@@ -2237,6 +2450,7 @@ gfx/2d/decor_26
 gfx/2d/decor_26_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_26.tga
        blendFunc blend
@@ -2249,6 +2463,7 @@ gfx/2d/decor_26_r45
 gfx/2d/decor_27
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_27.tga
        blendFunc blend
@@ -2258,6 +2473,7 @@ gfx/2d/decor_27
 gfx/2d/decor_27_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_27.tga
        blendFunc blend
@@ -2270,6 +2486,7 @@ gfx/2d/decor_27_r45
 gfx/2d/decor_28
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_28.tga
        blendFunc blend
@@ -2279,6 +2496,7 @@ gfx/2d/decor_28
 gfx/2d/decor_28_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_28.tga
        blendFunc blend
@@ -2291,6 +2509,7 @@ gfx/2d/decor_28_r45
 gfx/2d/decor_29
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_29.tga
        blendFunc blend
@@ -2300,6 +2519,7 @@ gfx/2d/decor_29
 gfx/2d/decor_29_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_29.tga
        blendFunc blend
@@ -2312,6 +2532,7 @@ gfx/2d/decor_29_r45
 gfx/2d/decor_30
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_30.tga
        blendFunc blend
@@ -2321,6 +2542,7 @@ gfx/2d/decor_30
 gfx/2d/decor_30_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_30.tga
        blendFunc blend
@@ -2333,6 +2555,7 @@ gfx/2d/decor_30_r45
 gfx/2d/decor_31
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_31.tga
        blendFunc blend
@@ -2342,6 +2565,7 @@ gfx/2d/decor_31
 gfx/2d/decor_31_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_31.tga
        blendFunc blend
@@ -2354,6 +2578,7 @@ gfx/2d/decor_31_r45
 gfx/2d/decor_32
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_32.tga
        blendFunc blend
@@ -2363,6 +2588,7 @@ gfx/2d/decor_32
 gfx/2d/decor_32_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_32.tga
        blendFunc blend
@@ -2375,6 +2601,7 @@ gfx/2d/decor_32_r45
 gfx/2d/decor_33
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_33.tga
        blendFunc blend
@@ -2384,6 +2611,7 @@ gfx/2d/decor_33
 gfx/2d/decor_33_r45
 {
     nopicmip
+    nomipmaps
     {
        clampmap gfx/2d/decor_33.tga
        blendFunc blend
