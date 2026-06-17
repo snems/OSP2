@@ -29,7 +29,16 @@ file(GLOB SOURCES_TESTS
     ${SOURCE_DIR}/tests/*.hxx
 )
 
-find_package(Catch2 3.4.0 REQUIRED)
+Include(FetchContent)
+
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.15.1 # or a later release
+)
+
+FetchContent_MakeAvailable(Catch2)
+
 add_executable(osp2_tests ${SOURCES_COMMON} ${SOURCES_TESTS})
 add_test(NAME osp2_tests COMMAND osp2_tests)
 
