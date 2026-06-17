@@ -376,6 +376,10 @@ static float LittleFloat(const float* l)
 
 #endif
 
+#if !defined(Q3_VM) && !defined(ID_INLINE)
+#define ID_INLINE
+#endif
+
 //=============================================================
 
 typedef unsigned char       byte;
