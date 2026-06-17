@@ -3,6 +3,8 @@
 // bg_lib,c -- standard C library replacement routines used by code
 // compiled for the virtual machine
 
+#ifdef Q3_VM
+
 #include "../qcommon/q_shared.h"
 
 /*-
@@ -44,11 +46,6 @@ static char sccsid[] = "@(#)qsort.c	8.1 (Berkeley) 6/4/93";
 #endif
 static const char rcsid[] =
 #endif /* LIBC_SCCS and not lint */
-
-// bk001127 - needed for DLL's
-#if !defined( Q3_VM )
-    typedef int      cmp_t(const void*, const void*);
-#endif
 
 static char* med3(char* a, char* b, char* c, cmp_t* cmp);
 static void swapfunc(char* a, char* b, int n, int swaptype);
@@ -193,9 +190,6 @@ loop:
 
 // this file is excluded from release builds because of intrinsics
 
-// bk001211 - gcc errors on compiling strcpy:  parse error before `__extension__'
-#if defined ( Q3_VM )
-
 size_t strlen(const char* string)
 {
 	const char*  s;
@@ -285,12 +279,11 @@ char* strstr(const char* string, const char* strCharSet)
 	}
 	return (char*)0;
 }
-#endif // bk001211
+
 
 // bk001120 - presumably needed for Mac
 //#if !defined(_MSC_VER) && !defined(__linux__)
-// bk001127 - undid undo
-#if defined ( Q3_VM )
+
 int tolower(int c)
 {
 	if (c >= 'A' && c <= 'Z')
@@ -310,7 +303,6 @@ int toupper(int c)
 	return c;
 }
 
-#endif
 //#ifndef _MSC_VER
 
 void* memmove(void* dest, const void* src, size_t count)
@@ -819,14 +811,12 @@ double atan2(double y, double x)
 
 #endif
 
-#ifdef Q3_VM
 // bk001127 - guarded this tan replacement
 // ld: undefined versioned symbol name tan@@GLIBC_2.0
 double tan(double x)
 {
 	return sin(x) / cos(x);
 }
-#endif
 
 
 static int randSeed = 0;
@@ -927,8 +917,6 @@ double atof(const char* string)
 // bk001120 - presumably needed for Mac
 //#if !defined ( _MSC_VER ) && ! defined ( __linux__ )
 
-// bk001127 - undid undo
-#if defined ( Q3_VM )
 int atoi(const char* string)
 {
 	int     sign;
