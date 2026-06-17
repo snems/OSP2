@@ -861,6 +861,9 @@ void CG_PrintLog(char* msg)
 	}
 }
 
+#ifdef __GNUC__
+__attribute__((format(gnu_printf, 1, 2)))
+#endif
 void QDECL CG_Printf(const char* msg, ...)
 {
 	va_list     argptr;
@@ -876,6 +879,7 @@ void QDECL CG_Printf(const char* msg, ...)
 
 #ifdef __GNUC__
 __attribute__((noreturn))
+__attribute__((format(gnu_printf, 1, 2)))
 #endif
 void QDECL CG_Error(const char* msg, ...)
 {
@@ -898,6 +902,7 @@ void QDECL CG_Error(const char* msg, ...)
 
 #ifdef __GNUC__
 __attribute__((noreturn))
+__attribute__((format(gnu_printf, 2, 3)))
 #endif
 void QDECL Com_Error(int level, const char* error, ...)
 {
@@ -911,6 +916,9 @@ void QDECL Com_Error(int level, const char* error, ...)
 	CG_Error("%s", text);
 }
 
+#ifdef __GNUC__
+__attribute__((format(gnu_printf, 1, 2)))
+#endif
 void QDECL Com_Printf(const char* msg, ...)
 {
 	va_list     argptr;

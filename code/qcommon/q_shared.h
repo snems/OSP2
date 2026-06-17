@@ -58,7 +58,7 @@ extern "C" {
 
 #ifdef Q3_VM
 
-#include "bg_lib.h"
+#include "../game/bg_lib.h"
 
 #else
 

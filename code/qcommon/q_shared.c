@@ -331,6 +331,9 @@ char* COM_Parse(char** data_p)
 	return COM_ParseExt(data_p, qtrue);
 }
 
+#ifdef __GNUC__
+__attribute__((format(gnu_printf, 1, 2)))
+#endif
 void COM_ParseError(char* format, ...)
 {
 	va_list argptr;
@@ -343,6 +346,9 @@ void COM_ParseError(char* format, ...)
 	Com_Printf("ERROR: %s, line %d: %s\n", com_parsename, com_lines, string);
 }
 
+#ifdef __GNUC__
+__attribute__((format(gnu_printf, 1, 2)))
+#endif
 void COM_ParseWarning(char* format, ...)
 {
 	va_list argptr;
@@ -1031,6 +1037,9 @@ char* Q_CleanStr(char* string)
 }
 
 
+#ifdef __GNUC__
+__attribute__((format(gnu_printf, 3, 4)))
+#endif
 void QDECL Com_sprintf(char* dest, int size, const char* fmt, ...)
 {
 	int     len;
@@ -1067,6 +1076,9 @@ varargs versions of all text functions.
 FIXME: make this buffer size safe someday
 ============
 */
+#ifdef __GNUC__
+__attribute__((format(gnu_printf, 1, 2)))
+#endif
 char*     QDECL va(char* format, ...)
 {
 	va_list     argptr;

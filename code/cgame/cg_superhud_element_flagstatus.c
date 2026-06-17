@@ -2,20 +2,20 @@
 #include "cg_superhud_private.h"
 #include "../qcommon/qcommon.h"
 
-enum flagType_t
+typedef enum
 {
 	SHUDFLTYPE_OWN,
 	SHUDFLTYPE_NME,
-} flagType;
+} flagType_t;
 
 typedef struct
 {
 	superhudConfig_t config;
 	superhudDrawContext_t ctx;
-	enum flagType_t flagType;
+	flagType_t flagType;
 } shudElementFlagStatus_t;
 
-static void* CG_SHUDElementFlagStatusCreate(const superhudConfig_t* config, enum flagType_t flagType)
+static void* CG_SHUDElementFlagStatusCreate(const superhudConfig_t* config, flagType_t flagType)
 {
 	shudElementFlagStatus_t* element;
 
