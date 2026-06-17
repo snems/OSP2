@@ -54,7 +54,7 @@ Draws large numbers for status bar and powerups
 */
 void CG_DrawField(int x, int y, int width, int value, int w, int h)
 {
-	char    num[16], *ptr;
+	char    num[16], * ptr;
 	int     l;
 	int     frame;
 

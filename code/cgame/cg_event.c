@@ -37,7 +37,7 @@ Also called by scoreboard drawing
 const char*  CG_PlaceString(int rank)
 {
 	static char str[64];
-	char*    s, *t;
+	char*    s, * t;
 
 	if (rank & RANK_TIED_FLAG)
 	{

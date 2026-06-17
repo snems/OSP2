@@ -47,7 +47,7 @@ static char sccsid[] = "@(#)qsort.c	8.1 (Berkeley) 6/4/93";
 static const char rcsid[] =
 #endif /* LIBC_SCCS and not lint */
 
-static char* med3(char* a, char* b, char* c, cmp_t* cmp);
+    static char* med3(char* a, char* b, char* c, cmp_t* cmp);
 static void swapfunc(char* a, char* b, int n, int swaptype);
 
 #ifndef min
@@ -98,7 +98,7 @@ static char* med3(char* a, char* b, char* c, cmp_t* cmp)
 
 void qsort(void* a, size_t n, size_t es, cmp_t* cmp)
 {
-	char* pa, *pb, *pc, *pd, *pl, *pm, *pn;
+	char* pa, * pb, * pc, * pd, * pl, * pm, * pn;
 	int d, r, swaptype, swap_cnt;
 
 loop:
@@ -1280,6 +1280,5 @@ done:
 	*buf_p = 0;
 	return buf_p - buffer;
 }
-
 
 #endif

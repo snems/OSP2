@@ -3362,7 +3362,7 @@ static float CG_OSPDrawHealthArmor67(float x, float y)
 
 static int Powerup67Compare(const void* a, const void* b)
 {
-	powerUpInfo_t* sa, *sb;
+	powerUpInfo_t* sa, * sb;
 
 	sa = (powerUpInfo_t*)a;
 	sb = (powerUpInfo_t*)b;

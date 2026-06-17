@@ -192,7 +192,7 @@ static void CG_TransitionSnapshot(void)
 
 	// check for playerstate transition events
 	{
-		playerState_t*   ops, *ps;
+		playerState_t*   ops, * ps;
 
 		ops = &oldFrame->ps;
 		ps = &cg.snap->ps;
