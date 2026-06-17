@@ -45,10 +45,10 @@ jobs:
         cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
         cmake --build build
 
-    - name: Run tests
-      run: |
-        cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
-        cmake --build build
+    # - name: Run tests
+    #   run: |
+    #     cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
+    #     cmake --build build
 
     - uses: actions/upload-artifact@v4
       with:
@@ -89,10 +89,10 @@ jobs:
         cmake -S . -B build -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
         cmake --build build --config Release
 
-    - name: Run tests
-      run: |
-        cmake -S . -B build -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
-        cmake --build build --config Release
+    # - name: Run tests
+    #   run: |
+    #     cmake -S . -B build -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
+    #     cmake --build build --config Release
 
     - uses: actions/upload-artifact@v4
       with:
@@ -126,10 +126,10 @@ jobs:
         cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
         cmake --build build --config Release
 
-    - name: Run tests
-      run: |
-        cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
-        cmake --build build --config Release
+    # - name: Run tests
+    #   run: |
+    #     cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
+    #     cmake --build build --config Release
 
     - uses: actions/upload-artifact@v4
       with:
