@@ -1,8 +1,15 @@
 name: Makefile CI
 
 on:
+  workflow_dispatch:
+    paths-ignore:
+      - '**.md'
+      - '*.txt'
+      - '.gitignore'
+      - 'docs/*'
+      - 'build/*'
+      - 'util/*'
   push:
-    branches: [ "master" ]
     paths-ignore:
       - '**.md'
       - '*.txt'
@@ -26,7 +33,7 @@ jobs:
 
     steps:
     - name: Install dependencies
-      run: sudo apt install -y astyle cppcheck catch2
+      run: sudo apt install -y astyle cppcheck catch2 cmake 7zip
 
     - uses: actions/checkout@v4
       with:
@@ -36,22 +43,32 @@ jobs:
       working-directory: ./
       run: ./tools/format.sh --dry
 
-    - name: cpp_check
-      working-directory: ./
-      run: make cppcheck
+    - name: Build native libraries
+      run: |
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=ON -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=OFF
+        cmake --build build
 
-    - name: unit_tests
-      working-directory: ./
-      run: make tests
+    - name: Build qvm
+      run: |
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
+        cmake --build build
 
-    - name: release
-      working-directory: ./
-      run: make
+    - name: Run tests
+      run: |
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
+        cmake --build build
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: osp2_pk3
+        path: build/Release/osp/*.pk3
+        if-no-files-found: error
+        retention-days: 5
 
     - uses: actions/upload-artifact@v4
       with:
         name: osp2_linux
-        path: osp2_linux.tar.gz
+        path: build/Release/osp/*.so
         if-no-files-found: error
         retention-days: 5
 
@@ -71,15 +88,25 @@ jobs:
       with:
         submodules: recursive
 
-    - name: release
-      working-directory: ./
-      run: | 
-        make
+    - name: Build native libraries
+      run: |
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=ON -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=OFF
+        cmake --build build
+
+    - name: Build qvm
+      run: |
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
+        cmake --build build
+
+    - name: Run tests
+      run: |
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
+        cmake --build build
 
     - uses: actions/upload-artifact@v4
       with:
         name: osp2_windows
-        path: osp2_windows.zip
+        path: build/Release/osp/*.dll
         if-no-files-found: error
         retention-days: 5
 
@@ -102,6 +129,7 @@ jobs:
           files: |
             osp2_windows
             osp2_linux
+            osp2_pk3
 
 
 
