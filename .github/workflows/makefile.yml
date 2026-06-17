@@ -37,17 +37,17 @@ jobs:
 
     - name: Build native libraries
       run: |
-        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=ON -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=OFF
+        cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=ON -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=OFF
         cmake --build build
 
     - name: Build qvm
       run: |
-        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
+        cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
         cmake --build build
 
     - name: Run tests
       run: |
-        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
+        cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
         cmake --build build
 
     - uses: actions/upload-artifact@v4
