@@ -47,14 +47,14 @@ Example config: OSP2.cfg inside mod.
 > [!CAUTION]
 > **OSP 1.03a** files are required for this mod to run. Download them from [ModDB](https://www.moddb.com/mods/osp/downloads) if you don't have classic OSP installed.
 
-Download `osp2_pk3.zip` from **Releases** and extract `zz-osp-pak8.pk3` into `osp` folder, located in your Quake 3 Arena directory. Original **OSP 1.03a** should also be stored in `osp` folder.
+Download `zz-osp-pak8.pk3` from **Releases** and place it into `osp` folder, located in your Quake 3 Arena directory. Original **OSP 1.03a** should also be stored in `osp` folder.
 
 ### Native libraries
 
 > [!NOTE]
 > If you don't know what are "native libraries", you don't need them. This section is for advanced users.
 
-Download `osp2_windows_mingw.zip` or `osp2_linux.zip`, depending on your system, and extract `cgame.so`/`cgame.dll` into `osp` folder.
+Download `cgame.dll` (for windows) or `cgame.so` (for linux) and place into `osp` folder.
 
 Native libraries are not loaded by default. Enable them through `vm_cgame 0` and `sv_pure 0`:
 ```bash
