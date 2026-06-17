@@ -1,14 +1,6 @@
 name: Makefile CI
 
 on:
-  workflow_dispatch:
-    paths-ignore:
-      - '**.md'
-      - '*.txt'
-      - '.gitignore'
-      - 'docs/*'
-      - 'build/*'
-      - 'util/*'
   push:
     paths-ignore:
       - '**.md'
@@ -148,7 +140,7 @@ jobs:
 
   create-latest:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    needs: [linux, mingw]
+    needs: [linux, windows-msvc, windows-mingw]
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
