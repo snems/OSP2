@@ -1,0 +1,27 @@
+include_guard(GLOBAL)
+
+if(NOT BUILD_TESTS)
+    return()
+endif()
+
+include(ExternalProject)
+
+set(TESTS_DIR ${CMAKE_BINARY_DIR}/tests)
+
+if(CMAKE_BUILD_TYPE)
+    set(BUILD_TYPE_ARG -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
+endif()
+
+# set(OSP2_TESTS ${TESTS_DIR}/$<CONFIG>/q3rcc${HOST_EXECUTABLE_SUFFIX})
+
+ExternalProject_Add(osp2_tests
+    SOURCE_DIR ${CMAKE_SOURCE_DIR}/cmake/tests
+    BINARY_DIR ${TESTS_DIR}
+    CMAKE_ARGS
+        -DSOURCE_DIR=${SOURCE_DIR}
+        -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
+        -DCMAKE_MINIMUM_REQUIRED_VERSION=${CMAKE_MINIMUM_REQUIRED_VERSION}
+        ${BUILD_TYPE_ARG}
+    BUILD_ALWAYS TRUE
+    BYPRODUCTS ${TESTS_DIR}/osp2_tests
+    INSTALL_COMMAND "")

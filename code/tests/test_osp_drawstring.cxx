@@ -1,8 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cstring>
 
-#include "../cgame/cg_local.h"
-#include "../qcommon/qcommon.h"
+#include <cgame/cg_local.h>
+#include <qcommon/qcommon.h>
 
 
 TEST_CASE("Prepare string", "[cgame][cg_drawtools.c]")
