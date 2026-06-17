@@ -17,7 +17,7 @@ message(STATUS
 )
 
 function(add_pk3)
-  cmake_parse_arguments(ARG "" "" "ASSETS_DIR;VM_DIR;OUTPUT_DIRECTORY;PAK_NAME" ${ARGV})
+  cmake_parse_arguments(ARG "" "" "ASSETS_DIR;VM_DIR;VM_TARGETS;OUTPUT_DIRECTORY;PAK_NAME" ${ARGV})
 
   set(PK3_OUTPUT_DIR ${CMAKE_BINARY_DIR}/$<CONFIG>)
 
@@ -34,8 +34,12 @@ function(add_pk3)
 
   if(ARG_VM_DIR)
     set(PK3_FILES_TO_PACK ${ARG_ASSETS_DIR}/* ./vm/)
+
+    set(PK3_DEPENDS ${ARG_VM_TARGETS} qvm_tools)
   else()
     set(PK3_FILES_TO_PACK ${ARG_ASSETS_DIR}/*)
+
+    set(PK3_DEPENDS "")
   endif()
 
   add_custom_command(
@@ -43,6 +47,7 @@ function(add_pk3)
     COMMAND
       ${PK3_ARCHIVE} ${PK3_OUTPUT_FILE} ${PK3_FILES_TO_PACK}
     COMMENT "Packing ${PK3_OUTPUT_FILE}"
+    DEPENDS ${PK3_DEPENDS}
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/${ARG_VM_DIR}
   )
 
