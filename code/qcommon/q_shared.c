@@ -22,6 +22,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // q_shared.c -- stateless support routines that are included in each code dll
 #include "q_shared.h"
+#ifdef _DEBUG
+#include <intrin.h>
+#endif
+
 /*
 ==================
 COM_GenerateHashValue
@@ -1057,10 +1061,7 @@ void QDECL Com_sprintf(char* dest, int size, const char* fmt, ...)
 	{
 		Com_Printf("Com_sprintf: overflow of %i in %i\n", len, size);
 #ifdef  _DEBUG
-		__asm
-		{
-			int 3;
-		}
+		__debugbreak();
 #endif
 	}
 	Q_strncpyz(dest, bigbuffer, size);
