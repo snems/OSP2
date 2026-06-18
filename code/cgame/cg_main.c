@@ -861,7 +861,11 @@ void CG_PrintLog(char* msg)
 }
 
 #ifdef __GNUC__
+#if defined(__MINGW64__)
 __attribute__((format(gnu_printf, 1, 2)))
+#else
+__attribute__((format(printf, 1, 2)))
+#endif
 #endif
 void QDECL CG_Printf(const char* msg, ...)
 {
@@ -878,7 +882,11 @@ void QDECL CG_Printf(const char* msg, ...)
 
 #ifdef __GNUC__
 __attribute__((noreturn))
+#if defined(__MINGW64__)
 __attribute__((format(gnu_printf, 1, 2)))
+#else
+__attribute__((format(printf, 1, 2)))
+#endif
 #endif
 void QDECL CG_Error(const char* msg, ...)
 {
@@ -901,7 +909,11 @@ void QDECL CG_Error(const char* msg, ...)
 
 #ifdef __GNUC__
 __attribute__((noreturn))
+#if defined(__MINGW64__)
 __attribute__((format(gnu_printf, 2, 3)))
+#else
+__attribute__((format(printf, 2, 3)))
+#endif
 #endif
 void QDECL Com_Error(int level, const char* error, ...)
 {
@@ -916,7 +928,11 @@ void QDECL Com_Error(int level, const char* error, ...)
 }
 
 #ifdef __GNUC__
+#if defined(__MINGW64__)
 __attribute__((format(gnu_printf, 1, 2)))
+#else
+__attribute__((format(printf, 1, 2)))
+#endif
 #endif
 void QDECL Com_Printf(const char* msg, ...)
 {

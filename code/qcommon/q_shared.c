@@ -336,7 +336,11 @@ char* COM_Parse(char** data_p)
 }
 
 #ifdef __GNUC__
+#if defined(__MINGW64__)
 __attribute__((format(gnu_printf, 1, 2)))
+#else
+__attribute__((format(printf, 1, 2)))
+#endif
 #endif
 void COM_ParseError(char* format, ...)
 {
@@ -351,7 +355,11 @@ void COM_ParseError(char* format, ...)
 }
 
 #ifdef __GNUC__
+#if defined(__MINGW64__)
 __attribute__((format(gnu_printf, 1, 2)))
+#else
+__attribute__((format(printf, 1, 2)))
+#endif
 #endif
 void COM_ParseWarning(char* format, ...)
 {
@@ -1042,7 +1050,11 @@ char* Q_CleanStr(char* string)
 
 
 #ifdef __GNUC__
+#if defined(__MINGW64__)
 __attribute__((format(gnu_printf, 3, 4)))
+#else
+__attribute__((format(printf, 3, 4)))
+#endif
 #endif
 void QDECL Com_sprintf(char* dest, int size, const char* fmt, ...)
 {
@@ -1078,7 +1090,11 @@ FIXME: make this buffer size safe someday
 ============
 */
 #ifdef __GNUC__
+#if defined(__MINGW64__)
 __attribute__((format(gnu_printf, 1, 2)))
+#else
+__attribute__((format(printf, 1, 2)))
+#endif
 #endif
 char*     QDECL va(char* format, ...)
 {
