@@ -1,11 +1,18 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "../qcommon/qcommon.h"
+#include "memory.hxx"
 
+static void InitZoneMemory() {
+  static std::size_t forkId = ForkMemory();
+
+  SwitchFork(forkId);
+  Com_InitZoneMemory();
+}
 
 TEST_CASE("Test memory allocator", "[qcommon][memory][zone_allocator]")
 {
-  Com_InitZoneMemory();
+  InitZoneMemory();
 
   void *ptr = Z_Malloc(100);
 
@@ -16,7 +23,7 @@ TEST_CASE("Test memory allocator", "[qcommon][memory][zone_allocator]")
 
 TEST_CASE("Test memory allocator, overflow", "[qcommon][memory][zone_allocator]")
 {
-  Com_InitZoneMemory();
+  InitZoneMemory();
 
   // too big
   void *ptr1 = Z_Malloc(MAINZONE_STATIC_SIZE);

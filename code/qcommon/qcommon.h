@@ -6,6 +6,7 @@
 extern "C" {
 #endif
 
+extern int mainzone_static[];
 
 typedef struct zone_stats_s {
 	int	zoneSegments;

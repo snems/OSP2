@@ -3,12 +3,19 @@
 
 #include "../cgame/cg_local.h"
 #include "../qcommon/qcommon.h"
+#include "memory.hxx"
 
+static void InitZoneMemory() {
+  static std::size_t forkId = ForkMemory();
+
+  SwitchFork(forkId);
+  Com_InitZoneMemory();
+}
 
 TEST_CASE("Prepare string", "[cgame][cg_drawtools.c]")
 {
   char out[1024];
-  Com_InitZoneMemory();
+  InitZoneMemory();
 
   CG_OSPDrawStringPrepare("text", out, 1024);
   CHECK(strncmp("text", out, 4) == 0);
@@ -51,7 +58,7 @@ TEST_CASE("Prepare string", "[cgame][cg_drawtools.c]")
 
 TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
 {
-  Com_InitZoneMemory();
+  InitZoneMemory();
   CHECK(CG_CompileText(NULL, 0) == NULL);
   CHECK(CG_CompileText("", 0) == NULL);
 
@@ -332,7 +339,7 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
 
 TEST_CASE("Text compiler: bug ^^0 ", "[API][cg_drawtools.c]")
 {
-  Com_InitZoneMemory();
+  InitZoneMemory();
   CHECK(CG_CompileText(NULL, 0) == NULL);
   CHECK(CG_CompileText("", 0) == NULL);
 

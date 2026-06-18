@@ -71,7 +71,7 @@ static int minfragment = MINFRAGMENT; // may be adjusted at runtime
 static memzone_t *mainzone;
 static memzone_t *smallzone;
 
-static int mainzone_static[MAINZONE_STATIC_SIZE/sizeof(int)]; //static mainzone memory
+int mainzone_static[MAINZONE_STATIC_SIZE/sizeof(int)]; //static mainzone memory
 //
 static const char *tagName[ TAG_COUNT ] = {
 	"FREE",

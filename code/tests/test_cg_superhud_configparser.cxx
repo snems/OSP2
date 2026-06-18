@@ -2,18 +2,19 @@
 #include <cstring>
 #include "../cgame/cg_superhud_private.h"
 #include "../qcommon/qcommon.h"
+#include "memory.hxx"
 
-namespace
+static void shud_test_init()
 {
-  bool initialized = false;
-  void shud_test_init()
-  {
-    if (initialized) return;
-    Com_InitZoneMemory();
-    CG_SHUDParserInit();
-    initialized = true;
-  }
+  static bool initialized = false;
+  static std::size_t forkId = ForkMemory();
 
+  SwitchFork(forkId);
+
+  if (initialized) return;
+  Com_InitZoneMemory();
+  CG_SHUDParserInit();
+  initialized = true;
 }
 
 
