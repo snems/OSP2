@@ -30,28 +30,35 @@ function(add_pk3)
     COMMAND ${CMAKE_COMMAND} -E make_directory ${PK3_OUTPUT_DIR}
   )
 
-  set(PK3_OUTPUT_FILE "${PK3_OUTPUT_DIR}/${ARG_PAK_NAME}")
+  set(PK3_OUTPUT_FILE ${PK3_OUTPUT_DIR}/${ARG_PAK_NAME})
 
   if(ARG_VM_DIR)
     set(PK3_FILES_TO_PACK ${ARG_ASSETS_DIR}/* ./vm/)
 
-    set(PK3_DEPENDS ${ARG_VM_TARGETS} qvm_tools)
+    set(PK3_DEPENDS
+      ${ARG_VM_DIR}/vm/cgame.qvm
+      ${ARG_VM_TARGETS}
+      qvm_tools)
   else()
     set(PK3_FILES_TO_PACK ${ARG_ASSETS_DIR}/*)
 
     set(PK3_DEPENDS "")
   endif()
 
+  # We really want to ensure that pk3 always gets latest version of assets. As CMake
+  # is unable to track folder contents change, we have to make pk3 every build.
+  set(DUMMY_DEPENDENCY ${PK3_OUTPUT_DIR}/dummy.txt)
+
   add_custom_command(
-    OUTPUT ${PK3_OUTPUT_FILE}
+    OUTPUT ${PK3_OUTPUT_FILE} ${DUMMY_DEPENDENCY}
     COMMAND
       ${PK3_ARCHIVE} ${PK3_OUTPUT_FILE} ${PK3_FILES_TO_PACK}
     COMMENT "Packing ${PK3_OUTPUT_FILE}"
     DEPENDS ${PK3_DEPENDS}
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>/${ARG_VM_DIR}
+    WORKING_DIRECTORY ${ARG_VM_DIR}
   )
 
-  add_custom_target(${ARG_PAK_NAME} ALL DEPENDS ${PK3_OUTPUT_FILE})
+  add_custom_target(${ARG_PAK_NAME} ALL DEPENDS ${PK3_OUTPUT_FILE} ${DUMMY_DEPENDENCY})
 
   install(FILES ${PK3_OUTPUT_FILE} DESTINATION ${PK3_OUTPUT_DIR})
 endfunction()
