@@ -37,6 +37,7 @@ endif()
 
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/code)
 
+include(libraries/all)
 include(compilers/all)
 
 include(basegame)
