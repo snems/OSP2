@@ -1,5 +1,4 @@
-!build
-build/
+build
 osp/
 osp2_linux.tar.gz
 osp2_windows.zip
