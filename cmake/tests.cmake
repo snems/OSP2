@@ -5,14 +5,13 @@ if(NOT BUILD_TESTS)
 endif()
 
 include(ExternalProject)
+include(basegame_sources)
 
 set(TESTS_DIR ${CMAKE_BINARY_DIR}/tests)
 
 if(CMAKE_BUILD_TYPE)
     set(BUILD_TYPE_ARG -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
 endif()
-
-# set(OSP2_TESTS ${TESTS_DIR}/$<CONFIG>/q3rcc${HOST_EXECUTABLE_SUFFIX})
 
 ExternalProject_Add(osp2_tests
     SOURCE_DIR ${CMAKE_SOURCE_DIR}/cmake/tests
