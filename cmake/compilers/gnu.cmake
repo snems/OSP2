@@ -12,12 +12,12 @@ add_compile_options(-Wall -Wimplicit -Wshadow -Werror
 add_compile_options(-Wno-format-zero-length -Wno-format-nonliteral)
 
 # lmvec is for vectorized maths
-add_compile_options(-lmvec -lm)
+add_link_options(-lmvec -lm)
 
 # We must have all symbols defined. Without this, successful compilation
 # may produce unusable binary, that cannot load because of some missing
 # function
-add_compile_options(-Wl,--no-undefined)
+add_link_options(-Wl,--no-undefined)
 
 # There are lots of instances of union based aliasing in the code
 # that rely on the compiler not optimising them away, so disable it
