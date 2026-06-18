@@ -390,10 +390,9 @@ vmCvar_t           cg_shud_chatmsg13;
 vmCvar_t           cg_shud_chatmsg14;
 vmCvar_t           cg_shud_chatmsg15;
 
-
 static cvarTable_t cvarTable[] =
 {
-	{ &osp_client, "osp_client", "1008_OSP2_"OSP_VERSION, CVAR_USERINFO | CVAR_ROM },
+	{ &osp_client, "osp_client", XSTRINGIFY(OSP_CLIENT), CVAR_USERINFO | CVAR_ROM },
 	{ &osp_hidden, "osp_print_issues", "0", CVAR_ARCHIVE },
 	{ &osp_debug, "osp_debug", "0", CVAR_ARCHIVE },
 	{ &cg_autoswitch, "cg_autoswitch", "0", CVAR_ARCHIVE },
@@ -1575,8 +1574,6 @@ static void CG_RegisterGraphics(void)
 	CG_ClearParticles();
 }
 
-
-
 /*
 =======================
 CG_BuildSpectatorString
@@ -1800,7 +1797,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 
 	CG_ParseServerinfo();
 
-	CG_Printf("\n>>> ^3Loaded OSP2 Client Version: ^5%s\n\n", OSP_VERSION);
+	CG_Printf("\n>>> ^3Loaded OSP2 Client Version: ^5%s\n\n", XSTRINGIFY(OSP_VERSION));
 
 	CG_OSPPrintTime_f();
 

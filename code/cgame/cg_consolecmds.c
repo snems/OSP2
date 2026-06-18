@@ -390,7 +390,7 @@ void CG_OSPHUDprev_f(void)
 
 void CG_OSPClientVersion_f(void)
 {
-	CG_Printf("^3OSP2 Client Version:^7 %s\n", OSP_VERSION);
+	CG_Printf("^3OSP2 Client Version:^7 %s\n", XSTRINGIFY(OSP_VERSION));
 }
 
 #define CG_YES_NO_STR(VAL) ((VAL) ? "^2Yes" : "^1No")
@@ -408,7 +408,7 @@ void CG_OSPClientConfig_f(void)
 	}
 
 
-	CG_Printf("^5OSP2 Server-forced settings:\n", OSP_VERSION);
+	CG_Printf("^5OSP2 Server-forced settings:\n", XSTRINGIFY(OSP_VERSION));
 	CG_Printf("    ^3Physics:                     ^2%s\n", physics);
 	CG_Printf("    ^3Alternative weapons:         %s\n", CG_YES_NO_STR(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_ALT_WEAPON_FLAG));
 	CG_Printf("    ^3Timer(deprecated):           %s\n", CG_YES_NO_STR(cgs.osp.custom_client & OSP_CUSTOM_CLIENT_TIMER_FLAG));
