@@ -1930,7 +1930,7 @@ qboolean CG_DrawIntermission(void)
 	return CG_DrawOldScoreboard();
 }
 
-void CG_OSPDrawIntermission()
+void CG_OSPDrawIntermission(void)
 {
 	int i;
 

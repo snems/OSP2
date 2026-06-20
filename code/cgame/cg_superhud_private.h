@@ -302,11 +302,10 @@ typedef struct superhudElement_s
 }
 superhudElement_t;
 
-typedef struct superHUDConfigCommand_s
+typedef struct
 {
 	const char* name;
 	superhudConfigParseStatus_t (*parse)(configFileInfo_t* finfo, superhudConfig_t* config);
-	struct superHUDConfigCommand_s* next;
 } superHUDConfigCommand_t;
 
 typedef struct
@@ -330,6 +329,7 @@ typedef struct
     }while(0)
 
 void CG_SHUDParserInit(void);
+void CG_SHUDParserTeardown(void);
 const superHUDConfigElement_t* CG_SHUDFindConfigElementItem(const char* name);
 const superHUDConfigCommand_t* CG_SHUDFindConfigCommandItem(const char* name);
 

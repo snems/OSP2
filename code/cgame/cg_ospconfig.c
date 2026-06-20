@@ -12,7 +12,7 @@ qboolean CG_OSPIsGameTypeCA(int gametype)
 	return gametype >= GT_CA ? qtrue : qfalse;
 }
 
-qboolean CG_OSPIsGameTypeFreeze()
+qboolean CG_OSPIsGameTypeFreeze(void)
 {
 	return cgs.gametype == GT_TEAM && cgs.osp.gameTypeFreeze;
 }
