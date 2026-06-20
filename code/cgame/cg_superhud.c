@@ -415,7 +415,6 @@ void CG_SHUDEventChat(const char* message)
 
 void CG_SHUDEventTeamChat(const char* message)
 {
-	int len = 0;
 	char* loc_start;
 	char* loc_end;
 	char* p;
@@ -485,7 +484,6 @@ void CG_SHUDEventTeamChat(const char* message)
 			continue;
 		}
 		*p++ = *message++;
-		len++;
 	}
 
 	*p = 0;
