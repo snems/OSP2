@@ -1,16 +1,19 @@
-# How to use tests:
+# How to use tests
 
-Install requirements:
+Install **git** on your system. GitHub has a nice [instruction](https://github.com/git-guides/install-git) how to do this for any OS.
 
-cmake, clang, clang++, [Catch2](https://github.com/catchorg/Catch2)
+## Testing
 
-Build tests:
+**CMake** configuration has `BUILD_TESTS` flag, which enables tests.
 
-    cd ./build/tests
-    cmake -S . -B build
-    cmake --build build
-    
-..and run:
+Follow [build instructions (README)](../README.md#how-to-build). After the mod has successfully built, configure it with the `BUILD_TESTS` flag enabled:
 
-    ./build/osp2_tests
+```bash
+cmake -S . -B build -DBUILD_TESTS=ON
+```
 
+and build as usual:
+
+```bash
+cmake --build build
+```

@@ -133,3 +133,7 @@ cmake --build build --parallel 8
  - `zz-osp-pak8.pk3` - assets and qvms.
 
 Install it as described in [installing instructions](#how-to-install).
+
+## Tests
+
+See [how to test](./docs/tests.md). 
