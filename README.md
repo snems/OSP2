@@ -78,10 +78,13 @@ Follow instructions corresponding to your system:
 
 ## Linux
 
-Install `cmake`, `gcc` and `make`. For systems with `apt` packet manager:
+Install `cmake`, `gcc`, `make` and `7zip`. For systems with `apt` packet manager:
 ```bash
-sudo apt install cmake make gcc
+sudo apt install cmake make gcc 7zip
 ```
+
+> [!NOTE]
+> For your linux distro, `7zip` may be distributed under `p7zip` package.
 
 ### Configure the project
 
