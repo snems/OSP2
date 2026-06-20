@@ -11,6 +11,12 @@ set(CMAKE_BUILD_TYPE Debug)
 
 include_directories(${SOURCE_DIR})
 
+# This is for MinGW. Tell him we don't want to dynamically link common libraries,
+# so CI tests can run peacefully.
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU" AND WIN32)
+  add_link_options(-static-libgcc -static-libstdc++ -lwinpthread -dynamic)
+endif()
+
 set(SOURCES_TESTS
     ${SOURCE_DIR}/tests/test_cg_customloc.cxx
     ${SOURCE_DIR}/tests/test_cg_osputil_colorparser.cxx
