@@ -20,7 +20,7 @@ TEST_CASE("Test memory allocator, overflow", "[qcommon][memory][zone_allocator]"
 
   // too big
   void *ptr1 = Z_Malloc(MAINZONE_STATIC_SIZE);
-  CHECK(ptr1 == NULL);
+  CHECK(ptr1 == nullptr);
 
   // not too big
   ptr1 = Z_Malloc(MAINZONE_STATIC_SIZE/2);
@@ -28,7 +28,7 @@ TEST_CASE("Test memory allocator, overflow", "[qcommon][memory][zone_allocator]"
 
   // but one more will too big
   void *ptr2 = Z_Malloc(MAINZONE_STATIC_SIZE/2);
-  CHECK(ptr2 == NULL);
+  CHECK(ptr2 == nullptr);
 
   // if free first, there are enought memory
   Z_Free(ptr1);
