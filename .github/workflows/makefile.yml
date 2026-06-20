@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Install dependencies
-        run: sudo apt install -y astyle cppcheck catch2 cmake 7zip
+        run: sudo apt install -y astyle cppcheck cmake 7zip
 
       - uses: actions/checkout@v4
         with:
