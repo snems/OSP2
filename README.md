@@ -106,12 +106,12 @@ Install it as described in [installing instructions](#how-to-install).
 
 ## Windows (MinGW)
 
-Install [MinGW](https://github.com/skeeto/w64devkit/releases), [CMake](https://cmake.org/cmake/download) and [Ninja](https://github.com/ninja-build/ninja/releases). Add their binary folders to system's PATH. It should look somewhat like this:
+Install [MinGW](https://github.com/skeeto/w64devkit/releases), [CMake](https://cmake.org/cmake/download) and [Ninja](https://github.com/ninja-build/ninja/releases). All of them have portable `.zip` distributions, so each can be installed by just extracting `.zip` in whatever folder you like. Add their binary folders to system's PATH. It should look somewhat like this:
 ```cmd
 set PATH=%PATH%;<MinGW>/bin;<CMake>/bin;<Ninja>
 ```
 
-Ninja is a portable application, so its binary folder is whatever folder you extracted it in.
+Ninja is a portable **application**, so its binary folder is whatever folder you extracted it in.
 
 ### Configure the project
 
@@ -133,6 +133,9 @@ cmake --build build --parallel 8
  - `zz-osp-pak8.pk3` - assets and qvms.
 
 Install it as described in [installing instructions](#how-to-install).
+
+> [!NOTE]
+> If you see `zz-osp-pak8.zip` instead of `.pk3` one, just change the extension.
 
 ## Tests
 
