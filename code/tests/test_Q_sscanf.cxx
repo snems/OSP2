@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../qcommon/qcommon.h"
+#include <qcommon/qcommon.h>
 
 
 TEST_CASE("Test Q_sscanf: return code", "[cgame][Q_sscanf]")

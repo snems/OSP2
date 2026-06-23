@@ -429,7 +429,7 @@ void CG_SHUDEventTeamChat(const char* message)
 
 	if (customLocationsEnabled != 0)
 	{
-		char* cloc_begin, *cloc_end;
+		char* cloc_begin, * cloc_end;
 		int free_left;
 		vec3_t cloc;
 		if (CG_CustomLocationsTeamChatCode(message, cloc, &cloc_begin, &cloc_end))

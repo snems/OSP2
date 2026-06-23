@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../cgame/cg_local.h"
+#include <cgame/cg_local.h>
 
 TEST_CASE("Test Util: color parser, fail cases", "[cgame][CG_ParseColorStr]")
 {

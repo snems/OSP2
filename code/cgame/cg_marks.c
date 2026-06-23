@@ -154,7 +154,7 @@ void CG_ImpactMark(qhandle_t markShader, const vec3_t origin, const vec3_t dir,
 	byte            colors[4];
 	int             i, j;
 	int             numFragments;
-	markFragment_t  markFragments[MAX_MARK_FRAGMENTS], *mf;
+	markFragment_t  markFragments[MAX_MARK_FRAGMENTS], * mf;
 	vec3_t          markPoints[MAX_MARK_POINTS];
 	vec3_t          projection;
 
@@ -258,7 +258,7 @@ CG_AddMarks
 void CG_AddMarks(void)
 {
 	int         j;
-	markPoly_t*  mp, *next;
+	markPoly_t*  mp, * next;
 	int         t;
 	int         fade;
 
@@ -416,7 +416,7 @@ static int  numShaderAnims;
 #define     PARTICLE_GRAVITY    40
 #define     MAX_PARTICLES   1024
 
-cparticle_t* active_particles, *free_particles;
+cparticle_t* active_particles, * free_particles;
 cparticle_t particles[MAX_PARTICLES];
 int     cl_numparticles = MAX_PARTICLES;
 
@@ -861,12 +861,12 @@ void CG_AddParticleToScene(cparticle_t* p, vec3_t org, float alpha)
 	{
 		vec3_t  rr, ru;
 		vec3_t  rotate_ang;
-		float   alpha;
+		float   pAlpha;
 
-		alpha = p->alpha;
+		pAlpha = p->alpha;
 
 		if (cgs.glconfig.hardwareType == GLHW_RAGEPRO)
-			alpha = 1;
+			pAlpha = 1;
 
 		if (p->roll)
 		{
@@ -888,7 +888,7 @@ void CG_AddParticleToScene(cparticle_t* p, vec3_t org, float alpha)
 		verts[0].modulate[0] = 111;
 		verts[0].modulate[1] = 19;
 		verts[0].modulate[2] = 9;
-		verts[0].modulate[3] = 255 * alpha;
+		verts[0].modulate[3] = 255 * pAlpha;
 
 		VectorMA(org, -p->height, ru, point);
 		VectorMA(point, p->width, rr, point);
@@ -898,7 +898,7 @@ void CG_AddParticleToScene(cparticle_t* p, vec3_t org, float alpha)
 		verts[1].modulate[0] = 111;
 		verts[1].modulate[1] = 19;
 		verts[1].modulate[2] = 9;
-		verts[1].modulate[3] = 255 * alpha;
+		verts[1].modulate[3] = 255 * pAlpha;
 
 		VectorMA(org, p->height, ru, point);
 		VectorMA(point, p->width, rr, point);
@@ -908,7 +908,7 @@ void CG_AddParticleToScene(cparticle_t* p, vec3_t org, float alpha)
 		verts[2].modulate[0] = 111;
 		verts[2].modulate[1] = 19;
 		verts[2].modulate[2] = 9;
-		verts[2].modulate[3] = 255 * alpha;
+		verts[2].modulate[3] = 255 * pAlpha;
 
 		VectorMA(org, p->height, ru, point);
 		VectorMA(point, -p->width, rr, point);
@@ -918,12 +918,11 @@ void CG_AddParticleToScene(cparticle_t* p, vec3_t org, float alpha)
 		verts[3].modulate[0] = 111;
 		verts[3].modulate[1] = 19;
 		verts[3].modulate[2] = 9;
-		verts[3].modulate[3] = 255 * alpha;
+		verts[3].modulate[3] = 255 * pAlpha;
 
 	}
 	else if (p->type == P_FLAT_SCALEUP)
 	{
-		float width, height;
 		float sinR, cosR;
 
 		if (p->color == BLOODRED)
@@ -1158,11 +1157,11 @@ CG_AddParticles
 */
 void CG_AddParticles(void)
 {
-	cparticle_t*     p, *next;
+	cparticle_t*     p, * next;
 	float           alpha;
 	float           time, time2;
 	vec3_t          org;
-	cparticle_t*     active, *tail;
+	cparticle_t*     active, * tail;
 	vec3_t          rotate_ang;
 
 	if (!initparticles)
@@ -1695,7 +1694,7 @@ int CG_NewParticleArea(int num)
 
 void    CG_SnowLink(centity_t* cent, qboolean particleOn)
 {
-	cparticle_t*     p, *next;
+	cparticle_t*     p, * next;
 	int id;
 
 	id = cent->currentState.frame;
@@ -1936,7 +1935,7 @@ void CG_Particle_OilSlick(qhandle_t pshader, centity_t* cent)
 
 void CG_OilSlickRemove(centity_t* cent)
 {
-	cparticle_t*     p, *next;
+	cparticle_t*     p, * next;
 	int             id;
 
 	id = 1.0f;

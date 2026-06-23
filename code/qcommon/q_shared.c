@@ -22,6 +22,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 // q_shared.c -- stateless support routines that are included in each code dll
 #include "q_shared.h"
+#ifdef _DEBUG
+#include <intrin.h>
+#endif
+
 /*
 ==================
 COM_GenerateHashValue
@@ -331,6 +335,13 @@ char* COM_Parse(char** data_p)
 	return COM_ParseExt(data_p, qtrue);
 }
 
+#ifdef __GNUC__
+#if defined(__MINGW64__)
+__attribute__((format(gnu_printf, 1, 2)))
+#else
+__attribute__((format(printf, 1, 2)))
+#endif
+#endif
 void COM_ParseError(char* format, ...)
 {
 	va_list argptr;
@@ -343,6 +354,13 @@ void COM_ParseError(char* format, ...)
 	Com_Printf("ERROR: %s, line %d: %s\n", com_parsename, com_lines, string);
 }
 
+#ifdef __GNUC__
+#if defined(__MINGW64__)
+__attribute__((format(gnu_printf, 1, 2)))
+#else
+__attribute__((format(printf, 1, 2)))
+#endif
+#endif
 void COM_ParseWarning(char* format, ...)
 {
 	va_list argptr;
@@ -1031,6 +1049,13 @@ char* Q_CleanStr(char* string)
 }
 
 
+#ifdef __GNUC__
+#if defined(__MINGW64__)
+__attribute__((format(gnu_printf, 3, 4)))
+#else
+__attribute__((format(printf, 3, 4)))
+#endif
+#endif
 void QDECL Com_sprintf(char* dest, int size, const char* fmt, ...)
 {
 	int     len;
@@ -1048,10 +1073,7 @@ void QDECL Com_sprintf(char* dest, int size, const char* fmt, ...)
 	{
 		Com_Printf("Com_sprintf: overflow of %i in %i\n", len, size);
 #ifdef  _DEBUG
-		__asm
-		{
-			int 3;
-		}
+		__debugbreak();
 #endif
 	}
 	Q_strncpyz(dest, bigbuffer, size);
@@ -1067,6 +1089,13 @@ varargs versions of all text functions.
 FIXME: make this buffer size safe someday
 ============
 */
+#ifdef __GNUC__
+#if defined(__MINGW64__)
+__attribute__((format(gnu_printf, 1, 2)))
+#else
+__attribute__((format(printf, 1, 2)))
+#endif
+#endif
 char*     QDECL va(char* format, ...)
 {
 	va_list     argptr;

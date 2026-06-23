@@ -1,0 +1,50 @@
+if(NOT BUILD_MOD_LIBRARIES AND NOT BUILD_MOD_QVMS)
+    return()
+endif()
+
+include(utils/qvm_tools)
+include(utils/pk3)
+include(utils/set_output_dirs)
+include(mod)
+
+include(basegame_sources)
+
+if(BUILD_MOD_LIBRARIES)
+    set(CGAME_MODULE_BINARY ${CGAME_MODULE})
+
+    set(CGAME_MODULE_BINARY_BASEGAME ${CGAME_MODULE_BINARY}_${BASEGAME})
+
+    add_library(                ${CGAME_MODULE_BINARY_BASEGAME} SHARED ${CGAME_SOURCES_BASEGAME} ${CGAME_BINARY_SOURCES})
+    target_compile_definitions( ${CGAME_MODULE_BINARY_BASEGAME}
+        PRIVATE CGAME
+        PRIVATE OSP_VERSION=${OSP_VERSION}
+        PRIVATE OSP_CLIENT=${OSP_CLIENT}
+    )
+    target_link_libraries(      ${CGAME_MODULE_BINARY_BASEGAME} PRIVATE ${COMMON_LIBRARIES})
+    set_target_properties(      ${CGAME_MODULE_BINARY_BASEGAME} PROPERTIES OUTPUT_NAME ${CGAME_MODULE_BINARY})
+    set_output_dirs(            ${CGAME_MODULE_BINARY_BASEGAME} SUBDIRECTORY ${BASEGAME})
+endif()
+
+if(BUILD_MOD_QVMS)
+    set(CGAME_MODULE_QVM_BASEGAME ${CGAME_MODULE}qvm_${BASEGAME})
+
+    string(REGEX REPLACE "[^A-Za-z0-9]" "_" CGAME_MODULE_QVM_BASEGAME ${CGAME_MODULE_QVM_BASEGAME})
+
+    add_qvm(${CGAME_MODULE_QVM_BASEGAME}
+        DEFINITIONS CGAME "OSP_VERSION=\"\\\"${OSP_VERSION}\\\"\"" "OSP_CLIENT=\"\\\"${OSP_CLIENT}\\\"\""
+        OUTPUT_NAME ${CGAME_MODULE}
+        OUTPUT_DIRECTORY ${BASEGAME}/vm
+        SOURCES ${CGAME_SOURCES_BASEGAME} ${CGAME_QVM_SOURCES} ${CGAME_HEADERS})
+
+    set(VM_DIR ${CMAKE_BINARY_DIR}/$<CONFIG>/${BASEGAME})
+endif()
+
+if(BUILD_MOD_PK3)
+    add_pk3(
+        ASSETS_DIR ${ASSETS_LOCATION}
+        VM_DIR ${VM_DIR}
+        VM_TARGETS ${CGAME_MODULE_QVM_BASEGAME}
+        OUTPUT_DIRECTORY ${BASEGAME}
+        PAK_NAME ${OSP_PAKNAME}
+    )
+endif()

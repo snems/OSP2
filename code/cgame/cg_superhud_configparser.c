@@ -1156,7 +1156,7 @@ void CG_SHUDFileInfoTeardown(configFileInfo_t* cfi)
  *
  */
 
-const superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_t* cfi)
+superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_t* cfi)
 {
 	char elementName[MAX_QPATH];
 	int i;
@@ -1266,7 +1266,7 @@ const superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_
  *
  */
 
-const superhudConfigParseCommand_t CG_SHUDFileInfoGetCommandItem(configFileInfo_t* cfi)
+superhudConfigParseCommand_t CG_SHUDFileInfoGetCommandItem(configFileInfo_t* cfi)
 {
 	char commandName[MAX_QPATH];
 	int i;

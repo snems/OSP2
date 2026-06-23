@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "../cgame/cg_local.h"
+#include <cgame/cg_local.h>
 
 
 TEST_CASE("Test sructures: player colors set, color1 is one character", "[cgame][CG_PlayerColorsFromCS]")

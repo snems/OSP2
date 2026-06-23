@@ -697,7 +697,7 @@ static void CG_LoadFont(font_t* fnt, const char* fontName)
 {
 	char buf[ 8000 ];
 	fileHandle_t f;
-	char* token, *text;
+	char* token, * text;
 	float width, height, r_width, r_height;
 	float char_width;
 	float char_height;

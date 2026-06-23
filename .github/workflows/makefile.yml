@@ -2,62 +2,71 @@ name: Makefile CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
     paths-ignore:
-      - '**.md'
-      - '*.txt'
-      - '.gitignore'
-      - 'docs/*'
-      - 'build/*'
-      - 'util/*'
+      - "**.md"
+      - "*.txt"
+      - ".gitignore"
+      - "docs/*"
+      - "build/*"
+      - "util/*"
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
     paths-ignore:
-      - '**.md'
-      - '*.txt'
-      - '.gitignore'
-      - 'docs/*'
-      - 'build/*'
-      - 'util/*'
+      - "**.md"
+      - "*.txt"
+      - ".gitignore"
+      - "docs/*"
+      - "build/*"
+      - "util/*"
 
 jobs:
   linux:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install dependencies
-      run: sudo apt install -y astyle cppcheck catch2
+      - name: Install dependencies
+        run: sudo apt install -y astyle cppcheck cmake 7zip
 
-    - uses: actions/checkout@v4
-      with:
-        submodules: recursive
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-    - name: format_check
-      working-directory: ./
-      run: ./tools/format.sh --dry
+      - name: format_check
+        working-directory: ./
+        run: ./tools/format.sh --dry
 
-    - name: cpp_check
-      working-directory: ./
-      run: make cppcheck
+      - name: Build native libraries
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=ON -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=OFF
+          cmake --build build
 
-    - name: unit_tests
-      working-directory: ./
-      run: make tests
+      - name: Build qvm
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
+          cmake --build build
 
-    - name: release
-      working-directory: ./
-      run: make
+      - name: Run tests
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
+          cmake --build build
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: osp2_linux
-        path: osp2_linux.tar.gz
-        if-no-files-found: error
-        retention-days: 5
+      - uses: actions/upload-artifact@v4
+        with:
+          name: osp2_pk3
+          path: build/Release/osp/*.pk3
+          if-no-files-found: error
+          retention-days: 5
 
-  mingw:
-    name: MinGW GCC
-    needs: linux 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: osp2_linux
+          path: build/Release/osp/*.so
+          if-no-files-found: error
+          retention-days: 5
+
+  windows-msvc:
+    name: Windows MSVC
 
     runs-on: windows-2022
 
@@ -66,26 +75,71 @@ jobs:
         shell: bash
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-    - uses: actions/checkout@v4
-      with:
-        submodules: recursive
+      - name: Build native libraries
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=ON -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=OFF
+          cmake --build build --config Release
 
-    - name: release
-      working-directory: ./
-      run: | 
-        make
+      - name: Build qvm
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
+          cmake --build build --config Release
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: osp2_windows
-        path: osp2_windows.zip
-        if-no-files-found: error
-        retention-days: 5
+      - name: Run tests
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
+          cmake --build build --config Release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: osp2_windows_msvc
+          path: build/Release/osp/*.dll
+          if-no-files-found: error
+          retention-days: 5
+
+  windows-mingw:
+    name: Windows MinGW
+
+    runs-on: windows-2022
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build native libraries
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=ON -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=OFF
+          cmake --build build --config Release
+
+      - name: Build qvm
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=ON -DBUILD_MOD_QVMS=ON -DBUILD_TESTS=OFF
+          cmake --build build --config Release
+
+      - name: Run tests
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_MOD_LIBRARIES=OFF -DBUILD_MOD_PK3=OFF -DBUILD_MOD_QVMS=OFF -DBUILD_TESTS=ON
+          cmake --build build --config Release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: osp2_windows_mingw
+          path: build/Release/osp/*.dll
+          if-no-files-found: error
+          retention-days: 5
 
   create-latest:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    needs: [linux, mingw]
+    needs: [linux, windows-msvc, windows-mingw]
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -100,8 +154,6 @@ jobs:
           prerelease: false
           title: Latest Build
           files: |
-            osp2_windows
+            osp2_windows_mingw
             osp2_linux
-
-
-
+            osp2_pk3

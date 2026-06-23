@@ -730,15 +730,15 @@ PM_AirMove
 
 ===================
 */
-static void PM_AirControl(const pmove_t* pm, vec3_t wishdir, float wishvel)
+static void PM_AirControl(const pmove_t* pmove, vec3_t wishdir, float wishvel)
 {
-	if (wishvel == 0 || (pm->ps->movementDir != 0 && pm->ps->movementDir != 4))
+	if (wishvel == 0 || (pmove->ps->movementDir != 0 && pmove->ps->movementDir != 4))
 	{
 		return;
 	}
 
 	{
-		playerState_t* ps = pm->ps;
+		playerState_t* ps = pmove->ps;
 		float zspeed = ps->velocity[2];
 		float speed;
 		float k2;
@@ -752,14 +752,14 @@ static void PM_AirControl(const pmove_t* pm, vec3_t wishdir, float wishvel)
 		if (k2 > 0)
 		{
 			k3 = 32.0f * modePredictionKoeff2 * k2 * k2 * pml.frametime;
-			pm->ps->velocity[0] = pm->ps->velocity[0] * speed + wishdir[0] * k3;
-			pm->ps->velocity[1] = pm->ps->velocity[1] * speed + wishdir[1] * k3;
+			pmove->ps->velocity[0] = pmove->ps->velocity[0] * speed + wishdir[0] * k3;
+			pmove->ps->velocity[1] = pmove->ps->velocity[1] * speed + wishdir[1] * k3;
 			VectorNormalize(ps->velocity);
 		}
 
-		pm->ps->velocity[0] *= speed;
-		pm->ps->velocity[1] *= speed;
-		pm->ps->velocity[2] = zspeed;
+		pmove->ps->velocity[0] *= speed;
+		pmove->ps->velocity[1] *= speed;
+		pmove->ps->velocity[2] = zspeed;
 	}
 }
 

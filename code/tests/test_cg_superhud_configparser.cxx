@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cstring>
-#include "../cgame/cg_superhud_private.h"
-#include "../qcommon/qcommon.h"
+#include <cgame/cg_superhud_private.h>
+#include <qcommon/qcommon.h>
 
 TEST_CASE("Test SuperHUD: test split config to lines", "[cgame][CG_SHUDConfigFileSplitToLines]")
 {

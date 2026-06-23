@@ -339,8 +339,8 @@ void CG_SHUDFileInfoTeardown(configFileInfo_t* cfi);
 qboolean CG_SHUDFileInfoGoToChar(configFileInfo_t* cfi, char to, qboolean next);
 void CG_SHUDFileInfoSkipSpaces(configFileInfo_t* cfi);
 qboolean CG_SHUDFileInfoSkipCommandEnd(configFileInfo_t* cfi);
-const superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_t* cfi);
-const superhudConfigParseCommand_t CG_SHUDFileInfoGetCommandItem(configFileInfo_t* cfi);
+superhudConfigParseElement_t CG_SHUDFileInfoGetElementItem(configFileInfo_t* cfi);
+superhudConfigParseCommand_t CG_SHUDFileInfoGetCommandItem(configFileInfo_t* cfi);
 
 void* CG_SHUDElementFPSCreate(const superhudConfig_t* config);
 void CG_SHUDElementFPSRoutine(void* context);

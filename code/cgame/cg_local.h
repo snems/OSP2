@@ -215,7 +215,7 @@ typedef struct centity_s
 
 typedef struct markPoly_s
 {
-	struct markPoly_s*   prevMark, *nextMark;
+	struct markPoly_s*   prevMark, * nextMark;
 	int         time;
 	qhandle_t   markShader;
 	qboolean    alphaFade;      // fade alpha instead of rgb
@@ -262,7 +262,7 @@ typedef enum
 
 typedef struct localEntity_s
 {
-	struct localEntity_s*    prev, *next;
+	struct localEntity_s*    prev, * next;
 	leType_t        leType;
 	int             leFlags;
 
@@ -2206,7 +2206,6 @@ int CG_NewParticleArea(int num);
 
 qboolean CG_DrawIntermission(void);
 /*************************************************************************************************/
-#define OSP_VERSION "0.06-test"
 
 
 //

@@ -1,8 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cstring>
 
-#include "../cgame/cg_local.h"
-#include "../qcommon/qcommon.h"
+#include <cgame/cg_local.h>
+#include <qcommon/qcommon.h>
 
 
 TEST_CASE("Prepare string", "[cgame][cg_drawtools.c]")
@@ -52,8 +52,8 @@ TEST_CASE("Prepare string", "[cgame][cg_drawtools.c]")
 TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
 {
   Com_InitZoneMemory();
-  CHECK(CG_CompileText(NULL, 0) == NULL);
-  CHECK(CG_CompileText("", 0) == NULL);
+  CHECK(CG_CompileText(NULL, 0) == nullptr);
+  CHECK(CG_CompileText("", 0) == nullptr);
 
   {
     text_command_t *commands = CG_CompileText("text", 0);
@@ -333,8 +333,8 @@ TEST_CASE("Text compiler", "[API][cg_drawtools.c]")
 TEST_CASE("Text compiler: bug ^^0 ", "[API][cg_drawtools.c]")
 {
   Com_InitZoneMemory();
-  CHECK(CG_CompileText(NULL, 0) == NULL);
-  CHECK(CG_CompileText("", 0) == NULL);
+  CHECK(CG_CompileText(NULL, 0) == nullptr);
+  CHECK(CG_CompileText("", 0) == nullptr);
 
   {
     text_command_t *commands = CG_CompileText("te^^0xt", 0);
