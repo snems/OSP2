@@ -317,8 +317,9 @@ void PM_StepSlideMove(qboolean gravity)
 	VectorCopy(start_o, up);
 	up[2] += STEPSIZE;
 
-	// test the player position if they were a stepheight higher
-	pm->trace(&trace, start_o, pm->mins, pm->maxs, up, pm->ps->clientNum, pm->tracemask);
+	/* OSP 1.03: point test at +STEPSIZE (start==end). Sweep start_o->up is ioquake3;
+	   a ceiling makes fraction<1 / not allsolid and would copy into the brush. */
+	pm->trace(&trace, up, pm->mins, pm->maxs, up, pm->ps->clientNum, pm->tracemask);
 	if (trace.allsolid)
 	{
 		if (pm->debugLevel)
@@ -328,9 +329,8 @@ void PM_StepSlideMove(qboolean gravity)
 		return;     // can't step up
 	}
 
-	stepSize = trace.endpos[2] - start_o[2];
-	// try slidemove from this position
-	VectorCopy(trace.endpos, pm->ps->origin);
+	stepSize = STEPSIZE;
+	VectorCopy(up, pm->ps->origin);
 	VectorCopy(start_v, pm->ps->velocity);
 
 	PM_SlideMove(gravity);
@@ -348,11 +348,9 @@ void PM_StepSlideMove(qboolean gravity)
 		if (pm->ps->stats[STAT_OSP_10])
 		{
 			PM_ClipVelocityOSP(pm->ps->velocity, trace.plane.normal, pm->ps->velocity, OVERCLIP);
+			return;
 		}
-		else
-		{
-			PM_ClipVelocity(pm->ps->velocity, trace.plane.normal, pm->ps->velocity, OVERCLIP);
-		}
+		PM_ClipVelocity(pm->ps->velocity, trace.plane.normal, pm->ps->velocity, OVERCLIP);
 	}
 
 #if 0
