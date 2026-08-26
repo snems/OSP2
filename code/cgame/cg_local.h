@@ -1948,6 +1948,7 @@ qboolean CG_OSPDrawScoretable(void);
 qboolean CG_ConsoleCommand(void);
 void CG_InitConsoleCommands(void);
 void CG_OSPPrintTime_f(void);
+void CG_OSPClientAuth_f(void);
 void CG_OSPMoTD_f(void);
 void CG_OSPWStatsDown_f(void);
 void CG_OSPWStatsUp_f(void);

@@ -752,6 +752,13 @@ void    BG_PlayerStateToEntityStateExtraPolate(playerState_t* ps, entityState_t*
 
 qboolean    BG_PlayerTouchesItem(playerState_t* ps, entityState_t* item, int atTime);
 
+//
+// bg_auth.c
+//
+void G_OSPAuthInit(void);
+void G_OSPAuthUpdateName(char* str);
+void G_OSPAuthGetSecret(char* str);
+
 
 #define ARENAS_PER_TIER     4
 #define MAX_ARENAS          1024

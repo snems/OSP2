@@ -1159,6 +1159,7 @@ void CG_ServerCommand(void)
 //psohtua
 	if (strcmp(cmd, "psohtua") == 0)
 	{
+		CG_OSPClientAuth_f();
 		return;
 	}
 //cp
