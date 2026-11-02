@@ -945,8 +945,10 @@ static void CG_OSPPrintSSet(void)
 	argNum = trap_Argc();
 	for (k = 0, buf[0] = 0, i = 1; i < argNum; i += 2)
 	{
-		strcat(buf, va("%s%20s ", prefix, CG_Argv(i)));
-		strcat(buf, va("%-3s", CG_Argv((i + 1))));
+		// the arguments come from the server: bounded appends, and no more than one
+		// setting name / value per column
+		Q_strcat(buf, sizeof(buf), va("%s%20.20s ", prefix, CG_Argv(i)));
+		Q_strcat(buf, sizeof(buf), va("%-3.32s", CG_Argv((i + 1))));
 
 		prefix = "  ";
 		if (k++ == 3)
