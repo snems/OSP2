@@ -156,6 +156,11 @@ void CG_ParseServerinfo(void)
 	cgs.capturelimit = atoi(Info_ValueForKey(info, "capturelimit"));
 	cgs.timelimit = atoi(Info_ValueForKey(info, "timelimit"));
 	cgs.maxclients = atoi(Info_ValueForKey(info, "sv_maxclients"));
+	// drives loops over cgs.clientinfo[MAX_CLIENTS]; the value is server-supplied
+	if (cgs.maxclients < 1 || cgs.maxclients > MAX_CLIENTS)
+	{
+		cgs.maxclients = MAX_CLIENTS;
+	}
 	mapname = Info_ValueForKey(info, "mapname");
 	Com_sprintf(cgs.mapname, sizeof(cgs.mapname), "maps/%s.bsp", mapname);
 	Q_strncpyz(cgs.redTeam, Info_ValueForKey(info, "g_redTeam"), sizeof(cgs.redTeam));
