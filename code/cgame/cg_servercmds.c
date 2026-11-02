@@ -1064,7 +1064,7 @@ line is rebuilt from the parsed tokens
 */
 static void CG_ServerCommandStuffOne(char* text)
 {
-	char tok[3][MAX_QPATH];
+	char tok[3][MAX_OSPATH];    // demo names (players, map, host, date) are often longer than MAX_QPATH
 	char* p;
 	int argc;
 
