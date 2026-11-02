@@ -1000,23 +1000,25 @@ static void CG_OSPPrintSSet(void)
 =================
 CG_StuffSafeName
 
-A demo / screenshot name sent in a stuff command. OSP servers send names
-such as " 2026.11.02-1530-q3dm6-(Player)", so spaces and brackets are fine,
-but nothing that could end the quoted argument or leave the demos /
-screenshots directory
+A demo / screenshot name sent in a stuff command, such as
+"Player1-vs-Player2-q3dm6-(Player1)-2026.11.02-15.30.00". The server only
+removes \ / : " * ? < > | and colour codes, so player and host names keep
+any other byte 0x01-0xff ("..", "$", clan tag characters). Refuse only
+what could end the quoted argument or leave the demos / screenshots
+directory
 =================
 */
 static qboolean CG_StuffSafeName(const char* name)
 {
 	const char* p;
 
-	if (!*name || strstr(name, ".."))
+	if (!*name)
 	{
 		return qfalse;
 	}
 	for (p = name; *p; ++p)
 	{
-		if (*p < ' ' || *p > '~' || strchr("\"\\;/:*?<>|$`", *p))
+		if (strchr("\"\n\r;\\/:", *p))
 		{
 			return qfalse;
 		}
