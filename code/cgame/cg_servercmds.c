@@ -996,10 +996,103 @@ static void CG_OSPPrintSSet(void)
 	}
 }
 
+/*
+=================
+CG_StuffSafeName
+
+A file name argument of a stuff command: plain characters only, no path
+=================
+*/
+static qboolean CG_StuffSafeName(const char* name)
+{
+	const char* p;
+
+	if (!*name || strstr(name, ".."))
+	{
+		return qfalse;
+	}
+	for (p = name; *p; ++p)
+	{
+		if (!((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || (*p >= '0' && *p <= '9') ||
+		        *p == '_' || *p == '-' || *p == '.'))
+		{
+			return qfalse;
+		}
+	}
+	return qtrue;
+}
+
+/*
+=================
+CG_ServerCommandStuffOne
+
+One ';'-separated command of a stuff command. Only the commands OSP servers
+send are run, and the console line is rebuilt from the parsed tokens
+=================
+*/
+static void CG_ServerCommandStuffOne(char* text)
+{
+	char tok[3][MAX_QPATH];
+	char* p;
+	int argc;
+
+	p = text;
+	for (argc = 0; argc < 3; ++argc)
+	{
+		Q_strncpyz(tok[argc], COM_ParseExt(&p, qfalse), sizeof(tok[argc]));
+		if (!tok[argc][0])
+		{
+			break;
+		}
+	}
+	if (argc == 0)
+	{
+		return;
+	}
+
+	if (argc == 3 && (!Q_stricmp(tok[0], "set") || !Q_stricmp(tok[0], "seta")) && !Q_stricmp(tok[1], "g_synchronousClients") &&
+	        (!strcmp(tok[2], "0") || !strcmp(tok[2], "1")) && !*COM_ParseExt(&p, qfalse))
+	{
+		trap_Cvar_Set("g_synchronousClients", tok[2]);
+		return;
+	}
+	if (argc == 1 && (!Q_stricmp(tok[0], "clear") || !Q_stricmp(tok[0], "currenttime") || !Q_stricmp(tok[0], "stoprecord")))
+	{
+		trap_SendConsoleCommand(va("%s\n", tok[0]));
+		return;
+	}
+	if (!Q_stricmp(tok[0], "screenshot") || !Q_stricmp(tok[0], "screenshotJPEG"))
+	{
+		if (argc == 1)
+		{
+			trap_SendConsoleCommand(va("%s\n", tok[0]));
+			return;
+		}
+		if (argc == 2 && CG_StuffSafeName(tok[1]))
+		{
+			trap_SendConsoleCommand(va("%s \"%s\"\n", tok[0], tok[1]));
+			return;
+		}
+	}
+	CG_Printf("^3Ignored server stuff command: ^7%s\n", text);
+}
+
+/*
+=================
+CG_ServerCommandStuff
+
+stuff <text>: console commands sent by the server ('' -> ', ' -> ").
+The text used to be executed if it contained one of the allowed command
+names anywhere, so "clear;<anything>" ran any console command. Now every
+command is checked on its own, see CG_ServerCommandStuffOne
+=================
+*/
 static void CG_ServerCommandStuff(void)
 {
 	char command[1024];
 	char command2[1024];
+	char* s;
+	char* next;
 	int len;
 
 	if (cg.demoPlayback)
@@ -1041,13 +1134,22 @@ static void CG_ServerCommandStuff(void)
 		*out = 0;
 	}
 
-	if (strstr(command2, "screenshot") ||
-	        strstr(command2, "set g_synchronous") ||
-	        strstr(command2, "clear") ||
-	        strstr(command2, "currenttime") ||
-	        strstr(command2, "stoprecord"))
+	for (s = command2; s && *s; s = next)
 	{
-		trap_SendConsoleCommand(command2);
+		next = s;
+		while (*next && *next != ';' && *next != '\n' && *next != '\r')
+		{
+			++next;
+		}
+		if (*next)
+		{
+			*next++ = 0;
+		}
+		else
+		{
+			next = NULL;
+		}
+		CG_ServerCommandStuffOne(s);
 	}
 }
 
