@@ -2785,7 +2785,7 @@ static float CG_OSPHUDDrawScores(float y)
 static float CG_OSPDrawHoldableItem(float y)
 {
 	int hi = cg.snap->ps.stats[STAT_HOLDABLE_ITEM];
-	if (hi)
+	if (hi > 0 && hi < bg_numItems)
 	{
 		CG_RegisterItemVisuals(hi);
 		y -= 48.0f;
@@ -3296,7 +3296,7 @@ static float CG_OSPDrawWeapons67(float x, float y)
 	}
 
 	holdableItem = cg.snap->ps.stats[STAT_HOLDABLE_ITEM];
-	if (holdableItem)
+	if (holdableItem > 0 && holdableItem < bg_numItems)
 	{
 		CG_RegisterItemVisuals(holdableItem);
 		CG_DrawPicOld(x + 4, y, 16.0f, 16.0f, cg_items[holdableItem].icon);
