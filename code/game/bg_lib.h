@@ -71,7 +71,7 @@ int toupper(int c);
 double atof(const char* string);
 int atoi(const char* string);
 
-int vsprintf(char* buffer, const char* fmt, va_list argptr);
+int vsnprintf(char* buffer, size_t size, const char* fmt, va_list argptr);
 
 // Memory functions
 void* memmove(void* dest, const void* src, size_t count);
