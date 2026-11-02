@@ -1000,7 +1000,10 @@ static void CG_OSPPrintSSet(void)
 =================
 CG_StuffSafeName
 
-A file name argument of a stuff command: plain characters only, no path
+A demo / screenshot name sent in a stuff command. OSP servers send names
+such as " 2026.11.02-1530-q3dm6-(Player)", so spaces and brackets are fine,
+but nothing that could end the quoted argument or leave the demos /
+screenshots directory
 =================
 */
 static qboolean CG_StuffSafeName(const char* name)
@@ -1013,8 +1016,36 @@ static qboolean CG_StuffSafeName(const char* name)
 	}
 	for (p = name; *p; ++p)
 	{
+		if (*p < ' ' || *p > '~' || strchr("\"\\;/:*?<>|$`", *p))
+		{
+			return qfalse;
+		}
+	}
+	return qtrue;
+}
+
+/*
+=================
+CG_StuffSafeTextPath
+
+The condump file of the OSP stats dump: a relative .txt path such as
+"stats/2026.11.02/153000.txt"
+=================
+*/
+static qboolean CG_StuffSafeTextPath(const char* path)
+{
+	const char* p;
+	int len;
+
+	len = strlen(path);
+	if (len < 5 || Q_stricmp(path + len - 4, ".txt") || *path == '/' || strstr(path, ".."))
+	{
+		return qfalse;
+	}
+	for (p = path; *p; ++p)
+	{
 		if (!((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || (*p >= '0' && *p <= '9') ||
-		        *p == '_' || *p == '-' || *p == '.'))
+		        *p == '_' || *p == '-' || *p == '.' || *p == '/'))
 		{
 			return qfalse;
 		}
@@ -1027,7 +1058,8 @@ static qboolean CG_StuffSafeName(const char* name)
 CG_ServerCommandStuffOne
 
 One ';'-separated command of a stuff command. Only the commands OSP servers
-send are run, and the console line is rebuilt from the parsed tokens
+send are run (autorecord, autoscreenshot, the stats dump), and the console
+line is rebuilt from the parsed tokens
 =================
 */
 static void CG_ServerCommandStuffOne(char* text)
@@ -1050,10 +1082,11 @@ static void CG_ServerCommandStuffOne(char* text)
 		return;
 	}
 
+	// through the command buffer, so that it stays in order with the record around it
 	if (argc == 3 && (!Q_stricmp(tok[0], "set") || !Q_stricmp(tok[0], "seta")) && !Q_stricmp(tok[1], "g_synchronousClients") &&
 	        (!strcmp(tok[2], "0") || !strcmp(tok[2], "1")) && !*COM_ParseExt(&p, qfalse))
 	{
-		trap_Cvar_Set("g_synchronousClients", tok[2]);
+		trap_SendConsoleCommand(va("set g_synchronousClients %s\n", tok[2]));
 		return;
 	}
 	if (argc == 1 && (!Q_stricmp(tok[0], "clear") || !Q_stricmp(tok[0], "currenttime") || !Q_stricmp(tok[0], "stoprecord")))
@@ -1061,7 +1094,7 @@ static void CG_ServerCommandStuffOne(char* text)
 		trap_SendConsoleCommand(va("%s\n", tok[0]));
 		return;
 	}
-	if (!Q_stricmp(tok[0], "screenshot") || !Q_stricmp(tok[0], "screenshotJPEG"))
+	if (!Q_stricmp(tok[0], "record") || !Q_stricmp(tok[0], "screenshot") || !Q_stricmp(tok[0], "screenshotJPEG"))
 	{
 		if (argc == 1)
 		{
@@ -1073,6 +1106,11 @@ static void CG_ServerCommandStuffOne(char* text)
 			trap_SendConsoleCommand(va("%s \"%s\"\n", tok[0], tok[1]));
 			return;
 		}
+	}
+	if (argc == 2 && !Q_stricmp(tok[0], "condump") && CG_StuffSafeTextPath(tok[1]))
+	{
+		trap_SendConsoleCommand(va("condump \"%s\"\n", tok[1]));
+		return;
 	}
 	CG_Printf("^3Ignored server stuff command: ^7%s\n", text);
 }
