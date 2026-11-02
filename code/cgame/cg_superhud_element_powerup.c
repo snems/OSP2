@@ -170,7 +170,7 @@ static void CG_SHUDElementPwUpdateState(struct superhudPowerupsCache_t* pw)
 
 	{
 		int hi = cg.snap->ps.stats[STAT_HOLDABLE_ITEM];
-		if (hi)
+		if (hi > 0 && hi < bg_numItems)
 		{
 			pw->element[pw->numberOfActive].powerup = hi;
 			pw->element[pw->numberOfActive].time = SUPERHUD_UPDATE_TIME * 2;

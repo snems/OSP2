@@ -703,7 +703,9 @@ void CG_RegisterWeapon(int weaponNum)
 	char path[64];
 	float maxs[3];
 
-	if (!weaponNum) return;
+	// weapon numbers from entity / player state are not trusted: nothing outside
+	// the weapon table is registered
+	if (weaponNum <= 0 || weaponNum >= MAX_WEAPONS) return;
 
 	weaponInfo = &cg_weapons[weaponNum];
 

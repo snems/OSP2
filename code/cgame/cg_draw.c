@@ -1459,7 +1459,7 @@ static void CG_DrawHoldableItem(void)
 	int     value;
 
 	value = cg.snap->ps.stats[STAT_HOLDABLE_ITEM];
-	if (value)
+	if (value > 0 && value < bg_numItems)
 	{
 		CG_RegisterItemVisuals(value);
 		CG_DrawPicOld(640 - ICON_SIZE, (SCREEN_HEIGHT - ICON_SIZE) / 2, ICON_SIZE, ICON_SIZE, cg_items[ value ].icon);
