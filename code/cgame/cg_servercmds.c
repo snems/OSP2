@@ -744,6 +744,12 @@ static void CG_OSPPrintXStats(void)
 	client_id = atoi(CG_Argv(index++));
 	wstats_condition = atoi(CG_Argv(index++));
 
+	// the client number comes from the server
+	if (client_id < 0 || client_id >= MAX_CLIENTS)
+	{
+		return;
+	}
+
 	Q_strncpyz(&str[0], cgs.clientinfo[client_id].name, 32);
 
 	CG_Printf("\n^7Accuracy info for: ^3%s^7\n\n", str);
@@ -837,7 +843,7 @@ static void CG_OSPPrintXStats(void)
 		tmp_str2[0] = 0;
 		if (megahealth != 0)
 		{
-			strcpy(tmp_str, va("^2(^7%d ^5MH^2)", megahealth));
+			Com_sprintf(tmp_str, sizeof(tmp_str), "^2(^7%d ^5MH^2)", megahealth);
 		}
 		if (green_armor != 0)
 		{
@@ -850,7 +856,7 @@ static void CG_OSPPrintXStats(void)
 				char_ptr1 = "^7,";
 			}
 
-			strcpy(tmp_str, va("^2(^7%d ^3GA%s", green_armor, char_ptr1));
+			Com_sprintf(tmp_str, sizeof(tmp_str), "^2(^7%d ^3GA%s", green_armor, char_ptr1);
 		}
 
 		if (yellow_armor != 0)
@@ -872,7 +878,7 @@ static void CG_OSPPrintXStats(void)
 					char_ptr2 = "^2)";
 				}
 			}
-			strcat(tmp_str, va("%s%d ^3YA%s", char_ptr1, yellow_armor, char_ptr2));
+			Q_strcat(tmp_str, sizeof(tmp_str), va("%s%d ^3YA%s", char_ptr1, yellow_armor, char_ptr2));
 		}
 		if (red_armor != 0)
 		{
@@ -881,7 +887,7 @@ static void CG_OSPPrintXStats(void)
 			{
 				char_ptr1 = "^2(^7";
 			}
-			strcat(tmp_str, va("%s%d ^1RA^2)", char_ptr1, red_armor));
+			Q_strcat(tmp_str, sizeof(tmp_str), va("%s%d ^1RA^2)", char_ptr1, red_armor));
 		}
 
 		if (damage_activity != 0)
@@ -1064,7 +1070,8 @@ static void CG_OSPAstats(qboolean top)
 	float treshold;
 
 	number_of_entries = atoi(CG_Argv(a++));
-	if (number_of_entries == 0)
+	// the count comes from the server: no more entries than players, nor than arguments
+	if (number_of_entries <= 0 || number_of_entries > MAX_CLIENTS || a + 1 + number_of_entries * 5 > trap_Argc())
 	{
 		return;
 	}
@@ -1080,6 +1087,11 @@ static void CG_OSPAstats(qboolean top)
 		hits = atoi(CG_Argv(a++));
 		kills = atoi(CG_Argv(a++));
 		deaths = atoi(CG_Argv(a++));
+
+		if (client_num < 0 || client_num >= MAX_CLIENTS)
+		{
+			continue;
+		}
 
 		acc = atts > 0 ? (float)(100 * atts) / (float)hits : 0;
 		level = top ? acc : (float)average + 0.999f;
@@ -1127,6 +1139,13 @@ static void CG_OSPBstats(qboolean top)
 		hits = atoi(CG_Argv(a++));
 		kills = atoi(CG_Argv(a++));
 		deaths = atoi(CG_Argv(a++));
+
+		// weapon and client number come from the server
+		if (number_of_weapon < 0 || number_of_weapon >= sizeof(weaponShortNames) / sizeof(weaponShortNames[0]) ||
+		        client_num < 0 || client_num >= MAX_CLIENTS || a > trap_Argc())
+		{
+			break;
+		}
 
 		acc = atts > 0 ? (float)(100 * atts) / (float)hits : 0;
 
