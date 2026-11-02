@@ -466,6 +466,7 @@ void CG_AddToTeamChat(char* str, int size)
 	int h;
 	int chatHeight;
 	char* p, * ls;
+	char* lineStart;    // start of the line buffer p writes to
 	int lastcolor;
 	int overlayWidth;
 	int teamchatWidth;
@@ -488,6 +489,7 @@ void CG_AddToTeamChat(char* str, int size)
 
 	len = 0;
 	p = cgs.teamChatMsgs[cgs.teamChatPos % chatHeight];
+	lineStart = p;
 	*p = 0;
 	lastcolor = '7';
 	ls = NULL;
@@ -507,7 +509,9 @@ void CG_AddToTeamChat(char* str, int size)
 	(*(p) = 0);
 	while (*str)
 	{
-		if (len > teamchatWidth - 1)
+		// wrap on visible width, and also on raw bytes: colour pairs are copied without being
+		// counted, so a text made of colour codes would otherwise run past the line buffer
+		if (len > teamchatWidth - 1 || p - lineStart >= TEAMCHAT_WIDTH * 3 - 2)
 		{
 			if (ls)
 			{
@@ -530,6 +534,7 @@ void CG_AddToTeamChat(char* str, int size)
 			{
 				p = cgs.teamChatMsgs[cgs.teamChatPos % chatHeight];
 			}
+			lineStart = p;
 			*p = 0;
 			*p++ = Q_COLOR_ESCAPE;
 			*p++ = lastcolor;
