@@ -1509,7 +1509,7 @@ static void CG_RegisterGraphics(void)
 	memset(cg_weapons, 0, sizeof(cg_weapons));
 
 	// only register the items that the server says we need
-	strcpy(items, CG_ConfigString(CS_ITEMS));
+	Q_strncpyz(items, CG_ConfigString(CS_ITEMS), sizeof(items));
 
 	for (i = 1 ; i < bg_numItems ; i++)
 	{
