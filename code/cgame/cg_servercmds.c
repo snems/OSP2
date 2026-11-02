@@ -200,6 +200,25 @@ static void CG_ParseWarmup(void)
 
 /*
 ================
+CG_FlagStatusValue
+
+One character of CS_FLAGSTATUS. The string comes from the server and the
+values index arrays, so anything outside 0..max-1 is read as 0
+================
+*/
+static int CG_FlagStatusValue(char c, int max)
+{
+	int value = c - '0';
+
+	if (value < 0 || value >= max)
+	{
+		return 0;
+	}
+	return value;
+}
+
+/*
+================
 CG_SetConfigValues
 
 Called on load to set the initial values from configure strings
@@ -223,8 +242,8 @@ void CG_SetConfigValues(void)
 	if (cgs.gametype == GT_CTF)
 	{
 		s = CG_ConfigString(CS_FLAGSTATUS);
-		cgs.redflag = s[0] - '0';
-		cgs.blueflag = s[1] - '0';
+		cgs.redflag = CG_FlagStatusValue(s[0], 3);
+		cgs.blueflag = CG_FlagStatusValue(s[1], 3);
 	}
 	cg.warmup = atoi(CG_ConfigString(CS_WARMUP));
 }
@@ -391,13 +410,14 @@ static void CG_ConfigStringModified(void)
 		if (cgs.gametype == GT_CTF)
 		{
 			// format is rb where its red/blue, 0 is at base, 1 is taken, 2 is dropped
-			cgs.redflag = str[0] - '0';
-			cgs.blueflag = str[1] - '0';
+			cgs.redflag = CG_FlagStatusValue(str[0], 3);
+			cgs.blueflag = CG_FlagStatusValue(str[1], 3);
 			if (strlen(str) > 3)
 			{
+				// the flag carriers, as client numbers
 				cgs.osp.flagStatus = 1;
-				cgs.osp.redflag = str[2] - '0';
-				cgs.osp.blueflag = str[3] - '0';
+				cgs.osp.redflag = CG_FlagStatusValue(str[2], MAX_CLIENTS);
+				cgs.osp.blueflag = CG_FlagStatusValue(str[3], MAX_CLIENTS);
 			}
 		}
 	}
