@@ -88,11 +88,8 @@ static qboolean CG_SHUDScoresGetOWN(int* scores)
 			*scores = cgs.scores2;
 			return *scores != SCORE_NOT_PRESENT;
 		case TEAM_SPECTATOR:
-		case TEAM_4:
-		case TEAM_5:
-		case TEAM_6:
-		case TEAM_7:
 		case TEAM_NUM_TEAMS:
+		default:
 			break;
 	}
 	return qfalse;
@@ -118,11 +115,8 @@ static qboolean CG_SHUDScoresGetNME(int* scores)
 			*scores = cgs.scores1;
 			return *scores != SCORE_NOT_PRESENT;
 		case TEAM_SPECTATOR:
-		case TEAM_4:
-		case TEAM_5:
-		case TEAM_6:
-		case TEAM_7:
 		case TEAM_NUM_TEAMS:
+		default:
 			break;
 	}
 	return qfalse;

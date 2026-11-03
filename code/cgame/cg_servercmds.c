@@ -231,12 +231,12 @@ void CG_SetConfigValues(void)
 	s = CG_ConfigString(CS_SCORES1);
 	cgs.scores1 = atoi(s);
 	cgs.osp.osp_teamcount1 = -1;
-	Q_sscanf(s, "%i %i", &cgs.scores1, &cgs.osp.osp_teamcount1);
+	sscanf(s, "%i %i", &cgs.scores1, &cgs.osp.osp_teamcount1);
 
 	s = CG_ConfigString(CS_SCORES2);
 	cgs.scores2 = atoi(s);
 	cgs.osp.osp_teamcount2 = -1;
-	Q_sscanf(s, "%i %i", &cgs.scores2, &cgs.osp.osp_teamcount2);
+	sscanf(s, "%i %i", &cgs.scores2, &cgs.osp.osp_teamcount2);
 
 	cgs.levelStartTime = atoi(CG_ConfigString(CS_LEVEL_START_TIME));
 	if (cgs.gametype == GT_CTF)
@@ -346,12 +346,12 @@ static void CG_ConfigStringModified(void)
 	else if (num == CS_SCORES1)
 	{
 		cgs.osp.osp_teamcount1 = -1;
-		Q_sscanf(str, "%i %i", &cgs.scores1, &cgs.osp.osp_teamcount1);
+		sscanf(str, "%i %i", &cgs.scores1, &cgs.osp.osp_teamcount1);
 	}
 	else if (num == CS_SCORES2)
 	{
 		cgs.osp.osp_teamcount2 = -1;
-		Q_sscanf(str, "%i %i", &cgs.scores2, &cgs.osp.osp_teamcount2);
+		sscanf(str, "%i %i", &cgs.scores2, &cgs.osp.osp_teamcount2);
 	}
 	else if (num == CS_LEVEL_START_TIME)
 	{
@@ -421,23 +421,23 @@ static void CG_ConfigStringModified(void)
 			}
 		}
 	}
-	else if (num == CS_OSP_ALLOW_PMOVE)
+	else if (num == CS_OSP_PMOVEFIXED)
 	{
 		CG_OSPConfigPmoveSet(atoi(str));
 	}
-	else if (num == CS_OSP_MAXPACKETS_MIN)
+	else if (num == CS_OSP_MAXPACKETSMIN)
 	{
 		CG_OSPConfigMinMaxPacketsSet(atoi(str));
 	}
-	else if (num == CS_OSP_MAXPACKETS_MAX)
+	else if (num == CS_OSP_MAXPACKETSMAX)
 	{
 		CG_OSPConfigMaxMaxPacketsSet(atoi(str));
 	}
-	else if (num == CS_OSP_TIMENUDGE_MIN)
+	else if (num == CS_OSP_TIMENUDGEMIN)
 	{
 		CG_OSPConfigMinTimenudgeSet(atoi(str));
 	}
-	else if (num == CS_OSP_TIMENUDGE_MAX)
+	else if (num == CS_OSP_TIMENUDGEMAX)
 	{
 		CG_OSPConfigMaxTimenudgeSet(atoi(str));
 	}
@@ -445,24 +445,24 @@ static void CG_ConfigStringModified(void)
 	{
 		CG_OSPConfig0x368Set(atoi(str) & 1);
 	}
-	else if (num == CS_OSP_CLAN_BASE_TEAM_DM)
+	else if (num == CS_OSP_CUSTOMMODE)
 	{
 		CG_OSPConfigClanBaseTDMSet(atoi(str));
 	}
-	else if (num == CS_OSP_CUSTOM_CLIENT)
+	else if (num == CS_OSP_CUSTOMCLIENT)
 	{
 		CG_OSPConfigCustomClientSet(atoi(str));
 		CG_OSPCvarsRestrictValues();
 	}
-	else if (num == CS_OSP_CUSTOM_CLIENT2)
+	else if (num == CS_OSP_CUSTOMCLIENT2)
 	{
 		CG_OSPConfigCustomClient2Set(atoi(str));
 	}
-	else if (num == CS_OSP_SERVER_MODE)
+	else if (num == CS_OSP_PHYSICS)
 	{
 		CG_OSPConfigModeSet(atoi(str));
 	}
-	else if (num == CS_OSP_FREEZE_GAME_TYPE)
+	else if (num == CS_OSP_FREEZETAG)
 	{
 		CG_OSPConfigFreezeModeSet(atoi(str));
 	}

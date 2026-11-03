@@ -24,13 +24,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 // This file is NOT included on native builds
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef int size_t;
 
-typedef char*   va_list;
+typedef char *  va_list;
 #define _INTSIZEOF(n)   ( (sizeof(n) + sizeof(int) - 1) & ~(sizeof(int) - 1) )
 #define va_start(ap,v)  ( ap = (va_list)&v + _INTSIZEOF(v) )
 #define va_arg(ap,t)    ( *(t *)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)) )
@@ -52,44 +48,44 @@ typedef char*   va_list;
 #define ULONG_MAX     0xffffffffUL  /* maximum unsigned long value */
 
 // Misc functions
-typedef int cmp_t(const void*, const void*);
-void qsort(void* a, size_t n, size_t es, cmp_t* cmp);
-void    srand(unsigned seed);
-int     rand(void);
+typedef int cmp_t(const void *, const void *);
+void qsort(void *a, size_t n, size_t es, cmp_t *cmp);
+void	srand( unsigned seed );
+int		rand( void );
 
 // String functions
-size_t strlen(const char* string);
-char* strcat(char* strDestination, const char* strSource);
-char* strcpy(char* strDestination, const char* strSource);
-int strcmp(const char* string1, const char* string2);
-char* strchr(const char* string, int c);
-char* strstr(const char* string, const char* strCharSet);
-char* strncpy(char* strDest, const char* strSource, size_t count);
-int tolower(int c);
-int toupper(int c);
+size_t strlen( const char *string );
+char *strcat( char *strDestination, const char *strSource );
+char *strcpy( char *strDestination, const char *strSource );
+int strcmp( const char *string1, const char *string2 );
+char *strchr( const char *string, int c );
+char *strstr( const char *string, const char *strCharSet );
+char *strncpy( char *strDest, const char *strSource, size_t count );
+int tolower( int c );
+int toupper( int c );
 
-double atof(const char* string);
-int atoi(const char* string);
+double atof( const char *string );
+double _atof( const char **stringPtr );
+int atoi( const char *string );
+int _atoi( const char **stringPtr );
 
-int vsnprintf(char* buffer, size_t size, const char* fmt, va_list argptr);
+int vsnprintf( char *buffer, size_t size, const char *fmt, va_list argptr );
+int sscanf( const char *buffer, const char *fmt, ... );
 
 // Memory functions
-void* memmove(void* dest, const void* src, size_t count);
-void* memset(void* dest, int c, size_t count);
-void* memcpy(void* dest, const void* src, size_t count);
+void *memmove( void *dest, const void *src, size_t count );
+void *memset( void *dest, int c, size_t count );
+void *memcpy( void *dest, const void *src, size_t count );
 
 // Math functions
-double ceil(double x);
-double floor(double x);
-double sqrt(double x);
-double sin(double x);
-double cos(double x);
-double atan2(double y, double x);
-double tan(double x);
-int abs(int n);
-double fabs(double x);
-double acos(double x);
+double ceil( double x );
+double floor( double x );
+double sqrt( double x );
+double sin( double x );
+double cos( double x );
+double atan2( double y, double x );
+double tan( double x );
+int abs( int n );
+double fabs( double x );
+double acos( double x );
 
-#ifdef __cplusplus
-}
-#endif

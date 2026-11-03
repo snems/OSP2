@@ -68,7 +68,7 @@ void CG_CustomLocationsLoad(void)
 
 		if (line[0])
 		{
-			matches = Q_sscanf(&line[0], "%f %f %f %s",
+			matches = sscanf(&line[0], "%f %f %f %s",
 			                   &customLocationEntry[numberOfCustomLocations].pos[0],
 			                   &customLocationEntry[numberOfCustomLocations].pos[1],
 			                   &customLocationEntry[numberOfCustomLocations].pos[2],
@@ -144,7 +144,7 @@ void CG_CustomLocationsSetLocation(const char* info, vec3_t loc)
 	int rc;
 	int values[4];
 
-	rc = Q_sscanf(info, "%i_%i_%i_%i", &values[0], &values[1], &values[2], &values[3]);
+	rc = sscanf(info, "%i_%i_%i_%i", &values[0], &values[1], &values[2], &values[3]);
 	if (rc == 4)
 	{
 		loc[0] = (float)values[1];
@@ -178,7 +178,7 @@ qboolean CG_CustomLocationsTeamChatCode(const char* str, vec3_t cloc, char** clo
 		return qfalse;
 	}
 
-	rc = Q_sscanf(*cloc_begin, "$%i$%i$%i", &x, &y, &z);
+	rc = sscanf(*cloc_begin, "$%i$%i$%i", &x, &y, &z);
 	if (rc == 3)
 	{
 		cloc[0] = (float)x;

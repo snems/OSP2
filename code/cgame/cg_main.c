@@ -21,8 +21,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 //
 // cg_main.c -- initialization and primary entry point for cgame
-#include "cg_local.h"
 #include "../qcommon/qcommon.h"
+#include "cg_local.h"
 
 int forceModelModificationCount = -1;
 
@@ -41,7 +41,6 @@ This must be the very first function compiled into the .q3vm file
 Q_EXPORT
 int vmMain(int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11)
 {
-
 	switch (command)
 	{
 		case CG_INIT:
@@ -1826,9 +1825,9 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		char* tmp_ptr;
 		const char* conf;
 
-		CG_OSPConfigModeSet(atoi(CG_ConfigString(CS_OSP_SERVER_MODE)));
+		CG_OSPConfigModeSet(atoi(CG_ConfigString(CS_OSP_PHYSICS)));
 
-		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT);
+		conf = CG_ConfigString(CS_OSP_CUSTOMCLIENT);
 		if (conf)//-V547
 		{
 			CG_OSPConfigCustomClientSet(atoi(conf));
@@ -1838,7 +1837,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			CG_OSPConfigCustomClientSet(CS_OSP_CUSTOM_CLIENT_DEFAULT);
 		}
 
-		conf = CG_ConfigString(CS_OSP_CUSTOM_CLIENT2);
+		conf = CG_ConfigString(CS_OSP_CUSTOMCLIENT2);
 		if (conf)//-V547
 		{
 			CG_OSPConfigCustomClient2Set(atoi(conf));
@@ -1849,15 +1848,14 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		}
 
 		CG_OSPConfig0x368Set(atoi(CG_ConfigString(CS_OSP_AUTH)) & 1);
-		CG_OSPConfigPmoveSet(atoi(CG_ConfigString(CS_OSP_ALLOW_PMOVE)));
+		CG_OSPConfigPmoveSet(atoi(CG_ConfigString(CS_OSP_PMOVEFIXED)));
 
-		CG_OSPConfigMinMaxPacketsSet(atoi(CG_ConfigString(CS_OSP_MAXPACKETS_MIN)));
-		CG_OSPConfigMaxMaxPacketsSet(atoi(CG_ConfigString(CS_OSP_MAXPACKETS_MAX)));
-		CG_OSPConfigMinTimenudgeSet(atoi(CG_ConfigString(CS_OSP_TIMENUDGE_MIN)));
-		CG_OSPConfigMaxTimenudgeSet(atoi(CG_ConfigString(CS_OSP_TIMENUDGE_MAX)));
-		CG_OSPConfigClanBaseTDMSet(atoi(CG_ConfigString(CS_OSP_CLAN_BASE_TEAM_DM)));
-		CG_OSPConfigFreezeModeSet(atoi(CG_ConfigString(CS_OSP_FREEZE_GAME_TYPE)));
-
+		CG_OSPConfigMinMaxPacketsSet(atoi(CG_ConfigString(CS_OSP_MAXPACKETSMIN)));
+		CG_OSPConfigMaxMaxPacketsSet(atoi(CG_ConfigString(CS_OSP_MAXPACKETSMAX)));
+		CG_OSPConfigMinTimenudgeSet(atoi(CG_ConfigString(CS_OSP_TIMENUDGEMIN)));
+		CG_OSPConfigMaxTimenudgeSet(atoi(CG_ConfigString(CS_OSP_TIMENUDGEMAX)));
+		CG_OSPConfigClanBaseTDMSet(atoi(CG_ConfigString(CS_OSP_CUSTOMMODE)));
+		CG_OSPConfigFreezeModeSet(atoi(CG_ConfigString(CS_OSP_FREEZETAG)));
 
 		/****/
 		CG_OSPCvarsRestrictValues();
@@ -1867,7 +1865,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		        i < 8;
 		        ++i, ++cgs.osp.numberOfStringsMotd)
 		{
-			s = CG_ConfigString(CS_OSP_MOTD0 + i);
+			s = CG_ConfigString(CS_OSP_MOTD + i);
 			if (s[0] == 0) break;
 			Q_strncpyz(&cgs.osp.motd[cgs.osp.numberOfStringsMotd][0], s, 64);
 		}
@@ -1876,7 +1874,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 		cgs.osp.custom_gfx_number = 0;
 		for (i = 0; i < 16; ++i)
 		{
-			s = CG_ConfigString(CS_OSP_CUSTOM_GFX + i);
+			s = CG_ConfigString(CS_OSP_CUSTOMGFX + i);
 			if (s[0] == 0) break;
 			Q_strncpyz(tmp_str, s, 1024);
 
@@ -1888,14 +1886,14 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			}
 			*tmp_ptr = 0;
 			++tmp_ptr;
-			Q_sscanf(tmp_str, "%i %i %i %i",
+			sscanf(tmp_str, "%i %i %i %i",
 			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][0],
 			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][1],
 			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][2],
 			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][3]
 			        );
 
-			Q_sscanf(tmp_ptr, "%i %i %i %i",
+			sscanf(tmp_ptr, "%i %i %i %i",
 			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][4],
 			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][5],
 			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][6],
@@ -1980,7 +1978,7 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			s = CG_ConfigString(CS_OSP_DECALS + i);
 			if (s[0] == 0) break;
 
-			Q_sscanf(s, "%i %i %f %f %f %f %f %f %f",
+			sscanf(s, "%i %i %f %f %f %f %f %f %f",
 			         &cgs.osp.decals[cgs.osp.decals_number].v3,
 			         &cgs.osp.decals[cgs.osp.decals_number].v2,
 			         &cgs.osp.decals[cgs.osp.decals_number].v5,

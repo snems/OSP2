@@ -6,7 +6,10 @@ set(BASEGAME osp)
 set(OSP_VERSION "${MOD_VERSION}-test")
 set(OSP_CLIENT "1008_OSP2_${OSP_VERSION}")
 set(OSP_PAKNAME "zz-osp-pak8.pk3")
+set(OSP_SERVER_PAKNAME "zz-osp-server3b.pk3")
 
 set(CGAME_MODULE cgame)
+set(GAME_MODULE qagame)
+set(UI_MODULE ui)
 
 set(ASSETS_LOCATION ${CMAKE_SOURCE_DIR}/assets)

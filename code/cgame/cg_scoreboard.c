@@ -209,9 +209,9 @@ static void CG_DrawClientScore(int y, score_t* score, float* color, float fade, 
 	{
 		Com_sprintf(string, 1024, " %s.COACH^7 %3i %4i", ci->st == 1 ? "^1R" : "^2B", score->ping, score->time);
 	}
-	else if (ci->team == TEAM_6 || ci->team == TEAM_7)
+	else if (ci->team == TEAM_SPEC_RED || ci->team == TEAM_SPEC_BLUE)
 	{
-		Com_sprintf(string, 1024, " %s.SPEC^7%3i %4i", ci->team == TEAM_6 ? "^1R" : "^2B", score->ping, score->time);
+		Com_sprintf(string, 1024, " %s.SPEC^7%3i %4i", ci->team == TEAM_SPEC_RED ? "^1R" : "^2B", score->ping, score->time);
 	}
 	else if (ci->team == TEAM_SPECTATOR && !CG_OSPIsGameTypeCA(cgs.gametype))
 	{
@@ -490,9 +490,9 @@ qboolean CG_DrawOldScoreboard(void)
 
 		}
 
-		n1 = CG_TeamScoreboard(y, TEAM_6, fade, maxClients, lineHeight);
+		n1 = CG_TeamScoreboard(y, TEAM_SPEC_RED, fade, maxClients, lineHeight);
 		y += n1 * lineHeight + BIGCHAR_HEIGHT;
-		n1 = CG_TeamScoreboard(y, TEAM_7, fade, maxClients, lineHeight);
+		n1 = CG_TeamScoreboard(y, TEAM_SPEC_BLUE, fade, maxClients, lineHeight);
 		y += n1 * lineHeight + BIGCHAR_HEIGHT;
 		n1 = CG_TeamScoreboard(y, TEAM_SPECTATOR, fade, maxClients, lineHeight);
 		y += n1 * lineHeight + BIGCHAR_HEIGHT;
@@ -1320,8 +1320,8 @@ qboolean CG_OSPDrawScoretable(void)
 		max = drewRed < drewBlue ? drewBlue : drewRed;
 		y += 18 * max + 18;
 
-		drewRed  = CG_OSPDrawTeamScores(0, y, TEAM_6, *color[0], 8);
-		drewBlue = CG_OSPDrawTeamScores(320, y, TEAM_7, *color[0], 8);
+		drewRed  = CG_OSPDrawTeamScores(0, y, TEAM_SPEC_RED, *color[0], 8);
+		drewBlue = CG_OSPDrawTeamScores(320, y, TEAM_SPEC_BLUE, *color[0], 8);
 	}
 
 	if (drewRed != 0)

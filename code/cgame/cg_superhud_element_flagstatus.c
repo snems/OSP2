@@ -58,11 +58,8 @@ void CG_SHUDElementFlagStatusRoutine(void* context)
 				break;
 			case TEAM_FREE:
 			case TEAM_SPECTATOR:
-			case TEAM_4:
-			case TEAM_5:
-			case TEAM_6:
-			case TEAM_7:
 			case TEAM_NUM_TEAMS:
+			default:
 				return;
 		}
 	}

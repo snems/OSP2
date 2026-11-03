@@ -210,11 +210,13 @@ static superhudConfigParseStatus_t CG_SHUDParseString(configFileInfo_t* finfo, c
 	memcpy(src, finfo->last_line->line + finfo->pos, lenMax);
 	src[lenMax] = 0;
 
-	rc = Q_sscanf(src, "\"%s\"", dst);
+	// A quoted value may contain spaces and must not keep the closing quote,
+	// so scan up to the quote instead of using %s (which stops at whitespace).
+	rc = sscanf(src, "\"%[^\"]\"", dst);
 
 	if (rc <= 0)
 	{
-		rc = Q_sscanf(src, "%s", dst);
+		rc = sscanf(src, "%s", dst);
 	}
 
 	if (rc <= 0)
@@ -244,7 +246,7 @@ static superhudConfigParseStatus_t CG_SHUDParseFloat(configFileInfo_t* finfo, fl
 	status = CG_SHUDConfigSkipSCN(finfo);
 	if (status != SUPERHUD_CONFIG_OK) return status;
 
-	rc = Q_sscanf(finfo->last_line->line + finfo->pos, "%f", value);
+	rc = sscanf(finfo->last_line->line + finfo->pos, "%f", value);
 
 	if (rc != 1) return SUPERHUD_CONFIG_UNEXPECTED_CHARACTER;
 
@@ -274,7 +276,7 @@ static superhudConfigParseStatus_t CG_SHUDParseInt(configFileInfo_t* finfo, int*
 	status = CG_SHUDConfigSkipSCN(finfo);
 	if (status != SUPERHUD_CONFIG_OK) return status;
 
-	rc = Q_sscanf(finfo->last_line->line + finfo->pos, "%i", value);
+	rc = sscanf(finfo->last_line->line + finfo->pos, "%i", value);
 
 	if (rc != 1) return SUPERHUD_CONFIG_UNEXPECTED_CHARACTER;
 

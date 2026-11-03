@@ -127,11 +127,8 @@ static void CG_SHUDElementNameGetPairTeam(const char** own, const char** nme)
 			*nme = "Red";
 			break;
 		case TEAM_FREE:
-		case TEAM_4:
-		case TEAM_5:
-		case TEAM_6:
-		case TEAM_7:
 		case TEAM_NUM_TEAMS:
+		default:
 			break;
 	}
 }
@@ -154,6 +151,7 @@ static void CG_SHUDElementNameGetPair(const char** own, const char** nme)
 		case GT_CA:
 			CG_SHUDElementNameGetPairTeam(own, nme);
 			break;
+		default:
 		case GT_MAX_GAME_TYPE:
 			break;
 	}
