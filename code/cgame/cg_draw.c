@@ -1976,7 +1976,7 @@ void CG_OSPDrawIntermission(void)
 		         qtime.tm_year + 1900);
 
 		CG_OSPDrawStringWithShadow(8, 462, str, 10, 10, colorWhite, 0);
-		str = va("^B%s", CG_ConfigString(CS_OSP_VERSION_STR));
+		str = va("^B%s", CG_ConfigString(CS_OSP_VERSION));
 		CG_OSPDrawStringWithShadow(8, 450, str, 10, 10, colorYellow, 0);
 	}
 	CG_OSPSetColor(NULL);

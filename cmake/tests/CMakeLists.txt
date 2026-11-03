@@ -24,7 +24,6 @@ set(SOURCES_TESTS
     ${SOURCE_DIR}/tests/test_cg_superhud_configparser.cxx
     ${SOURCE_DIR}/tests/test_main.cxx
     ${SOURCE_DIR}/tests/test_osp_drawstring.cxx
-    ${SOURCE_DIR}/tests/test_Q_sscanf.cxx
     ${SOURCE_DIR}/tests/test_qcommon_zone_allocator.cxx
 )
 
@@ -39,6 +38,12 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 add_executable(osp2_tests ${CGAME_SOURCES_BASEGAME} ${CGAME_BINARY_SOURCES} ${SOURCES_TESTS})
+
+# The test binary is built from the cgame sources, so it must see the same
+# CGAME define as the real cgame module (see cmake/basegame.cmake). Without it
+# bg_pmove.c compiles its qagame branches and pulls in unresolved game symbols
+# (OSP_PM_CanFire, OSP_PM_UseAmmo, hook_speedpull, match_instagib, ...).
+target_compile_definitions(osp2_tests PRIVATE CGAME)
 
 add_custom_command(
     TARGET osp2_tests

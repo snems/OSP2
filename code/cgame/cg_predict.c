@@ -423,7 +423,15 @@ static void CG_TouchTriggerPrediction(void)
 		}
 		else if (ent->eType == ET_PUSH_TRIGGER)
 		{
-			BG_TouchJumpPad(&cg.predictedPlayerState, ent);
+			if ( cg.predictedPlayerState.pm_type != PM_NORMAL ) {
+				return;
+			}
+			if ( cg.predictedPlayerState.powerups[PW_FLIGHT] ) {
+				return;
+			}
+			cg.predictedPlayerState.jumppad_ent = ent->number;
+			cg.predictedPlayerState.jumppad_frame = cg.predictedPlayerState.pmove_framecount;
+			VectorCopy( ent->origin2, cg.predictedPlayerState.velocity );
 		}
 	}
 

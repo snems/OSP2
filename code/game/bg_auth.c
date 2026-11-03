@@ -1,4 +1,4 @@
-#include "../qcommon/q_shared.h"
+#include "q_shared.h"
 /* POINTER defines a generic pointer type */
 typedef unsigned char* POINTER;
 
@@ -19,8 +19,8 @@ static void BG_OSPAuthInit_(OSPAUTH_CTX* context);
 static void BG_OSPAuthUpdate_(OSPAUTH_CTX*, const unsigned char*, unsigned int);
 static void BG_OSPAuthFinal_(unsigned char [16], OSPAUTH_CTX*);
 
-static void BG_OSPAuthMemset_(void* dest, const int val, const int count);
-static void BG_OSPAuthMemcpy_(void* dest, const void* src, const int count);
+static void BG_OSPAuthMemcpy_(POINTER output, POINTER input, unsigned int len);
+static void BG_OSPAuthMemset_(POINTER output, int value, unsigned int len);
 
 
 static void BG_OSPAuthTransform_(UINT4 [4], const unsigned char [64]);
@@ -99,8 +99,9 @@ void BG_OSPAuthGetSecret(char* secret)
 	{
 		Com_sprintf(tmp, sizeof(tmp), "%d", digest[len]);
 		strcat((char*)secret_, tmp);
+		len++;
 	}
-	while (++len < 10);
+	while (len < 10);
 
 	strcpy(secret, (char*)secret_);
 }
@@ -108,8 +109,8 @@ void BG_OSPAuthGetSecret(char* secret)
 void BG_OSPAuthGetKey_(unsigned char* str, int* len)
 {
 	int i;
-	int block_0[29] = {0xfb, 0xfb, 0xd5, 0xcf, 0xe7, 0xdb, 0x40, 0x6d, 0x0c, 0x68, 0x84, 0x6f, 0x83, 0xbe, 0x65, 0x91, 0x79, 0xbb, 0x3f, 0xf7, 0xd8, 0xc0, 0xe2, 0x77, 0x8d, 0x7f, 0x9d, 0xdf, 0xe7};
 	int block_1[11] = {0xa7, 0xa9, 0xe7, 0x85, 0x7b, 0x64, 0x01, 0xfb, 0x79, 0xfb, 0xfb};
+	int block_0[29] = {0xfb, 0xfb, 0xd5, 0xcf, 0xe7, 0xdb, 0x40, 0x6d, 0x0c, 0x68, 0x84, 0x6f, 0x83, 0xbe, 0x65, 0x91, 0x79, 0xbb, 0x3f, 0xf7, 0xd8, 0xc0, 0xe2, 0x77, 0x8d, 0x7f, 0x9d, 0xdf, 0xe7};
 	int block_2[13] = {0x65, 0xc8, 0x0d, 0x82, 0x09, 0x84, 0x13, 0x0c, 0x42, 0xdd, 0xc0, 0xee, 0x36};
 
 	(void)block_1;
@@ -119,7 +120,7 @@ void BG_OSPAuthGetKey_(unsigned char* str, int* len)
 
 	for (i = 0; i < *len; ++i)
 	{
-		str[i] = (char)(block_0[6 + i] ^ 0xa2);
+		str[i] = block_0[6 + i] ^ 0xa2;
 	}
 }
 
@@ -301,22 +302,22 @@ static void BG_OSPAuthDecode_(UINT4* output, const unsigned char* input, unsigne
 		output[i] = ((UINT4)input[j]) | (((UINT4)input[j + 1]) << 8) | (((UINT4)input[j + 2]) << 16) | (((UINT4)input[j + 3]) << 24);
 }
 
-static void BG_OSPAuthMemset_(void* dest, const int val, const int count)
+/* OSP: MD5_memcpy / MD5_memset of the RSA MD5 reference code, in this
+   order (the copy first, then the fill) */
+static void BG_OSPAuthMemcpy_(POINTER output, POINTER input, unsigned int len)
 {
-	int i;
-	for (i = 0; i < count; ++i)
-	{
-		((unsigned char*)dest)[i] = (unsigned char)val;
-	}
+	unsigned int i;
+
+	for (i = 0; i < len; i++)
+		output[i] = input[i];
 }
 
-static void BG_OSPAuthMemcpy_(void* dest, const void* src, const int count)
+static void BG_OSPAuthMemset_(POINTER output, int value, unsigned int len)
 {
-	int i;
-	for (i = 0; i < count; ++i)
-	{
-		((unsigned char*)dest)[i] = ((unsigned char*)src)[i];
-	}
+	unsigned int i;
+
+	for (i = 0; i < len; i++)
+		((char *)output)[i] = (char)value;
 }
 
 

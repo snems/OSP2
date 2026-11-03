@@ -21,98 +21,93 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 //
 // bg_local.h -- local definitions for the bg (both games) files
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-#define MIN_WALK_NORMAL 0.7f        // can't walk on very steep slopes
+#define	MIN_WALK_NORMAL	0.7f		// can't walk on very steep slopes
 
-#define STEPSIZE        18
+#define	STEPSIZE		18
 
-#define JUMP_VELOCITY   270
+#define	JUMP_VELOCITY	270
 
-#define TIMER_LAND      130
-#define TIMER_GESTURE   (34*66+50)
+#define	TIMER_LAND		130
+#define	TIMER_GESTURE	(34*66+50)
 
-#define OVERCLIP        1.001f
+#define	OVERCLIP		1.001f
 
 // all of the locals will be zeroed before each
 // pmove, just to make damn sure we don't have
 // any differences when running on client or server
-typedef struct
-{
-	vec3_t      forward, right, up;
-	float       frametime;
+typedef struct {
+	vec3_t		forward, right, up;
+	float		frametime;
 
-	int         msec;
+	int			msec;
 
-	qboolean    walking;
-	qboolean    groundPlane;
-	trace_t     groundTrace;
+	qboolean	walking;
+	qboolean	groundPlane;
+	trace_t		groundTrace;
 
-	float       impactSpeed;
+	float		impactSpeed;
 
-	vec3_t      previous_origin;
-	vec3_t      previous_velocity;
-	int         previous_waterlevel;
+	vec3_t		previous_origin;
+	vec3_t		previous_velocity;
+	int			previous_waterlevel;
 } pml_t;
 
-extern  pmove_t*     pm;//-V707
-extern  pml_t       pml;
+extern	pmove_t		*pm;
+extern	pml_t		pml;
 
 // movement parameters
-extern  float   pm_stopspeed;
-extern  float   pm_duckScale;
-extern  float   pm_swimScale;
-extern  float   pm_wadeScale;
+extern	float	pm_stopspeed;
+extern	float	pm_duckScale;
 
-extern  float   pm_accelerate;
-extern  float   pm_airaccelerate;
-extern  float   pm_wateraccelerate;
-extern  float   pm_flyaccelerate;
+extern	float	pm_accelerate;
+extern	float	pm_airaccelerate;
+extern	float	pm_wateraccelerate;
+extern	float	pm_flyaccelerate;
 
-extern  float   pm_friction;
-extern  float   pm_waterfriction;
-extern  float   pm_flightfriction;
+extern	float	pm_friction;
+extern	float	pm_waterfriction;
+extern	float	pm_flightfriction;
 
-extern  int     c_pmove;
+extern	int		c_pmove;
 
-extern int modePromodePhysKoeff; //1870ec
-extern float modePromode_pm_airaccelerate_1; //3450
-extern int modePredictionKoeff2;   //3454
-extern float modePromode_pm_airaccelerate_2; //3458
-extern float modeWishspeedLimit; //345c
-extern int modePredictionKoeff1;   //3460
-extern float modeSwimScale1;         //3468
-extern float modeSwimScale2;         //346c
-extern float modeShotgunKoeff;    //3494
-extern int modeShotgunNumberOfPellets;    //3498
-extern float modeUnused8;    //349c
-extern int modeMaxAmmoShotgun;    //34a0
-extern int modeGrenadeTime;    //34a4
-extern int modeMaxAmmoGrenade;    //34a8
-extern int modeMaxAmmoRocket;     //34b0
-extern int modeMaxAmmoRail;       //34c0
-extern int modeBeginWeaponChangeTime;    //34d0
-extern int modeFinishWeaponChangeTime;    //34d4
-extern int modePMNoAmmoTime;    //34d8
-extern int pm_armorPromode;    //34e4
-extern int modeHitLevelSounds;    //3514
-extern int modePickupDistance;    //20e8
-extern int modeUnknown2;    //3528
-extern int modeUnknown3;    //352c
-extern int modeUnknown4;    //3530
-extern int modeShotgunPromode;    //3514
+void PM_ClipVelocity( vec3_t in, vec3_t normal, vec3_t out, float overbounce );
+void PM_ClipVelocityOSP( vec3_t in, vec3_t normal, vec3_t out, float overbounce );	// OSP
 
-void PM_ClipVelocity(vec3_t in, vec3_t normal, vec3_t out, float overbounce);
-void PM_ClipVelocityOSP(vec3_t in, vec3_t normal, vec3_t out, float overbounce);
-void PM_AddTouchEnt(int entityNum);
-void PM_AddEvent(int newEvent);
+extern float modePromodePhysKoeff;	// OSP: CPM physics constant
 
-qboolean    PM_SlideMove(qboolean gravity);
-void        PM_StepSlideMove(qboolean gravity);
+// OSP: CPM settings, defined in bg_promode.c
+extern float modePromode_pm_airaccelerate_1;
+extern float modePredictionKoeff2;
+extern float modePromode_pm_airaccelerate_2;
+extern float modeWishspeedLimit;
+extern int modePredictionKoeff1;
+extern float modeSwimScale1;
+extern float modeSwimScale2;
+extern float modeShotgunKoeff;
+extern int modeShotgunNumberOfPellets;
+extern float modeUnused8;
+extern int modeMaxAmmoShotgun;
+extern float modeGrenadeTime;
+extern int modeMaxAmmoGrenade;
+extern int modeMaxAmmoRocket;
+extern int modeMaxAmmoRail;
+extern float modeBeginWeaponChangeTime;
+extern float modeFinishWeaponChangeTime;
+extern float modePMNoAmmoTime;
+extern int pm_armorPromode;
+extern int modeHitLevelSounds;
+extern int modeUnknown2;
+extern int modeUnknown3;
+extern int modeUnknown4;
+extern int modePickupDistance;	// bg_misc.c (BG_PlayerTouchesItem), set by CPM_UpdateSettings
+void CPM_UpdateSettings( int mode );
+
+void CPM_PM_Aircontrol( const pmove_t *pmove, vec3_t wishdir, float wishvel );
+void PM_AddTouchEnt( int entityNum );
+void PM_AddEvent( int newEvent );
+
+qboolean	PM_SlideMove( qboolean gravity );
+void		PM_StepSlideMove( qboolean gravity );
 
 
-#ifdef __cplusplus
-}
-#endif

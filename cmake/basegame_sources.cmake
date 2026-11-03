@@ -79,6 +79,7 @@ set(CGAME_SOURCES
     ${SOURCE_DIR}/game/bg_misc.c
     ${SOURCE_DIR}/game/bg_pmove.c
     ${SOURCE_DIR}/game/bg_slidemove.c
+    ${SOURCE_DIR}/game/bg_promode.c
     ${SOURCE_DIR}/game/bg_auth.c
 )
 
@@ -112,4 +113,154 @@ set(GAME_MODULE_SHARED_SOURCES
 )
 
 set(CGAME_SOURCES_BASEGAME ${CGAME_SOURCES} ${GAME_MODULE_SHARED_SOURCES})
+
+set(GAME_SOURCES
+    ${SOURCE_DIR}/game/g_main.c
+    ${SOURCE_DIR}/game/ai_chat.c
+    ${SOURCE_DIR}/game/ai_cmd.c
+    ${SOURCE_DIR}/game/ai_dmnet.c
+    ${SOURCE_DIR}/game/ai_dmq3.c
+    ${SOURCE_DIR}/game/ai_main.c
+    ${SOURCE_DIR}/game/ai_team.c
+    ${SOURCE_DIR}/game/ai_vcmd.c
+    ${SOURCE_DIR}/game/bg_auth.c
+    ${SOURCE_DIR}/game/bg_lib.c
+    ${SOURCE_DIR}/game/bg_misc.c
+    ${SOURCE_DIR}/game/bg_pmove.c
+    ${SOURCE_DIR}/game/bg_promode.c
+    ${SOURCE_DIR}/game/bg_slidemove.c
+    ${SOURCE_DIR}/game/g_active.c
+    ${SOURCE_DIR}/game/g_arenas.c
+    ${SOURCE_DIR}/game/g_bot.c
+    ${SOURCE_DIR}/game/g_client.c
+    ${SOURCE_DIR}/game/g_cmds.c
+    ${SOURCE_DIR}/game/g_combat.c
+    ${SOURCE_DIR}/game/g_items.c
+    ${SOURCE_DIR}/game/g_mem.c
+    ${SOURCE_DIR}/game/g_misc.c
+    ${SOURCE_DIR}/game/g_missile.c
+    ${SOURCE_DIR}/game/g_mover.c
+    ${SOURCE_DIR}/game/g_session.c
+    ${SOURCE_DIR}/game/g_spawn.c
+    ${SOURCE_DIR}/game/g_svcmds.c
+    ${SOURCE_DIR}/game/g_target.c
+    ${SOURCE_DIR}/game/g_team.c
+    ${SOURCE_DIR}/game/g_trigger.c
+    ${SOURCE_DIR}/game/g_utils.c
+    ${SOURCE_DIR}/game/g_weapon.c
+    ${SOURCE_DIR}/game/g_osp_admin.c
+    ${SOURCE_DIR}/game/g_osp_bot.c
+    ${SOURCE_DIR}/game/g_osp_cmds.c
+    ${SOURCE_DIR}/game/g_osp_config.c
+    ${SOURCE_DIR}/game/g_osp_customgfx.c
+    ${SOURCE_DIR}/game/g_osp_decals.c
+    ${SOURCE_DIR}/game/g_osp_freeze.c
+    ${SOURCE_DIR}/game/g_osp_main.c
+    ${SOURCE_DIR}/game/g_osp_maps.c
+    ${SOURCE_DIR}/game/g_osp_motd.c
+    ${SOURCE_DIR}/game/g_osp_multiview.c
+    ${SOURCE_DIR}/game/g_osp_referee.c
+    ${SOURCE_DIR}/game/g_osp_restrict.c
+    ${SOURCE_DIR}/game/g_osp_svcmds.c
+    ${SOURCE_DIR}/game/g_osp_team.c
+    ${SOURCE_DIR}/game/g_osp_viewcam.c
+    ${SOURCE_DIR}/game/g_osp_vote.c
+    ${SOURCE_DIR}/game/q_math.c
+    ${SOURCE_DIR}/game/q_shared.c
+)
+
+set(GAME_HEADERS
+    ${SOURCE_DIR}/game/ai_chat.h
+    ${SOURCE_DIR}/game/ai_cmd.h
+    ${SOURCE_DIR}/game/ai_dmnet.h
+    ${SOURCE_DIR}/game/ai_dmq3.h
+    ${SOURCE_DIR}/game/ai_main.h
+    ${SOURCE_DIR}/game/ai_team.h
+    ${SOURCE_DIR}/game/ai_vcmd.h
+    ${SOURCE_DIR}/game/be_aas.h
+    ${SOURCE_DIR}/game/be_ai_char.h
+    ${SOURCE_DIR}/game/be_ai_chat.h
+    ${SOURCE_DIR}/game/be_ai_gen.h
+    ${SOURCE_DIR}/game/be_ai_goal.h
+    ${SOURCE_DIR}/game/be_ai_move.h
+    ${SOURCE_DIR}/game/be_ai_weap.h
+    ${SOURCE_DIR}/game/be_ea.h
+    ${SOURCE_DIR}/game/bg_lib.h
+    ${SOURCE_DIR}/game/bg_local.h
+    ${SOURCE_DIR}/game/bg_public.h
+    ${SOURCE_DIR}/game/botlib.h
+    ${SOURCE_DIR}/game/chars.h
+    ${SOURCE_DIR}/game/g_local.h
+    ${SOURCE_DIR}/game/g_public.h
+    ${SOURCE_DIR}/game/g_rankings.h
+    ${SOURCE_DIR}/game/g_team.h
+    ${SOURCE_DIR}/game/inv.h
+    ${SOURCE_DIR}/game/match.h
+    ${SOURCE_DIR}/game/q_shared.h
+    ${SOURCE_DIR}/game/surfaceflags.h
+    ${SOURCE_DIR}/game/syn.h
+)
+
+set(GAME_QVM_SOURCES ${SOURCE_DIR}/game/g_syscalls.asm)
+
+set(GAME_BINARY_SOURCES ${SOURCE_DIR}/game/g_syscalls.c)
+
+set(UI_SOURCES
+    ${SOURCE_DIR}/ui/ui_main.c
+    ${SOURCE_DIR}/ui/ui_addbots.c
+    ${SOURCE_DIR}/ui/ui_atoms.c
+    ${SOURCE_DIR}/ui/ui_cdkey.c
+    ${SOURCE_DIR}/ui/ui_cinematics.c
+    ${SOURCE_DIR}/ui/ui_confirm.c
+    ${SOURCE_DIR}/ui/ui_connect.c
+    ${SOURCE_DIR}/ui/ui_controls2.c
+    ${SOURCE_DIR}/ui/ui_credits.c
+    ${SOURCE_DIR}/ui/ui_demo2.c
+    ${SOURCE_DIR}/ui/ui_display.c
+    ${SOURCE_DIR}/ui/ui_gameinfo.c
+    ${SOURCE_DIR}/ui/ui_ingame.c
+    ${SOURCE_DIR}/ui/ui_menu.c
+    ${SOURCE_DIR}/ui/ui_mfield.c
+    ${SOURCE_DIR}/ui/ui_mods.c
+    ${SOURCE_DIR}/ui/ui_network.c
+    ${SOURCE_DIR}/ui/ui_options.c
+    ${SOURCE_DIR}/ui/ui_playermodel.c
+    ${SOURCE_DIR}/ui/ui_players.c
+    ${SOURCE_DIR}/ui/ui_playersettings.c
+    ${SOURCE_DIR}/ui/ui_preferences.c
+    ${SOURCE_DIR}/ui/ui_qmenu.c
+    ${SOURCE_DIR}/ui/ui_removebots.c
+    ${SOURCE_DIR}/ui/ui_serverinfo.c
+    ${SOURCE_DIR}/ui/ui_servers2.c
+    ${SOURCE_DIR}/ui/ui_setup.c
+    ${SOURCE_DIR}/ui/ui_sound.c
+    ${SOURCE_DIR}/ui/ui_sparena.c
+    ${SOURCE_DIR}/ui/ui_specifyserver.c
+    ${SOURCE_DIR}/ui/ui_splevel.c
+    ${SOURCE_DIR}/ui/ui_sppostgame.c
+    ${SOURCE_DIR}/ui/ui_spskill.c
+    ${SOURCE_DIR}/ui/ui_startserver.c
+    ${SOURCE_DIR}/ui/ui_team.c
+    ${SOURCE_DIR}/ui/ui_teamorders.c
+    ${SOURCE_DIR}/ui/ui_video.c
+    ${SOURCE_DIR}/game/bg_misc.c
+    ${SOURCE_DIR}/game/bg_lib.c
+    ${SOURCE_DIR}/game/q_math.c
+    ${SOURCE_DIR}/game/q_shared.c
+)
+
+set(UI_HEADERS
+    ${SOURCE_DIR}/ui/ui_local.h
+    ${SOURCE_DIR}/ui/ui_public.h
+    ${SOURCE_DIR}/ui/ui_shared.h
+    ${SOURCE_DIR}/ui/keycodes.h
+    ${SOURCE_DIR}/ui/menudef.h
+    ${SOURCE_DIR}/game/q_shared.h
+    ${SOURCE_DIR}/game/bg_public.h
+    ${SOURCE_DIR}/game/bg_lib.h
+)
+
+set(UI_QVM_SOURCES ${SOURCE_DIR}/ui/ui_syscalls.asm)
+
+set(UI_BINARY_SOURCES ${SOURCE_DIR}/ui/ui_syscalls.c)
 
