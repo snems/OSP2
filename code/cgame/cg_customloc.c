@@ -69,10 +69,10 @@ void CG_CustomLocationsLoad(void)
 		if (line[0])
 		{
 			matches = sscanf(&line[0], "%f %f %f %s",
-			                   &customLocationEntry[numberOfCustomLocations].pos[0],
-			                   &customLocationEntry[numberOfCustomLocations].pos[1],
-			                   &customLocationEntry[numberOfCustomLocations].pos[2],
-			                   &customLocationEntry[numberOfCustomLocations].name[0]);
+			                 &customLocationEntry[numberOfCustomLocations].pos[0],
+			                 &customLocationEntry[numberOfCustomLocations].pos[1],
+			                 &customLocationEntry[numberOfCustomLocations].pos[2],
+			                 &customLocationEntry[numberOfCustomLocations].name[0]);
 			name = strstr(&line[0], &customLocationEntry[numberOfCustomLocations].name[0]);
 			if (name)
 			{

@@ -42,46 +42,46 @@ This must be the very first function compiled into the .qvm file
 ================
 */
 Q_EXPORT
-int vmMain( int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11  ) {
-	switch ( command ) {
-	case UI_GETAPIVERSION:
-		return UI_API_VERSION;
+int vmMain(int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11) {
+	switch (command) {
+		case UI_GETAPIVERSION:
+			return UI_API_VERSION;
 
-	case UI_INIT:
-		UI_Init();
-		return 0;
+		case UI_INIT:
+			UI_Init();
+			return 0;
 
-	case UI_SHUTDOWN:
-		UI_Shutdown();
-		return 0;
+		case UI_SHUTDOWN:
+			UI_Shutdown();
+			return 0;
 
-	case UI_KEY_EVENT:
-		UI_KeyEvent( arg0, arg1 );
-		return 0;
+		case UI_KEY_EVENT:
+			UI_KeyEvent(arg0, arg1);
+			return 0;
 
-	case UI_MOUSE_EVENT:
-		UI_MouseEvent( arg0, arg1 );
-		return 0;
+		case UI_MOUSE_EVENT:
+			UI_MouseEvent(arg0, arg1);
+			return 0;
 
-	case UI_REFRESH:
-		UI_Refresh( arg0 );
-		return 0;
+		case UI_REFRESH:
+			UI_Refresh(arg0);
+			return 0;
 
-	case UI_IS_FULLSCREEN:
-		return UI_IsFullscreen();
+		case UI_IS_FULLSCREEN:
+			return UI_IsFullscreen();
 
-	case UI_SET_ACTIVE_MENU:
-		UI_SetActiveMenu( arg0 );
-		return 0;
+		case UI_SET_ACTIVE_MENU:
+			UI_SetActiveMenu(arg0);
+			return 0;
 
-	case UI_CONSOLE_COMMAND:
-		return UI_ConsoleCommand(arg0);
+		case UI_CONSOLE_COMMAND:
+			return UI_ConsoleCommand(arg0);
 
-	case UI_DRAW_CONNECT_SCREEN:
-		UI_DrawConnectScreen( arg0 );
-		return 0;
-	case UI_HASUNIQUECDKEY:				// mod authors need to observe this
-		return qtrue;  // bk010117 - change this to qfalse for mods!
+		case UI_DRAW_CONNECT_SCREEN:
+			UI_DrawConnectScreen(arg0);
+			return 0;
+		case UI_HASUNIQUECDKEY:             // mod authors need to observe this
+			return qtrue;  // bk010117 - change this to qfalse for mods!
 	}
 
 	return -1;
@@ -95,72 +95,72 @@ cvars
 */
 
 typedef struct {
-	vmCvar_t	*vmCvar;
-	char		*cvarName;
-	char		*defaultString;
-	int			cvarFlags;
+	vmCvar_t*    vmCvar;
+	char*        cvarName;
+	char*        defaultString;
+	int         cvarFlags;
 } cvarTable_t;
 
-vmCvar_t	ui_ffa_fraglimit;
-vmCvar_t	ui_ffa_timelimit;
+vmCvar_t    ui_ffa_fraglimit;
+vmCvar_t    ui_ffa_timelimit;
 
-vmCvar_t	ui_tourney_fraglimit;
-vmCvar_t	ui_tourney_timelimit;
+vmCvar_t    ui_tourney_fraglimit;
+vmCvar_t    ui_tourney_timelimit;
 
-vmCvar_t	ui_team_fraglimit;
-vmCvar_t	ui_team_timelimit;
-vmCvar_t	ui_team_friendly;
+vmCvar_t    ui_team_fraglimit;
+vmCvar_t    ui_team_timelimit;
+vmCvar_t    ui_team_friendly;
 
-vmCvar_t	ui_ctf_capturelimit;
-vmCvar_t	ui_ctf_timelimit;
-vmCvar_t	ui_ctf_friendly;
+vmCvar_t    ui_ctf_capturelimit;
+vmCvar_t    ui_ctf_timelimit;
+vmCvar_t    ui_ctf_friendly;
 
-vmCvar_t	ui_arenasFile;
-vmCvar_t	ui_botsFile;
-vmCvar_t	ui_spScores1;
-vmCvar_t	ui_spScores2;
-vmCvar_t	ui_spScores3;
-vmCvar_t	ui_spScores4;
-vmCvar_t	ui_spScores5;
-vmCvar_t	ui_spAwards;
-vmCvar_t	ui_spVideos;
-vmCvar_t	ui_spSkill;
+vmCvar_t    ui_arenasFile;
+vmCvar_t    ui_botsFile;
+vmCvar_t    ui_spScores1;
+vmCvar_t    ui_spScores2;
+vmCvar_t    ui_spScores3;
+vmCvar_t    ui_spScores4;
+vmCvar_t    ui_spScores5;
+vmCvar_t    ui_spAwards;
+vmCvar_t    ui_spVideos;
+vmCvar_t    ui_spSkill;
 
-vmCvar_t	ui_spSelection;
+vmCvar_t    ui_spSelection;
 
-vmCvar_t	ui_browserMaster;
-vmCvar_t	ui_browserGameType;
-vmCvar_t	ui_browserSortKey;
-vmCvar_t	ui_browserShowFull;
-vmCvar_t	ui_browserShowEmpty;
+vmCvar_t    ui_browserMaster;
+vmCvar_t    ui_browserGameType;
+vmCvar_t    ui_browserSortKey;
+vmCvar_t    ui_browserShowFull;
+vmCvar_t    ui_browserShowEmpty;
 
-vmCvar_t	ui_brassTime;
-vmCvar_t	ui_drawCrosshair;
-vmCvar_t	ui_drawCrosshairNames;
-vmCvar_t	ui_marks;
+vmCvar_t    ui_brassTime;
+vmCvar_t    ui_drawCrosshair;
+vmCvar_t    ui_drawCrosshairNames;
+vmCvar_t    ui_marks;
 
-vmCvar_t	ui_server1;
-vmCvar_t	ui_server2;
-vmCvar_t	ui_server3;
-vmCvar_t	ui_server4;
-vmCvar_t	ui_server5;
-vmCvar_t	ui_server6;
-vmCvar_t	ui_server7;
-vmCvar_t	ui_server8;
-vmCvar_t	ui_server9;
-vmCvar_t	ui_server10;
-vmCvar_t	ui_server11;
-vmCvar_t	ui_server12;
-vmCvar_t	ui_server13;
-vmCvar_t	ui_server14;
-vmCvar_t	ui_server15;
-vmCvar_t	ui_server16;
-vmCvar_t	ui_3waveFont;		// OSP
+vmCvar_t    ui_server1;
+vmCvar_t    ui_server2;
+vmCvar_t    ui_server3;
+vmCvar_t    ui_server4;
+vmCvar_t    ui_server5;
+vmCvar_t    ui_server6;
+vmCvar_t    ui_server7;
+vmCvar_t    ui_server8;
+vmCvar_t    ui_server9;
+vmCvar_t    ui_server10;
+vmCvar_t    ui_server11;
+vmCvar_t    ui_server12;
+vmCvar_t    ui_server13;
+vmCvar_t    ui_server14;
+vmCvar_t    ui_server15;
+vmCvar_t    ui_server16;
+vmCvar_t    ui_3waveFont;       // OSP
 
-vmCvar_t	ui_cdkeychecked;
+vmCvar_t    ui_cdkeychecked;
 
 // bk001129 - made static to avoid aliasing.
-static cvarTable_t		cvarTable[] = {
+static cvarTable_t      cvarTable[] = {
 	{ &ui_ffa_fraglimit, "ui_ffa_fraglimit", "20", CVAR_ARCHIVE },
 	{ &ui_ffa_timelimit, "ui_ffa_timelimit", "0", CVAR_ARCHIVE },
 
@@ -214,8 +214,8 @@ static cvarTable_t		cvarTable[] = {
 	{ &ui_server13, "server13", "", CVAR_ARCHIVE },
 	{ &ui_server14, "server14", "", CVAR_ARCHIVE },
 	{ &ui_server15, "server15", "", CVAR_ARCHIVE },
-		{ &ui_server16, "server16", "", CVAR_ARCHIVE },
-	{ &ui_3waveFont, "ui_3waveFont", "1", CVAR_ARCHIVE },	// OSP
+	{ &ui_server16, "server16", "", CVAR_ARCHIVE },
+	{ &ui_3waveFont, "ui_3waveFont", "1", CVAR_ARCHIVE },   // OSP
 
 	{ &ui_cdkeychecked, "ui_cdkeychecked", "0", CVAR_ROM }
 };
@@ -229,12 +229,12 @@ static int cvarTableSize = sizeof(cvarTable) / sizeof(cvarTable[0]);
 UI_RegisterCvars
 =================
 */
-void UI_RegisterCvars( void ) {
-	int			i;
-	cvarTable_t	*cv;
+void UI_RegisterCvars(void) {
+	int         i;
+	cvarTable_t* cv;
 
-	for ( i = 0, cv = cvarTable ; i < cvarTableSize ; i++, cv++ ) {
-		trap_Cvar_Register( cv->vmCvar, cv->cvarName, cv->defaultString, cv->cvarFlags );
+	for (i = 0, cv = cvarTable ; i < cvarTableSize ; i++, cv++) {
+		trap_Cvar_Register(cv->vmCvar, cv->cvarName, cv->defaultString, cv->cvarFlags);
 	}
 }
 
@@ -243,11 +243,11 @@ void UI_RegisterCvars( void ) {
 UI_UpdateCvars
 =================
 */
-void UI_UpdateCvars( void ) {
-	int			i;
-	cvarTable_t	*cv;
+void UI_UpdateCvars(void) {
+	int         i;
+	cvarTable_t* cv;
 
-	for ( i = 0, cv = cvarTable ; i < cvarTableSize ; i++, cv++ ) {
-		trap_Cvar_Update( cv->vmCvar );
+	for (i = 0, cv = cvarTable ; i < cvarTableSize ; i++, cv++) {
+		trap_Cvar_Update(cv->vmCvar);
 	}
 }

@@ -7,15 +7,15 @@
 
 // OSP: vmCvar_ts registered in gameCvarTable (g_main.c); their order comes from the extern
 // list in g_local.h.
-vmCvar_t	decal_directory;
+vmCvar_t    decal_directory;
 
 // OSP: configstrings of the decals
-#define	CS_OSP_DECALS		840
-#define	MAX_OSP_DECALS		32
+#define CS_OSP_DECALS       840
+#define MAX_OSP_DECALS      32
 
 typedef struct {
-	char	*mapname;
-	char	*entries[7];
+	char*    mapname;
+	char*    entries[7];
 } ospDecal_t;
 
 /*
@@ -25,10 +25,10 @@ OSP_DecalEntry
 Built-in decals of mapname (OSP's maps and a few id maps); 0 when there are none
 ==================
 */
-int OSP_DecalEntry( char *mapname ) {
-	int			j;
-	int			i;
-	ospDecal_t	decals[] = {
+int OSP_DecalEntry(char* mapname) {
+	int         j;
+	int         i;
+	ospDecal_t  decals[] = {
 		{ "q3dm6", { "0 35 -90.00 -1647.87 60.24 864.74 1.00 0.00 0.00" } },
 		{ "pro-q3dm6", { "0 35 -90.00 -1647.87 60.24 864.74 1.00 0.00 0.00" } },
 		{ "q3dm7", { "0 71 444.00 516.60 -802.06 -147.61 -0.19 0.00 0.98" } },
@@ -55,15 +55,15 @@ int OSP_DecalEntry( char *mapname ) {
 		{ "ospctf1", { "0 30 180.00 496.95 -239.21 603.08 0.70 -0.70 0.00", "0 30 180.00 -3409.27 3297.44 725.90 0.70 0.70 0.00" } },
 		{ "ospctf2", { "0 18 525.50 -331.73 -892.08 237.37 0.70 0.70 0.00", "0 30 90.00 2632.80 1656.12 364.87 0.00 1.00 0.00" } }
 	};
-	int			count;
+	int         count;
 
 	count = 0;
-	for ( i = 0; i < sizeof( decals ) / sizeof( decals[0] ); i++ ) {
-		if ( !Q_stricmp( decals[i].mapname, mapname ) ) {
-			for ( j = 0; j < 7; j++ ) {
-				if ( decals[i].entries[j] && *decals[i].entries[j] ) {
-					trap_SetConfigstring( count + CS_OSP_DECALS, decals[i].entries[j] );
-					G_Printf( "INTERNAL Decal entry: %s\n", decals[i].entries[j] );
+	for (i = 0; i < sizeof(decals) / sizeof(decals[0]); i++) {
+		if (!Q_stricmp(decals[i].mapname, mapname)) {
+			for (j = 0; j < 7; j++) {
+				if (decals[i].entries[j] && *decals[i].entries[j]) {
+					trap_SetConfigstring(count + CS_OSP_DECALS, decals[i].entries[j]);
+					G_Printf("INTERNAL Decal entry: %s\n", decals[i].entries[j]);
 					count++;
 				} else {
 					break;
@@ -83,71 +83,71 @@ Sends the lines of the map's decal file (or its built-in decals) as configstring
 CS_OSP_DECALS + n
 ==================
 */
-void OSP_LoadDecals( void ) {
-	int				len;
-	char			*p;
-	int				count;
-	char			filename[MAX_QPATH];
-	char			mapname[MAX_STRING_CHARS];
-	fileHandle_t	f;
-	char			serverinfo[MAX_INFO_STRING];
-	char			*disabled;
-	char			buf[MAX_OSP_FILE_CHARS];
+void OSP_LoadDecals(void) {
+	int             len;
+	char*            p;
+	int             count;
+	char            filename[MAX_QPATH];
+	char            mapname[MAX_STRING_CHARS];
+	fileHandle_t    f;
+	char            serverinfo[MAX_INFO_STRING];
+	char*            disabled;
+	char            buf[MAX_OSP_FILE_CHARS];
 
 	count = 0;
 	disabled = "*** Map decals disabled\n\n";
 
-	for ( len = 0; len < MAX_OSP_DECALS; len++ ) {
+	for (len = 0; len < MAX_OSP_DECALS; len++) {
 		buf[0] = 0;
-		trap_GetConfigstring( len + CS_OSP_DECALS, buf, sizeof( buf ) );
-		if ( !buf[0] ) {
-			trap_SetConfigstring( len + CS_OSP_DECALS, "-1" );
+		trap_GetConfigstring(len + CS_OSP_DECALS, buf, sizeof(buf));
+		if (!buf[0]) {
+			trap_SetConfigstring(len + CS_OSP_DECALS, "-1");
 		}
 	}
 
 	buf[0] = 0;
 	filename[0] = 0;
-	trap_GetServerinfo( serverinfo, sizeof( serverinfo ) );
-	Q_strncpyz( mapname, Info_ValueForKey( serverinfo, "mapname" ), sizeof( mapname ) );
-	strcpy( filename, va( "%s/decal-%s.txt", decal_directory.string, mapname ) );
+	trap_GetServerinfo(serverinfo, sizeof(serverinfo));
+	Q_strncpyz(mapname, Info_ValueForKey(serverinfo, "mapname"), sizeof(mapname));
+	strcpy(filename, va("%s/decal-%s.txt", decal_directory.string, mapname));
 
-	len = trap_FS_FOpenFile( filename, &f, FS_READ );
-	if ( len <= 0 ) {
-		G_Printf( "\n>>> ERROR: Could not open decal file \"%s\"\n", filename );
-		if ( !OSP_DecalEntry( mapname ) ) {
-			G_Printf( "%s", disabled );
+	len = trap_FS_FOpenFile(filename, &f, FS_READ);
+	if (len <= 0) {
+		G_Printf("\n>>> ERROR: Could not open decal file \"%s\"\n", filename);
+		if (!OSP_DecalEntry(mapname)) {
+			G_Printf("%s", disabled);
 		}
 		return;
 	}
-	if ( len >= sizeof( buf ) ) {
-		G_Printf( "\n>>> ERROR: Decal file \"%s\" too big! (%d bytes, max = %d)\n", filename, len, sizeof( buf ) - 1 );
-		if ( !OSP_DecalEntry( mapname ) ) {
-			G_Printf( "%s", disabled );
+	if (len >= sizeof(buf)) {
+		G_Printf("\n>>> ERROR: Decal file \"%s\" too big! (%d bytes, max = %d)\n", filename, len, sizeof(buf) - 1);
+		if (!OSP_DecalEntry(mapname)) {
+			G_Printf("%s", disabled);
 		}
-		trap_FS_FCloseFile( f );
+		trap_FS_FCloseFile(f);
 		return;
 	}
 
-	if ( f ) {
-		G_Printf( "\nLoading decals from \"%s\"\n", filename );
-		trap_FS_Read( buf, len, f );
+	if (f) {
+		G_Printf("\nLoading decals from \"%s\"\n", filename);
+		trap_FS_Read(buf, len, f);
 		p = buf;
 		buf[len] = 0;
 		count = 0;
 
 		do {
-			char	line[MAX_STRING_CHARS];
+			char    line[MAX_STRING_CHARS];
 
 			line[0] = 0;
-			p = OSP_ReadConfigLine( p, len - ( p - buf ), line, sizeof( line ) );
-			if ( line[0] ) {
-				trap_SetConfigstring( count + CS_OSP_DECALS, line );
-				G_Printf( "Decal entry: %s\n", line );
+			p = OSP_ReadConfigLine(p, len - (p - buf), line, sizeof(line));
+			if (line[0]) {
+				trap_SetConfigstring(count + CS_OSP_DECALS, line);
+				G_Printf("Decal entry: %s\n", line);
 				count++;
 			}
-		} while ( p && count < MAX_OSP_DECALS );
+		} while (p && count < MAX_OSP_DECALS);
 	}
 
-	G_Printf( "%d decals defined.\n", count );
-	trap_FS_FCloseFile( f );
+	G_Printf("%d decals defined.\n", count);
+	trap_FS_FCloseFile(f);
 }
