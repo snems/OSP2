@@ -7,54 +7,54 @@
 #include "g_local.h"
 
 // OSP: functions of other files used here
-extern	void	G_UpdateCvars( void );	// g_main.c
+extern  void    G_UpdateCvars(void);     // g_main.c
 
 // OSP: vmCvar_ts registered in gameCvarTable (g_main.c); their order comes from the extern
 // list in g_local.h.
-vmCvar_t	server_availmodes;
-vmCvar_t	mode_start;
-vmCvar_t	z_m_default;
-vmCvar_t	mode_customfile;
-vmCvar_t	z_m_current;
+vmCvar_t    server_availmodes;
+vmCvar_t    mode_start;
+vmCvar_t    z_m_default;
+vmCvar_t    mode_customfile;
+vmCvar_t    z_m_current;
 
 // OSP: g_main.c's cvar table (OSP_Cmd_Settings_f walks it; not static in OSP).
 // The entry layout is g_main.c's cvarTable_t.
 typedef struct {
-	vmCvar_t	*vmCvar;
-	char		*cvarName;
-	char		*defaultString;
-	int			cvarFlags;
-	int			modificationCount;
-	qboolean	trackChange;
-	qboolean	osp_setDefault;
-	qboolean	teamShader;
+	vmCvar_t*    vmCvar;
+	char*        cvarName;
+	char*        defaultString;
+	int         cvarFlags;
+	int         modificationCount;
+	qboolean    trackChange;
+	qboolean    osp_setDefault;
+	qboolean    teamShader;
 } cvarTable_t;
-extern	cvarTable_t	gameCvarTable[];
-extern	int			gameCvarTableSize;
+extern  cvarTable_t gameCvarTable[];
+extern  int         gameCvarTableSize;
 
 // OSP's modes, indexed by g_gametype (name used in the log lines)
-ospMode_t	osp_modes[] = {
-	{ GT_FFA,		"Free-For-All" },
-	{ GT_TOURNAMENT,	"1v1" },
-	{ GT_TEAM,		"ClanBase TeamDM" },
-	{ GT_TEAM,		"TeamplayDM" },
-	{ GT_CTF,		"CTF" },
-	{ 5,			"ClanArena" },
-	{ GT_TEAM,		"FreezeTag TDM" },
-	{ GT_TEAM,		"FreezeTag TDM (Vanilla)" }
+ospMode_t   osp_modes[] = {
+	{ GT_FFA,       "Free-For-All" },
+	{ GT_TOURNAMENT,    "1v1" },
+	{ GT_TEAM,      "ClanBase TeamDM" },
+	{ GT_TEAM,      "TeamplayDM" },
+	{ GT_CTF,       "CTF" },
+	{ 5,            "ClanArena" },
+	{ GT_TEAM,      "FreezeTag TDM" },
+	{ GT_TEAM,      "FreezeTag TDM (Vanilla)" }
 };
-int			osp_numModes = sizeof( osp_modes ) / sizeof( osp_modes[0] );	// ExitLevel: modes above it are custom modes
+int         osp_numModes = sizeof(osp_modes) / sizeof(osp_modes[0]);      // ExitLevel: modes above it are custom modes
 
 // OSP: per-mode settings, applied to every mode whose bit (1 << mode) is in
 // modeMask
 typedef struct {
-	int		modeMask;
-	char	*cvar;
-	char	*value;
+	int     modeMask;
+	char*    cvar;
+	char*    value;
 } ospModeSetting_t;
 
 // map settings (OSP_LoadModeMaplist)
-ospModeSetting_t	osp_modeMapSettings[] = {
+ospModeSetting_t    osp_modeMapSettings[] = {
 	{ 0x01, "map_rotate", "1" },
 	{ 0x3e, "map_rotate", "0" },
 	{ 0x01, "map_file", "cfg-maps/ffamaps.txt" },
@@ -67,7 +67,7 @@ ospModeSetting_t	osp_modeMapSettings[] = {
 
 // everything else (OSP_SetGametype; OSP_Cmd_Settings_f colours the values
 // that differ from them)
-ospModeSetting_t	osp_modeSettings[] = {
+ospModeSetting_t    osp_modeSettings[] = {
 	{ 0x10, "capturelimit", "0" },
 	{ 0x20, "dmflags", "8" },
 	{ 0x01, "fraglimit", "30" },
@@ -142,11 +142,11 @@ ospModeSetting_t	osp_modeSettings[] = {
 // session is a "mapsession<n>" value: min players, max players, fraglimit, capturelimit,
 // timelimit, roundlimit, visited, config, map
 typedef struct {
-	int		modeMask;
-	char	*session;
+	int     modeMask;
+	char*    session;
 } ospDefaultMap_t;
 
-ospDefaultMap_t	osp_defaultMaps[] = {
+ospDefaultMap_t osp_defaultMaps[] = {
 	{ 0x01, "0 0 30 0 20 -1 1 --none-- ospdm1" },
 	{ 0x01, "0 0 30 0 20 -1 1 --none-- ospdm2" },
 	{ 0x01, "0 0 30 0 20 -1 1 --none-- ospdm3" },
@@ -247,7 +247,7 @@ ospDefaultMap_t	osp_defaultMaps[] = {
 	{ 0xec, "0 20 -1 -1 20 -1 0 --none-- q3dm17" }
 };
 
-void OSP_PrintAvailableModes( qboolean noCustom );
+void OSP_PrintAvailableModes(qboolean noCustom);
 
 
 /*
@@ -258,96 +258,96 @@ Lists the standard modes enabled by server_availmodes and reads the custom modes
 mode_customfile ("<name><TAB><config file>" lines, at most MAX_OSP_CUSTOMMODES) for voting
 ==================
 */
-void OSP_LoadCustomModes( void ) {
-	int				len;
-	char			*p;
-	int				count;
-	char			buf[MAX_OSP_FILE_CHARS];
-	char			filename[MAX_QPATH];
-	fileHandle_t	f;
+void OSP_LoadCustomModes(void) {
+	int             len;
+	char*            p;
+	int             count;
+	char            buf[MAX_OSP_FILE_CHARS];
+	char            filename[MAX_QPATH];
+	fileHandle_t    f;
 
 	buf[0] = 0;
 	filename[0] = 0;
 	level.numVoteModes = 0;
 	level.numStdModes = 0;
-	strcpy( level.modeList, "\n   DISABLED" );
+	strcpy(level.modeList, "\n   DISABLED");
 
-	for ( len = 0; len < osp_numModes; len++ ) {
-		if ( server_availmodes.integer & ( 1 << len ) ) {
-			if ( !level.numVoteModes ) {
-				strcpy( level.modeList, va( "\n   %d - %s\n", len, osp_modes[len].name ) );
+	for (len = 0; len < osp_numModes; len++) {
+		if (server_availmodes.integer & (1 << len)) {
+			if (!level.numVoteModes) {
+				strcpy(level.modeList, va("\n   %d - %s\n", len, osp_modes[len].name));
 			} else {
-				strcat( level.modeList, va( "   %d - %s\n", len, osp_modes[len].name ) );
+				strcat(level.modeList, va("   %d - %s\n", len, osp_modes[len].name));
 			}
 			level.numVoteModes++;
 			level.numStdModes++;
 		}
 	}
 
-	if ( mode_customfile.string[0] && Q_stricmp( mode_customfile.string, "none" ) ) {
-		strcpy( filename, mode_customfile.string );
+	if (mode_customfile.string[0] && Q_stricmp(mode_customfile.string, "none")) {
+		strcpy(filename, mode_customfile.string);
 	} else {
-		OSP_PrintAvailableModes( qtrue );
+		OSP_PrintAvailableModes(qtrue);
 		return;
 	}
 
-	len = trap_FS_FOpenFile( filename, &f, FS_READ );
-	if ( len <= 0 ) {
-		G_Printf( "\n*** ERROR: Could not open custom mode file \"%s\"\n", filename );
-		OSP_PrintAvailableModes( qtrue );
+	len = trap_FS_FOpenFile(filename, &f, FS_READ);
+	if (len <= 0) {
+		G_Printf("\n*** ERROR: Could not open custom mode file \"%s\"\n", filename);
+		OSP_PrintAvailableModes(qtrue);
 		return;
 	}
-	if ( len >= sizeof( buf ) ) {
-		G_Printf( "\n*** ERROR: Custom mode file \"%s\" too big! (%d bytes, max = %d)\n", filename, len, sizeof( buf ) - 1 );
-		trap_FS_FCloseFile( f );
-		OSP_PrintAvailableModes( qtrue );
+	if (len >= sizeof(buf)) {
+		G_Printf("\n*** ERROR: Custom mode file \"%s\" too big! (%d bytes, max = %d)\n", filename, len, sizeof(buf) - 1);
+		trap_FS_FCloseFile(f);
+		OSP_PrintAvailableModes(qtrue);
 		return;
 	}
 
-	if ( f ) {
-		G_Printf( "\nLoading custom modes from \"%s\"\n", filename );
-		trap_FS_Read( buf, len, f );
+	if (f) {
+		G_Printf("\nLoading custom modes from \"%s\"\n", filename);
+		trap_FS_Read(buf, len, f);
 		p = buf;
 		buf[len] = 0;
 		count = 0;
 
 		do {
-			char	line[MAX_STRING_CHARS];
+			char    line[MAX_STRING_CHARS];
 
 			line[0] = 0;
-			p = OSP_ReadConfigLine( p, len - ( p - buf ), line, sizeof( line ) );
-			if ( line[0] ) {
-				char	*s;
+			p = OSP_ReadConfigLine(p, len - (p - buf), line, sizeof(line));
+			if (line[0]) {
+				char*    s;
 
-				s = strchr( line, '\t' );
-				if ( !s ) {
-					G_Printf( "** Missing TAB delimiter on line: \"%s\" ... skipping.\n", line );
+				s = strchr(line, '\t');
+				if (!s) {
+					G_Printf("** Missing TAB delimiter on line: \"%s\" ... skipping.\n", line);
 					continue;
 				}
 				*s = 0;
 				s++;
-				if ( strchr( line, ' ' ) ) {
-					G_Printf( "** Space found in \"%s\" ... skipping.\n", line );
+				if (strchr(line, ' ')) {
+					G_Printf("** Space found in \"%s\" ... skipping.\n", line);
 					continue;
 				}
 
-				Q_strncpyz( level.customModeName[count], line, sizeof( level.customModeName[0] ) );
-				Q_strncpyz( level.customModeConfig[count], s, sizeof( level.customModeConfig[0] ) );
-				if ( !level.numVoteModes ) {
-					strcpy( level.modeList, va( "\n   %d - %s [CUSTOM]\n", count + osp_numModes, level.customModeName[count] ) );
+				Q_strncpyz(level.customModeName[count], line, sizeof(level.customModeName[0]));
+				Q_strncpyz(level.customModeConfig[count], s, sizeof(level.customModeConfig[0]));
+				if (!level.numVoteModes) {
+					strcpy(level.modeList, va("\n   %d - %s [CUSTOM]\n", count + osp_numModes, level.customModeName[count]));
 				} else {
-					strcat( level.modeList, va( "   %d - %s [CUSTOM]\n", count + osp_numModes, level.customModeName[count] ) );
+					strcat(level.modeList, va("   %d - %s [CUSTOM]\n", count + osp_numModes, level.customModeName[count]));
 				}
-				G_Printf( "Custom mode entry: %-12s (%s)\n", va( "\"%s\"", level.customModeName[count] ), level.customModeConfig[count] );
+				G_Printf("Custom mode entry: %-12s (%s)\n", va("\"%s\"", level.customModeName[count]), level.customModeConfig[count]);
 				count++;
 				level.numVoteModes++;
 			}
-		} while ( p && level.numVoteModes < level.numStdModes + MAX_OSP_CUSTOMMODES );
+		} while (p && level.numVoteModes < level.numStdModes + MAX_OSP_CUSTOMMODES);
 	}
 
-	G_Printf( "%d alternate modes available for voting.\n", level.numVoteModes );
-	OSP_PrintAvailableModes( qfalse );
-	trap_FS_FCloseFile( f );
+	G_Printf("%d alternate modes available for voting.\n", level.numVoteModes);
+	OSP_PrintAvailableModes(qfalse);
+	trap_FS_FCloseFile(f);
 }
 
 /*
@@ -359,24 +359,24 @@ Copies the next line of buf (size bytes left) that is not empty or a "#" comment
 of buf. A line that does not fit is skipped (line stays empty).
 ==================
 */
-char *OSP_ReadConfigLine( char *buf, int size, char *line, int lineSize ) {
-	char	*p;
-	char	*s;
-	int		len;
+char* OSP_ReadConfigLine(char* buf, int size, char* line, int lineSize) {
+	char*    p;
+	char*    s;
+	int     len;
 
 	len = size;
 	s = buf;
 	p = buf;
-	if ( len < 1 ) {
+	if (len < 1) {
 		return NULL;
 	}
 
-	while ( *p == '#' || *p == '\n' ) {
-		p = strchr( s, '\n' );
-		if ( p ) {
+	while (*p == '#' || *p == '\n') {
+		p = strchr(s, '\n');
+		if (p) {
 			s = p + 1;
 			len -= p - s;
-			if ( strchr( s, '\r' ) == s ) {
+			if (strchr(s, '\r') == s) {
 				s++;
 				len--;
 			}
@@ -384,41 +384,41 @@ char *OSP_ReadConfigLine( char *buf, int size, char *line, int lineSize ) {
 			return NULL;
 		}
 		p = s;
-		if ( len < 1 ) {
+		if (len < 1) {
 			return NULL;
 		}
 	}
 
-	p = strchr( s, '\n' );
-	if ( !p ) {
+	p = strchr(s, '\n');
+	if (!p) {
 		p = s;
 	}
 
-	memset( line, 0, lineSize );
-	if ( p - s > lineSize ) {
-		G_Printf( "Line too long.. skipping\n" );
-	} else if ( p == s ) {
-		if ( len > lineSize ) {
-			G_Printf( "Last line too long.. skipping\n" );
+	memset(line, 0, lineSize);
+	if (p - s > lineSize) {
+		G_Printf("Line too long.. skipping\n");
+	} else if (p == s) {
+		if (len > lineSize) {
+			G_Printf("Last line too long.. skipping\n");
 		} else {
-			memcpy( line, s, len );
+			memcpy(line, s, len);
 		}
 	} else {
-		if ( p < s ) {
+		if (p < s) {
 			return NULL;
 		}
-		memcpy( line, s, p - s );
+		memcpy(line, s, p - s);
 		line[p - s] = 0;
-		if ( line[p - s - 1] == '\r' ) {
+		if (line[p - s - 1] == '\r') {
 			line[p - s - 1] = 0;
 		}
 	}
 
-	if ( p == buf ) {
+	if (p == buf) {
 		return NULL;
 	}
 	p++;
-	if ( *p == '\r' ) {
+	if (*p == '\r') {
 		p++;
 	}
 	return p;
@@ -431,32 +431,32 @@ OSP_SetGametype
 Applies the default settings of mode (osp_modeSettings) after resetting the cvars
 ==================
 */
-void OSP_SetGametype( int mode ) {
-	ospModeSetting_t	*def;
-	int					i;
-	int					num;
-	int					mask;
+void OSP_SetGametype(int mode) {
+	ospModeSetting_t*    def;
+	int                 i;
+	int                 num;
+	int                 mask;
 
 	OSP_ResetCvarDefaults();
-	if ( mode >= osp_numModes || mode < 0 ) {
+	if (mode >= osp_numModes || mode < 0) {
 		return;
 	}
 
 	mask = 1 << mode;
-	num = sizeof( osp_modeSettings ) / sizeof( osp_modeSettings[0] );
-	for ( i = 0, def = osp_modeSettings; i < num; i++, def++ ) {
-		if ( def->modeMask & mask ) {
-			trap_Cvar_Set( def->cvar, def->value );
-			G_Printf( "set %s %s\n", def->cvar, def->value );
+	num = sizeof(osp_modeSettings) / sizeof(osp_modeSettings[0]);
+	for (i = 0, def = osp_modeSettings; i < num; i++, def++) {
+		if (def->modeMask & mask) {
+			trap_Cvar_Set(def->cvar, def->value);
+			G_Printf("set %s %s\n", def->cvar, def->value);
 		}
 	}
 
-	OSP_HidePlayersInServerinfo( 0 );
+	OSP_HidePlayersInServerinfo(0);
 	G_UpdateCvars();
 	OSP_SaveDefaultSettings();
 
-	if ( osp_modes[mode].gametype != g_gametype.integer ) {
-		G_Printf( "*** Setting ^3\"g_gametype\"^7 to ^6\"%d\"\n", osp_modes[mode].gametype );
+	if (osp_modes[mode].gametype != g_gametype.integer) {
+		G_Printf("*** Setting ^3\"g_gametype\"^7 to ^6\"%d\"\n", osp_modes[mode].gametype);
 	}
 }
 
@@ -469,82 +469,82 @@ none); the next map is map (NULL or "": the current map) when it is in the list,
 first map of the list
 ==================
 */
-void OSP_LoadModeMaplist( int mode, char *map ) {
-	ospModeSetting_t	*def;
-	int					i;
-	int					num;
-	int					mask;
-	char				*nextmap;
-	char				mapname[MAX_STRING_CHARS];
+void OSP_LoadModeMaplist(int mode, char* map) {
+	ospModeSetting_t*    def;
+	int                 i;
+	int                 num;
+	int                 mask;
+	char*                nextmap;
+	char                mapname[MAX_STRING_CHARS];
 
-	OSP_SetMapSessionCount( 0 );
-	if ( mode >= osp_numModes ) {
-		trap_Cvar_Set( "z_m_current", va( "%d", mode ) );
+	OSP_SetMapSessionCount(0);
+	if (mode >= osp_numModes) {
+		trap_Cvar_Set("z_m_current", va("%d", mode));
 		return;
 	}
 
 	mask = 1 << mode;
-	num = sizeof( osp_modeMapSettings ) / sizeof( osp_modeMapSettings[0] );
-	for ( i = 0, def = osp_modeMapSettings; i < num; i++, def++ ) {
-		if ( def->modeMask & mask ) {
-			trap_Cvar_Set( def->cvar, def->value );
-			G_Printf( "Setting ^3\"%s\"^7 to ^6\"%s\"\n", def->cvar, def->value );
+	num = sizeof(osp_modeMapSettings) / sizeof(osp_modeMapSettings[0]);
+	for (i = 0, def = osp_modeMapSettings; i < num; i++, def++) {
+		if (def->modeMask & mask) {
+			trap_Cvar_Set(def->cvar, def->value);
+			G_Printf("Setting ^3\"%s\"^7 to ^6\"%s\"\n", def->cvar, def->value);
 		}
 	}
 
 	G_UpdateCvars();
 	OSP_LoadMaplist();
 
-	if ( !osp_numMaps ) {
-		int		autoload;
+	if (!osp_numMaps) {
+		int     autoload;
 
 		autoload = map_autoload.integer;
-		G_Printf( "****\n**** NULL MAP LIST ... reverting to map_autoload 2\n****\n\n" );
-		trap_Cvar_Set( "map_autoload", "2" );
+		G_Printf("****\n**** NULL MAP LIST ... reverting to map_autoload 2\n****\n\n");
+		trap_Cvar_Set("map_autoload", "2");
 		G_UpdateCvars();
 		OSP_LoadMaplist();
-		trap_Cvar_Set( "map_autoload", va( "%d", autoload ) );
+		trap_Cvar_Set("map_autoload", va("%d", autoload));
 	}
 
-	if ( !osp_numMaps ) {
-		ospDefaultMap_t	*dm;
-		int				n;
+	if (!osp_numMaps) {
+		ospDefaultMap_t* dm;
+		int             n;
 
 		n = 0;
-		G_Printf( "\n*** Loading default maplist for: %s\n\n", osp_modes[mode].name );
-		num = sizeof( osp_defaultMaps ) / sizeof( osp_defaultMaps[0] );
-		for ( i = 0, dm = osp_defaultMaps; i < num; i++, dm++ ) {
-			if ( dm->modeMask & mask ) {
-				trap_Cvar_Set( va( "mapsession%d", n ), dm->session );
+		G_Printf("\n*** Loading default maplist for: %s\n\n", osp_modes[mode].name);
+		num = sizeof(osp_defaultMaps) / sizeof(osp_defaultMaps[0]);
+		for (i = 0, dm = osp_defaultMaps; i < num; i++, dm++) {
+			if (dm->modeMask & mask) {
+				trap_Cvar_Set(va("mapsession%d", n), dm->session);
 				n++;
 			}
 		}
-		OSP_SetMapSessionCount( n );
-		OSP_LoadMapSession( qtrue );
+		OSP_SetMapSessionCount(n);
+		OSP_LoadMapSession(qtrue);
 	}
 
 	nextmap = map;
-	if ( !nextmap || !*nextmap ) {
-		char	serverinfo[MAX_INFO_STRING];
+	if (!nextmap || !*nextmap) {
+		char    serverinfo[MAX_INFO_STRING];
 
 		mapname[0] = 0;
-		trap_GetServerinfo( serverinfo, sizeof( serverinfo ) );
-		Q_strncpyz( mapname, Info_ValueForKey( serverinfo, "mapname" ), sizeof( mapname ) );
-		if ( mapname[0] ) {
+		trap_GetServerinfo(serverinfo, sizeof(serverinfo));
+		Q_strncpyz(mapname, Info_ValueForKey(serverinfo, "mapname"), sizeof(mapname));
+		if (mapname[0]) {
 			nextmap = mapname;
 		}
 	}
 
-	if ( nextmap && *nextmap && OSP_ValidateMap( NULL, nextmap, 0 ) ) {
-		trap_SendConsoleCommand( EXEC_APPEND, va( "set nextmap \"map %s\"\n", nextmap ) );
-	} else if ( mode != g_gametype.integer || mode != z_m_current.integer ) {
-		trap_SendConsoleCommand( EXEC_APPEND, va( "set nextmap \"map %s\"\n", osp_maps[0].name ) );
+	if (nextmap && *nextmap && OSP_ValidateMap(NULL, nextmap, 0)) {
+		trap_SendConsoleCommand(EXEC_APPEND, va("set nextmap \"map %s\"\n", nextmap));
+	} else if (mode != g_gametype.integer || mode != z_m_current.integer) {
+		trap_SendConsoleCommand(EXEC_APPEND, va("set nextmap \"map %s\"\n", osp_maps[0].name));
 	}
 
-	if ( !level.startMode ) {
+	if (!level.startMode) {
 		level.mapReloadNeeded = 1;
 	}
-	trap_Cvar_Set( "z_m_current", va( "%d", mode ) );
+	trap_Cvar_Set("z_m_current", va("%d", mode));
 }
 
 /*
@@ -555,56 +555,56 @@ Think of the "delay_configload" entity: loads the start mode (level.startMode - 
 then checks that the server runs the OSP pak (sv_referencedPaks)
 ==================
 */
-void OSP_DefaultModeLoad( gentity_t *ent ) {
-	if ( level.startMode > 0 && z_m_default.integer < 0 ) {
-		int		mode;
+void OSP_DefaultModeLoad(gentity_t* ent) {
+	if (level.startMode > 0 && z_m_default.integer < 0) {
+		int     mode;
 
 		mode = level.startMode - 1;
-		G_Printf( "><><>< Default mode \"%s\" enabled. ><><><\n", OSP_ModeName( mode ) );
+		G_Printf("><><>< Default mode \"%s\" enabled. ><><><\n", OSP_ModeName(mode));
 		level.nextMode = level.startMode;
-		trap_Cvar_Set( "z_m_default", va( "%d", mode ) );
-		trap_Cvar_Update( &z_m_default );
-		OSP_LoadModeMaplist( mode, NULL );
+		trap_Cvar_Set("z_m_default", va("%d", mode));
+		trap_Cvar_Update(&z_m_default);
+		OSP_LoadModeMaplist(mode, NULL);
 
-		if ( mode >= osp_numModes ) {
-			if ( OSP_CustomModeConfig( mode )[0] ) {
-				OSP_HidePlayersInServerinfo( 0 );
-				OSP_SetMapSessionCount( 0 );
-				trap_SendConsoleCommand( EXEC_NOW, va( "exec %s\n", OSP_CustomModeConfig( mode ) ) );
+		if (mode >= osp_numModes) {
+			if (OSP_CustomModeConfig(mode)[0]) {
+				OSP_HidePlayersInServerinfo(0);
+				OSP_SetMapSessionCount(0);
+				trap_SendConsoleCommand(EXEC_NOW, va("exec %s\n", OSP_CustomModeConfig(mode)));
 			} else {
-				G_Printf( ">> Default mode %d is not a loaded custom mode, ignored.\n", mode );
+				G_Printf(">> Default mode %d is not a loaded custom mode, ignored.\n", mode);
 			}
 		} else {
-			trap_Cvar_Set( "g_gametype", va( "%d", osp_modes[mode].gametype ) );
-			trap_Cvar_Update( &g_gametype );
-			trap_Cvar_Set( "z_m_default", va( "%d", mode ) );
-			trap_Cvar_Update( &z_m_default );
+			trap_Cvar_Set("g_gametype", va("%d", osp_modes[mode].gametype));
+			trap_Cvar_Update(&g_gametype);
+			trap_Cvar_Set("z_m_default", va("%d", mode));
+			trap_Cvar_Update(&z_m_default);
 			OSP_MapRestart();
 		}
 	}
 
 	ent->nextthink = 0;
 	ent->think = NULL;
-	G_FreeEntity( ent );
+	G_FreeEntity(ent);
 
 	// "Invalid server content": sv_referencedPaks must contain " 1690942878 " (both strings
 	// are obfuscated by subtracting 0x17 / 7 from every character)
 	{
-		int		i;
-		char	key[32];
-		char	cvar[32];
-		char	paks[MAX_CVAR_VALUE_STRING];
+		int     i;
+		char    key[32];
+		char    cvar[32];
+		char    paks[MAX_CVAR_VALUE_STRING];
 
-		strcpy( key, "7HMPGPKIONO7" );
-		strcpy( cvar, "z}fylmlylujlkWhrz" );
-		for ( i = 0; i < strlen( key ); i++ )
+		strcpy(key, "7HMPGPKIONO7");
+		strcpy(cvar, "z}fylmlylujlkWhrz");
+		for (i = 0; i < strlen(key); i++)
 			key[i] -= 0x17;
-		for ( i = 0; i < strlen( cvar ); i++ )
+		for (i = 0; i < strlen(cvar); i++)
 			cvar[i] -= 7;
-		trap_Cvar_VariableStringBuffer( cvar, paks, 255 );
+		trap_Cvar_VariableStringBuffer(cvar, paks, 255);
 		paks[255] = 0;
-		if ( !strstr( paks, key ) ) {
-			G_Error( "^3*** Invalid server content^7\n" );
+		if (!strstr(paks, key)) {
+			G_Error("^3*** Invalid server content^7\n");
 		}
 	}
 }
@@ -616,8 +616,8 @@ OSP_DelayConfigLoad
 Spawns an invisible "delay_configload" entity whose think (OSP_DefaultModeLoad) runs at time
 ==================
 */
-void OSP_DelayConfigLoad( int time ) {
-	gentity_t	*te;
+void OSP_DelayConfigLoad(int time) {
+	gentity_t*   te;
 
 	te = G_Spawn();
 	te->s.eType = ET_ITEM;
@@ -626,7 +626,7 @@ void OSP_DelayConfigLoad( int time ) {
 	te->classname = "delay_configload";
 	te->nextthink = time;
 	te->think = OSP_DefaultModeLoad;
-	trap_LinkEntity( te );
+	trap_LinkEntity(te);
 }
 
 /*
@@ -636,31 +636,31 @@ OSP_PrintAvailableModes
 Prints the vote modes and schedules the start mode (mode_start, unless z_m_default is set)
 ==================
 */
-void OSP_PrintAvailableModes( qboolean noCustom ) {
-	if ( !level.numVoteModes ) {
-		G_Printf( "\n*** Alternate mode voting DISABLED.\n\n" );
+void OSP_PrintAvailableModes(qboolean noCustom) {
+	if (!level.numVoteModes) {
+		G_Printf("\n*** Alternate mode voting DISABLED.\n\n");
 		return;
 	}
 
-	if ( noCustom ) {
-		G_Printf( "\nAvailable alternate modes:%s(no custom modes defined)\n\n", level.modeList );
+	if (noCustom) {
+		G_Printf("\nAvailable alternate modes:%s(no custom modes defined)\n\n", level.modeList);
 	} else {
-		G_Printf( "\nAvailable alternate modes:%s\n", level.modeList );
+		G_Printf("\nAvailable alternate modes:%s\n", level.modeList);
 	}
 
 	level.startMode = 0;
-	if ( mode_start.integer >= 0 ) {
-		if ( z_m_default.integer == -1 ) {
-			if ( !OSP_ModeAvailable( mode_start.integer ) ) {
-				G_Printf( ">>> Start/Default mode \"%s\" out of range... ignored\n\n", mode_start.string );
+	if (mode_start.integer >= 0) {
+		if (z_m_default.integer == -1) {
+			if (!OSP_ModeAvailable(mode_start.integer)) {
+				G_Printf(">>> Start/Default mode \"%s\" out of range... ignored\n\n", mode_start.string);
 			} else {
-				G_Printf( ">>> Start/Default mode set to: %s\n\n", OSP_ModeName( mode_start.integer ) );
+				G_Printf(">>> Start/Default mode set to: %s\n\n", OSP_ModeName(mode_start.integer));
 				level.startMode = mode_start.integer + 1;
-				OSP_DelayConfigLoad( level.time + 2500 );
+				OSP_DelayConfigLoad(level.time + 2500);
 			}
 		}
 	} else {
-		G_Printf( ">>> Start/Default mode: DISABLED\n\n" );
+		G_Printf(">>> Start/Default mode: DISABLED\n\n");
 	}
 }
 
@@ -669,17 +669,17 @@ void OSP_PrintAvailableModes( qboolean noCustom ) {
 OSP_ModeName
 ==================
 */
-char *OSP_ModeName( int mode ) {
-	if ( mode < 0 ) {
-		return va( "%s", "UNKNOWN" );
+char* OSP_ModeName(int mode) {
+	if (mode < 0) {
+		return va("%s", "UNKNOWN");
 	}
-	if ( mode < osp_numModes ) {
-		return va( "%s", osp_modes[mode].name );
+	if (mode < osp_numModes) {
+		return va("%s", osp_modes[mode].name);
 	}
-	if ( mode - osp_numModes >= MAX_OSP_CUSTOMMODES ) {
-		return va( "%s", "UNKNOWN" );
+	if (mode - osp_numModes >= MAX_OSP_CUSTOMMODES) {
+		return va("%s", "UNKNOWN");
 	}
-	return va( "%s", level.customModeName[mode - osp_numModes] );
+	return va("%s", level.customModeName[mode - osp_numModes]);
 }
 
 /*
@@ -689,11 +689,11 @@ OSP_CustomModeConfig
 Config file of custom mode (osp_numModes + i); "" when mode is not a loaded custom mode.
 ==================
 */
-char *OSP_CustomModeConfig( int mode ) {
-	int		i;
+char* OSP_CustomModeConfig(int mode) {
+	int     i;
 
 	i = mode - osp_numModes;
-	if ( i < 0 || i >= MAX_OSP_CUSTOMMODES || i >= level.numVoteModes - level.numStdModes ) {
+	if (i < 0 || i >= MAX_OSP_CUSTOMMODES || i >= level.numVoteModes - level.numStdModes) {
 		return "";
 	}
 	return level.customModeConfig[i];
@@ -708,14 +708,14 @@ The mode number comes from a vote argument: no shift by an out-of-range count, a
 modes are bounded by the loaded count and the table size (the original accepted one too many).
 ==================
 */
-int OSP_ModeAvailable( int mode ) {
-	if ( mode < 0 ) {
+int OSP_ModeAvailable(int mode) {
+	if (mode < 0) {
 		return 0;
 	}
-	if ( mode < osp_numModes ) {
-		return ( server_availmodes.integer & ( 1 << mode ) ) ? 1 : 0;
+	if (mode < osp_numModes) {
+		return (server_availmodes.integer & (1 << mode)) ? 1 : 0;
 	}
-	return OSP_CustomModeConfig( mode )[0] ? 1 : 0;
+	return OSP_CustomModeConfig(mode)[0] ? 1 : 0;
 }
 
 /*
@@ -726,81 +726,81 @@ OSP_Cmd_Settings_f
 red values differ from the mode's defaults
 ==================
 */
-void OSP_Cmd_Settings_f( gentity_t *ent ) {
-	ospModeSetting_t	*def;
-	cvarTable_t			*cv;
-	int					j;
-	int					num;
-	int					mask;
-	char				*color;
-	int					i;
-	char				*ospauth;
-	char				*name;
-	char				buf[512];
-	int					count = 0;
-	int					lines = 0;
-	int					mode;
+void OSP_Cmd_Settings_f(gentity_t* ent) {
+	ospModeSetting_t*    def;
+	cvarTable_t*         cv;
+	int                 j;
+	int                 num;
+	int                 mask;
+	char*                color;
+	int                 i;
+	char*                ospauth;
+	char*                name;
+	char                buf[512];
+	int                 count = 0;
+	int                 lines = 0;
+	int                 mode;
 
 	ospauth = "server_ospauth";
 	lines = 0;
 	count = 0;
 	buf[0] = 0;
 
-	mode = ( z_m_current.integer >= 0 ) ? z_m_current.integer : g_gametype.integer;
+	mode = (z_m_current.integer >= 0) ? z_m_current.integer : g_gametype.integer;
 	mask = 1 << mode;
-	num = sizeof( osp_modeSettings ) / sizeof( osp_modeSettings[0] );
+	num = sizeof(osp_modeSettings) / sizeof(osp_modeSettings[0]);
 
-	trap_SendServerCommand( ent - g_entities, va( "print \"\n^3Current Server Settings for: ^7%s\n====================================================================\n\"", osp_modes[mode].name ) );
+	trap_SendServerCommand(ent - g_entities, va("print \"\n^3Current Server Settings for: ^7%s\n====================================================================\n\"", osp_modes[mode].name));
 
-	for ( i = 0, cv = gameCvarTable; i < gameCvarTableSize && lines < 20; i++, cv++ ) {
-		if ( !cv->vmCvar || ( cv->cvarFlags == CVAR_SERVERINFO && Q_stricmp( cv->cvarName, ospauth ) ) || i < 20 ||
-			strstr( cv->cvarName, "vote_allow" ) || strstr( cv->cvarName, "map_" ) == cv->cvarName ||
-			!Q_stricmp( cv->cvarName, "sv_dcount" ) ) {
+	for (i = 0, cv = gameCvarTable; i < gameCvarTableSize && lines < 20; i++, cv++) {
+		if (!cv->vmCvar || (cv->cvarFlags == CVAR_SERVERINFO && Q_stricmp(cv->cvarName, ospauth)) || i < 20 ||
+		        strstr(cv->cvarName, "vote_allow") || strstr(cv->cvarName, "map_") == cv->cvarName ||
+		        !Q_stricmp(cv->cvarName, "sv_dcount")) {
 			continue;
 		}
 
 		color = "2";
-		for ( j = 0, def = osp_modeSettings; j < num; j++, def++ ) {
-			if ( ( def->modeMask & mask ) && !Q_stricmp( cv->cvarName, def->cvar ) ) {
-				if ( Q_stricmp( cv->vmCvar->string, def->value ) ) {
+		for (j = 0, def = osp_modeSettings; j < num; j++, def++) {
+			if ((def->modeMask & mask) && !Q_stricmp(cv->cvarName, def->cvar)) {
+				if (Q_stricmp(cv->vmCvar->string, def->value)) {
 					color = "1";
 				}
 				break;
 			}
 		}
 
-		if ( j >= num ) {
-			if ( !cv->osp_setDefault && Q_stricmp( cv->cvarName, ospauth ) ) {
+		if (j >= num) {
+			if (!cv->osp_setDefault && Q_stricmp(cv->cvarName, ospauth)) {
 				continue;
 			}
-			if ( !Q_stricmp( cv->cvarName, ospauth ) ) {
-				color = ( cv->vmCvar->integer != 1 ) ? "1" : "3";
-			} else if ( Q_stricmp( cv->vmCvar->string, cv->defaultString ) ) {
+			if (!Q_stricmp(cv->cvarName, ospauth)) {
+				color = (cv->vmCvar->integer != 1) ? "1" : "3";
+			} else if (Q_stricmp(cv->vmCvar->string, cv->defaultString)) {
 				color = "1";
 			}
 		}
 
-		if ( !Q_stricmp( cv->cvarName, ospauth ) ) {
+		if (!Q_stricmp(cv->cvarName, ospauth)) {
 			name = "SERVER_OSPAUTH";
 		} else {
 			name = cv->cvarName;
-			if ( strstr( cv->cvarName, "match_" ) ) {
+			if (strstr(cv->cvarName, "match_")) {
 				name += 6;
-			} else if ( strstr( cv->cvarName, "g_" ) == cv->cvarName ) {
+			} else if (strstr(cv->cvarName, "g_") == cv->cvarName) {
 				name += 2;
 			}
 		}
 
-		strcat( buf, va( "^%s%s %s ", color, name, cv->vmCvar->string ) );
-		if ( ++count == 6 ) {
-			trap_SendServerCommand( ent - g_entities, va( "sset %s\n", buf ) );
+		strcat(buf, va("^%s%s %s ", color, name, cv->vmCvar->string));
+		if (++count == 6) {
+			trap_SendServerCommand(ent - g_entities, va("sset %s\n", buf));
 			count = 0;
 			buf[0] = 0;
 			lines++;
 		}
 	}
 
-	if ( buf[0] ) {
-		trap_SendServerCommand( ent - g_entities, va( "sset %s\n", buf ) );
+	if (buf[0]) {
+		trap_SendServerCommand(ent - g_entities, va("sset %s\n", buf));
 	}
 }

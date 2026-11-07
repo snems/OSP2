@@ -1887,18 +1887,18 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			*tmp_ptr = 0;
 			++tmp_ptr;
 			sscanf(tmp_str, "%i %i %i %i",
-			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][0],
-			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][1],
-			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][2],
-			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][3]
-			        );
+			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][0],
+			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][1],
+			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][2],
+			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][3]
+			      );
 
 			sscanf(tmp_ptr, "%i %i %i %i",
-			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][4],
-			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][5],
-			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][6],
-			         &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][7]
-			        );
+			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][4],
+			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][5],
+			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][6],
+			       &cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][7]
+			      );
 
 			if ((cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][0] == -1) ||
 			        (cgs.osp.custom_gfx[cgs.osp.custom_gfx_number][1] == -1))
@@ -1979,15 +1979,15 @@ int CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum)
 			if (s[0] == 0) break;
 
 			sscanf(s, "%i %i %f %f %f %f %f %f %f",
-			         &cgs.osp.decals[cgs.osp.decals_number].v3,
-			         &cgs.osp.decals[cgs.osp.decals_number].v2,
-			         &cgs.osp.decals[cgs.osp.decals_number].v5,
-			         &cgs.osp.decals[cgs.osp.decals_number].v9,
-			         &cgs.osp.decals[cgs.osp.decals_number].v10,
-			         &cgs.osp.decals[cgs.osp.decals_number].v11,
-			         &cgs.osp.decals[cgs.osp.decals_number].v6,
-			         &cgs.osp.decals[cgs.osp.decals_number].v7,
-			         &cgs.osp.decals[cgs.osp.decals_number].v8);
+			       &cgs.osp.decals[cgs.osp.decals_number].v3,
+			       &cgs.osp.decals[cgs.osp.decals_number].v2,
+			       &cgs.osp.decals[cgs.osp.decals_number].v5,
+			       &cgs.osp.decals[cgs.osp.decals_number].v9,
+			       &cgs.osp.decals[cgs.osp.decals_number].v10,
+			       &cgs.osp.decals[cgs.osp.decals_number].v11,
+			       &cgs.osp.decals[cgs.osp.decals_number].v6,
+			       &cgs.osp.decals[cgs.osp.decals_number].v7,
+			       &cgs.osp.decals[cgs.osp.decals_number].v8);
 
 			if (i && cgs.osp.decals[0].v3 == -1)
 			{
