@@ -435,10 +435,11 @@ void CG_OSPCredits_f(void)
 	strcpy(&string[0],   "    ^BBased on source codes:  ");
 	strcpy(&string[128], "    ^BOSP             https://www.orangesmoothie.org  ");
 	strcpy(&string[256], "    ^BCyrax           https://github.com/ec-/baseq3a  ");
-	strcpy(&string[384], "    ^Bx0ry            https://github.com/xq3e/engine  ");
-	strcpy(&string[512], "    ^BNeil Toronto    http://ra.is/unlagged  ");
-	strcpy(&string[640], "    ^BRatmod          https://github.com/rdntcntrl/ratoa_gamecode");
-	CG_OSPDrawLeftSlidingWindow(0.7f, 0.9f, 12.0f, 0.4f, 6, 128, 10, 10, string, 260.0f, colorWhite, colorBlue);
+	strcpy(&string[384], "    ^Bx0ry            https://github.com/JKornev/xq3osp  ");
+	strcpy(&string[512], "    ^B                https://github.com/xq3e/engine  ");
+	strcpy(&string[640], "    ^BNeil Toronto    http://ra.is/unlagged  ");
+	strcpy(&string[768], "    ^BRatmod          https://github.com/rdntcntrl/ratoa_gamecode");
+	CG_OSPDrawLeftSlidingWindow(0.7f, 0.9f, 12.0f, 0.4f, 7, 128, 10, 10, string, 260.0f, colorWhite, colorBlue);
 
 	strcpy(&string[0],   "    ^BSpecial thanks to:  ");
 	strcpy(&string[128], "    ^BQ3MSK.ru        http://q3msk.ru  ");
