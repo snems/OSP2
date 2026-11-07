@@ -1226,6 +1226,7 @@ void ClientSpawn(gentity_t* ent) {
 	int     persistant[MAX_PERSISTANT];
 	int     events[MAX_PS_EVENTS];
 	gentity_t*   spawnPoint;
+	unsigned int spawnPointSearchCouner = 0;
 	int     flags;
 	int     savedPing;
 //	char *savedAreaBits;
@@ -1299,7 +1300,7 @@ void ClientSpawn(gentity_t* ent) {
 
 			// Tim needs to prevent bots from spawning at the initial point
 			// on q3dm0...
-			if ((spawnPoint->flags & FL_NO_BOTS) && (ent->r.svFlags & SVF_BOT)) {
+			if (spawnPointSearchCouner++ < 64 && (spawnPoint->flags & FL_NO_BOTS) && (ent->r.svFlags & SVF_BOT)) {
 				continue;   // try again
 			}
 			// just to be symetric, we have a nohumans option...
